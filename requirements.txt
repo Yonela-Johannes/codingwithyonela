@@ -17,6 +17,8 @@ distro @ file:///C:/b/abs_a3uni_yez3/croot/distro_1701455052240/work
 Django==5.0.2
 django-appconf==1.0.6
 django-compressor==4.4
+django-tailwind==3.8.0
+django-tailwindcss==0.4.0
 djangorestframework==3.14.0
 filelock==3.13.1
 idna @ file:///C:/ci_311/idna_1676424932545/work
