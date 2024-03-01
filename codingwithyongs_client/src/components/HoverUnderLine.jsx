@@ -7,7 +7,7 @@ export default function HoverUnderLine({
 		<div className="group cursor-pointer">
 			{children}
 			<div
-				className="h-1 w-0 group-hover:w-full  transition-all bg-cl_primary"
+				className="h-[1px] w-0 group-hover:w-full bg-bg_light transition-all"
 			></div>
 		</div>
 	);

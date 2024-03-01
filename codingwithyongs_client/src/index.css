@@ -18,6 +18,20 @@
   font-style: normal;
 }
 
+
+@layer base {
+  button {
+    @apply shadow-md py-2 px-5 cursor-pointer border rounded-md flex items-center hover:shadow-none hover:border hover:border-bg_light;
+  }
+
+  input {
+    @apply w-full py-2 px-5 border rounded-md flex items-center hover:shadow-none hover:border hover:border-bg_light;
+  }
+  textarea {
+    @apply w-full py-2 px-5 rounded-md flex items-center border-none outline-none;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -49,4 +63,9 @@ h2 {
   font-size: 25px;
   font-weight: bold;
   line-height: 1.2;
+}
+
+p{
+  font-size: 20px;
+  line-height: 1.3;
 }

@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import Layout from './shared/Layout'
 import Home from './pages/Home'
+import Blogs from './pages/Blogs'
+import ChatScreen from './pages/ChatScreen'
 
 function App() {
 
@@ -19,7 +21,9 @@ function App() {
 
   return (
       <Layout>
-        <Home />
+        {/* <Blogs /> */}
+        {/* <ChatScreen /> */}
+        {/* <Home /> */}
       </Layout>
   )
 }

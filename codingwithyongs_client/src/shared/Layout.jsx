@@ -1,20 +1,33 @@
-import Navbar from "../components/Navbar"
-import Footer from "./Footer"
-import Header from "./Header"
+import Navbar from "../components/Navbar";
+import Footer from "./Footer";
+import Header from "./Header";
+import NavMenu from "./NavMenu";
+import Wrapper from "./Wrapper";
 
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
   return (
-    <div className="relative h-screen w-screen md:flex flex-col overflow-x-hidden bg-green-400">
-        <div className="absolute h-[calc(100vh)] flex flex-col bg-orange-600 left-0 right-0 w-full">
+    <div className="relative h-screen w-screen flex justify-center items-center flex-col overflow-x-hidden">
+      <div className="absolute mx-auto h-[calc(100vh)] flex flex-col left-0 right-0">
+        <div className="border-b border-bg_light ">
+          <Wrapper>
             <Navbar />
-            <Header />
-                <div className='h-full  w-full md:flex flex-col justify-around bg-red-600'>
-                    {children}
-                </div>
-            <Footer />
+          </Wrapper>
         </div>
+        <Wrapper>
+          <Header />
+        </Wrapper>
+        <Wrapper>
+          <NavMenu />
+        </Wrapper>
+        <div className="h-full border-y-[1px] border-bg_light  w-full md:flex flex-col justify-around">
+          <div className="md:py-3 w-[80%] mx-auto h-full">{children}</div>
+        </div>
+        <Wrapper>
+          <Footer />
+        </Wrapper>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

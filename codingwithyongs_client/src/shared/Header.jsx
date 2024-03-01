@@ -1,9 +1,10 @@
-import React from 'react'
 
 const Header = () => {
   return (
-    <div className='flex flex-col justify-end h-[40%]'>
-      <h2>Becomming a better programmer<br /> and growing a carreer in tech</h2>
+    <div className='flex items-start gap-3 flex-col pt-8 h-[40%]'>
+      <h2 className='text-5xl mb-3'>Becoming a better <br />
+      programmer</h2>
+      <button >Continue</button>
     </div>
   )
 }
