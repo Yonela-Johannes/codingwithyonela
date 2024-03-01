@@ -1,5 +1,8 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import Navbar from './components/Navbar'
+import Layout from './shared/Layout'
+import Home from './pages/Home'
 
 function App() {
 
@@ -15,9 +18,9 @@ function App() {
   
 
   return (
-    <div className="bg-red-500">
-      Yonela Johannes
-    </div>
+      <Layout>
+        <Home />
+      </Layout>
   )
 }
 
