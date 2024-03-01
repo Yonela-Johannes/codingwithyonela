@@ -1,14 +1,10 @@
-import BlogCard from "../components/BlogCard"
+import BlogCard from "../components/blog/BlogCard"
+import Header from "../components/blog/Header"
 
 const Blogs = () => {
   return (
     <div className="overflow-y-scroll bg-red-500 h-full">
-        <header className="flex justify-between items-center">
-            Blogs
-            <div>
-              <input placeholder='search' />
-            </div>
-        </header>
+      <Header />
       <BlogCard />
     </div>
   )

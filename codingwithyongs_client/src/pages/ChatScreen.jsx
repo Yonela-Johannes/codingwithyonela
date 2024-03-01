@@ -1,4 +1,3 @@
-import React from 'react'
 import Left from '../components/chat/Left'
 import Center from '../components/chat/Center'
 import Right from '../components/chat/Right'

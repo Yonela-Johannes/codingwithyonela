@@ -5,6 +5,8 @@ import Layout from './shared/Layout'
 import Home from './pages/Home'
 import Blogs from './pages/Blogs'
 import ChatScreen from './pages/ChatScreen'
+import SuggestionScreen from './pages/SuggestionScreen'
+import QuestionScreen from './pages/QuestionScreen'
 
 function App() {
 
@@ -21,9 +23,11 @@ function App() {
 
   return (
       <Layout>
-        {/* <Blogs /> */}
+        <Blogs />
         {/* <ChatScreen /> */}
         {/* <Home /> */}
+        {/* <SuggestionScreen /> */}
+        {/* <QuestionScreen /> */}
       </Layout>
   )
 }
