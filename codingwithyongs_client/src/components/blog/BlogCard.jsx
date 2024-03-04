@@ -1,11 +1,40 @@
-import React from 'react'
+import { Link } from "react-router-dom";
+import HoverUnderLine from "../HoverUnderLine";
 
-const BlogCard = () => {
+const BlogCard = ({ blog }) => {
   return (
-    <div>
-      BlogCard
-    </div>
-  )
-}
+    <HoverUnderLine>
+      <div className="rounded-md border border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer">
+        <Link to={`/blogs/${blog?.slug}`}>
+          <div className="flex h-full flex-col space-y-2 px-2 py-4">
+            <div className="flex justify-between">
+              <div>
+                <p className="text-sm dark:text-gray-400">
+                  {new Date(blog?.createdAt).toDateString()}
+                </p>
+                <p className="text-sm">{blog?.author}</p>
+              </div>
+              <div>
+                <img
+                  src={blog?.authorImg}
+                  alt="cover"
+                  className="rounded-md object-cover object-center h-[40px] w-[40px]"
+                />
+              </div>
+            </div>
+            <div className="h-full">
+              <img
+                src={blog?.img}
+                alt="cover"
+                className="rounded-md object-cover object-center h-full"
+              />
+            </div>
+            <h4 className="text-lg">{blog?.title}</h4>
+          </div>
+        </Link>
+      </div>
+    </HoverUnderLine>
+  );
+};
 
-export default BlogCard
+export default BlogCard;

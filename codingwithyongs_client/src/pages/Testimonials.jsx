@@ -1,9 +1,9 @@
-import BlogCard from "../components/blog/BlogCard";
 import Header from "../components/blog/Header";
+import TestimonialCard from "../components/testimonials/TesitmonialCard";
 
-const Blogs = () => {
+const Testimonials = () => {
 
-    const blogs = [
+    const testimonials = [
       {
         _id: "655b3f037a397a2c8546c2f5",
         title: "markdown-to-jsx v6 is now available",
@@ -117,10 +117,10 @@ const Blogs = () => {
     <div className="flex flex-col gap-8 h-full">
         <Header />
         <div className="grid grid-cols-4 gap-6 h-full">
-          {blogs.map((blog) => <BlogCard blog={blog} key={blog._id} />)}
+          {testimonials.map((testimonial) => <TestimonialCard testimonial={testimonial} key={testimonial._id} />)}
         </div>
     </div>
   );
 };
 
-export default Blogs;
+export default Testimonials;

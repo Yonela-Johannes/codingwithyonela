@@ -19,8 +19,8 @@ const Layout = ({ children }) => {
         <Wrapper>
           <NavMenu />
         </Wrapper>
-        <div className="h-full border-y-[1px] border-bg_light  w-full md:flex flex-col justify-around">
-          <div className="md:py-3 w-[80%] mx-auto h-full">{children}</div>
+        <div className={`h-full overflow-y-hidden border-y-[1px] border-bg_light  w-full md:flex flex-col justify-around`}>
+          <div className="md:py-3 w-[80%] mx-auto overflow-y-scroll  h-full">{children}</div>
         </div>
         <Wrapper>
           <Footer />

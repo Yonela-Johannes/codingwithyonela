@@ -51,8 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_browser_reload',
-    # other Django apps
+    # installed apps
     'rest_framework',
     'corsheaders',
 ]
