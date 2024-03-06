@@ -2,7 +2,7 @@ import { RiSendPlaneFill } from "react-icons/ri";
 
 const Sender = () => {
   return (
-    <div className="md:w-[70%]">
+    <div className="w-full px-10 md:my-4">
       <form className="flex bg-white border rounded-md border-bg_light">
         <select name="suggestion-categories">
           <option value="volvo">Volvo</option>

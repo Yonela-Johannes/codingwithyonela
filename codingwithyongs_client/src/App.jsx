@@ -10,6 +10,9 @@ import Blog from "./pages/Blog";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Testimonials from "./pages/Testimonials";
 import Signin from "./pages/Signin";
+import DashboardLayout from "./dashboard/shared/DashboardLayout";
+import CreateBlog from "./dashboard/components/blog/CreateBlog";
+import { LinkedInCallback } from 'react-linkedin-login-oauth2'
 
 function App() {
   useEffect(() => {
@@ -24,17 +27,33 @@ function App() {
 
   return (
     <BrowserRouter>
+      {/* <DashboardLayout>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/create-blog" element={<CreateBlog />} />
+          <Route path="/submitted-blogs" element={<Blogs />} />
+          <Route path="/blogs/:id" element={<Blog />} />
+          <Route path="/suggestion-settings" element={<SuggestionScreen />} />
+          <Route path="/questions-settings" element={<QuestionScreen />} />
+          <Route path="/testimonials-settings" element={<Testimonials />} />
+          <Route path="/blog-settings" element={<Testimonials />} />
+          <Route path="/recommendation-settings" element={<Testimonials />} />
+          <Route path="/friends-settings" element={<Testimonials />} />
+          <Route path="/friends" element={<Testimonials />} />
+        </Routes>
+      </DashboardLayout> */}
       <Layout>
         <Routes>
           <Route exact path="/" element={<Home />} />
+          <Route exact path="/linkedin" element={<LinkedInCallback />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blogs/:id" element={<Blog />} />
           <Route path="/chats" element={<ChatScreen />} />
           <Route path="/suggestions" element={<SuggestionScreen />} />
           <Route path="/questions" element={<QuestionScreen />} />
-          <Route path="/Testimonials" element={<Testimonials />} />
+          <Route path="/testimonials" element={<Testimonials />} />
+          <Route path="/recommendations" element={<Testimonials />} />
           <Route path="/sign-in" element={<Signin />} />
-
         </Routes>
       </Layout>
     </BrowserRouter>

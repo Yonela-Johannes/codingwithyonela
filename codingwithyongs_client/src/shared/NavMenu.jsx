@@ -26,14 +26,19 @@ const NavMenu = () => {
               <HoverUnderLine>Convo</HoverUnderLine>
             </div>
           </Link>
+          <Link to="/blogs">
+            <div className="flex gap-2 items-center cursor-pointer">
+              <HoverUnderLine>Blog</HoverUnderLine>
+            </div>
+          </Link>
           <Link to="/testimonials">
             <div className="flex gap-2 items-center cursor-pointer">
               <HoverUnderLine>Testimonials</HoverUnderLine>
             </div>
           </Link>
-          <Link to="/blogs">
+          <Link to="/recommendations">
             <div className="flex gap-2 items-center cursor-pointer">
-              <HoverUnderLine>Blog</HoverUnderLine>
+              <HoverUnderLine>Recommendations</HoverUnderLine>
             </div>
           </Link>
         </div>

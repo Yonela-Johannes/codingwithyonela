@@ -2,6 +2,8 @@ import { useState } from "react";
 import HoverUnderLine from "./HoverUnderLine";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
+import { BiDonateHeart } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
 const MobileMenu = ({ user, signOut }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -79,7 +81,7 @@ const Navbar = () => {
           rel="noopener noreferrer"
           href="https://www.antgroup.com"
         >
-          1st menu item
+          About
         </a>
       ),
     },
@@ -89,11 +91,48 @@ const Navbar = () => {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.aliyun.com"
+          href="https://www.antgroup.com"
         >
-          2nd menu item (disabled)
+          Portfolio's
         </a>
       ),
+    },
+    {
+      key: "3",
+      label: (
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.antgroup.com"
+        >
+          Friends
+        </a>
+      ),
+    },
+    {
+      key: "4",
+      label: (
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.antgroup.com"
+        >
+          Software Developers
+        </a>
+      ),
+    },
+    {
+      key: "5",
+      label: (
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.antgroup.com"
+        >
+          Donate
+        </a>
+      ),
+      icon: <BiDonateHeart />,
     },
   ];
   return (
@@ -101,7 +140,9 @@ const Navbar = () => {
       <div className="hidden md:flex items-center justify-between w-full">
         <div className="">
           <HoverUnderLine>
-            <p className="font-tech_mono text-2xl font-light">CodingWithYongs</p>
+            <p className="font-tech_mono text-2xl font-light">
+              CodingWithYongs
+            </p>
           </HoverUnderLine>
         </div>
         <div className="flex gap-6 text-base text-black uppercase">
@@ -121,32 +162,20 @@ const Navbar = () => {
               </Space>
             </a>
           </Dropdown>
-          <HoverUnderLine>
-            <div className="flex gap-2 items-center cursor-pointer p-2">
-              Blog
-            </div>
-          </HoverUnderLine>
-          <HoverUnderLine>
-            <div className="flex gap-2 items-center cursor-pointer p-2">
-              Work
-            </div>
-          </HoverUnderLine>
-          <Dropdown
-            menu={{
-              items,
-            }}
-          >
-            <a onClick={(e) => e.preventDefault()}>
-              <Space>
-                <HoverUnderLine>
-                  <div className="flex gap-2 items-center cursor-pointer shadow-md p-2">
-                    Join the convo
-                    <DownOutlined />
-                  </div>
-                </HoverUnderLine>
-              </Space>
-            </a>
-          </Dropdown>
+          <Link to="/blogs">
+            <HoverUnderLine>
+              <div className="flex gap-2 items-center cursor-pointer p-2">
+                Blog
+              </div>
+            </HoverUnderLine>
+          </Link>
+          <Link to="/sign-in">
+            <HoverUnderLine>
+              <div className="flex gap-2 items-center cursor-pointer p-2">
+                Login
+              </div>
+            </HoverUnderLine>
+          </Link>
         </div>
       </div>
       {/* <div className="block md:hidden w-full">

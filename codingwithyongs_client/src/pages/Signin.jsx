@@ -1,29 +1,56 @@
-import { IoCheckmarkCircle, IoCloseCircle } from "react-icons/io5";
 import linkedin from "../assets/linkedInAds.png";
 import HoverUnderLine from "../components/HoverUnderLine";
+import { useLinkedIn } from "react-linkedin-login-oauth2";
+import axios from "axios";
+import { GoogleLogin } from "@react-oauth/google";
+import { siteUrl, apiUrl, callback } from "../constants/base_urls";
 
 const Signin = () => {
-  const loginNavigate = (url) => {
-    window.location.href = url;
-  };
+  const { linkedInLogin } = useLinkedIn({
+    clientId: "779t2vntfhhcna",
+    scope: "profile email w_member_social",
+    redirectUri: `${window.location.origin}/linkedin`,
+    onSuccess: async (code) => {
+      const response = await axios
+        .post("http://localhost:8000/api/auth/linkedin", {
+          code: code,
+        })
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error.message));
+      console.log(response);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
-  const linkedIn = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/linkedin/auth", {
-        method: "GET",
-      });
-      const data = await response.json();
-      loginNavigate(data.url);
-    } catch (error) {
-      console.error("Error during LinkedIn authentication:", error);
-    }
+  const handleLoginSuccess = async (credentials) => {
+    const response = await axios.post(`${apiUrl}user/login`, {
+      oauthCode: credentials.credentials,
+    });
+    console.log(response);
   };
 
   return (
     <div className="flex items-center space-y-4 h-full">
-      <div onClick={() => linkedIn()}>
+      <div onClick={linkedInLogin}>
         <AdOauthCard title="LinkedIn" icon={linkedin} />
       </div>
+      <GoogleLogin
+        onSuccess={handleLoginSuccess}
+        onError={() => {
+          console.log("Login Failed");
+        }}
+        login_uri={siteUrl}
+        redirect_uri={callback}
+        cancel_on_tap_outside
+        useOneTap
+        size="large"
+        theme="filled_black"
+        text="continue_with"
+        shape="pill"
+        width="100%"
+      />
     </div>
   );
 };

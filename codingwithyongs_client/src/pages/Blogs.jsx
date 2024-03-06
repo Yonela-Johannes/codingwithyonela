@@ -16,6 +16,7 @@ const Blogs = () => {
         post: "",
         authorImg: 'https://media.licdn.com/dms/image/D4D03AQH2Rk6Ms8QM3A/profile-displayphoto-shrink_800_800/0/1705361153176?e=1714608000&v=beta&t=jBQ3AzNBVNokv7cGkBKgyNYzwMK1wzQmrUHSswS2U2c',
         likes: 50,
+        status: 'Processing',
       },
       {
         _id: "655ad816d148ee58ab8d58a1",
@@ -29,6 +30,7 @@ const Blogs = () => {
         post: "",
         authorImg: 'https://media.licdn.com/dms/image/D4D03AQH2Rk6Ms8QM3A/profile-displayphoto-shrink_800_800/0/1705361153176?e=1714608000&v=beta&t=jBQ3AzNBVNokv7cGkBKgyNYzwMK1wzQmrUHSswS2U2c',
         likes: 50,
+        status: 'Processing',
       },
       {
         _id: "655b21192255c0b35d4ab60b",
@@ -42,6 +44,7 @@ const Blogs = () => {
         post: "",
         authorImg: 'https://media.licdn.com/dms/image/D4D03AQH2Rk6Ms8QM3A/profile-displayphoto-shrink_800_800/0/1705361153176?e=1714608000&v=beta&t=jBQ3AzNBVNokv7cGkBKgyNYzwMK1wzQmrUHSswS2U2c',
         likes: 50,
+        status: 'Processing',
       },
       {
         _id: "655b21192255c0b35d4ab60bdfd",
@@ -55,6 +58,7 @@ const Blogs = () => {
         author: 'Hlomla Tapuko',
         post: "",
         likes: 50,
+        status: 'Processing',
       },
       {
         _id: "655b3f037a397a2c8546c2f5",
@@ -68,6 +72,7 @@ const Blogs = () => {
         post: "",
         authorImg: 'https://media.licdn.com/dms/image/D4D03AQH2Rk6Ms8QM3A/profile-displayphoto-shrink_800_800/0/1705361153176?e=1714608000&v=beta&t=jBQ3AzNBVNokv7cGkBKgyNYzwMK1wzQmrUHSswS2U2c',
         likes: 50,
+        status: 'Processing',
       },
       {
         _id: "655ad816d148ee58ab8d58a1",
@@ -81,6 +86,7 @@ const Blogs = () => {
         post: "",
         authorImg: 'https://media.licdn.com/dms/image/D4D03AQH2Rk6Ms8QM3A/profile-displayphoto-shrink_800_800/0/1705361153176?e=1714608000&v=beta&t=jBQ3AzNBVNokv7cGkBKgyNYzwMK1wzQmrUHSswS2U2c',
         likes: 50,
+        status: 'Processing',
         category:"Fashion"
       },
       {
@@ -95,6 +101,7 @@ const Blogs = () => {
         post: "",
         authorImg: 'https://media.licdn.com/dms/image/D4D03AQH2Rk6Ms8QM3A/profile-displayphoto-shrink_800_800/0/1705361153176?e=1714608000&v=beta&t=jBQ3AzNBVNokv7cGkBKgyNYzwMK1wzQmrUHSswS2U2c',
         likes: 50,
+        status: 'Processing',
         category:"Fashion"
       },
       {
@@ -109,13 +116,19 @@ const Blogs = () => {
         author: 'Hlomla Tapuko',
         post: "",
         likes: 50,
+        status: 'Processing',
         category:"Fashion"
       },
     ]
-  
+    const statusses = [
+      'processing',
+      'watching',
+      'upcoming'
+    ]
+
   return (
     <div className="flex flex-col gap-8 h-full">
-        <Header />
+        <Header statusses={statusses} />
         <div className="grid grid-cols-4 gap-6 h-full">
           {blogs.map((blog) => <BlogCard blog={blog} key={blog._id} />)}
         </div>

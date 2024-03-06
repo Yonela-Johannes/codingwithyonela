@@ -1,13 +1,13 @@
 import Headers from "../../shared/Headers";
 import Sender from "../../shared/Sender";
-import Questions from "../question/Questions";
+import SugggestionCard from "../../shared/SuggestionCard";
 
 const Center = () => {
   return (
     <div className="flex items-center flex-col w-full">
       <Headers />
-      <Questions />
       <Sender />
+      <SugggestionCard />
     </div>
   );
 };

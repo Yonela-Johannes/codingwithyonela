@@ -4,6 +4,7 @@ import remarkGfm from "remark-gfm";
 import { BiHeart, BiSolidHeart} from "react-icons/bi";
 import { FaEye, FaRegEye } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
+import { RiSendPlaneFill } from "react-icons/ri";
 
 const Blog = () => {
   const path = useLocation().pathname;
@@ -66,6 +67,17 @@ const Blog = () => {
         <h4 className="text-lg">{blog?.title}</h4>
       </div>
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{blog?.post}</ReactMarkdown>
+      <form className="flex bg-white border rounded-md border-bg_light px-2">
+        <select name="suggestion-categories">
+          <option value="volvo">Volvo</option>
+          <option value="saab">Saab</option>
+          <option value="mercedes">Mercedes</option>
+          <option value="audi">Audi</option>
+        </select>
+        <button type="submit" className="border-none">
+          <RiSendPlaneFill />
+        </button>
+      </form>
     </div>
   );
 };
