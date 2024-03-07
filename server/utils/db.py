@@ -11,7 +11,7 @@ HOST = os.getenv('HOST')
 PASSWORD = os.getenv('PASSWORD')
 PORT = os.getenv('PORT')
 
-conn = psycopg2.connect(
+connection = psycopg2.connect(
     database = DATABASE, 
     user = DATABASE_USER, 
     host= HOST,

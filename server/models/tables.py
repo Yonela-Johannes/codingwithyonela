@@ -1,4 +1,8 @@
 
+import psycopg2
+from utils.db import connection
+
+
 def create_tables():
     commands =(
         # USER TITLE TABLE/SCHEMA
@@ -334,7 +338,7 @@ def create_tables():
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
-        # COMMENTS BLOG/TABLE
+        # COMMENTS SUGGESTION/TABLE
         """
         CREATE TABLE IF NOT EXISTS suggestion_comment (
             id SERIAL PRIMARY KEY,
@@ -350,7 +354,7 @@ def create_tables():
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
-        # LIKES BLOG COMMENT/TABLE
+        # LIKE SUGGESTION RESPONSE/TABLE
         """
         CREATE TABLE IF NOT EXISTS suggestion_response_like (
             id SERIAL PRIMARY KEY,
@@ -370,3 +374,12 @@ def create_tables():
         """,
         # END OF BLOG SCHEMA
     )
+    
+    try:
+        with connection as conn:
+            with conn.cursor() as cur:
+                # execute the CREATE TABLE statement
+                for command in commands:
+                    cur.execute(command)
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(error)
