@@ -9,6 +9,13 @@ from models.tables import create_tables
 app = Flask(__name__)
 create_tables()
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+from routes.title import title
+
+@app.route('/api/v1/title', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def title_route():
+    return title()
+    
+# @app.route("/api/v1/")
+# def hello_world():
+    
+#     return "<p>Hello, World!</p>"
