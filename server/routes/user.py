@@ -1,9 +1,9 @@
 import json
 from flask import request
 from sqlalchemy import JSON
-from controllers.title import ( create_title, fetch_titles, edit_title, delete_title, fetch_title )
+from controllers.account import ( create_user, fetch_users, edit_user, delete_user, fetch_user )
 
-def title():
+def user():
     REQUEST = request.method 
     if REQUEST == 'GET':
         # Fetch one
@@ -14,7 +14,7 @@ def title():
                 id = json.loads(request.data)['id']
                 print("TITLE: => ", id)
                 if id:
-                    response = fetch_title(id)
+                    response = fetch_user(id)
                     if response:
                         res = {
                                 "message": "Fetch successful",
@@ -25,24 +25,32 @@ def title():
                         res = {"message": "Fetch failed: something went wrong."}
                         return res, 400
             
-        except json.decoder.JSONDecodeError:   
+        except:   
             # Fetch All
-            response = fetch_titles()
+            response = fetch_users()
             result = response
             res = {"data": result}
             return res, 200
+
     
     # Create title
     elif REQUEST == 'POST':
         try:
-            data = json.loads(request.data)['title']
-            if data:
-                response = create_title(data)
-                if response == data:
-                        res = {"title": f"{response}"}
+            email = json.loads(request.data)['email']
+            username = json.loads(request.data)['username']
+            lastname = json.loads(request.data)['lastname']
+            is_admin = json.loads(request.data)['is_admin']
+            is_staff = json.loads(request.data)['is_staff']
+            image = json.loads(request.data)['image']
+            user_title_id = json.loads(request.data)['user_title_id']
+
+            if email and username and lastname and image and user_title_id:
+                response = create_user(email, username, lastname, is_admin, is_staff, image, user_title_id)
+                if response:
+                        res = {"data": f"{user}"}
                         return res, 201
                 else:
-                    res = {"message": f"{data} already exist"}
+                    res = {"message": f"{email} already exist"}
                     return res, 400 
                 
             res = {"message": "Title invalid: (you must enter title)"}
@@ -54,18 +62,18 @@ def title():
         # edit/update
     elif REQUEST == 'PUT':
         try:
-            title = json.loads(request.data)['title']
+            is_admin = json.loads(request.data)['is_admin']
+            is_staff = json.loads(request.data)['is_staff']
+            user_title_id = json.loads(request.data)['user_title_id']
             id = json.loads(request.data)['id']
-            if title and id:
-                response = edit_title(id, title)
-                if response == title:
-                        res = {"title": f"{response}",
+            
+            if id:
+                response = edit_user(id, is_admin, is_staff, user_title_id)
+                if response:
+                        res = {"data": f"{response}",
                             "message": "Update successful"
                             }
                         return res, 200
-                else:
-                    res = {"message": f"{title} already exist"}
-                    return res, 400
             res = {"message": "Title or is ID invalid"}
             return res, 400
         except json.decoder.JSONDecodeError:
@@ -78,7 +86,7 @@ def title():
             response = json.loads(response)
             id = json.loads(request.data)['id']
             if id:
-                response = delete_title(id)
+                response = delete_user(id)
                 if response == id:
                     res = {"message": "Delete failed: something went wrong."}
                     return res, 400

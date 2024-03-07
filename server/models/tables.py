@@ -56,6 +56,7 @@ def create_tables():
             id SERIAL PRIMARY KEY,
             account INTEGER NOT NULL,
             post Text NOT NULL,
+            image Text NOT NULL,
             category_id INTEGER NOT NULL,
             time DATE NOT NULL DEFAULT CURRENT_DATE,
             FOREIGN KEY (account)
