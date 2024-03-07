@@ -2,40 +2,40 @@
 import psycopg2
 from utils.db import connection
 
-
 def create_tables():
-    commands =(
+    """ Create tables in the PostgreSQL database"""
+    commands = (
         # USER TITLE TABLE/SCHEMA
         """
         CREATE TABLE IF NOT EXISTS user_title (
             id SERIAL PRIMARY KEY,
-            title VARCHAR (50) UNIQUE NOT NULL,
-        )
+            title VARCHAR(50) UNIQUE NOT NULL
+        );
         """,
         # USER TABLE/SCHEMA
         """
-        CREATE TABLE IF NOT EXISTS user (
+        CREATE TABLE IF NOT EXISTS account (
             id SERIAL PRIMARY KEY,
-            email VARCHAR (50) UNIQUE NOT NULL,
-            username VARCHAR (20) UNIQUE NOT NULL,
-            lastname VARCHAR (20) UNIQUE NOT NULL,
+            email VARCHAR(50) UNIQUE NOT NULL,
+            username VARCHAR(20) UNIQUE NOT NULL,
+            lastname VARCHAR(20) UNIQUE NOT NULL,
             is_admin BOOLEAN NOT NULL,
-            is_staff available BOOLEAN NOT NULL,
+            is_staff BOOLEAN NOT NULL,
             image TEXT,
             user_title_id INTEGER NOT NULL,
             FOREIGN KEY (user_title_id)
-            REFERENCES user_title (user_title.id)
+            REFERENCES user_title (id)
             ON UPDATE CASCADE ON DELETE CASCADE
-        )
+        );
         """,
         # CATEGORY TABLE/SCHEMA
         """
         CREATE TABLE IF NOT EXISTS category (
             id SERIAL PRIMARY KEY,
             category VARCHAR(50) NOT NULL,
-            user_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            account_id INTEGER NOT NULL,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
@@ -44,9 +44,9 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS status (
             id SERIAL PRIMARY KEY,
             status VARCHAR(50) NOT NULL,
-            user_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            account_id INTEGER NOT NULL,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
@@ -54,31 +54,31 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS blog (
             id SERIAL PRIMARY KEY,
-            user INTEGER NOT NULL,
+            account INTEGER NOT NULL,
             post Text NOT NULL,
             category_id INTEGER NOT NULL,
             time DATE NOT NULL DEFAULT CURRENT_DATE,
-            FOREIGN KEY (user)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (category_id )
-            REFERENCES category (category.id)
-            ON UPDATE CASCADE ON DELETE CASCADE,         
+            FOREIGN KEY (category_id)
+            REFERENCES category (id)
+            ON UPDATE CASCADE ON DELETE CASCADE      
         )
         """,
         # START OF BLOG RESPONSE SCHEMA LIMIT 1
         """
         CREATE TABLE IF NOT EXISTS blog_response (
             id SERIAL PRIMARY KEY,
-            user INTEGER NOT NULL,
+            account INTEGER NOT NULL,
             response Text NOT NULL,
             blog_id INTEGER NOT NULL,
             time DATE NOT NULL DEFAULT CURRENT_DATE,
-            FOREIGN KEY (user)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (blog_id)
-            REFERENCES blog (blog.id)
+            REFERENCES blog (id)
             ON UPDATE CASCADE ON DELETE CASCADE   
         )
         """,
@@ -87,13 +87,13 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS blog_like (
             id SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             blog_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (blog_id)
-            REFERENCES blog (blog.id)
+            REFERENCES blog (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
@@ -103,13 +103,13 @@ def create_tables():
             id SERIAL PRIMARY KEY,
             comment Text NOT NULL,
             blog_id INTEGER NOT NULL,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             time DATE NOT NULL DEFAULT CURRENT_DATE,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (blog_id)
-            REFERENCES blog (blog.id)
+            REFERENCES blog (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
@@ -117,17 +117,17 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS blog_comment_like (
             id SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             blog_id INTEGER NOT NULL,
             blog_comment_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (blog_id)
-            REFERENCES blog (blog.id)
+            REFERENCES blog (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (blog_comment_id)
-            REFERENCES blog_comment (blog_comment.id)
+            REFERENCES blog_comment (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
@@ -138,13 +138,13 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS question (
             id SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             question Text NOT NULL,
             category INTEGER NOT NULL,
             time DATE NOT NULL DEFAULT CURRENT_DATE,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
-            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
         """
@@ -152,27 +152,27 @@ def create_tables():
             id SERIAL PRIMARY KEY,
             comment VARCHAR(300) NOT NULL,
             question_id INTEGER NOT NULL,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             time DATE NOT NULL DEFAULT CURRENT_DATE,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (question_id)
-            REFERENCES question (question.id)
-            ON UPDATE CASCADE ON DELETE CASCADE,
+            REFERENCES question (id)
+            ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
         # LIKES QUESTION LIKE/TABLE
         """
         CREATE TABLE IF NOT EXISTS question_like (
             id SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             question_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (question_id)
-            REFERENCES question (question.id)
+            REFERENCES question (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
@@ -180,17 +180,17 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS question_comment_like (
             id SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             question_id INTEGER NOT NULL,
             question_comment_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (question_id)
-            REFERENCES question (question.id)
+            REFERENCES question (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (question_comment_id)
-            REFERENCES question (question_comment.id)
+            REFERENCES question_comment (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
@@ -199,32 +199,33 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS question_response (
             id SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             response Text NOT NULL,
             question_id INTEGER NOT NULL,
             time DATE NOT NULL DEFAULT CURRENT_DATE,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,            
             FOREIGN KEY (question_id)
-            REFERENCES question (question.id)
+            REFERENCES question (id)
             ON UPDATE CASCADE ON DELETE CASCADE      
         )
         """,
         # LIKES QUESTION RESPONSE/TABLE
         """
         CREATE TABLE IF NOT EXISTS question_response_like (
-            SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
+            id SERIAL PRIMARY KEY,
+            account_id INTEGER NOT NULL,
+            question_id INTEGER NOT NULL,
             question_response_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (question_id)
-            REFERENCES question (question.id)
+            REFERENCES question (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (question_response_id)
-            REFERENCES question_response (question_response.id)
+            REFERENCES question_response (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
@@ -235,26 +236,26 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS testimonial (
             id SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             comment Text NOT NULL,
             rating INTEGER NOT NULL,
             time DATE NOT NULL DEFAULT CURRENT_DATE,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
-            ON UPDATE CASCADE ON DELETE CASCADE,                
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE                
         )
         """,
         # LIKES TESTIMONIAL/TABLE
         """
         CREATE TABLE IF NOT EXISTS testimonial_like (
-            SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
+            id SERIAL PRIMARY KEY,
+            account_id INTEGER NOT NULL,
             testimonial_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (testimonial_id)
-            REFERENCES testimonial (testimonial.id)
+            REFERENCES testimonial (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
@@ -269,19 +270,19 @@ def create_tables():
             second_name VARCHAR(50),
             lastname VARCHAR(50) NOT NULL,
             image TEXT NOT NULL,           
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             title_id INTEGER NOT NULL,
             quote VARCHAR(200) NOT NULL,
             status_id INTEGER NOT NULL,
             time DATE NOT NULL DEFAULT CURRENT_DATE,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (status_id)
-            REFERENCES status (status.id)
+            REFERENCES status (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (title_id)
-            REFERENCES status (title.id)
+            REFERENCES status (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
@@ -291,35 +292,35 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS suggestion (
             id SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             post Text NOT NULL,
             status_id INTEGER NOT NULL,
             category_id INTEGER NOT NULL,
             time DATE NOT NULL DEFAULT CURRENT_DATE,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (category_id )
-            REFERENCES category (category.id)
+            REFERENCES category (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (status_id)
-            REFERENCES status (status.id)
-            ON UPDATE CASCADE ON DELETE CASCADE,      
+            REFERENCES status (id)
+            ON UPDATE CASCADE ON DELETE CASCADE      
         )
         """,
         # START OF SUGGESTION RESPONSE SCHEMA
         """
         CREATE TABLE IF NOT EXISTS suggestion_response (
             id SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             response Text NOT NULL,
             suggestion_id INTEGER NOT NULL,
             time DATE NOT NULL DEFAULT CURRENT_DATE,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (suggestion_id)
-            REFERENCES blog (blog.id)
+            REFERENCES blog (id)
             ON UPDATE CASCADE ON DELETE CASCADE   
         )
         """,
@@ -328,13 +329,13 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS suggestion_vote (
             id SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             suggestion_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (suggestion_id)
-            REFERENCES suggestion (suggestion.id)
+            REFERENCES suggestion (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
@@ -344,13 +345,13 @@ def create_tables():
             id SERIAL PRIMARY KEY,
             comment Text NOT NULL,
             suggestion_id INTEGER NOT NULL,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             time DATE NOT NULL DEFAULT CURRENT_DATE,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (suggestion_id)
-            REFERENCES suggestion (suggestion.id)
+            REFERENCES suggestion (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
@@ -358,17 +359,17 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS suggestion_response_like (
             id SERIAL PRIMARY KEY,
-            user_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             suggestion_id INTEGER NOT NULL,
             suggestion_response INTEGER NOT NULL,
-            FOREIGN KEY (user_id)
-            REFERENCES user (user.id)
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (suggestion_id)
-            REFERENCES blog (blog.id)
+            REFERENCES blog (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (suggestion_response)
-            REFERENCES suggestion_response (suggestion_response.id)
+            REFERENCES suggestion_response (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
@@ -377,7 +378,9 @@ def create_tables():
     
     try:
         with connection as conn:
+            print(conn)
             with conn.cursor() as cur:
+                print(cur)
                 # execute the CREATE TABLE statement
                 for command in commands:
                     cur.execute(command)
