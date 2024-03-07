@@ -75,7 +75,6 @@ def title():
     # delete
     elif REQUEST == 'DELETE':
         try:
-            response = json.loads(response)
             id = json.loads(request.data)['id']
             if id:
                 response = delete_title(id)

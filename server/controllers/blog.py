@@ -2,11 +2,11 @@
 import psycopg2
 from utils.db import connection
 
-def create_blog(user_id, post, category_id, image, time):
+def create_blog(account, post, category_id, image):
     """ Create new account into the acount table """
 
-    sql = """INSERT INTO blog (account, post, category_id, image, time)
-             VALUES(%s, %s, %s, %s, %s) RETURNING post, email, account, categoy_id, image;"""
+    sql = """INSERT INTO blog (account, post, category_id, image)
+             VALUES(%s, %s, %s, %s) RETURNING id;"""
     
     response = None
 
@@ -14,7 +14,7 @@ def create_blog(user_id, post, category_id, image, time):
         with  connection as conn:
             with  conn.cursor() as cur:
                 # execute the INSERT statement
-                cur.execute(sql, (user_id, post, category_id, image, time))
+                cur.execute(sql, (account, post, category_id, image))
 
                 # get the generated id back                
                 rows = cur.fetchone()
@@ -57,7 +57,7 @@ def fetch_blog(id):
     
 # fetch all users
 def fetch_blogs():
-    query = """SELECT * FROM blog JOIN account on acount = acount.id JOIN category on category_id = category.id  ORDER BY time;"""
+    query = """SELECT * FROM blog JOIN account on account = account.id JOIN category on category_id = category.id  ORDER BY time;"""
     
     response = None
 

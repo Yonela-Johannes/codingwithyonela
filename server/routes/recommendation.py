@@ -1,9 +1,9 @@
 import json
 from flask import request
 from sqlalchemy import JSON
-from controllers.blog import ( create_blog, fetch_blog, edit_blog, delete_blog, fetch_blogs )
+from controllers.recommendation import ( create_recommendation, fetch_recommendation, edit_recommendation, delete_recommendation, fetch_recommendations )
 
-def blog():
+def recommendation():
     REQUEST = request.method 
     if REQUEST == 'GET':
         # Fetch one
@@ -14,7 +14,7 @@ def blog():
                 id = json.loads(request.data)['id']
                 print("TITLE: => ", id)
                 if id:
-                    response = fetch_blog(id)
+                    response = fetch_recommendation(id)
                     if response:
                         res = {
                                 "message": "Fetch successful",
@@ -27,28 +27,32 @@ def blog():
             
         except:   
             # Fetch All
-            response = fetch_blogs()
-            result = response
-            res = {"data": result}
+            response = fetch_recommendations()
+            res = {"data": response}
             return res, 200
 
     
     # Create title
     elif REQUEST == 'POST':
         try:
-            account = json.loads(request.data)['account']
-            post = json.loads(request.data)['post']
-            category_id = json.loads(request.data)['category_id']
+            account_id = json.loads(request.data)['account_id']
+            name = json.loads(request.data)['name']
+            status_id = json.loads(request.data)['status_id']
+            second_name = json.loads(request.data)['second_name']
+            lastname = json.loads(request.data)['lastname']
             image = json.loads(request.data)['image']
+            title_id = json.loads(request.data)['title_id']
+            quote = json.loads(request.data)['quote']
+            
 
-            if account and post and category_id:
-                response = create_blog(account, post, category_id, image)
+            if account_id and name and status_id and second_name:
+                response = create_recommendation(account_id, name, second_name, lastname, image, title_id, quote, status_id)
                 print("RESPONSE: ", response)
                 if response:
                         res = {"data": f"{response}"}
                         return res, 201
                 else:
-                    res = {"message": "Blog already exist"}
+                    res = {"message": "Something went wrong"}
                     return res, 400 
                 
             res = {"message": "Title invalid: (you must enter title)"}
@@ -60,13 +64,17 @@ def blog():
         # edit/update
     elif REQUEST == 'PUT':
         try:
-            id = json.loads(request.data)['id']
-            post = json.loads(request.data)['post']
-            category_id = json.loads(request.data)['category_id']
+            account_id = json.loads(request.data)['account_id']
+            name = json.loads(request.data)['name']
+            status_id = json.loads(request.data)['status_id']
+            second_name = json.loads(request.data)['second_name']
+            lastname = json.loads(request.data)['lastname']
             image = json.loads(request.data)['image']
+            title_id = json.loads(request.data)['title_id']
+            quote = json.loads(request.data)['quote']
             
             if id:
-                response = edit_blog(id, post, category_id, image)
+                response = edit_recommendation(account_id, name, second_name, lastname, image, title_id, quote, status_id)
                 if response:
                         res = {"data": f"{response}",
                             "message": "Update successful"
@@ -81,10 +89,9 @@ def blog():
     # delete
     elif REQUEST == 'DELETE':
         try:
-            response = json.loads(response)
             id = json.loads(request.data)['id']
             if id:
-                response = delete_blog(id)
+                response = delete_recommendation(id)
                 if response == id:
                     res = {"message": "Delete failed: something went wrong."}
                     return res, 400

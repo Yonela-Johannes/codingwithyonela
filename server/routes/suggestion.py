@@ -1,9 +1,9 @@
 import json
 from flask import request
 from sqlalchemy import JSON
-from controllers.blog import ( create_blog, fetch_blog, edit_blog, delete_blog, fetch_blogs )
+from controllers.suggestion import ( create_suggestion, fetch_suggestion, edit_suggestion, delete_suggestion, fetch_suggestions )
 
-def blog():
+def suggestion():
     REQUEST = request.method 
     if REQUEST == 'GET':
         # Fetch one
@@ -14,7 +14,7 @@ def blog():
                 id = json.loads(request.data)['id']
                 print("TITLE: => ", id)
                 if id:
-                    response = fetch_blog(id)
+                    response = fetch_suggestion(id)
                     if response:
                         res = {
                                 "message": "Fetch successful",
@@ -27,22 +27,21 @@ def blog():
             
         except:   
             # Fetch All
-            response = fetch_blogs()
+            response = fetch_suggestions()
             result = response
             res = {"data": result}
             return res, 200
-
     
     # Create title
     elif REQUEST == 'POST':
         try:
-            account = json.loads(request.data)['account']
+            account_id = json.loads(request.data)['account_id']
             post = json.loads(request.data)['post']
+            status_id = json.loads(request.data)['status_id']
             category_id = json.loads(request.data)['category_id']
-            image = json.loads(request.data)['image']
 
-            if account and post and category_id:
-                response = create_blog(account, post, category_id, image)
+            if account_id and post and status_id and category_id:
+                response = create_suggestion(account_id, post, status_id, category_id)
                 print("RESPONSE: ", response)
                 if response:
                         res = {"data": f"{response}"}
@@ -60,13 +59,13 @@ def blog():
         # edit/update
     elif REQUEST == 'PUT':
         try:
-            id = json.loads(request.data)['id']
+            account_id = json.loads(request.data)['account_id']
             post = json.loads(request.data)['post']
+            status_id = json.loads(request.data)['status_id']
             category_id = json.loads(request.data)['category_id']
-            image = json.loads(request.data)['image']
             
             if id:
-                response = edit_blog(id, post, category_id, image)
+                response = edit_suggestion(id, post, status_id, category_id)
                 if response:
                         res = {"data": f"{response}",
                             "message": "Update successful"
@@ -81,10 +80,9 @@ def blog():
     # delete
     elif REQUEST == 'DELETE':
         try:
-            response = json.loads(response)
             id = json.loads(request.data)['id']
             if id:
-                response = delete_blog(id)
+                response = delete_suggestion(id)
                 if response == id:
                     res = {"message": "Delete failed: something went wrong."}
                     return res, 400

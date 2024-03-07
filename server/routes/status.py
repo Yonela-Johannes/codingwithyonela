@@ -1,9 +1,8 @@
 import json
 from flask import request
-from sqlalchemy import JSON
-from controllers.blog import ( create_blog, fetch_blog, edit_blog, delete_blog, fetch_blogs )
+from controllers.status import ( create_status, fetch_statuses, edit_status, delete_category, fetch_status )
 
-def blog():
+def status():
     REQUEST = request.method 
     if REQUEST == 'GET':
         # Fetch one
@@ -12,9 +11,8 @@ def blog():
         
             if data:
                 id = json.loads(request.data)['id']
-                print("TITLE: => ", id)
                 if id:
-                    response = fetch_blog(id)
+                    response = fetch_status(id)
                     if response:
                         res = {
                                 "message": "Fetch successful",
@@ -23,35 +21,32 @@ def blog():
                         return res, 200
                     else:
                         res = {"message": "Fetch failed: something went wrong."}
-                        return res, 400
+                    return res, 400
             
-        except:   
+        except json.decoder.JSONDecodeError:   
             # Fetch All
-            response = fetch_blogs()
+            response = fetch_statuses()
+            print("RESPONSE: ", response)
             result = response
             res = {"data": result}
             return res, 200
-
     
     # Create title
     elif REQUEST == 'POST':
         try:
-            account = json.loads(request.data)['account']
-            post = json.loads(request.data)['post']
-            category_id = json.loads(request.data)['category_id']
-            image = json.loads(request.data)['image']
-
-            if account and post and category_id:
-                response = create_blog(account, post, category_id, image)
-                print("RESPONSE: ", response)
+            status = json.loads(request.data)['status']
+            account_id = json.loads(request.data)['account_id']
+            
+            if status and account_id:
+                response = create_status(status, account_id)
                 if response:
                         res = {"data": f"{response}"}
                         return res, 201
                 else:
-                    res = {"message": "Blog already exist"}
+                    res = {"message": f"Category already exist"}
                     return res, 400 
                 
-            res = {"message": "Title invalid: (you must enter title)"}
+            res = {"message": "Category invalid: (you must enter status)"}
             return res, 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
@@ -60,18 +55,18 @@ def blog():
         # edit/update
     elif REQUEST == 'PUT':
         try:
+            title = json.loads(request.data)['title']
             id = json.loads(request.data)['id']
-            post = json.loads(request.data)['post']
-            category_id = json.loads(request.data)['category_id']
-            image = json.loads(request.data)['image']
-            
-            if id:
-                response = edit_blog(id, post, category_id, image)
-                if response:
-                        res = {"data": f"{response}",
+            if title and id:
+                response = edit_status(id, title)
+                if response == title:
+                        res = {"title": f"{response}",
                             "message": "Update successful"
                             }
                         return res, 200
+                else:
+                    res = {"message": f"{title} already exist"}
+                    return res, 400
             res = {"message": "Title or is ID invalid"}
             return res, 400
         except json.decoder.JSONDecodeError:
@@ -81,10 +76,9 @@ def blog():
     # delete
     elif REQUEST == 'DELETE':
         try:
-            response = json.loads(response)
             id = json.loads(request.data)['id']
             if id:
-                response = delete_blog(id)
+                response = delete_category(id)
                 if response == id:
                     res = {"message": "Delete failed: something went wrong."}
                     return res, 400
