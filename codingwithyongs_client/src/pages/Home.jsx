@@ -1,17 +1,23 @@
+import Top from "../components/blog/Top";
+
 const Home = () => {
   return (
-    <div className="h-full py-8">
-      <p className="text-2xl">I am constantly working to improve as a professional and learn on demand<br />
-      and new challenges. So I am always open to opportunities where I need to <br /> learn
-       work with any software development tools that can help me solve <br /> challenges the best possible way. 
-       <br />
-       <br />
-       My focus is full-stack development and I have experience with projects using: <br />
-       React, JavaScript, Next.Js, Tailwind, Styled-Components, Node.Js, Django, <br />
-        Python, MySQL, PostgreSQL, MongoDb
+    <div className="h-full">
+      <Top
+        title="Hello, I'm"
+        name="Yonela"
+        description="Welcome to my website. Built using React, Tailwind, Flask,
+        Python and Postgresql"
+      />
+      <p className="text-2xl">
+        Welcome aboard our journey of exploration and growth, where we dive deep
+        <br /> into the world of entrepreneurship, exchange ideas, and support
+        each other
+        <br /> in reaching our full potential—all while having a blast along the
+        way!
       </p>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

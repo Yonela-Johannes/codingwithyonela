@@ -6,39 +6,39 @@ const NavMenu = () => {
     <nav className="flex flex-col md:flex-row w-full items-center justify-between gap-4 md:gap-0">
       <div className="hidden md:flex items-center justify-between w-full">
         <div className="flex tex-sm font-bold gap-6  text-black">
-          <Link to="/">
+          <Link className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp" to="/">
             <div className="flex gap-2 items-center cursor-pointer">
               <HoverUnderLine>Description</HoverUnderLine>
             </div>
           </Link>
-          <Link to="/suggestions">
+          <Link className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp" to="/suggestions">
             <div className="flex gap-2 items-center cursor-pointer">
-              <HoverUnderLine>200 Suggestions</HoverUnderLine>
+              <HoverUnderLine>Suggestions</HoverUnderLine>
             </div>
           </Link>
-          <Link to="/questions">
+          <Link className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp" to="/questions">
             <div className="flex gap-2 items-center cursor-pointer">
-              <HoverUnderLine>5 Questions</HoverUnderLine>
+              <HoverUnderLine>Questions</HoverUnderLine>
             </div>
           </Link>
-          <Link to="/chats">
-            <div className="flex gap-2 items-center cursor-pointer">
-              <HoverUnderLine>Convo</HoverUnderLine>
-            </div>
-          </Link>
-          <Link to="/blogs">
+          <Link className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp" to="/blogs">
             <div className="flex gap-2 items-center cursor-pointer">
               <HoverUnderLine>Blog</HoverUnderLine>
             </div>
           </Link>
-          <Link to="/testimonials">
+          <Link className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp" to="/testimonials">
             <div className="flex gap-2 items-center cursor-pointer">
               <HoverUnderLine>Testimonials</HoverUnderLine>
             </div>
           </Link>
-          <Link to="/recommendations">
+          <Link className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp" to="/recommendations">
             <div className="flex gap-2 items-center cursor-pointer">
               <HoverUnderLine>Recommendations</HoverUnderLine>
+            </div>
+          </Link>
+          <Link className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp" to="/project-status">
+            <div className="flex gap-2 items-center cursor-pointer">
+              <HoverUnderLine>Project status</HoverUnderLine>
             </div>
           </Link>
         </div>

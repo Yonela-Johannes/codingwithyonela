@@ -46,21 +46,23 @@ body {
 
 ::-webkit-scrollbar {
   width: 12px; /* for vertical scrollbar */
-  height: 7px; /* for horizontal scrollbar */
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #343541;
-  border-radius: 5px;
+  cursor: pointer;
+  border-radius: 8px;
+  
+  background: #b3b3b3;
 }
 
 ::-webkit-scrollbar-thumb {
+  background: #7f57f1;
   cursor: pointer;
-  background: #8892b0;
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
-::-webkit-scrollbar-button { width: 20px; }
+::-webkit-scrollbar-button { width: 16px; }
 
 h2 {
   font-size: 25px;

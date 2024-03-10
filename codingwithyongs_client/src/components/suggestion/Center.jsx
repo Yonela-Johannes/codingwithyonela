@@ -4,9 +4,9 @@ import SugggestionCard from "../../shared/SuggestionCard";
 
 const Center = () => {
   return (
-    <div className="flex items-center flex-col w-full">
-      <Headers />
-      <Sender />
+    <div className="flex  items-center flex-col w-full">
+      {/* <Headers />
+      <Sender /> */}
       <SugggestionCard />
     </div>
   );

@@ -76,74 +76,42 @@ const Navbar = () => {
     {
       key: "1",
       label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
+        <Link to="/about" rel="noopener noreferrer">
           About
-        </a>
+        </Link>
       ),
     },
     {
       key: "2",
       label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
+        <Link to="_blank" rel="noopener noreferrer">
           Portfolio's
-        </a>
+        </Link>
       ),
     },
     {
       key: "3",
       label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
+        <Link to="/friends" rel="noopener noreferrer">
           Friends
-        </a>
+        </Link>
       ),
     },
     {
       key: "4",
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
-          Software Developers
-        </a>
-      ),
-    },
-    {
-      key: "5",
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
-          Donate
-        </a>
-      ),
-      icon: <BiDonateHeart />,
     },
   ];
   return (
     <nav className="flex flex-col z-50 md:flex-row py-3 w-full bg-white top-0 left-0 right-0 items-center justify-between gap-4 md:gap-0">
       <div className="hidden md:flex items-center justify-between w-full">
         <div className="">
-          <HoverUnderLine>
-            <p className="font-tech_mono text-2xl font-light">
-              CodingWithYongs
-            </p>
-          </HoverUnderLine>
+          <Link to="/">
+            <HoverUnderLine>
+              <p className="font-tech_mono text-2xl font-light">
+                CodingWithYongs
+              </p>
+            </HoverUnderLine>
+          </Link>
         </div>
         <div className="flex gap-6 text-base text-black uppercase">
           <Dropdown

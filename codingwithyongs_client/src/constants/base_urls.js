@@ -7,6 +7,7 @@ if (process.env.NODE_ENV === 'production') {
   siteUrl = '';
   callback = ''
 } else {
+  
   apiUrl = 'http://localhost:8000/api/auth/google';
   siteUrl = 'http://localhost:5173';
   callback = 'http://localhost:8000/api/auth/callback/google'

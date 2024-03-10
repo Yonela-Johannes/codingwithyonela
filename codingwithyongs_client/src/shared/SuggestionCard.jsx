@@ -130,7 +130,7 @@ const SugggestionCard = () => {
     ]
   
   return (
-    <div className="flex flex-col gap-8 h-full px-10">
+    <div className="flex  flex-col gap-8 h-full px-10">
         <div className="grid grid-cols-1 gap-6 h-full">
           {suggestions.map((suggestion) => <UpvoteCard suggestion={suggestion} key={suggestion._id} />)}
         </div>
