@@ -12,7 +12,7 @@ const Tasks = ({ task }) => {
           : "text-red-900"
       } h-[140px] rounded-md align-text-top text-start relative font-bold `}
     >
-      <img src={clipper} className="w-full h-full object-cover" />
+      <img src={clipper} className="w-full h-full object-cover hidden lg:block" />
       <div className="absolute top-6 z-10
       left-10 pr-5">
         <p className="text-base text-black">{task?.title}</p>

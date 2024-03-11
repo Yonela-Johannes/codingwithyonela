@@ -148,7 +148,7 @@ const Blogs = () => {
         <h2 className="text-xl sm:text-xl md:text-2xl lg:text-3xl font-black">
           Featured Posts
         </h2>
-        <div className="grid grid-cols-4 gap-6 h-full mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full mt-6">
           {blogs.map((blog) => (
             <BlogCard blog={blog} key={blog._id} />
           ))}
@@ -176,7 +176,7 @@ const Blogs = () => {
         <h2 className="text-xl sm:text-xl md:text-2xl lg:text-3xl font-black">
           Latest posts
         </h2>
-        <div className="grid grid-cols-4 gap-6 h-full mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full mt-6">
           {blogs.map((blog) => (
             <BlogCard blog={blog} key={blog._id} />
           ))}

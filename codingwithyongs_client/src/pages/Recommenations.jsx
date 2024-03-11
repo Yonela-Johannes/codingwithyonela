@@ -185,7 +185,7 @@ const Recommendations = () => {
     <div className="flex flex-col gap-8 h-full my-5">
       <Header />
       <Watermark content="Coding W-Yongs">
-        <div className="grid grid-cols-4 gap-6 h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4  gap-2 lg:grid-gap-4 xl:gap-6 h-full">
           {data?.map((item) => (
             <RecommendationCard item={item} key={item._id} colors={colors} />
           ))}

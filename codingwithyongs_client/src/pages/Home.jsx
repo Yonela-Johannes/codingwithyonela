@@ -9,7 +9,7 @@ const Home = () => {
         description="Welcome to my website. Built using React, Tailwind, Flask,
         Python and Postgresql"
       />
-      <p className="text-2xl">
+      <p className="text-base lg:text-xl 2xl:text-2xl">
         Welcome aboard our journey of exploration and growth, where we dive deep
         <br /> into the world of entrepreneurship, exchange ideas, and support
         each other

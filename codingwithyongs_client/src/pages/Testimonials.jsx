@@ -125,7 +125,7 @@ const Testimonials = () => {
     <div className="flex flex-col gap-8 h-full">
       <Header />
       <Watermark content="Coding W-Yongs">
-        <div className="grid grid-cols-4 gap-6 h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 h-full">
           {testimonials.map((testimonial) => (
             <TestimonialCard testimonial={testimonial} key={testimonial._id} />
           ))}

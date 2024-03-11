@@ -8,7 +8,7 @@ const TestimonialCard = ({ testimonial }) => {
         <div className="flex h-full flex-col space-y-2 px-2 py-4">
           <div className="flex justify-between">
             <div>
-              <p className="text-sm dark:text-gray-400">
+              <p className="text-sm font-bold dark:text-gray-400">
                 {testimonial?.title}
               </p>
               <p className="text-sm">{testimonial?.author}</p>
@@ -22,7 +22,7 @@ const TestimonialCard = ({ testimonial }) => {
             </div>
           </div>
           <h4 className="text-lg">{testimonial?.post}</h4>
-          <div className="flex items-center justify-end flex-col text-end">
+          <div className="flex items-start justify-start flex-col text-end">
             <div className="flex gap-2 text-yellow-400">
               <FaStar />
               <FaStar />
@@ -30,7 +30,7 @@ const TestimonialCard = ({ testimonial }) => {
               <FaStar />
               <FaStar />
             </div>
-            <p className="text-sm  font-semibold self-end">
+            <p className="text-sm md:font-semibold self-end">
               {testimonial?.category}
             </p>
           </div>

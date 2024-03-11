@@ -10,12 +10,12 @@ function RecommendationCard({ item, colors }) {
   const country = data.find((country) => country.name == item?.country)
   console.log(country)
   return (
-    <div className="relative my-5">
+    <div className="relative">
       <div className="rounded-md border border-bg_light">
       <div className="flex justify-between">
-        <h2 className="font-bold text-[22px] p-3">{item?.title}</h2>
+        <h2 className="font-bold  text-base lg:te p-3">{item?.title}</h2>
           <div className="flex gap-1 p-2 font-bold text-bg_grey">
-            <p className="hidden md:block text-[14px]">{country?.name} -</p>
+            <p className="md:block text-[14px]">{country?.name} -</p>
             <p className="md:block text-[14px]">{country?.code}</p>
             <p>{country?.emoji}</p>
           </div>
@@ -30,7 +30,7 @@ function RecommendationCard({ item, colors }) {
               src={item?.image}
               alt={item?.name}
               className="h-[150px] md:w-[250px] md:h-[200px]
-                    object-cover rounded-lg"
+                    object-cover rounded-lg ml-3"
             />
             <div
               className="flex flex-col 
@@ -38,12 +38,12 @@ function RecommendationCard({ item, colors }) {
             >
               <h2
                 className="p-1 bg-purple-200
-                        text-primary rounded-full px-2
-                         text-[12px]"
+                        text-primary rounded-sm xl:rounded-full px-2
+                         text-sm"
               >
                 {item?.category?.name}
               </h2>
-              <h2 className="font-bold text-lg">{item?.name}</h2>
+              <h2 className="font-bold text-sm text-bg_core lg:text-lg">{item?.name}</h2>
               <div className="flex items-center text-primary gap-4 my-2 text-bg_opp text-lg">
                 {item?.portfolio ? (
                   <Link to={item.portfolio} className="">

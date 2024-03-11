@@ -2,12 +2,12 @@ import { Search } from 'lucide-react'
 
 function Hero() {
   return (
-    <div className='flex items-center gap-3 flex-col justify-center pt-14 pb-7'>
-        <div className='mt-4 flex gap-4 items-center'>
+    <div className='flex w-full mb-4 mt-6 md:items-center gap-3 flex-col justify-center md:pt-14 md:pb-7'>
+        <div className='md:mt-4 flex gap-1 md:gap-4 items-center'>
             <input placeholder='Search'
-            className="rounded-full md:w-[350px] " />
-            <button className="rounded-full h-[46px] bg-clr_alt text-white">
-                <Search className='h-4 w-4 '/>
+            className="md:w-[350px] px-2" />
+            <button className="flex items-center justify-center h-[26px] w-[26px] md:rounded-full md:h-[46px] md:w-[46px] p-1 text-clr_alt md:bg-clr_alt md:text-white">
+              <Search className='md:h-4 md:w-4 '/>
             </button>
         </div>
     </div>

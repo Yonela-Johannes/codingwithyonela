@@ -8,7 +8,7 @@ const Post = ({ slug, title, post, date }) => {
     <article className="flex flex-col gap-2 border-bg_light border-border border-b py-3">
       <div>
         <HoverUnderLine>
-          <h2 className="text-2xl font-bold">
+          <h2 className="text-base md:text-2xl font-bold">
             <Link to={`/blogs/${slug}`}>{title}</Link>
           </h2>
         </HoverUnderLine>

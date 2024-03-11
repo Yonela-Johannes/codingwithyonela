@@ -4,8 +4,11 @@ import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
 import { BiDonateHeart } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { FaGithubAlt, FaMoon, FaSun } from "react-icons/fa";
+import { BsFillMoonStarsFill } from "react-icons/bs";
+import { MdClose } from "react-icons/md";
 
-const MobileMenu = ({ user, signOut }) => {
+const MobileMenu = ({ items }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -15,29 +18,59 @@ const MobileMenu = ({ user, signOut }) => {
   return (
     <div className="flex items-center justify-between w-full">
       {isMenuOpen ? (
-        <div className="md:fixed flex justify-between top-0 left-0 w-full h-fit bg-white dark:bg-[#020b19] z-50 py-10 px-6 shadow-xl">
+        <div className="relative md:fixed flex justify-between top-0 border border-bg_light rounded-sm left-0 w-full h-fit bg-white dark:bg-[#020b19] z-50 py-10 px-6 shadow-xl">
+          <div onClick={() => setIsMenuOpen(false)} className="absolute top-2 right-2">
+            <MdClose size={20} />
+          </div>
           <div className=" flex gap-8">
             <ul className="flex flex-col gap-4 text-base text-black dark:text-gray-300">
-              <HoverUnderLine>
-                <li onClick={toggleMenu}>
-                  <p>Home</p>
-                </li>
-              </HoverUnderLine>
-              <HoverUnderLine>
-                <li onClick={toggleMenu}>
-                  <p>Contact</p>
-                </li>
-              </HoverUnderLine>
-              <HoverUnderLine>
-                <li onClick={toggleMenu}>
-                  <p>About</p>
-                </li>
-              </HoverUnderLine>
-              <HoverUnderLine>
-                <li onClick={toggleMenu}>
-                  <p>Blogs</p>
-                </li>
-              </HoverUnderLine>
+              <Dropdown
+                menu={{
+                  items,
+                }}
+              >
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space>
+                    <HoverUnderLine>
+                      <div className="flex gap-2 items-center cursor-pointer p-2">
+                        More
+                        <DownOutlined />
+                      </div>
+                    </HoverUnderLine>
+                  </Space>
+                </a>
+              </Dropdown>
+              <Link to="/blogs">
+                <HoverUnderLine>
+                  <div className="flex gap-2 items-center cursor-pointer p-2">
+                    Blog
+                  </div>
+                </HoverUnderLine>
+              </Link>
+              <Link to="/sign-in">
+                <HoverUnderLine>
+                  <div className="flex gap-2 items-center cursor-pointer p-2">
+                    Login
+                  </div>
+                </HoverUnderLine>
+              </Link>
+              <div className="flex gap-4 items-center">
+                <Link href="https://github.com/yonela-johannes">
+                  <HoverUnderLine>
+                    <div className="flex gap-2 items-center cursor-pointer p-2">
+                      <FaGithubAlt size={22} />
+                    </div>
+                  </HoverUnderLine>
+                </Link>
+                <Link href="https://github.com/yonela-johannes">
+                  <HoverUnderLine>
+                    <div className="flex gap-2 items-center cursor-pointer p-2">
+                      {/* <FaSun size={22} /> */}
+                      <BsFillMoonStarsFill />
+                    </div>
+                  </HoverUnderLine>
+                </Link>
+              </div>
             </ul>
           </div>
         </div>
@@ -144,11 +177,26 @@ const Navbar = () => {
               </div>
             </HoverUnderLine>
           </Link>
+          <Link href="https://github.com/yonela-johannes">
+            <HoverUnderLine>
+              <div className="flex gap-2 items-center cursor-pointer p-2">
+                <FaGithubAlt size={22} />
+              </div>
+            </HoverUnderLine>
+          </Link>
+          <Link href="https://github.com/yonela-johannes">
+            <HoverUnderLine>
+              <div className="flex gap-2 items-center cursor-pointer p-2">
+                {/* <FaSun size={22} /> */}
+                <BsFillMoonStarsFill />
+              </div>
+            </HoverUnderLine>
+          </Link>
         </div>
       </div>
-      {/* <div className="block md:hidden w-full">
-        <MobileMenu user={user} signOut={handleSignOut} />
-      </div> */}
+      <div className="block md:hidden w-full">
+        <MobileMenu items={items} />
+      </div>
     </nav>
   );
 };

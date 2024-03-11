@@ -5,7 +5,7 @@ import { useState } from "react";
 import { MdModeEdit } from "react-icons/md";
 
 const Right = () => {
-  const [active, setActive] = useState(false)
+  const [active, setActive] = useState(false);
   const messages = [
     {
       date: Date.now(),
@@ -100,7 +100,7 @@ const Right = () => {
   ];
   return (
     <div className="flex flex-col rounded-md relative gap-10 h-full  pt-3 pb-1">
-      <div className="absolute -mt-5 p-0 m-0 top-0  w-full h-full">
+      <div className="hidden lg:block absolute -mt-5 p-0 m-0 top-0  w-full h-full">
         <img src={clipper} className="w-full h-full object-contain" />
       </div>
       <div className="z-20 h-[580px] overflow-y-scroll space-y-4">
@@ -109,13 +109,16 @@ const Right = () => {
         ))}
       </div>
       <div className="flex items-end  justify-end absolute bottom-10 w-full px-10 z-40">
-      {active ? <MessageInput setActive={setActive} />: (
-        <div onClick={() => setActive(!active)} className="cursor-pointer text-white  bg-clr_alt items-end p-2 rounded-full">
-          <MdModeEdit size={22}/>
-        </div>
-        )
-      }
-        
+        {active ? (
+          <MessageInput setActive={setActive} />
+        ) : (
+          <div
+            onClick={() => setActive(!active)}
+            className="cursor-pointer text-white  bg-clr_alt items-end p-2 rounded-full"
+          >
+            <MdModeEdit size={22} />
+          </div>
+        )}
       </div>
     </div>
   );

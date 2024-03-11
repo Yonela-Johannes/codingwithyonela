@@ -16,6 +16,7 @@ import Recommendations from "./pages/Recommenations";
 import About from "./pages/About";
 import Friends from "./pages/Friends";
 import Collaboration from "./pages/Collaboration";
+import Events from "./components/Events";
 
 function App() {
   useEffect(() => {
@@ -58,6 +59,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/project-status" element={<Collaboration />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/events/:id" element={<Collaboration />} />
         </Routes>
       </Layout>
     </BrowserRouter>
