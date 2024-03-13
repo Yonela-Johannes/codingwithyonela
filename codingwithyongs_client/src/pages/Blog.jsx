@@ -1,43 +1,40 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { BiHeart, BiSolidHeart} from "react-icons/bi";
+import { BiHeart, BiSolidHeart } from "react-icons/bi";
 import { FaEye, FaRegEye } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { RiSendPlaneFill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { getBlog } from "../features/blogs/blogSlice";
 
 const Blog = () => {
-  const path = useLocation().pathname;
-  const pathArray = path.split('/')
-  pathArray[2]
+  const { blogs } = useSelector((state) => state.blogs);
+  const [blog, setBlog] = useState({});
+  const navigate = useNavigate();
+  const slug = useParams().id;
 
-  const blog = {
-    _id: "655b21192255c0b35d4ab60bdfd",
-    title: "Fullstack Social Media App - Frontend",
-    slug: "fullstack-social-media-app-frontend",
-    img: "https://res.cloudinary.com/djs3wu5bg/image/upload/v1683874453/samples/bike.jpg",
-    cat: "FASHION",
-    createdAt: "2023-11-20T09:04:26.018Z",
-    views: 23,
-    authorImg:
-      "https://media.licdn.com/dms/image/D4D03AQH2Rk6Ms8QM3A/profile-displayphoto-shrink_800_800/0/1705361153176?e=1714608000&v=beta&t=jBQ3AzNBVNokv7cGkBKgyNYzwMK1wzQmrUHSswS2U2c",
-    author: "Hlomla Tapuko",
-    post: '',
-    likes: 50,
-    category: "Fashion",
-  };
+  useEffect(() => {
+    if (blogs && blogs?.length > 0 && slug) {
+      const response = blogs?.find((elem) => elem?.slug == slug);
+      setBlog(response);
+    } else {
+      navigate("/blogs");
+    }
+  }, []);
 
   return (
     <div className="rounded-md border border-bg_light min-h-full">
-      <div className="flex h-full flex-col space-y-4 px-2 py-4">
+      <div className="flex h-full flex-col space-y-4 lg:space-y-8 px-2 py-4">
         <div className="h-full">
           <img
-            src={blog?.img}
+            src={blog?.blog_image}
             alt="cover"
             className="rounded-md object-cover object-center h-[600px] w-full"
           />
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between lg:justify-start">
           <div>
             <div className="text-sm flex gap-2">
               <FaRegEye className="text-lg" />
@@ -52,32 +49,29 @@ const Blog = () => {
           </div>
           <div className="flex items-center gap-2">
             <img
-              src={blog?.authorImg}
+              src={blog?.profile}
               alt="cover"
               className="rounded-md object-cover object-center h-[40px] w-[40px]"
             />
             <div>
               <p className="text-sm dark:text-gray-400">
-                {new Date(blog?.createdAt).toDateString()}
+                {new Date(blog?.blog_time).toDateString()}
               </p>
-              <p className="text-sm">{blog?.author}</p>
+              <p className="text-sm">
+                {blog?.username} {blog?.lastname}
+              </p>
             </div>
           </div>
         </div>
-        <h4 className="text-lg">{blog?.title}</h4>
+        <div className="px-2 lg:px-8">
+          <div className="text-sm md:text-base lg:w-[800px] space-y-4 lg:space-y-8">
+          <h4 className="text-lg font-bold">{blog?.blog_title}</h4>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {blog?.post}
+            </ReactMarkdown>
+          </div>
+        </div>
       </div>
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{blog?.post}</ReactMarkdown>
-      <form className="flex bg-white border rounded-md border-bg_light px-2">
-        <select name="suggestion-categories">
-          <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
-        </select>
-        <button type="submit" className="border-none">
-          <RiSendPlaneFill />
-        </button>
-      </form>
     </div>
   );
 };

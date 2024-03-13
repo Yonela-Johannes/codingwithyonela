@@ -1,5 +1,6 @@
 import psycopg2
 from utils.db import connection
+from psycopg2.extras import RealDictCursor
 
 # fetch title
 def fetch_title(id):
@@ -25,9 +26,9 @@ def fetch_title(id):
     finally:
         return response
 # create title
-def create_title(title):
-    query = """INSERT INTO user_title(title)
-             VALUES(%s) RETURNING title;"""
+def create_title(user_title):
+    query = """INSERT INTO user_title(user_title)
+             VALUES(%s) RETURNING user_title;"""
     
     response = None
 
@@ -35,7 +36,7 @@ def create_title(title):
         with  connection as conn:
             with  conn.cursor() as cur:
                 # execute the INSERT statement
-                cur.execute(query, (title,))
+                cur.execute(query, (user_title,))
 
                 # get the generated title back                
                 rows = cur.fetchone()
@@ -51,13 +52,13 @@ def create_title(title):
 
 # fetch all titles
 def fetch_titles():
-    query = """SELECT id, title FROM user_title ORDER BY id, title;"""
+    query = """SELECT id, user_title FROM user_title ORDER BY id, user_title;"""
     
     response = None
 
     try:
         with  connection as conn:
-            with  conn.cursor() as cur:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the INSERT statement
                 cur.execute(query)
 

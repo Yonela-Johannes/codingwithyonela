@@ -1,5 +1,6 @@
 import psycopg2
 from utils.db import connection
+from psycopg2.extras import RealDictCursor
 
 # fetch title
 def fetch_category(id):
@@ -57,7 +58,7 @@ def fetch_categories():
 
     try:
         with  connection as conn:
-            with  conn.cursor() as cur:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the INSERT statement
                 cur.execute(query)
 

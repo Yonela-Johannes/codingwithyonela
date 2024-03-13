@@ -1,16 +1,25 @@
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
 import Footer from "./Footer";
 import Header from "./Header";
 import NavMenu from "./NavMenu";
 import Wrapper from "./Wrapper";
+import { useEffect } from "react";
+import { getUser } from "../features/user/userSlice";
 
 const Layout = ({ children }) => {
+  const dispatch = useDispatch()
+  const { user } = useSelector(state => state.user)
+  useEffect(() => {
+    dispatch(getUser())
+  }, [])
+
   return (
     <div className="min-h-screen w-screen flex justify-center items-center flex-col overflow-x-hidden">
       <div className="mx-auto overflow-x-hidden h-full flex-1 w-screen flex flex-col left-0 right-0">
         <div className="border-b border-bg_light overflow-x-hidden">
           <Wrapper>
-            <Navbar />
+            <Navbar user={user} />
           </Wrapper>
         </div>
         <Wrapper>

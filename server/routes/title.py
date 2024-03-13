@@ -6,36 +6,19 @@ from controllers.title import ( create_title, fetch_titles, edit_title, delete_t
 def title():
     REQUEST = request.method 
     if REQUEST == 'GET':
-        # Fetch one
         try:
-            data = json.loads(request.data)
-        
-            if data:
-                id = json.loads(request.data)['id']
-                print("TITLE: => ", id)
-                if id:
-                    response = fetch_title(id)
-                    if response:
-                        res = {
-                                "message": "Fetch successful",
-                                "data": response
-                                }
-                        return res, 200
-                    else:
-                        res = {"message": "Fetch failed: something went wrong."}
-                        return res, 400
-            
-        except json.decoder.JSONDecodeError:   
-            # Fetch All
             response = fetch_titles()
             result = response
             res = {"data": result}
-            return res, 200
+            return res, 200            
+        except json.decoder.JSONDecodeError:   
+            res = {"message": "Something went wrong!"}
+        return res, 400 
     
     # Create title
     elif REQUEST == 'POST':
         try:
-            data = json.loads(request.data)['title']
+            data = json.loads(request.data)['user_title']
             if data:
                 response = create_title(data)
                 if response == data:

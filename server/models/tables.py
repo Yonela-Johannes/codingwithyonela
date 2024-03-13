@@ -1,6 +1,22 @@
 
+import os
 import psycopg2
-from utils.db import connection
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DATABASE = os.getenv('DATABASE')
+DATABASE_USER = os.getenv('DATABASE_USER')
+HOST = os.getenv('HOST')
+PASSWORD = os.getenv('PASSWORD')
+PORT = os.getenv('PORT')
+
+connection = psycopg2.connect(
+    database = DATABASE, 
+    user = DATABASE_USER, 
+    host= HOST,
+    password = PASSWORD,
+    port = PORT)
 
 def create_tables():
     """ Create tables in the PostgreSQL database"""
@@ -9,7 +25,7 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS user_title (
             id SERIAL PRIMARY KEY,
-            title VARCHAR(50) UNIQUE NOT NULL
+            user_title VARCHAR(50) UNIQUE NOT NULL
         );
         """,
         # USER TABLE/SCHEMA
@@ -21,7 +37,7 @@ def create_tables():
             lastname VARCHAR(20) UNIQUE NOT NULL,
             is_admin BOOLEAN NOT NULL,
             is_staff BOOLEAN NOT NULL,
-            image TEXT,
+            profile TEXT,
             user_title_id INTEGER NOT NULL,
             FOREIGN KEY (user_title_id)
             REFERENCES user_title (id)
@@ -56,9 +72,11 @@ def create_tables():
             id SERIAL PRIMARY KEY,
             account INTEGER NOT NULL,
             post Text NOT NULL,
-            image Text NOT NULL,
+            slug VARCHAR(250) UNIQUE NOT NULL,
+            blog_image Text NOT NULL,
+            blog_title VARCHAR(200) UNIQUE NOT NULL,
             category_id INTEGER NOT NULL,
-            time DATE NOT NULL DEFAULT CURRENT_DATE,
+            blog_time DATE NOT NULL DEFAULT CURRENT_DATE,
             FOREIGN KEY (account)
             REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
@@ -71,11 +89,11 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS blog_response (
             id SERIAL PRIMARY KEY,
-            account INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
             response Text NOT NULL,
             blog_id INTEGER NOT NULL,
-            time DATE NOT NULL DEFAULT CURRENT_DATE,
-            FOREIGN KEY (account)
+            response_time DATE NOT NULL DEFAULT CURRENT_DATE,
+            FOREIGN KEY (account_id)
             REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (blog_id)
@@ -105,7 +123,7 @@ def create_tables():
             comment Text NOT NULL,
             blog_id INTEGER NOT NULL,
             account_id INTEGER NOT NULL,
-            time DATE NOT NULL DEFAULT CURRENT_DATE,
+            comment_time DATE NOT NULL DEFAULT CURRENT_DATE,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
@@ -141,11 +159,14 @@ def create_tables():
             id SERIAL PRIMARY KEY,
             account_id INTEGER NOT NULL,
             question Text NOT NULL,
-            category INTEGER NOT NULL,
-            time DATE NOT NULL DEFAULT CURRENT_DATE,
+            category_id INTEGER NOT NULL,
+            question_time DATE NOT NULL DEFAULT CURRENT_DATE,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
-            ON UPDATE CASCADE ON DELETE CASCADE
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (category_id)
+            REFERENCES category (id)
+            ON UPDATE CASCADE ON DELETE CASCADE  
         )
         """,
         """
@@ -154,7 +175,7 @@ def create_tables():
             comment VARCHAR(300) NOT NULL,
             question_id INTEGER NOT NULL,
             account_id INTEGER NOT NULL,
-            time DATE NOT NULL DEFAULT CURRENT_DATE,
+            question_comment_time DATE NOT NULL DEFAULT CURRENT_DATE,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
@@ -270,7 +291,7 @@ def create_tables():
             name VARCHAR(50) NOT NULL,
             second_name VARCHAR(50),
             lastname VARCHAR(50) NOT NULL,
-            image TEXT NOT NULL,
+            re_image TEXT NOT NULL,
             github VARCHAR(50),
             linkedin VARCHAR(50),
             email VARCHAR(50),
@@ -279,7 +300,7 @@ def create_tables():
             title_id INTEGER NOT NULL,
             quote VARCHAR(200) NOT NULL,
             status_id INTEGER NOT NULL,
-            time DATE NOT NULL DEFAULT CURRENT_DATE,
+            re_time DATE NOT NULL DEFAULT CURRENT_DATE,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
@@ -300,12 +321,14 @@ def create_tables():
             account_id INTEGER NOT NULL,
             post Text NOT NULL,
             status_id INTEGER NOT NULL,
+            suggestion_title VARCHAR(50) UNIQUE NOT NULL,
+            slug VARCHAR(100) UNIQUE NOT NULL,
             category_id INTEGER NOT NULL,
-            time DATE NOT NULL DEFAULT CURRENT_DATE,
+            suggestion_time DATE NOT NULL DEFAULT CURRENT_DATE,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (category_id )
+            FOREIGN KEY (category_id)
             REFERENCES category (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (status_id)
@@ -320,12 +343,12 @@ def create_tables():
             account_id INTEGER NOT NULL,
             response Text NOT NULL,
             suggestion_id INTEGER NOT NULL,
-            time DATE NOT NULL DEFAULT CURRENT_DATE,
+            sug_re_time DATE NOT NULL DEFAULT CURRENT_DATE,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (suggestion_id)
-            REFERENCES blog (id)
+            REFERENCES suggestion (id)
             ON UPDATE CASCADE ON DELETE CASCADE   
         )
         """,
@@ -351,7 +374,7 @@ def create_tables():
             comment Text NOT NULL,
             suggestion_id INTEGER NOT NULL,
             account_id INTEGER NOT NULL,
-            time DATE NOT NULL DEFAULT CURRENT_DATE,
+            sug_com_time DATE NOT NULL DEFAULT CURRENT_DATE,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
@@ -379,6 +402,97 @@ def create_tables():
         )
         """,
         # END OF BLOG SCHEMA
+                        # EVENT TABLE/SCHEMA
+        """
+        CREATE TABLE IF NOT EXISTS event (
+            id SERIAL PRIMARY KEY,
+            account_id INTEGER NOT NULL,
+            event_title Text NOT NULL,
+            post Text NOT NULL,
+            status_id INTEGER NOT NULL,
+            category_id INTEGER NOT NULL,
+            event_time DATE NOT NULL DEFAULT CURRENT_DATE,
+            location TEXT NOT NULL,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (category_id )
+            REFERENCES category (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (status_id)
+            REFERENCES status (id)
+            ON UPDATE CASCADE ON DELETE CASCADE      
+        )
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS event_comment (
+            id SERIAL PRIMARY KEY,
+            comment Text NOT NULL,
+            event_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
+            event_com_time DATE NOT NULL DEFAULT CURRENT_DATE,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (event_id)
+            REFERENCES event (id)
+            ON UPDATE CASCADE ON DELETE CASCADE
+        )
+        """,
+                """
+        CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            comment Text NOT NULL,
+            account_id INTEGER NOT NULL,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE
+        )
+        """,
+                # END OF BLOG SCHEMA
+                # EVENT TABLE/SCHEMA
+        """
+        CREATE TABLE IF NOT EXISTS project (
+            id SERIAL PRIMARY KEY,
+            account_id INTEGER NOT NULL,
+            project_name Text NOT NULL,
+            description Text NOT NULL,
+            status_id INTEGER NOT NULL,
+            category_id INTEGER NOT NULL,
+            project_time DATE NOT NULL DEFAULT CURRENT_DATE,
+            users_id INTEGER NOT NULL,
+            github Text NOT NULL,
+            link Text NOT NULL,
+            management_tool Text NOT NULL,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (category_id )
+            REFERENCES category (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (users_id)
+            REFERENCES users (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (status_id)
+            REFERENCES status (id)
+            ON UPDATE CASCADE ON DELETE CASCADE      
+        )
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS project_chat (
+            id SERIAL PRIMARY KEY,
+            message Text NOT NULL,
+            project_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
+            mes_com_time DATE NOT NULL DEFAULT CURRENT_DATE,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (project_id)
+            REFERENCES project (id)
+            ON UPDATE CASCADE ON DELETE CASCADE
+        )
+        """,
     )
     
     try:
@@ -391,3 +505,7 @@ def create_tables():
                     cur.execute(command)
     except (psycopg2.DatabaseError, Exception) as error:
         print(error)
+        
+        
+if __name__ == '__main__':
+    create_tables()

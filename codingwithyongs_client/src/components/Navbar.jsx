@@ -8,7 +8,7 @@ import { FaGithubAlt, FaMoon, FaSun } from "react-icons/fa";
 import { BsFillMoonStarsFill } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 
-const MobileMenu = ({ items }) => {
+const MobileMenu = ({user, items, user_items }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -47,13 +47,32 @@ const MobileMenu = ({ items }) => {
                   </div>
                 </HoverUnderLine>
               </Link>
-              <Link to="/sign-in">
+              {user ? (
+            <Dropdown
+            menu={{
+              user_items,
+            }}
+          >
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
                 <HoverUnderLine>
                   <div className="flex gap-2 items-center cursor-pointer p-2">
-                    Login
+                    <img src={user?.image} className="h-7 w-7 rounded-full object-cover" />
+                    <DownOutlined />
                   </div>
                 </HoverUnderLine>
-              </Link>
+              </Space>
+            </a>
+          </Dropdown>
+          ) : (
+          <Link to="/sign-in">
+            <HoverUnderLine>
+              <div className="flex gap-2 items-center cursor-pointer p-2">
+                Login
+              </div>
+            </HoverUnderLine>
+          </Link>
+          )}
               <div className="flex gap-4 items-center">
                 <Link href="https://github.com/yonela-johannes">
                   <HoverUnderLine>
@@ -104,7 +123,7 @@ const MobileMenu = ({ items }) => {
   );
 };
 
-const Navbar = () => {
+const Navbar = ({user}) => {
   const items = [
     {
       key: "1",
@@ -132,6 +151,25 @@ const Navbar = () => {
     },
     {
       key: "4",
+    },
+  ];
+
+  const user_items = [
+    {
+      key: "9",
+      label: (
+        <Link to="/account" rel="noopener noreferrer">
+          Account
+        </Link>
+      ),
+    },
+    {
+      key: "10",
+      label: (
+        <Link to="/friends" rel="noopener noreferrer">
+          Logout
+        </Link>
+      ),
     },
   ];
   return (
@@ -170,6 +208,24 @@ const Navbar = () => {
               </div>
             </HoverUnderLine>
           </Link>
+          {user ? (
+            <Dropdown
+            menu={{
+              items,
+            }}
+          >
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <HoverUnderLine>
+                  <div className="flex items-center cursor-pointer p-2 text-sm text-bg_core">
+                    <img src={user?.profile} className="h-7 w-7 rounded-full object-cover" />
+                    <DownOutlined />
+                  </div>
+                </HoverUnderLine>
+              </Space>
+            </a>
+          </Dropdown>
+          ) : (
           <Link to="/sign-in">
             <HoverUnderLine>
               <div className="flex gap-2 items-center cursor-pointer p-2">
@@ -177,6 +233,7 @@ const Navbar = () => {
               </div>
             </HoverUnderLine>
           </Link>
+          )}
           <Link href="https://github.com/yonela-johannes">
             <HoverUnderLine>
               <div className="flex gap-2 items-center cursor-pointer p-2">
@@ -195,7 +252,7 @@ const Navbar = () => {
         </div>
       </div>
       <div className="block md:hidden w-full">
-        <MobileMenu items={items} />
+        <MobileMenu items={items} user={user} user_items={user_items} />
       </div>
     </nav>
   );

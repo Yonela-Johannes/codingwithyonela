@@ -2,60 +2,27 @@ import json
 from flask import request
 from sqlalchemy import JSON
 from controllers.blog import ( create_blog, fetch_blog, edit_blog, delete_blog, fetch_blogs )
+from slugify import slugify
 
-def blog():
+def blog(id):
     REQUEST = request.method 
     if REQUEST == 'GET':
         # Fetch one
         try:
-            data = json.loads(request.data)
-        
-            if data:
-                id = json.loads(request.data)['id']
-                print("TITLE: => ", id)
-                if id:
-                    response = fetch_blog(id)
-                    if response:
-                        res = {
-                                "message": "Fetch successful",
-                                "data": response
-                                }
-                        return res, 200
-                    else:
-                        res = {"message": "Fetch failed: something went wrong."}
-                        return res, 400
-            
-        except:   
-            # Fetch All
-            response = fetch_blogs()
-            result = response
-            res = {"data": result}
-            return res, 200
-
-    
-    # Create title
-    elif REQUEST == 'POST':
-        try:
-            account = json.loads(request.data)['account']
-            post = json.loads(request.data)['post']
-            category_id = json.loads(request.data)['category_id']
-            image = json.loads(request.data)['image']
-
-            if account and post and category_id:
-                response = create_blog(account, post, category_id, image)
-                print("RESPONSE: ", response)
+            if id:
+                response = fetch_blog(id)
                 if response:
-                        res = {"data": f"{response}"}
-                        return res, 201
+                    res = {
+                            "message": "Fetch successful",
+                            "data": response
+                            }
+                    return res, 200
                 else:
-                    res = {"message": "Blog already exist"}
-                    return res, 400 
-                
-            res = {"message": "Title invalid: (you must enter title)"}
-            return res, 400 
-        except json.decoder.JSONDecodeError:
-            res = {"message": "Missing data"}
-        return res, 400 
+                    res = {"message": "Fetch failed: something went wrong."}
+                    return res, 400
+            
+        except:
+            return {"message": "Fetch failed: something went wrong."}
             
         # edit/update
     elif REQUEST == 'PUT':
@@ -63,10 +30,10 @@ def blog():
             id = json.loads(request.data)['id']
             post = json.loads(request.data)['post']
             category_id = json.loads(request.data)['category_id']
-            image = json.loads(request.data)['image']
+            blog_image = json.loads(request.data)['blog_image']
             
             if id:
-                response = edit_blog(id, post, category_id, image)
+                response = edit_blog(id, post, category_id, blog_image)
                 if response:
                         res = {"data": f"{response}",
                             "message": "Update successful"
@@ -99,3 +66,37 @@ def blog():
            res = {"message": "Missing data"}
         return res, 400
     
+    
+def blogs():
+    REQUEST = request.method
+    if REQUEST == 'POST':
+        try:
+            account = json.loads(request.data)['account']
+            post = json.loads(request.data)['post']
+            category_id = json.loads(request.data)['category_id']
+            blog_image = json.loads(request.data)['blog_image']
+            blog_title = json.loads(request.data)['blog_title']
+            slug = slugify(blog_title)
+            if account and post and category_id:
+                response = create_blog(account, post, category_id, blog_image, blog_title, slug)
+                print("RESPONSE: ", response)
+                if response:
+                        res = {"data": f"{response}"}
+                        return res, 201
+                else:
+                    res = {"message": "Blog already exist"}
+                    return res, 400 
+                
+            res = {"message": "Title invalid: (you must enter title)"}
+            return res, 400 
+        except json.decoder.JSONDecodeError:
+            res = {"message": "Missing data"}
+        return res, 400 
+    elif REQUEST == 'GET':
+        try:
+            response = fetch_blogs()
+            res = {"data": response}
+            return res, 200
+        except:
+            return {"message": "Fetch failed: something went wrong."}
+        
