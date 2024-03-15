@@ -1,0 +1,163 @@
+{
+  "roles": [
+    {
+      "title": "Frontend Developer",
+      "description": "Develop user-facing interfaces for web applications using HTML, CSS, and JavaScript frameworks.",
+      "skills": ["HTML", "CSS", "JavaScript", "React.js", "Angular", "Vue.js"]
+    },
+    {
+      "title": "Backend Developer",
+      "description": "Build and maintain the server-side logic and databases for web applications.",
+      "skills": [
+        "Programming languages (e.g., Java, Python, Node.js)",
+        "Web frameworks (e.g., Spring Boot, Django, Express.js)",
+        "Database management (e.g., SQL, NoSQL)",
+        "RESTful API design"
+      ]
+    },
+    {
+      "title": "Full Stack Developer",
+      "description": "Develop both the frontend and backend components of web applications.",
+      "skills": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Programming languages (e.g., Java, Python, JavaScript)",
+        "Web frameworks (e.g., React.js, Angular, Django, Express.js)",
+        "Database management",
+        "Version control (e.g., Git)"
+      ]
+    },
+    {
+      "title": "Mobile Developer",
+      "description": "Create mobile applications for iOS and/or Android platforms.",
+      "skills": [
+        "iOS development (Swift, SwiftUI)",
+        "Android development (Java, Kotlin)",
+        "Cross-platform development frameworks (e.g., Flutter, React Native)",
+        "UI/UX design for mobile"
+      ]
+    },
+    {
+      "title": "Frontend Engineer",
+      "description": "Specializes in the development and optimization of user interfaces for web applications.",
+      "skills": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Frontend frameworks (e.g., React.js, Angular, Vue.js)",
+        "Responsive web design"
+      ]
+    },
+    {
+      "title": "Backend Engineer",
+      "description": "Specializes in the development of server-side logic and databases for web applications.",
+      "skills": [
+        "Programming languages (e.g., Java, Python, Node.js)",
+        "Web frameworks (e.g., Spring Boot, Django, Express.js)",
+        "Database management (e.g., SQL, NoSQL)",
+        "API development"
+      ]
+    },
+    {
+      "title": "Mobile App Developer",
+      "description": "Specializes in creating mobile applications for iOS and/or Android platforms.",
+      "skills": [
+        "iOS development (Swift, SwiftUI)",
+        "Android development (Java, Kotlin)",
+        "Mobile UI/UX design",
+        "Mobile app testing and debugging"
+      ]
+    },
+    {
+      "title": "Software Engineer",
+      "description": "Design, develop, and maintain software applications and systems.",
+      "skills": [
+        "Programming languages (e.g., Java, Python, C++)",
+        "Algorithm design",
+        "Problem-solving",
+        "Database management"
+      ]
+    },
+    {
+      "title": "Data Scientist",
+      "description": "Analyze complex data sets to provide insights and make data-driven decisions.",
+      "skills": [
+        "Statistical analysis",
+        "Machine learning",
+        "Data visualization",
+        "Big data technologies (e.g., Hadoop, Spark)"
+      ]
+    },
+    {
+      "title": "Cybersecurity Analyst",
+      "description": "Protect computer systems and networks from cyber threats and attacks.",
+      "skills": [
+        "Network security",
+        "Penetration testing",
+        "Security protocols",
+        "Incident response"
+      ]
+    },
+    {
+      "title": "DevOps Engineer",
+      "description": "Facilitate collaboration between software development and IT operations teams to automate and streamline the software delivery process.",
+      "skills": [
+        "Continuous integration/continuous deployment (CI/CD)",
+        "Infrastructure as code",
+        "Containerization (e.g., Docker, Kubernetes)",
+        "Cloud computing platforms (e.g., AWS, Azure)"
+      ]
+    },
+    {
+      "title": "UI/UX Designer",
+      "description": "Create intuitive and visually appealing interfaces for software applications and websites.",
+      "skills": [
+        "User research",
+        "Wireframing and prototyping",
+        "Graphic design",
+        "Usability testing"
+      ]
+    },
+    {
+      "title": "IT Support Specialist",
+      "description": "Provide technical assistance and support to users and organizations for hardware, software, and network issues.",
+      "skills": [
+        "Troubleshooting",
+        "Customer service",
+        "Hardware/software installation",
+        "Network administration"
+      ]
+    },
+    {
+      "title": "Team Lead",
+      "description": "Oversee and coordinate the work of a software development team, including task assignment, progress tracking, and resource management.",
+      "skills": [
+        "Leadership",
+        "Project management",
+        "Team coordination",
+        "Communication"
+      ]
+    },
+    {
+      "title": "Quality Assurance Engineer",
+      "description": "Ensure the quality and reliability of software products by designing and executing test plans, identifying defects, and providing feedback to developers.",
+      "skills": [
+        "Test planning",
+        "Automated testing tools (e.g., Selenium, JUnit)",
+        "Bug tracking",
+        "Regression testing"
+      ]
+    },
+    {
+      "title": "Systems Analyst",
+      "description": "Analyze business requirements and translate them into technical specifications for software development projects.",
+      "skills": [
+        "Requirement gathering",
+        "System design",
+        "Business process modeling",
+        "Documentation"
+      ]
+    }
+  ]
+}

@@ -17,10 +17,17 @@ const Recommendations = () => {
   const dispatch = useDispatch();
   const [inputData, setInputData] = useState({
     errors: "",
-    userId: "",
-    title: "",
-    message: "",
-    image: null,
+    account_id: "",
+    name: "",
+    second_name: "",
+    last_name: "",
+    email: "",
+    bio: "",
+    portfolio: "",
+    github: "",
+    linkedin: "",
+    title_id: "",
+    country: "",
   });
 
   useEffect(() => {
@@ -209,10 +216,10 @@ const Recommendations = () => {
     <div className="flex flex-col gap-8 h-full my-5">
       <div className="flex w-full items-center justify-between">
         {titles && titles?.length > 0 ? (
-          <div className="flex gap-2">
+          <div className="grid grid-cols-6 w-full gap-2">
             {titles?.map((element) => (
-              <div key={element?.id} className="flex gap-2">
-                <button className="">{element?.user_title}</button>
+              <div key={element?.id} className="flex gap-2 w-full">
+                <button className="flex items-center drop-shadow-none w-full text-center">{element?.user_title}</button>
               </div>
             ))}
           </div>
@@ -249,38 +256,43 @@ const Recommendations = () => {
             <div className="rounded-md pb-2 p-2 flex-col flex md:flex-row items-start gap-2 md:gap-4 justify-between w-full border border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer">
               <div>
                 <div>
-                  <input placeholder="Enter name" />
+                  <input placeholder="Name*" />
                 </div>
                 <div>
-                  <input placeholder="Enter second name" />
+                  <input placeholder="Second name" />
                 </div>
                 <div>
-                  <input placeholder="Enter last name" />
+                  <input placeholder="Last name*" />
                 </div>
                 <div>
-                  <input placeholder="Enter email" />
+                  <input placeholder="Email*" />
                 </div>
                 <div>
-                  <textarea placeholder="Enter short bio"></textarea>
+                  <textarea placeholder="Short bio*"></textarea>
                 </div>
                 <div>
-                  <input placeholder="Enter website (portfolio)" />
+                  <input placeholder="Website (portfolio)*" />
                 </div>
                 <div className="flex items-center p-0 m-0 text-base">
-                  <p className="p-0 m-0 text-base text-bg_core ml-5">
+                  <p className="p-0 m-0 text-base text-cl_core core ml-5">
                     https://github.com/
                   </p>
-                  <input placeholder="Enter github username" />
+                  <input placeholder="Github username*" />
                 </div>
                 <div className="flex items-center p-0 m-0 text-base">
                   <p className="p-0 m-0 text-base text-bg_core ml-5">
                     https://www.linkedin.com/in/
                   </p>
-                  <input placeholder="Enter linkedin username" />
+                  <input placeholder="Linkedin username*" />
                 </div>
                 <div>
                   <select>
                     <option>Software Developer</option>
+                  </select>
+                </div>
+                <div>
+                  <select>
+                    <option>South Africa</option>
                   </select>
                 </div>
               </div>

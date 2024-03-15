@@ -21,11 +21,24 @@ connection = psycopg2.connect(
 def create_tables():
     """ Create tables in the PostgreSQL database"""
     commands = (
+        # COUNTRIES TABLE/SCHEMA
+        """
+        CREATE TABLE IF NOT EXISTS countries (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(100) UNIQUE NOT NULL,
+            code NVARCHAR(255) NOT NULL,
+            emoji TEXT NOT NULL,
+            unicode TEXT NOT NULL,
+            image TEXT NOT NULL
+        );
+        """,
         # USER TITLE TABLE/SCHEMA
         """
         CREATE TABLE IF NOT EXISTS user_title (
             id SERIAL PRIMARY KEY,
-            user_title VARCHAR(50) UNIQUE NOT NULL
+            user_title VARCHAR(50) UNIQUE NOT NULL,
+            description TEXT NOT NULL,
+            skills TEXT NOT NULL
         );
         """,
         # USER TABLE/SCHEMA
