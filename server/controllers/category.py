@@ -52,7 +52,7 @@ def create_category(category, account_id) :
 
 # fetch all titles
 def fetch_categories():
-    query = """SELECT * FROM category JOIN account ON account_id = account.id ORDER BY category;"""
+    query = """SELECT category.*, category.id AS category_id  FROM category JOIN account ON account_id = account.id ORDER BY category;"""
     
     response = None
 

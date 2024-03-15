@@ -52,7 +52,7 @@ def create_title(user_title):
 
 # fetch all titles
 def fetch_titles():
-    query = """SELECT id, user_title FROM user_title ORDER BY id, user_title;"""
+    query = """SELECT id, user_title FROM user_title ORDER BY user_title;"""
     
     response = None
 

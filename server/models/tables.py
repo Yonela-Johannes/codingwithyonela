@@ -493,6 +493,77 @@ def create_tables():
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
+        # # # # # # # # # # DATA COMBINE TABLES
+        # BLOG DATA
+        # """
+        # CREATE TABLE IF NOT EXISTS blog_data (
+        #     id SERIAL PRIMARY KEY,
+        #     account_id INTEGER NOT NULL,
+        #     blog_id INTEGER NOT NULL,
+        #     blog_response_id INTEGER NOT NULL,
+        #     blog_like_id INTEGER NOT NULL,
+        #     blog_comment_id INTEGER NOT NULL,
+        #     FOREIGN KEY (account_id)
+        #     REFERENCES account (id)
+        #     ON UPDATE CASCADE ON DELETE CASCADE,
+        #     FOREIGN KEY (blog_id)
+        #     REFERENCES blog (id)
+        #     ON UPDATE CASCADE ON DELETE CASCADE,
+        #     FOREIGN KEY (blog_response_id)
+        #     REFERENCES blog_response (id)
+        #     ON UPDATE CASCADE ON DELETE CASCADE,
+        #     FOREIGN KEY (blog_like_id)
+        #     REFERENCES blog_like (id)
+        #     ON UPDATE CASCADE ON DELETE CASCADE,
+        #     FOREIGN KEY (blog_comment_id)
+        #     REFERENCES blog_comment (id)
+        #     ON UPDATE CASCADE ON DELETE CASCADE,
+        # )
+        # """,
+        # QUESTION DATA
+        # """
+        # CREATE TABLE IF NOT EXISTS question_data (
+        #     id SERIAL PRIMARY KEY,
+        #     account_id INTEGER NOT NULL,
+        #     question_id INTEGER NOT NULL,
+        #     question_response_id INTEGER NOT NULL,
+        #     question_like_id INTEGER NOT NULL,
+        #     question_comment_id INTEGER NOT NULL,
+        #     FOREIGN KEY (account_id)
+        #     REFERENCES account (id)
+        #     ON UPDATE CASCADE ON DELETE CASCADE,
+        #     FOREIGN KEY (question_id)
+        #     REFERENCES question (id)
+        #     ON UPDATE CASCADE ON DELETE CASCADE,
+        #     FOREIGN KEY (question_response_id)
+        #     REFERENCES question_response (id)
+        #     ON UPDATE CASCADE ON DELETE CASCADE,
+        #     FOREIGN KEY (question_like_id)
+        #     REFERENCES question_like (id)
+        #     ON UPDATE CASCADE ON DELETE CASCADE,
+        #     FOREIGN KEY (question_comment_id)
+        #     REFERENCES question_comment (id)
+        #     ON UPDATE CASCADE ON DELETE CASCADE
+        # )
+        # """,
+        # SUGGESTION DATA
+        # """
+        # CREATE TABLE IF NOT EXISTS suggestion_data (
+        #     id SERIAL PRIMARY KEY,
+        #     account_id INTEGER NOT NULL,
+        #     suggestion_id INTEGER NOT NULL,
+        #     suggestion_response_id INTEGER NOT NULL,
+        #     FOREIGN KEY (account_id)
+        #     REFERENCES account (id)
+        #     ON UPDATE CASCADE ON DELETE CASCADE,
+        #     FOREIGN KEY (suggestion_id)
+        #     REFERENCES suggestion (id)
+        #     ON UPDATE CASCADE ON DELETE CASCADE,
+        #     FOREIGN KEY (suggestion_response_id)
+        #     REFERENCES question_response (id)
+        #     ON UPDATE CASCADE ON DELETE CASCADE,
+        # )
+        # """,
     )
     
     try:

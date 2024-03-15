@@ -1,0 +1,204 @@
+import { useEffect, useState } from "react";
+import Header from "../components/blog/Header";
+import SuggestionCard from "../components/suggestion/SuggestionCard";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllSuggestions,
+  getSuggestion,
+} from "../features/suggestions/suggestionSlice";
+import { BiDownvote, BiUpvote } from "react-icons/bi";
+import moment from "moment/moment";
+import { Modal } from "antd";
+
+const Suggestion = ({ setEditPost, editPost, edit, setEdit }) => {
+  const [open, setOpen] = useState(false);
+  const [openComments, setOpenComments] = useState(false);
+  const dispatch = useDispatch();
+  const {
+    suggestions,
+    suggestion,
+    responses,
+    comments,
+    loading,
+    success,
+    deleted,
+    updated,
+  } = useSelector((state) => state.suggestion);
+  const [selected, setSelected] = useState({});
+
+  const fetchSuggestions = () => {
+    dispatch(getAllSuggestions());
+  };
+
+  useEffect(() => {
+    fetchSuggestions();
+  }, []);
+
+  useEffect(() => {
+    fetchSuggestions();
+  }, [success, responses, updated, deleted]);
+
+  useEffect(() => {
+    fetchSuggestions();
+  }, []);
+
+  return (
+    <div className="w-full">
+      {loading ? (
+        "loading"
+      ) : loading == false && suggestions?.length == 0 ? (
+        "No data"
+      ) : suggestions?.length > 0 && loading == false ? (
+        <div className="flex flex-col gap-8 h-full lg:px-10">
+          <div className="grid grid-cols-1 overflow-hidden py-4 gap-6 h-full">
+            {suggestions?.map((suggestion) => (
+              <SuggestionCard
+                setSelected={setSelected}
+                setOpen={setOpen}
+                suggestion={suggestion}
+                key={suggestion?.id}
+                editPost={editPost}
+                setEditPost={setEditPost}
+                edit={edit}
+                setEdit={setEdit}
+                setOpenComments={setOpenComments}
+              />
+            ))}
+          </div>
+        </div>
+      ) : (
+        "No data"
+      )}
+
+      {responses && responses?.length > 0 && open ? (
+        <Modal
+          title={`${selected?.suggestion_title} - response`}
+          centered
+          open={open}
+          onOk={() => setOpen(false)}
+          onCancel={() => setOpen(false)}
+          width={1000}
+          okButtonProps={{
+            display: false,
+          }}
+          cancelButtonProps={{}}
+        >
+          {loading ? (
+            "loading"
+          ) : loading == false && responses?.length == 0 ? (
+            "No data"
+          ) : responses?.length > 0 && loading == false ? (
+            <div className="overflow-y-scroll max-h-96 rounded-md p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full border border-bg_light hover:border-bg_core duration-200 cursor-pointer">
+              {responses?.map((res) => (
+                <div
+                  key={res?.id}
+                  className="rounded-md p-2 flex-col lg:flex-row flex items-start gap-2 md:gap-4 justify-between w-full border border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer"
+                >
+                  <div className="flex w-min flex-row md:flex-col md:text-2xl items-center justify-evenly h-full gap-2 text-clr_alt rounded-md p-2">
+                    <div className="flex gap-1 items-center">
+                      <BiUpvote />
+                      <p className="text-sm">5</p>
+                    </div>
+                    <div className="flex text-black gap-1 items-center">
+                      <BiDownvote />
+                      <p className="text-sm">10</p>
+                    </div>
+                  </div>
+                  <h4 className="text-sm md:text-base w-full text-center">
+                    {res?.response}
+                  </h4>
+                  <div className="flex w-full lg:w-max items-end justify-end">
+                    <div className="flex items-end w-full md:w-max h-full flex-col space-y-2 pb-4">
+                      <div className="flex  md:flex-col items-end md:justify-between gap-2">
+                        <div className="lg:space-y-1">
+                          <p className="text-xs dark:text-gray-400">
+                            {new Date(res?.sug_re_time).toDateString()}
+                          </p>
+                          <p className="text-xs">
+                            {res?.username} {res?.lastname}
+                          </p>
+                        </div>
+                        <div>
+                          <img
+                            src={res?.profile}
+                            alt="cover"
+                            className="rounded-full h-[30px] w-[30px] lg:rounded-md object-cover object-center md:h-[50px] md:w-[50px]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            "No data"
+          )}
+        </Modal>
+      ) : (
+        ""
+      )}
+
+      {/* Comments Modal */}
+
+      {comments && comments?.length > 0 && openComments ? (
+        <Modal
+          title={`${selected?.suggestion_title} - comments`}
+          centered
+          open={openComments}
+          onOk={() => setOpenComments(false)}
+          onCancel={() => setOpenComments(false)}
+          width={1000}
+          okButtonProps={{
+            display: false,
+          }}
+          cancelButtonProps={{}}
+        >
+          {loading ? (
+            "loading"
+          ) : loading == false && comments?.length == 0 ? (
+            "No data"
+          ) : comments?.length > 0 && loading == false ? (
+            <div className="overflow-y-scroll max-h-96 rounded-md p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full border border-bg_light hover:border-bg_core duration-200 cursor-pointer">
+              {comments?.map((res) => (
+                <div
+                  key={res?.id}
+                  className="rounded-md p-2 flex-col flex md:flex-row items-start gap-2 md:gap-4 justify-between w-full border border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer"
+                >
+                  <h4 className="text-sm md:text-base">{res?.comment}</h4>
+                  <div>
+                    <div className="flex w-full md:w-max h-full flex-col space-y-2 pb-4">
+                      <div className="flex items-center bg-clr_alt text-white rounded-full md:justify-between gap-2">
+                        <div className="space-y-1py-1 pl-3">
+                          <p className="text-xs">
+                            {res?.username} {res?.lastname}
+                          </p>
+                          <p className="text-xs dark:text-gray-400">
+                            {moment(res?.sug_com_time).fromNow()}
+                          </p>
+                        </div>
+                        <div>
+                          <img
+                            src={res?.profile}
+                            alt="cover"
+                            className="rounded-full object-cover object-center h-[35px] w-[35px]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            "No data"
+          )}
+        </Modal>
+      ) : (
+        ""
+      )}
+    </div>
+  );
+};
+
+export default Suggestion;

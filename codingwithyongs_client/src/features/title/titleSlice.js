@@ -3,35 +3,36 @@ import axios from 'axios';
 import { apiUrl } from '../../constants/base_urls';
 
 const initialState = {
-  categories: [],
+  titles: [],
   loading: false
 }
   
-  export const getAllCategories = createAsyncThunk('categories/fetch all', async () => {
-    const response = await axios.get(`${apiUrl}category`);
+  export const getAllTitles = createAsyncThunk('titles/fetch all', async () => {
+    const response = await axios.get(`${apiUrl}title`);
     return response.data;
   });
 
-export const categorySlice = createSlice({
-  name: 'categories',
+export const titleSlice = createSlice({
+  name: 'titles',
   initialState,
   reducers: {
   },
+  
   extraReducers: (builder) => {
     builder
-      .addCase(getAllCategories.pending, (state) => {
+      .addCase(getAllTitles.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getAllCategories.fulfilled, (state, action) => {
+      .addCase(getAllTitles.fulfilled, (state, action) => {
         state.loading = false;
         console.log(action.payload)
-        state.categories = action.payload.data;
+        state.titles = action.payload.data;
       })
-      .addCase(getAllCategories.rejected, (state, action) => {
+      .addCase(getAllTitles.rejected, (state, action) => {
         state.loading = false;
         state.error = action.message;
       })
   },
 })
 
-export default categorySlice.reducer
+export default titleSlice.reducer

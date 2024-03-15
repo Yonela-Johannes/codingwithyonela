@@ -1,7 +1,7 @@
 import json
 from flask import request
 from sqlalchemy import JSON
-from controllers.blog import ( create_blog, fetch_blog, edit_blog, delete_blog, fetch_blogs )
+from controllers.blog import ( create_blog, create_blog_comment, fetch_blog, edit_blog, delete_blog, fetch_blog_comments, fetch_blogs )
 from slugify import slugify
 
 def blog(id):
@@ -100,3 +100,42 @@ def blogs():
         except:
             return {"message": "Fetch failed: something went wrong."}
         
+        
+def blogs_comments(id):
+    REQUEST = request.method
+    if REQUEST == 'GET':
+        try:
+            if id:
+                response = fetch_blog_comments(id)
+                print("RESPONSE: ", response)
+                res = {"data": response}
+                return res, 200
+            else:
+                res = {"data": "Missing data"}
+            return res, 200
+        except:
+            return {"message": "Fetch failed: something went wrong."}, 400
+        
+def blogs_comment_create():
+    REQUEST = request.method
+    if REQUEST == 'POST':
+        try:
+            account_id = json.loads(request.data)['account_id']
+            comment = json.loads(request.data)['comment']
+            blog_id = json.loads(request.data)['blog_id']
+
+            if account_id and comment and blog_id:
+                response = create_blog_comment(account_id, comment,blog_id)
+                if len(response) > 0:
+                        res = {"data": f"{response}",
+                               "message": "Commented successful"}
+                        return res, 201
+                else:
+                    res = {"message": "Blog already exist"}
+                    return res, 400 
+                
+            res = {"message": "Title invalid: (you must enter title)"}
+            return res, 400 
+        except json.decoder.JSONDecodeError:
+            res = {"message": "Missing data"}
+        return res, 400 

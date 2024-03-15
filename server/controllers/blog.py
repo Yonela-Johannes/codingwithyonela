@@ -126,3 +126,52 @@ def delete_blog(id):
         response = error
     finally:
         return response
+    
+# fetch all users
+def fetch_blog_comments(id):
+    print("ID: INSIDE")
+    print("ID: ", id)
+    query = """SELECT blog_comment.*, blog_comment.id AS blog_comment_id, account.*, account.id AS account_id FROM blog_comment JOIN account on account_id = account.id WHERE blog_id = %s;"""
+    response = None
+
+    try:
+        with  connection as conn:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
+                # execute the INSERT statement
+                cur.execute(query, (id,))
+
+                # get the generated all data back                
+                rows = cur.fetchall()
+                if rows:
+                    response = rows
+                # commit the changes to the database
+                conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        response = error
+    finally:
+        return response
+    
+def create_blog_comment(account_id, comment, blog_id):
+    """ Create new account into the acount table """
+    sql = """INSERT INTO blog_comment (account_id, comment, blog_id)
+             VALUES(%s, %s, %s) RETURNING id;"""
+    
+    response = None
+
+    try:
+        with  connection as conn:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
+                # execute the INSERT statement
+                cur.execute(sql, (account_id, comment, blog_id))
+
+                # get the generated id back                
+                rows = cur.fetchone()
+                if rows:
+                    response = rows
+
+                # commit the changes to the database
+                conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)    
+    finally:
+        return response
