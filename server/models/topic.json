@@ -1,0 +1,43 @@
+{
+    "topics": [
+        {
+            "name": "React.js"
+        },
+        {
+            "name": "Angular"
+        },
+        {
+            "name": "Vue.js"
+        },
+        {
+            "name": "Python"
+        },
+        {
+            "name": "Java"
+        },
+        {
+            "name": "JavaScript"
+        },
+        {
+            "name": "TypeScript"
+        },
+        {
+            "name": "CSS"
+        },
+        {
+            "name": "Git"
+        },
+        {
+            "name": "React Native"
+        },
+        {
+            "name": "MongoDB"
+        },
+        {
+            "name": "PostgreSQL"
+        },
+        {
+            "name": "MySQL"
+        }
+    ]
+}

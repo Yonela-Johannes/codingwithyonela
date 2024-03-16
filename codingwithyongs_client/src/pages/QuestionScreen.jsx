@@ -1,11 +1,11 @@
 import Categories from '../shared/Categories'
-import Center from '../components/suggestion/Center'
+import Questions from '../components/question/Questions'
 
 const QuestionScreen = () => {
   return (
     <div className='flex justify-between h-full'>
-        <Categories />
-        <Center />
+      <Categories />
+      <Questions />
     </div>
   )
 }

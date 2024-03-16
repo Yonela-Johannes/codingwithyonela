@@ -21,6 +21,13 @@ connection = psycopg2.connect(
 def create_tables():
     """ Create tables in the PostgreSQL database"""
     commands = (
+        # TOPICS TABLE/SCHEMA
+        """
+        CREATE TABLE IF NOT EXISTS topics (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(70) UNIQUE NOT NULL
+        );
+        """,
         # COUNTRIES TABLE/SCHEMA
         """
         CREATE TABLE IF NOT EXISTS countries (
@@ -173,9 +180,13 @@ def create_tables():
             account_id INTEGER NOT NULL,
             question Text NOT NULL,
             category_id INTEGER NOT NULL,
+            topic_id INTEGER NOT NULL,
             question_time DATE NOT NULL DEFAULT CURRENT_DATE,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (topic_id)
+            REFERENCES topics (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (category_id)
             REFERENCES category (id)
@@ -489,6 +500,19 @@ def create_tables():
             FOREIGN KEY (status_id)
             REFERENCES status (id)
             ON UPDATE CASCADE ON DELETE CASCADE      
+        )
+        """,
+                """
+        CREATE TABLE IF NOT EXISTS project_like (
+            id SERIAL PRIMARY KEY,
+            account_id INTEGER NOT NULL,
+            project_id INTEGER NOT NULL,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (project_id)
+            REFERENCES project (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,  
         )
         """,
         """

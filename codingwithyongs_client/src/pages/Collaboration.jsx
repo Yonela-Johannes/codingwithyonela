@@ -1,8 +1,6 @@
-import { Watermark } from "antd";
 import Left from "../components/collaborations/Left";
 import Center from "../components/collaborations/Center";
 import Right from "../components/collaborations/Right";
-import Header from "../components/blog/Header";
 
 const Collaboration = () => {
   return (

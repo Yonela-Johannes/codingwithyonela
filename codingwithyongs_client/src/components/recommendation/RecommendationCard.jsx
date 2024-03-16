@@ -8,7 +8,6 @@ function RecommendationCard({ item, colors }) {
   let color = Math.floor(Math.random() * colors?.length)
   color = colors[color]
   const country = data.find((country) => country.name == item?.country)
-  console.log(country)
   return (
     <div className="relative">
       <div className="rounded-md border border-bg_light">

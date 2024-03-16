@@ -24,10 +24,11 @@ def user(id):
         # edit/update
     elif REQUEST == 'PUT':
         try:
-            is_admin = json.loads(request.data)['is_admin']
-            is_staff = json.loads(request.data)['is_staff']
-            user_title_id = json.loads(request.data)['user_title_id']
-            id = json.loads(request.data)['id']
+            data = request.get_json()
+            is_admin = data['is_admin']
+            is_staff = data['is_staff']
+            user_title_id = data['user_title_id']
+            id = data['id']
             
             if id:
                 response = edit_user(id, is_admin, is_staff, user_title_id)
@@ -45,8 +46,8 @@ def user(id):
     # delete
     elif REQUEST == 'DELETE':
         try:
-            response = json.loads(response)
-            id = json.loads(request.data)['id']
+            data = request.get_json()
+            id = data['id']
             if id:
                 response = delete_user(id)
                 if response == id:
@@ -68,13 +69,14 @@ def create_user_profile():
     REQUEST = request.method 
     if REQUEST == 'POST':
         try:
-            email = json.loads(request.data)['email']
-            username = json.loads(request.data)['username']
-            lastname = json.loads(request.data)['lastname']
-            is_admin = json.loads(request.data)['is_admin']
-            is_staff = json.loads(request.data)['is_staff']
-            profile = json.loads(request.data)['profile']
-            user_title_id = json.loads(request.data)['user_title_id']
+            data = request.get_json()
+            email = data['email']
+            username = data['username']
+            lastname = data['lastname']
+            is_admin = data['is_admin']
+            is_staff = data['is_staff']
+            profile = data['profile']
+            user_title_id = data['user_title_id']
 
             if email and username and lastname and profile and user_title_id:
                 response = create_user(email, username, lastname, is_admin, is_staff, profile, user_title_id)

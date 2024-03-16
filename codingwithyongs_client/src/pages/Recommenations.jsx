@@ -1,16 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../components/blog/Header";
 import RecommendationCard from "../components/recommendation/RecommendationCard";
 import { Watermark } from "antd";
 import { useEffect, useState } from "react";
 import { getAllTitles } from "../features/title/titleSlice";
 import { MdOutlineAdd } from "react-icons/md";
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
 import { MdCloudUpload } from "react-icons/md";
 import Dropzone from "react-dropzone";
+import { getAllCountries } from "../features/countries/countrySlice";
 
 const Recommendations = () => {
   const { user } = useSelector((state) => state.user);
+  const { countries } = useSelector((state) => state.countries);
   const [imageSrc, setImageSrc] = useState(null);
   const [open, setOpen] = useState(false);
   const { titles } = useSelector((state) => state.titles);
@@ -32,6 +33,7 @@ const Recommendations = () => {
 
   useEffect(() => {
     dispatch(getAllTitles());
+    dispatch(getAllCountries());
   }, []);
 
   const colors = [
@@ -213,15 +215,20 @@ const Recommendations = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-8 h-full my-5">
-      <div className="flex w-full items-center justify-between">
+    <div className="h-full my-5">
+      <div className="flex items-start w-full mb-8 justify-between">
         {titles && titles?.length > 0 ? (
-          <div className="grid grid-cols-6 w-full gap-2">
-            {titles?.map((element) => (
-              <div key={element?.id} className="flex gap-2 w-full">
-                <button className="flex items-center drop-shadow-none w-full text-center">{element?.user_title}</button>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 w-max gap-2">
+            <select>
+              {titles?.map((element) => (
+                <option
+                  key={element?.id}
+                  className="flex items-center cursor-pointer gap-4 rounded-none border-none border-b border-bg_core drop-shadow-none w-full"
+                >
+                  {element?.user_title}
+                </option>
+              ))}
+            </select>
           </div>
         ) : (
           ""
@@ -235,14 +242,11 @@ const Recommendations = () => {
           <MdOutlineAdd size={20} />
         </button>
       </div>
-      <Watermark content="Coding W-Yongs">
-        <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4  gap-2 lg:grid-gap-4 xl:gap-6 h-full">
-          {data?.map((item) => (
-            <RecommendationCard item={item} key={item._id} colors={colors} />
-          ))}
-        </div>
-      </Watermark>
-
+      <div className="grid grid-cols-1 w-full lg:grid-cols-2 xl:grid-cols-4  gap-2 lg:grid-gap-4 xl:gap-6 h-full">
+        {data?.map((item) => (
+          <RecommendationCard item={item} key={item._id} colors={colors} />
+        ))}
+      </div>
       <>
         <Modal
           title="Recommend"
@@ -287,12 +291,22 @@ const Recommendations = () => {
                 </div>
                 <div>
                   <select>
-                    <option>Software Developer</option>
+                    {titles?.map((elem) => (
+                      <>
+                        <option key={elem.id}>{elem?.user_title}</option>
+                      </>
+                    ))}
                   </select>
                 </div>
                 <div>
                   <select>
-                    <option>South Africa</option>
+                    {countries?.map((elem) => (
+                      <>
+                        <option key={elem.id}>
+                          {elem?.emoji} {elem?.name}{" "}
+                        </option>
+                      </>
+                    ))}
                   </select>
                 </div>
               </div>

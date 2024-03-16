@@ -4,13 +4,15 @@ from sqlalchemy import JSON
 from controllers.blog import ( create_blog, create_blog_comment, fetch_blog, edit_blog, delete_blog, fetch_blog_comments, fetch_blogs )
 from slugify import slugify
 
-def blog(id):
+from controllers.question import create_question, create_question_comment, edit_question, fetch_question, fetch_question_comments, fetch_questions
+
+def questions(id):
     REQUEST = request.method 
     if REQUEST == 'GET':
         # Fetch one
         try:
             if id:
-                response = fetch_blog(id)
+                response = fetch_question(id)
                 if response:
                     res = {
                             "message": "Fetch successful",
@@ -28,13 +30,14 @@ def blog(id):
     elif REQUEST == 'PUT':
         try:
             data = request.get_json()
-            id = data['id']
-            post = data['post']
+            account_id = data['account_id']
+            question_id = data['question_id']
+            question = data['question']
             category_id = data['category_id']
-            blog_image = data['blog_image']
+            topic_id = data['topic_id']
             
-            if id:
-                response = edit_blog(id, post, category_id, blog_image)
+            if id and account_id and question_id and category_id and topic_id and question:
+                response = edit_question(account_id, question, category_id, topic_id, question_id)
                 if response:
                         res = {"data": f"{response}",
                             "message": "Update successful"
@@ -49,8 +52,8 @@ def blog(id):
     # delete
     elif REQUEST == 'DELETE':
         try:
-            data = request.get_json()
-            id = data['id']
+            response = json.loads(response)
+            id = json.loads(request.data)['id']
             if id:
                 response = delete_blog(id)
                 if response == id:
@@ -68,19 +71,18 @@ def blog(id):
         return res, 400
     
     
-def blogs():
+def question():
     REQUEST = request.method
     if REQUEST == 'POST':
         try:
             data = request.get_json()
-            account = data['account']
-            post = data['post']
+            account_id = data['account_id']
+            question = data['question']
             category_id = data['category_id']
-            blog_image = data['blog_image']
-            blog_title = data['blog_title']
-            slug = slugify(blog_title)
-            if account and post and category_id:
-                response = create_blog(account, post, category_id, blog_image, blog_title, slug)
+            topic_id = data['topic_id']
+
+            if account_id and question and category_id:
+                response = create_question(account_id, question, category_id, topic_id)
                 print("RESPONSE: ", response)
                 if response:
                         res = {"data": f"{response}"}
@@ -96,19 +98,19 @@ def blogs():
         return res, 400 
     elif REQUEST == 'GET':
         try:
-            response = fetch_blogs()
+            response = fetch_questions()
             res = {"data": response}
             return res, 200
         except:
             return {"message": "Fetch failed: something went wrong."}
         
         
-def blogs_comments(id):
+def question_comments(id):
     REQUEST = request.method
     if REQUEST == 'GET':
         try:
             if id:
-                response = fetch_blog_comments(id)
+                response = fetch_question_comments(id)
                 print("RESPONSE: ", response)
                 res = {"data": response}
                 return res, 200
@@ -118,18 +120,17 @@ def blogs_comments(id):
         except:
             return {"message": "Fetch failed: something went wrong."}, 400
         
-def blogs_comment_create():
     REQUEST = request.method
     if REQUEST == 'POST':
         try:
             data = request.get_json()
             account_id = data['account_id']
             comment = data['comment']
-            blog_id = data['blog_id']
+            question_id = data['question_id']
 
-            if account_id and comment and blog_id:
-                response = create_blog_comment(account_id, comment,blog_id)
-                if len(response) > 0:
+            if account_id and comment and question_id:
+                response = create_question_comment(account_id, comment,question_id)
+                if response:
                         res = {"data": f"{response}",
                                "message": "Commented successful"}
                         return res, 201
