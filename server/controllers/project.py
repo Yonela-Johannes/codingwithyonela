@@ -2,11 +2,11 @@ import psycopg2
 from utils.db import connection
 from psycopg2.extras import RealDictCursor
 
-def create_project(account_id, project_name, description, status_id, category_id, github, link, management_tool):
+def create_project(users_id, account_id, project_name, description, status_id, category_id, github, link, management_tool):
     """ Create new account_id into  the acount table """
     status_id = 1
-    sql = """INSERT INTO project (account_id, project_name, description, status_id, category_id, github, link, management_tool)
-             VALUES(%s, %s, %s, %s, %s, %s, %s, %s) RETURNING id;"""
+    sql = """INSERT INTO project (users_id, account_id, project_name, description, status_id, category_id, github, link, management_tool)
+             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id;"""
     
     response = None
 
@@ -14,7 +14,7 @@ def create_project(account_id, project_name, description, status_id, category_id
         with  connection as conn:
             with  conn.cursor() as cur:
                 # execute the INSERT statement
-                cur.execute(sql, (account_id, project_name, description, status_id, category_id, github, link, management_tool))
+                cur.execute(sql, (users_id, account_id, project_name, description, status_id, category_id, github, link, management_tool))
             
                 rows = cur.fetchone()
                 if rows:
@@ -27,7 +27,7 @@ def create_project(account_id, project_name, description, status_id, category_id
     
 # fetch all users
 def fetch_projects():
-    query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.*, status.id AS status_id FROM project JOIN account on account_id = account.id JOIN category on category_id = category.id JOIN status on status_id = status.id  ORDER BY suggestion_time;"""
+    query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id AS status_id, status.status FROM project JOIN account on account_id = account.id JOIN status ON status_id = status.id ORDER BY project_time;"""
     
     response = None
 
@@ -47,9 +47,9 @@ def fetch_projects():
     finally:
         return response
 
-def edit_project(project_name, description, status_id, category_id, github, link, management_tool):
+def edit_project(users_id, project_name, description, status_id, category_id, github, link, management_tool):
 
-    query = """UPDATE project SET project_name = %s, description = %s, status_id = %s, category_id = %s, github = %s, link = %s, management_tool = %s  WHERE id = %s AND account_id = %s RETURNING suggestion_title
+    query = """UPDATE project SET users_id = %s, project_name = %s, description = %s, status_id = %s, category_id = %s, github = %s, link = %s, management_tool = %s  WHERE id = %s AND account_id = %s RETURNING suggestion_title
     ;"""
     
     response = None
@@ -58,7 +58,7 @@ def edit_project(project_name, description, status_id, category_id, github, link
         with  connection as conn:
             with  conn.cursor() as cur:
 
-                cur.execute(query, (project_name, description, status_id, category_id, github, link, management_tool))            
+                cur.execute(query, (users_id, project_name, description, status_id, category_id, github, link, management_tool))            
                 rows = cur.fetchone()
                 if rows:
                     response = rows[0]
@@ -94,9 +94,6 @@ def delete_project(project_id, account_id):
     
 def create_project_chat(account_id, message, project_id):
     """ Create new account_id into  the acount table """
-    print("ACCOUNT_ ID: ", account_id)
-    print("MESSAGE: ", message)
-    print("PROJECT ID: ", project_id)
     sql = """INSERT INTO project_chat (account_id, message, project_id)
              VALUES(%s, %s, %s) RETURNING id;"""
     

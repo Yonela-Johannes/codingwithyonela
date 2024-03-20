@@ -1,10 +1,11 @@
 import psycopg2
 from utils.db import connection
+from psycopg2.extras import RealDictCursor
 
-def create_recommendation(account_id, name, second_name, lastname, image, title_id, quote, status_id):
+def create_recommendation(account_id, name, second_name, lastname, re_image, github, linkedin, email, portfolio, quote, status_id, country_id, title_id):
 
-    sql = """INSERT INTO recommendation (account_id, name, second_name, lastname, image, title_id, quote, status_id)
-             VALUES(%s, %s, %s, %s, %s, %s, %s, %s) RETURNING id;"""
+    sql = """INSERT INTO recommendation (account_id, name, second_name, lastname, re_image, github, linkedin, email, portfolio, quote, status_id, country_id, title_id)
+            VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id;"""
     
     response = None
 
@@ -12,7 +13,7 @@ def create_recommendation(account_id, name, second_name, lastname, image, title_
         with  connection as conn:
             with  conn.cursor() as cur:
                 # execute the INSERT statement
-                cur.execute(sql, (account_id, name, second_name, lastname, image, title_id, quote, status_id))
+                cur.execute(sql, (account_id, name, second_name, lastname, re_image, github, linkedin, email, portfolio, quote, status_id, country_id, title_id))
 
                 # get the generated id back                
                 rows = cur.fetchone()
@@ -52,13 +53,13 @@ def fetch_recommendation(id):
     
 # fetch all users
 def fetch_recommendations():
-    query = """SELECT * FROM recommendation LEFT JOIN account on account_id = account.id  RIGHT JOIN status on status_id = status.id;"""
+    query = """SELECT *, recommendation.name AS username, countries.name AS country_name, countries.code as country_code, countries.emoji AS country_flag, countries.unicode AS country_unicode FROM recommendation JOIN countries ON country_id = countries.id JOIN account ON account_id = account.id JOIN status on status_id = status.id JOIN user_title ON title_id = user_title.id;"""
     
     response = None
 
     try:
         with  connection as conn:
-            with  conn.cursor() as cur:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the INSERT statement
                 cur.execute(query)
 
@@ -74,8 +75,8 @@ def fetch_recommendations():
         return response
 
 # update user
-def edit_recommendation(account_id, name, second_name, lastname, image, title_id, quote, status_id):
-    query = """UPDATE recommendation SET (name=%s,second_name=%s,lastname=%s,image=%s,title_id=%s,quote=%s,status_id=%s) WHERE id = %s RETURNING title
+def edit_recommendation(account_id, name, second_name, lastname, re_image, github, linkedin, email, portfolio, quote, status_id, title_id, country_id, id):
+    query = """UPDATE recommendation SET (account_id=%s,name=%s,second_name=%s,lastname=%s,re_image=%s, github=%s, linkedin=%s, email=%s, portfolio=%s,quote=%s,status_id=%s, title_id=%s, country_id=%s) WHERE id = %s RETURNING title
     ;"""
     
     response = None
@@ -84,7 +85,7 @@ def edit_recommendation(account_id, name, second_name, lastname, image, title_id
         with  connection as conn:
             with  conn.cursor() as cur:
                 # execute the UPDATE statement
-                cur.execute(query, (name, second_name, lastname, image, title_id, quote, status_id, int(id)))
+                cur.execute(query, account_id, name, second_name, lastname, re_image, github, linkedin, email, portfolio, quote, status_id, title_id, country_id, id)
 
                 # get the generated id back                
                 rows = cur.fetchone()
@@ -99,7 +100,7 @@ def edit_recommendation(account_id, name, second_name, lastname, image, title_id
         return response
     
 # update user
-def delete_recommendation(id):
+def delete_recommendation(recommendation_id, account_id):
     query = """DELETE FROM recommendation WHERE id=%s RETURNING id;"""
     
     response = None
@@ -108,12 +109,12 @@ def delete_recommendation(id):
         with  connection as conn:
             with  conn.cursor() as cur:
                 # execute the UPDATE statement
-                cur.execute(query, (int(id), ))
+                cur.execute(query, (recommendation_id, account_id))
 
                 # get the generated id back                
                 rows = cur.fetchone()
                 if rows:
-                    response = rows[0]
+                    response = rows
 
                 # commit the changes to the database
                 conn.commit()

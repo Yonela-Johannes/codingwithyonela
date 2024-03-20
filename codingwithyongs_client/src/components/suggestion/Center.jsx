@@ -9,14 +9,12 @@ import {
 } from "../../features/suggestions/suggestionSlice";
 import { getAllCategories } from "../../features/category/categorySlice";
 import toast from "react-hot-toast";
-import { getUser } from "../../features/user/userSlice";
 
-const Center = () => {
+const Center = ({ user }) => {
   const { success, deleted, updated } = useSelector(
     (state) => state.suggestion
   );
   const { categories } = useSelector((state) => state?.categories);
-  const { user } = useSelector((state) => state.user);
   const [edit, setEdit] = useState(false);
   const [category, setCategory] = useState("");
   const [response, setResponse] = useState("");
@@ -27,7 +25,6 @@ const Center = () => {
 
   useEffect(() => {
     dispatch(getAllCategories());
-    dispatch(getUser());
   }, []);
 
   useEffect(() => {
@@ -99,23 +96,27 @@ const Center = () => {
   }, [success, deleted, updated]);
 
   return (
-    <div className="relative flex  items-center flex-col w-full pt-40">
-      <div className="absolute top-0 w-full">
-        <Sender
-          handler={sendMessageHander}
-          response={response}
-          setResponse={setResponse}
-          options={option}
-          name="suggestion_response"
-          placeholder="Share idea*"
-          setEdit={setEdit}
-          text_placeholder="Title*"
-          title={title}
-          setTitle={setTitle}
-          setCategory={setCategory}
-          categories={categories}
-        />
-      </div>
+    <div className={`${user && user?.id ? "relative pt-40" : " "} flex  items-center flex-col w-full`}>
+      {user && user?.id ? (
+        <div className="absolute top-0 w-full">
+          <Sender
+            handler={sendMessageHander}
+            response={response}
+            setResponse={setResponse}
+            options={option}
+            name="suggestion_response"
+            placeholder="Share idea*"
+            setEdit={setEdit}
+            text_placeholder="Title*"
+            title={title}
+            setTitle={setTitle}
+            setCategory={setCategory}
+            categories={categories}
+          />
+        </div>
+      ) : (
+        ""
+      )}
       <Suggestion
         editPost={editPost}
         setEditPost={setEditPost}

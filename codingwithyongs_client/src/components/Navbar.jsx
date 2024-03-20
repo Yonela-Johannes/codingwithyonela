@@ -18,7 +18,7 @@ const MobileMenu = ({user, items, user_items }) => {
   return (
     <div className="flex items-center justify-between w-full">
       {isMenuOpen ? (
-        <div className="relative md:fixed flex justify-between top-0 border border-bg_light rounded-sm left-0 w-full h-fit bg-white dark:bg-[#020b19] z-50 py-10 px-6 shadow-xl">
+        <div className="absolute md:fixed flex justify-between top-0 border border-bg_light rounded-sm left-0 w-full h-fit bg-white  z-50 py-10 px-6 shadow-xl">
           <div onClick={() => setIsMenuOpen(false)} className="absolute top-2 right-2">
             <MdClose size={20} />
           </div>
@@ -40,14 +40,14 @@ const MobileMenu = ({user, items, user_items }) => {
                   </Space>
                 </a>
               </Dropdown>
-              <Link to="/blogs">
+              <Link to="/blogs" onClick={() => setIsMenuOpen(false)}>
                 <HoverUnderLine>
                   <div className="flex gap-2 items-center cursor-pointer p-2">
                     Blog
                   </div>
                 </HoverUnderLine>
               </Link>
-              {user ? (
+              {user && user?.id ? (
             <Dropdown
             menu={{
               user_items,
@@ -65,7 +65,7 @@ const MobileMenu = ({user, items, user_items }) => {
             </a>
           </Dropdown>
           ) : (
-          <Link to="/sign-in">
+          <Link to="/sign-in" onClick={() => setIsMenuOpen(false)}>
             <HoverUnderLine>
               <div className="flex gap-2 items-center cursor-pointer p-2">
                 Login
@@ -96,7 +96,13 @@ const MobileMenu = ({user, items, user_items }) => {
       ) : (
         <>
           <div className="">
-            <p>CWYS</p>
+          <Link to="/">
+            <HoverUnderLine>
+              <p className="font-tech_mono font-bold text-base">
+                <span className="bg-clr_alt text-white rounded-md p-1">YL</span>
+              </p>
+            </HoverUnderLine>
+          </Link>
           </div>
           <button
             onClick={toggleMenu}
@@ -178,8 +184,8 @@ const Navbar = ({user}) => {
         <div className="">
           <Link to="/">
             <HoverUnderLine>
-              <p className="font-tech_mono text-2xl font-light">
-                CodingWithYongs
+              <p className="font-tech_mono font-bold text-2xl">
+                CodingWith<span className="bg-clr_alt text-white rounded-md p-1">Yonela</span>
               </p>
             </HoverUnderLine>
           </Link>
@@ -208,7 +214,7 @@ const Navbar = ({user}) => {
               </div>
             </HoverUnderLine>
           </Link>
-          {user ? (
+          {user && user?.id ? (
             <Dropdown
             menu={{
               items,

@@ -8,14 +8,14 @@ const initialState = {
 }
 
 export const signIn = createAsyncThunk('user/signin', async (userId) => {
-    userId = 1
+    userId = 2
     const response = await axios.get(`${apiUrl}user?id=${userId}`);
     console.log(response?.data);
     return response.data;
   });
   
   export const getUser = createAsyncThunk('user/getUser', async (userId) => {
-    userId = 1
+    userId = 2
     const response = await axios.get(`${apiUrl}user/${userId}`);
     return response.data;
   });

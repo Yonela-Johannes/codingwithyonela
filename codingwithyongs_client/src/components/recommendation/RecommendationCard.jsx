@@ -7,16 +7,15 @@ import data from '../../assets/data.json'
 function RecommendationCard({ item, colors }) {
   let color = Math.floor(Math.random() * colors?.length)
   color = colors[color]
-  const country = data.find((country) => country.name == item?.country)
+  console.log(color)
   return (
     <div className="relative">
       <div className="rounded-md border border-bg_light">
       <div className="flex justify-between">
-        <h2 className="font-bold  text-base lg:te p-3">{item?.title}</h2>
-          <div className="flex gap-1 p-2 font-bold text-bg_grey">
-            <p className="md:block text-[14px]">{country?.name} -</p>
-            <p className="md:block text-[14px]">{country?.code}</p>
-            <p>{country?.emoji}</p>
+        <h2 className="font-bold  text-base p-3 w-max">{item?.user_title}</h2>
+          <div className="flex gap-1 items-center p-2 font-bold text-black">
+            <p className={`md:block text-xs bg-${color}-600 rounded-md`}>{item?.country_name.slice(0, 15)} - {item?.country_code}</p>
+            <p className="text-xl">{item?.country_flag}</p>
           </div>
       </div>
         <div className="gap-4 mt-3">
@@ -26,8 +25,8 @@ function RecommendationCard({ item, colors }) {
                  "
           >
             <img
-              src={item?.image}
-              alt={item?.name}
+              src={item?.re_image}
+              alt={item?.username}
               className="h-[150px] md:w-[250px] md:h-[200px]
                     object-cover rounded-lg ml-3"
             />
@@ -42,39 +41,29 @@ function RecommendationCard({ item, colors }) {
               >
                 {item?.category?.name}
               </h2>
-              <h2 className="font-bold text-sm text-bg_core lg:text-lg">{item?.name}</h2>
+              <h2 className="font-bold text-sm text-bg_core lg:text-lg">{item?.username} {item?.lastname}</h2>
               <div className="flex items-center text-primary gap-4 my-2 text-bg_opp text-lg">
                 {item?.portfolio ? (
-                  <Link to={item.portfolio} className="">
+                  <a href={item.portfolio} className="" target="_blank">
                     <FaReact />
-                  </Link>
+                  </a>
                 ) : (
                   ""
                 )}
                 {item?.github ? (
-                  <Link to={`https://github.com/${item.github}`} className="">
+                  <a href={`https://github.com/${item.github}`} className="" target="_blank">
                     <FaGithub />
-                  </Link>
+                  </a>
                 ) : (
                   ""
                 )}
                 {item?.linkedin ? (
-                  <Link to={item.linkedin} className="">
+                  <a href={`https://www.linkedin.com/in/${item.github}`} className="" target="_blank">
                     <FaLinkedin />
-                  </Link>
+                  </a>
                 ) : (
                   ""
                 )}
-                {item?.instagram ? (
-                  <Link to={item.instagram} className="">
-                    <FaInstagram />
-                  </Link>
-                ) : (
-                  ""
-                )}
-                <Tooltip title={item?.about} color={color} key={color}>
-                  <IoInformationCircleOutline size={22} color={color} />
-                </Tooltip>
               </div>
             </div>
           </div>

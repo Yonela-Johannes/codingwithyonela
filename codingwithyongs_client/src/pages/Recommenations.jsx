@@ -8,10 +8,12 @@ import { Modal } from "antd";
 import { MdCloudUpload } from "react-icons/md";
 import Dropzone from "react-dropzone";
 import { getAllCountries } from "../features/countries/countrySlice";
+import { getAllRecommendations } from "../features/recommenation/recommendationSlice";
 
 const Recommendations = () => {
   const { user } = useSelector((state) => state.user);
   const { countries } = useSelector((state) => state.countries);
+  const { recommendations } = useSelector((state) => state.recommendation);
   const [imageSrc, setImageSrc] = useState(null);
   const [open, setOpen] = useState(false);
   const { titles } = useSelector((state) => state.titles);
@@ -33,7 +35,11 @@ const Recommendations = () => {
 
   useEffect(() => {
     dispatch(getAllTitles());
-    dispatch(getAllCountries());
+    // dispatch(getAllCountries());
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllRecommendations());
   }, []);
 
   const colors = [
@@ -50,168 +56,6 @@ const Recommendations = () => {
     "volcano",
     "gold",
     "lime",
-  ];
-
-  const data = [
-    {
-      id: 22,
-      title: "Freelancer",
-      category: {
-        name: "Software Development",
-      },
-      image:
-        "https://avatars.githubusercontent.com/u/69614136?s=400&u=f564717fd69b29a6fb03caa0f22a908f6578f193&v=4",
-      email: "johannesyonela@gail.com",
-      name: "Yonela Yongs Johannes",
-      address: "24 Jmp street",
-      contactPerson: "069 415 6546",
-      github: "yonela-johannes",
-      linkedin: "yonela-johannes",
-      portfolio: "https://github.com/yonela-johannes",
-      instagram: "yonela-johannes",
-      country: "South Africa",
-      about:
-        "I am a software developer with a passion for #code, #secure-coding, and #mentoring/coaching. In recent years, I have been coding, learning, and mentoring/assisting peers. As a software engineer, the more I gain knowledge, the more I understand there is so much more to learn.",
-    },
-    {
-      id: 22,
-      title: "Freelancer",
-      category: {
-        name: "Software Development",
-      },
-      image:
-        "https://avatars.githubusercontent.com/u/69614136?s=400&u=f564717fd69b29a6fb03caa0f22a908f6578f193&v=4",
-      email: "johannesyonela@gail.com",
-      name: "Yonela Yongs Johannes",
-      address: "24 Jmp street",
-      contactPerson: "069 415 6546",
-      github: "yonela-johannes",
-      linkedin: "yonela-johannes",
-      portfolio: "https://github.com/yonela-johannes",
-      instagram: "yonela-johannes",
-      country: "South Africa",
-      about:
-        "I am a software developer with a passion for #code, #secure-coding, and #mentoring/coaching. In recent years, I have been coding, learning, and mentoring/assisting peers. As a software engineer, the more I gain knowledge, the more I understand there is so much more to learn.",
-    },
-    {
-      id: 22,
-      title: "Freelancer",
-      category: {
-        name: "Software Development",
-      },
-      image:
-        "https://avatars.githubusercontent.com/u/69614136?s=400&u=f564717fd69b29a6fb03caa0f22a908f6578f193&v=4",
-      email: "johannesyonela@gail.com",
-      name: "Yonela Yongs Johannes",
-      address: "24 Jmp street",
-      contactPerson: "069 415 6546",
-      github: "yonela-johannes",
-      linkedin: "yonela-johannes",
-      portfolio: "https://github.com/yonela-johannes",
-      instagram: "yonela-johannes",
-      country: "South Africa",
-      about:
-        "I am a software developer with a passion for #code, #secure-coding, and #mentoring/coaching. In recent years, I have been coding, learning, and mentoring/assisting peers. As a software engineer, the more I gain knowledge, the more I understand there is so much more to learn.",
-    },
-    {
-      id: 22,
-      title: "Freelancer",
-      category: {
-        name: "Software Development",
-      },
-      image:
-        "https://avatars.githubusercontent.com/u/69614136?s=400&u=f564717fd69b29a6fb03caa0f22a908f6578f193&v=4",
-      email: "johannesyonela@gail.com",
-      name: "Yonela Yongs Johannes",
-      address: "24 Jmp street",
-      contactPerson: "069 415 6546",
-      github: "yonela-johannes",
-      linkedin: "yonela-johannes",
-      portfolio: "https://github.com/yonela-johannes",
-      instagram: "yonela-johannes",
-      country: "South Africa",
-      about:
-        "I am a software developer with a passion for #code, #secure-coding, and #mentoring/coaching. In recent years, I have been coding, learning, and mentoring/assisting peers. As a software engineer, the more I gain knowledge, the more I understand there is so much more to learn.",
-    },
-    {
-      id: 22,
-      title: "Freelancer",
-      category: {
-        name: "Software Development",
-      },
-      image:
-        "https://avatars.githubusercontent.com/u/69614136?s=400&u=f564717fd69b29a6fb03caa0f22a908f6578f193&v=4",
-      email: "johannesyonela@gail.com",
-      name: "Yonela Yongs Johannes",
-      address: "24 Jmp street",
-      contactPerson: "069 415 6546",
-      github: "yonela-johannes",
-      linkedin: "yonela-johannes",
-      portfolio: "https://github.com/yonela-johannes",
-      instagram: "yonela-johannes",
-      country: "South Africa",
-      about:
-        "I am a software developer with a passion for #code, #secure-coding, and #mentoring/coaching. In recent years, I have been coding, learning, and mentoring/assisting peers. As a software engineer, the more I gain knowledge, the more I understand there is so much more to learn.",
-    },
-    {
-      id: 22,
-      title: "Freelancer",
-      category: {
-        name: "Software Development",
-      },
-      image:
-        "https://avatars.githubusercontent.com/u/69614136?s=400&u=f564717fd69b29a6fb03caa0f22a908f6578f193&v=4",
-      email: "johannesyonela@gail.com",
-      name: "Yonela Yongs Johannes",
-      address: "24 Jmp street",
-      contactPerson: "069 415 6546",
-      github: "yonela-johannes",
-      linkedin: "yonela-johannes",
-      portfolio: "https://github.com/yonela-johannes",
-      instagram: "yonela-johannes",
-      country: "South Africa",
-      about:
-        "I am a software developer with a passion for #code, #secure-coding, and #mentoring/coaching. In recent years, I have been coding, learning, and mentoring/assisting peers. As a software engineer, the more I gain knowledge, the more I understand there is so much more to learn.",
-    },
-    {
-      id: 22,
-      title: "Freelancer",
-      category: {
-        name: "Software Development",
-      },
-      image:
-        "https://avatars.githubusercontent.com/u/69614136?s=400&u=f564717fd69b29a6fb03caa0f22a908f6578f193&v=4",
-      email: "johannesyonela@gail.com",
-      name: "Yonela Yongs Johannes",
-      address: "24 Jmp street",
-      contactPerson: "069 415 6546",
-      github: "yonela-johannes",
-      linkedin: "yonela-johannes",
-      portfolio: "https://github.com/yonela-johannes",
-      instagram: "yonela-johannes",
-      country: "South Africa",
-      about:
-        "I am a software developer with a passion for #code, #secure-coding, and #mentoring/coaching. In recent years, I have been coding, learning, and mentoring/assisting peers. As a software engineer, the more I gain knowledge, the more I understand there is so much more to learn.",
-    },
-    {
-      id: 22,
-      title: "Freelancer",
-      category: {
-        name: "Software Development",
-      },
-      image:
-        "https://avatars.githubusercontent.com/u/69614136?s=400&u=f564717fd69b29a6fb03caa0f22a908f6578f193&v=4",
-      email: "johannesyonela@gail.com",
-      name: "Yonela Yongs Johannes",
-      address: "24 Jmp street",
-      github: "yonela-johannes",
-      linkedin: "yonela-johannes",
-      portfolio: "https://github.com/yonela-johannes",
-      instagram: "yonela-johannes",
-      country: "South Africa",
-      about:
-        "I am a software developer with a passion for #code, #secure-coding, and #mentoring/coaching. In recent years, I have been coding, learning, and mentoring/assisting peers. As a software engineer, the more I gain knowledge, the more I understand there is so much more to learn.",
-    },
   ];
 
   return (
@@ -233,17 +77,19 @@ const Recommendations = () => {
         ) : (
           ""
         )}
+        {user && user?.id ? (
+          <button
+            onClick={() => setOpen(true)}
+            title="Add recommendation"
+            className="flex p-0 items-center justify-center text-lg bg-clr_alt text-white rounded-full w-11 h-11"
+          >
+            <MdOutlineAdd size={20} />
+          </button>
 
-        <button
-          onClick={() => setOpen(true)}
-          title="Add recommendation"
-          className="flex p-0 items-center justify-center text-lg bg-clr_alt text-white rounded-full w-11 h-11"
-        >
-          <MdOutlineAdd size={20} />
-        </button>
+        ) : ""}
       </div>
       <div className="grid grid-cols-1 w-full lg:grid-cols-2 xl:grid-cols-4  gap-2 lg:grid-gap-4 xl:gap-6 h-full">
-        {data?.map((item) => (
+        {recommendations?.map((item) => (
           <RecommendationCard item={item} key={item._id} colors={colors} />
         ))}
       </div>

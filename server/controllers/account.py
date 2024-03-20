@@ -3,19 +3,19 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from utils.db import connection
 
-def create_user(email, username, lastname, is_admin, is_staff, profile, user_title_id):
+def create_user(email, username, lastname, is_admin, is_staff, profile, user_title_id, seeded):
     """ Create new account into the acount table """
 
-    sql = """INSERT INTO account(email, username, lastname, is_admin, is_staff, profile, user_title_id)
-             VALUES(%s, %s, %s, %s, %s, %s, %s) RETURNING username, email, lastname, is_staff, profile;"""
+    sql = """INSERT INTO account(email, username, lastname, is_admin, is_staff, profile, user_title_id, seeded)
+             VALUES(%s, %s, %s, %s, %s, %s, %s, %s) RETURNING id, username, email, lastname, is_staff, profile, user_title_id;"""
     
     response = None
 
     try:
         with  connection as conn:
-            with  conn.cursor() as cur:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the INSERT statement
-                cur.execute(sql, (email, username, lastname, is_admin, is_staff, profile, user_title_id))
+                cur.execute(sql, (email, username, lastname, is_admin, is_staff, profile, user_title_id, seeded))
 
                 # get the generated id back                
                 rows = cur.fetchone()

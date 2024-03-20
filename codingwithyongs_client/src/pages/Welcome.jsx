@@ -6,7 +6,7 @@ const Welcome = () => {
       <div className="flex flex-col gap-4 w-[1040px]">
         <div className="flex flex-col items-center justify-center text-center rounded-[12px] h-[400px] w-[1000] bg-table_bg shadow-md">
           <p className='text-[30px] font-[400px] leading-[3.5rem] mt-[70px]'>
-            Hey Yonela 👋 welcome to CodingWithYongs<br />
+            Hey Yonela 👋 welcome to ithYongs<br />
             Ready to create your first report?</p>
           <div className='mb-[70px] mt-[70px]'>
           {/* <Button title="Get Started" active={true} /> */}

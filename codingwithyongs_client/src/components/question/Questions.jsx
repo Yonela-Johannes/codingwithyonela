@@ -60,22 +60,6 @@ const Questions = () => {
     }
   }, [created, commented, selectedQuestion]);
 
-  const colors = [
-    "pink",
-    "red",
-    "yellow",
-    "orange",
-    "cyan",
-    "green",
-    "blue",
-    "purple",
-    "geekblue",
-    "magenta",
-    "volcano",
-    "gold",
-    "lime",
-  ];
-
   const commentHandler = async () => {
     if (comment > 200) {
       toast("Must be less or equal 200 characters");
@@ -146,7 +130,7 @@ const Questions = () => {
         "No data"
       ) : questions?.length > 0 && loading == false ? (
         <div className="flex flex-col gap-8 h-full lg:px-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 overflow-hidden py-4 gap-6 h-full w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 overflow-hidden py-4 gap-8 h-full w-full">
             {questions?.map((question) => (
               <Card
                 key={question?.id}
@@ -237,8 +221,8 @@ const Questions = () => {
           onCancel={() => setOpenComment(false)}
           width={1000}
         >
-          <div className="rounded-md p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full border border-bg_light hover:border-bg_core duration-200 cursor-pointer">
-            <div className="p-2 w-full border-b border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer">
+          <div className="rounded-md overflow-hidden p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full border border-bg_light hover:border-bg_core duration-200 cursor-pointer">
+            <div className="p-2 w-full border-b border-bg_light hover:border-bg_core duration-200 cursor-pointer">
               <div className="flex-col flex md:flex-row items-start gap-2 md:gap-4 justify-between w-full ">
                 <div className="w-full h-full">
                   <h4 className="text-sm md:text-base">
@@ -279,8 +263,8 @@ const Questions = () => {
                 </div>
               </div>
             </div>
-            <div className="rounded-md p-2 flex-col flex md:flex-row items-start gap-2 md:gap-4 justify-between w-full border border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer">
-              <div>
+            {user && user?.id ? (
+              <div className="rounded-md p-2 flex-col flex md:flex-row items-start gap-2 md:gap-4 justify-between w-full border border-bg_light hover:border-bg_core duration-200 cursor-pointer">
                 <div>
                   <textarea
                     value={comment}
@@ -289,22 +273,24 @@ const Questions = () => {
                     placeholder="Comment*"
                   ></textarea>
                 </div>
-              </div>
-              <div>
-                <div className="flex w-full md:w-max h-full flex-col space-y-2">
-                  <div className="flex items-center text-black rounded-full md:justify-between gap-2">
-                    <div>
-                      <img
-                        src={user?.profile}
-                        alt="cover"
-                        className="rounded-full object-cover object-center h-[35px] w-[35px]"
-                      />
+                <div>
+                  <div className="flex w-full md:w-max h-full flex-col space-y-2">
+                    <div className="flex items-center text-black rounded-full md:justify-between gap-2">
+                      <div>
+                        <img
+                          src={user?.profile}
+                          alt="cover"
+                          className="rounded-full object-cover object-center h-[35px] w-[35px]"
+                        />
+                      </div>
+                      <button onClick={commentHandler}>Reply</button>
                     </div>
-                    <button onClick={commentHandler}>Reply</button>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              ""
+            )}
             {loading ? (
               "loading"
             ) : loading == false && comments?.length == 0 ? (

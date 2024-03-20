@@ -33,24 +33,34 @@ const Signin = () => {
 
   return (
     <div className="flex items-center space-y-4 h-full">
-      <div onClick={linkedInLogin}>
-        <AdOauthCard title="LinkedIn" icon={linkedin} />
+      <div className="flex flex-col gap-4 rounded-sm shrink-0 items-start justify-center fill-fill backdrop-opacity-[17px]">
+        <h1 className="text-center text-base lg:text-2xl lg:font-bold tracking-tight mb-8">
+          Continue Signin to CodingWithYonela
+        </h1>
+        <div className="flex flex-col shrink-0 bg-table_bg items-start w-[250px] rounded-[12px] duration-300 cursor-pointer">
+          <HoverUnderLine>
+            <GoogleLogin
+              onSuccess={handleLoginSuccess}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+              login_uri={siteUrl}
+              redirect_uri={callback}
+              cancel_on_tap_outside
+              useOneTap
+              size="large"
+              theme="filled_black"
+              text="continue_with"
+              shape="pill"
+              width="100%"
+            />
+          </HoverUnderLine>
+        </div>
+        <p className="my-5 text-[#646464] text-sm">
+          By clicking “Continue your account with Google”, you agree <br /> to
+          the CodingWithYonela <b>TOS</b> and <b>Privacy Policy</b>.
+        </p>
       </div>
-      <GoogleLogin
-        onSuccess={handleLoginSuccess}
-        onError={() => {
-          console.log("Login Failed");
-        }}
-        login_uri={siteUrl}
-        redirect_uri={callback}
-        cancel_on_tap_outside
-        useOneTap
-        size="large"
-        theme="filled_black"
-        text="continue_with"
-        shape="pill"
-        width="100%"
-      />
     </div>
   );
 };
@@ -59,7 +69,7 @@ const AdOauthCard = ({ title, icon }) => {
   return (
     <div className="flex flex-col gap-4 rounded-sm shrink-0 items-start justify-center fill-fill backdrop-opacity-[17px]">
       <h1 className="text-center text-[30px] font-bold tracking-tight mb-8">
-        Continue Signin to CodingWithYongs
+        Continue Signin to CodingWithYonela
       </h1>
       <div
         key={title}
@@ -85,7 +95,7 @@ const AdOauthCard = ({ title, icon }) => {
       </div>
       <p className="my-5 text-[#646464] text-sm">
         By clicking “Continue your account with LinkedIn”, you agree <br /> to
-        the CodingWithYongs <b>TOS</b> and <b>Privacy Policy</b>.
+        the CodingWithYonela <b>TOS</b> and <b>Privacy Policy</b>.
       </p>
     </div>
   );

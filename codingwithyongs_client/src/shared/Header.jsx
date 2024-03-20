@@ -13,7 +13,7 @@ const Header = () => {
             programmer
           </span>
         </h2>
-        <button onClick={() => navigate('/sign-in')}>Join Me</button>
+        <button onClick={() => navigate('/sign-in')}>Get Started</button>
       </div>
       <Hero />
     </div>

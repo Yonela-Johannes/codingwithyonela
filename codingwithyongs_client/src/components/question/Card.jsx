@@ -49,48 +49,50 @@ const Card = ({ setSelectedQuestion, setOpenComments, question, setEdit }) => {
   };
 
   return (
-    <div className="p-2 w-full border-b border-r border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer">
-      <div className="flex-col flex md:flex-row items-start gap-2 md:gap-4 justify-between w-full ">
-        <div className="w-full h-full">
-          <h4 className="text-sm md:text-base">{question?.question}</h4>
-          <div className="flex">
-            <p className="text-xs p-1 font-bold text-bg_core">#{question?.category}</p>
-            <p className="text-xs p-1 font-bold text-bg_core">#{question?.topic_name}</p>
+    <div className="p-2 w-full border rounded-md lg:border-r border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer">
+      <div className="flex w-full flex-col space-y-2 my-2">
+        <div className="flex w-full items-start md:justify-end gap-2">
+          <div className="space-y-1">
+            <p className="text-xs">
+              {question?.username} {question?.lastname}
+            </p>
+            <p className="text-xs dark:text-gray-400">
+              {new Date(question?.question_time).toDateString()}
+            </p>
           </div>
-        </div>
-        <div>
-          <div className="flex w-full md:w-max h-full flex-col space-y-2">
-            <div className="flex w-full items-start md:justify-between gap-2">
-              <div className="space-y-1">
-                <p className="text-xs">
-                  {question?.username} {question?.lastname}
-                </p>
-                <p className="text-xs dark:text-gray-400">
-                  {new Date(question?.question_time).toDateString()}
-                </p>
-              </div>
-              <div>
-                <img
-                  src={question?.profile}
-                  alt="cover"
-                  className="rounded-full object-cover object-center h-[35px] w-[35px]"
-                />
-              </div>
-            </div>
+          <div>
+            <img
+              src={question?.profile}
+              alt="cover"
+              className="rounded-full object-cover object-center h-[35px] w-[35px]"
+            />
           </div>
         </div>
       </div>
-      <div className="w-full my-4">
+      <div className="flex-col flex md:flex-row items-start gap-2 md:gap-4 justify-between w-full ">
+        <div className="w-full h-full">
+          <h4 className="text-base md:text-xl">{question?.question}</h4>
+          <div className="flex">
+            <p className="text-xs p-1 font-bold text-bg_core">
+              #{question?.category}
+            </p>
+            <p className="text-xs p-1 font-bold text-bg_core">
+              #{question?.topic_name}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="w-full my-4 self-end">
         <div className="flex gap-2 ml-4 text-sm text-center items-center">
           <div
             onClick={() => handleSelect(question)}
-            className="text-sm text-bg_core text-center"
+            className="text-xs text-bg_core text-center"
           >
             5 likes
           </div>
           <div
             onClick={() => handleSelect(question)}
-            className="text-sm text-bg_core w-[130px] text-center"
+            className="text-xs text-bg_core w-[130px] text-center"
           >
             5 comments
           </div>

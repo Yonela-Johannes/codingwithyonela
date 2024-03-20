@@ -4,7 +4,9 @@ import Questions from '../components/question/Questions'
 const QuestionScreen = () => {
   return (
     <div className='flex justify-between h-full'>
-      <Categories />
+        <div className="hidden md:max-min lg:block">
+        <Categories />
+      </div>
       <Questions />
     </div>
   )

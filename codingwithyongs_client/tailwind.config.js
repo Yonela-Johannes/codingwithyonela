@@ -15,7 +15,7 @@ export default {
         bg_card: '#101627',
         bg_opp: '#172a45',
         bg_light: '#b3b3b3',
-        bg_lighter: '#ccd6f6',
+        bg_lighter: '#ececec',
         bg_grey: '#a7a9be',
         clr_alt: "#7f57f1"
       },

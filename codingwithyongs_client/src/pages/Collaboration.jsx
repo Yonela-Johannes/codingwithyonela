@@ -1,6 +1,6 @@
-import Left from "../components/collaborations/Left";
 import Center from "../components/collaborations/Center";
 import Right from "../components/collaborations/Right";
+import Details from "../components/collaborations/Details";
 
 const Collaboration = () => {
   return (
@@ -17,7 +17,7 @@ const Collaboration = () => {
         </div>
         <div className=" h-full">
           <h2 className="text-xl mb-2 font-normal text-start">Details</h2>
-          <Left />
+          <Details />
         </div>
       </div>
     </div>

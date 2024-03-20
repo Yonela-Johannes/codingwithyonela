@@ -17,8 +17,14 @@ import About from "./pages/About";
 import Friends from "./pages/Friends";
 import Collaboration from "./pages/Collaboration";
 import Events from "./components/Events";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { user } = useSelector((state) => state.user);
+  // useEffect(() => {
+  //   dispatch(getUser());
+  // }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get("http://127.0.0.1:8000/api/");
@@ -45,22 +51,22 @@ function App() {
           <Route path="/friends" element={<Testimonials />} />
         </Routes>
       </DashboardLayout> */}
-      <Layout>
+      <Layout user={user}>
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/linkedin" element={<LinkedInCallback />} />
-          <Route path="/blogs" element={<Blogs />} />
-          <Route path="/blogs/:id" element={<Blog />} />
-          <Route path="/suggestions" element={<SuggestionScreen />} />
-          <Route path="/questions" element={<QuestionScreen />} />
-          <Route path="/testimonials" element={<Testimonials />} />
-          <Route path="/recommendations" element={<Recommendations/>} />
+          <Route path="/blogs" element={<Blogs user={user} />} />
+          <Route path="/blogs/:id" element={<Blog user={user} />} />
+          <Route path="/suggestions" element={<SuggestionScreen user={user} />} />
+          <Route path="/questions" element={<QuestionScreen user={user} />} />
+          {/* <Route path="/testimonials" element={<Testimonials />} /> */}
+          <Route path="/recommendations" element={<Recommendations user={user}/>} />
           <Route path="/sign-in" element={<Signin />} />
           <Route path="/about" element={<About />} />
           <Route path="/friends" element={<Friends />} />
-          <Route path="/project-status" element={<Collaboration />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/events/:id" element={<Collaboration />} />
+          <Route path="/project-status" element={<Collaboration user={user} />} />
+          {/* <Route path="/events" element={<Events />} />
+          <Route path="/events/:id" element={<Collaboration />} /> */}
         </Routes>
       </Layout>
     </BrowserRouter>

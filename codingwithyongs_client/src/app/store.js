@@ -7,6 +7,8 @@ import titleReducer from '../features/title/titleSlice'
 import countryReducer from '../features/countries/countrySlice'
 import topicReducer from '../features/topic/topicSlice'
 import questionReducer from '../features/question/questionSlice'
+import projectReducer from '../features/project/projectSlice'
+import recommendationReducer from '../features/recommenation/recommendationSlice'
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +19,8 @@ export const store = configureStore({
     titles: titleReducer,
     countries: countryReducer,
     topic: topicReducer,
-    question: questionReducer
+    question: questionReducer,
+    project: projectReducer,
+    recommendation: recommendationReducer
   },
 })

@@ -66,19 +66,6 @@ const NavMenu = () => {
           </Link>
           <Link
             className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
-            to="/testimonials"
-          >
-            <HoverUnderLine>
-              <div className="flex gap-1 items-center cursor-pointer">
-                <div className="lg:hidden">
-                  <FaUsers />
-                </div>
-                Testimonials
-              </div>
-            </HoverUnderLine>
-          </Link>
-          <Link
-            className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
             to="/recommendations"
           >
             <HoverUnderLine>
@@ -103,7 +90,7 @@ const NavMenu = () => {
               </div>
             </HoverUnderLine>
           </Link>
-          <Link
+          {/* <Link
             className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
             to="/events"
           >
@@ -115,7 +102,7 @@ const NavMenu = () => {
                 Events
               </div>
             </HoverUnderLine>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </nav>

@@ -77,9 +77,13 @@ def create_user_profile():
             is_staff = data['is_staff']
             profile = data['profile']
             user_title_id = data['user_title_id']
+            seeded = False
+            if seeded in data:
+                seeded = data['seeded']
+                
 
-            if email and username and lastname and profile and user_title_id:
-                response = create_user(email, username, lastname, is_admin, is_staff, profile, user_title_id)
+            if email and username and lastname and profile and user_title_id and seeded:
+                response = create_user(email, username, lastname, is_admin, is_staff, profile, user_title_id, seeded)
                 if response:
                         res = {"data": f"{user}"}
                         return res, 201

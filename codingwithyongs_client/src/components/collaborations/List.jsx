@@ -1,27 +1,41 @@
-import moment from 'moment'
-const List = ({ task }) => {
+import moment from "moment";
+import HoverUnderLine from "../HoverUnderLine";
+import { getProjectMessages, setSelectProject } from "../../features/project/projectSlice";
+import { useDispatch } from "react-redux";
+
+const List = ({ project }) => {
+  const dispatch = useDispatch()
+
+  const activeGroupHandler = () => {
+    if(project && project?.project_id){
+      dispatch(getProjectMessages(project?.project_id))
+      dispatch(setSelectProject(project))
+    }
+  }
+
   return (
     <div
       className={`${
-        task?.progress == "done"
+        project?.progress == "done"
           ? "text-green-900"
-          : task?.progress == "progress"
+          : project?.progress == "progress"
           ? "text-orange-500"
           : "text-red-900"
-      } h-[80px] rounded-md align-text-top text-start relative font-bold `}
+      } w-full h-[60px] rounded-md align-text-top text-start relative font-bold `}
     >
-      <div className="absolute top-6 z-10
-      px-7">
-        <p className="text-base text-black">{task?.title}</p>
-        <p className="text-base">{task?.description}</p>
-        <p className="text-xs font-semibold text-black">{task?.host?.name}</p>
-        <div className="flex gap-1 items-center text-end justify-end">
-          <p className="text-xs font-semibold text-bg_core">
-            {moment(task?.start_date).format('MMMM Do YYYY')}
-          </p>{" "}
-          -
-          <p className="text-xs font-semibold text-bg_core">{moment(task?.end_date).format('MMMM Do YYYY')}</p>
-        </div>
+      <div
+        className="absolute top-6 z-10
+      px-7 w-full"
+      >
+        <HoverUnderLine>
+          <p
+            onClick={() => activeGroupHandler()}
+            className="text-base text-black"
+          >
+            {project?.project_name}
+          </p>
+        </HoverUnderLine>
+        <p className="text-sm">{project?.description}</p>
       </div>
     </div>
   );

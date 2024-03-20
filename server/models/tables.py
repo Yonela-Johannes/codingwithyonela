@@ -21,6 +21,13 @@ connection = psycopg2.connect(
 def create_tables():
     """ Create tables in the PostgreSQL database"""
     commands = (
+        # QUOTES TABLE/SCHEMA
+        """
+        CREATE TABLE IF NOT EXISTS quotes (
+            id SERIAL PRIMARY KEY,
+            quote TEXT UNIQUE NOT NULL
+        );
+        """,
         # TOPICS TABLE/SCHEMA
         """
         CREATE TABLE IF NOT EXISTS topics (
@@ -319,6 +326,7 @@ def create_tables():
             github VARCHAR(50),
             linkedin VARCHAR(50),
             email VARCHAR(50),
+            country_id INTEGER NOT NULL,
             portfolio VARCHAR(50),         
             account_id INTEGER NOT NULL,
             title_id INTEGER NOT NULL,
@@ -330,6 +338,9 @@ def create_tables():
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (status_id)
             REFERENCES status (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (country_id)
+            REFERENCES countries (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (title_id)
             REFERENCES status (id)
@@ -482,12 +493,13 @@ def create_tables():
             project_name Text NOT NULL,
             description Text NOT NULL,
             status_id INTEGER NOT NULL,
-            category_id INTEGER NOT NULL,
+            category_id INTEGER NULL,
             project_time DATE NOT NULL DEFAULT CURRENT_DATE,
             users_id INTEGER NOT NULL,
+            skill_id INTEGER NULL,
             github Text NOT NULL,
             link Text NOT NULL,
-            management_tool Text NOT NULL,
+            management_tool Text NULL,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
@@ -495,7 +507,10 @@ def create_tables():
             REFERENCES category (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (users_id)
-            REFERENCES users (id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (skill_id)
+            REFERENCES topics (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (status_id)
             REFERENCES status (id)
@@ -512,7 +527,7 @@ def create_tables():
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (project_id)
             REFERENCES project (id)
-            ON UPDATE CASCADE ON DELETE CASCADE,  
+            ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
         """
@@ -521,7 +536,8 @@ def create_tables():
             message Text NOT NULL,
             project_id INTEGER NOT NULL,
             account_id INTEGER NOT NULL,
-            mes_com_time DATE NOT NULL DEFAULT CURRENT_DATE,
+            mes_com_time TIME 
+            NOT NULL DEFAULT CURRENT_TIME,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,

@@ -3,9 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from models.tables import create_tables
 from routes.countries import countries
-from routes.project import add_project_like, project, project_chat, project_chats, projects
+from routes.project import add_project_like, project, project_chat, projects
 from routes.questions import question, question_comments, questions
-from routes.recommendation import recommendation
+from routes.quotes import quotes
+from routes.recommendation import all_recommendations, recommendation
 from routes.status import status
 from routes.topics import topics
 from routes.user import create_user_profile, user
@@ -18,6 +19,12 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+
+
+# quotes route
+@app.route('/api/v1/quote', methods=['GET', 'POST'])
+def quotes_route():
+    return quotes()
 # ----------------
 
 # title route
@@ -124,18 +131,23 @@ def status_route():
 # ----------------
 
 # recommendation route
-@app.route('/api/v1/recommendation', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def recommendation_route():
-    return recommendation()
+@app.route('/api/v1/recommendation', methods=['GET', 'POST', 'DELETE'])
+def recommendations_route():
+    return all_recommendations()
+
+@app.route('/api/v1/recommendation/<int:id>', methods=['GET', 'PUT'])
+def recommendation_route(id):
+    return recommendation(id)
+
 # ---------------------
 # project route
 @app.route('/api/v1/project', methods=['GET', 'POST'])
-def suggestion_route():
+def project_route():
     return projects()
 
 # project route
 @app.route('/api/v1/project/<int:id>', methods=['GET', 'PUT', 'DELETE'])
-def get_suggestion_response_route(id):
+def projects_route(id):
     return project(id)
 
 @app.route('/api/v1/project-chat/<int:id>', methods=['GET', 'POST'])
