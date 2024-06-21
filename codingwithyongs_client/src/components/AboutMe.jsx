@@ -1,5 +1,6 @@
 import avatar from '../assets/avatar.png'
-export default function AboutMe() {
+export default function AboutMe()
+{
   return (
     <div className="container max-w-6xl py-6 lg:py-10">
       <hr className="m4-8" />
@@ -16,12 +17,16 @@ export default function AboutMe() {
           </p>
         </div>
         <p className="text-lg">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut <br /> labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris<br /> nisi  ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit <br /> esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt 
+          On this blog, you'll find weekly articles and tutorials on topics
+          such as web development, software engineering, and programming
+          languages. I am always learning and exploring new
+          technologies, so be sure to check back often for new content!
+        </p>
+        <p className="text-lg">
+          I encourage you to leave comments on our posts and engage with
+          other readers. You can like other people's comments and reply to
+          them as well. We believe that a community of learners can help
+          each other grow and improve.
         </p>
       </div>
     </div>

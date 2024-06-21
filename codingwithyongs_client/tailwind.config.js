@@ -3,7 +3,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    'node_modules/flowbite-react/lib/esm/**/*.js',
+    './node_modules/flowbite/**/*.js',
   ],
   theme: {
     extend: {
@@ -19,7 +19,7 @@ export default {
         bg_grey: '#a7a9be',
         clr_alt: "#7f57f1"
       },
-      fontFamily:{
+      fontFamily: {
         'tech_mono': ['ShareTechMono'],
       }
     },

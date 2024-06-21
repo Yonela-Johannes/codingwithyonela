@@ -1,5 +1,5 @@
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+// import ReactMarkdown from "react-markdown";
+// import remarkGfm from "remark-gfm";
 
 import { BiHeart, BiSolidHeart } from "react-icons/bi";
 import { FaEye, FaRegEye } from "react-icons/fa";
@@ -7,16 +7,18 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {
-  getBlog,
-  createBlogComment,
-  fetchBlogComment,
-} from "../features/blogs/blogSlice";
+import
+  {
+    getBlog,
+    createBlogComment,
+    fetchBlogComment,
+  } from "../features/blogs/blogSlice";
 import GlobalComment from "../shared/BlogComment.jsx";
 import toast from "react-hot-toast";
 import moment from "moment";
 
-const Blog = () => {
+const Blog = () =>
+{
   const { user } = useSelector((state) => state.user);
   const { blogs, created, comments, loading } = useSelector(
     (state) => state.blogs
@@ -27,31 +29,40 @@ const Blog = () => {
   const navigate = useNavigate();
   const slug = useParams().id;
 
-  useEffect(() => {
-    if (blogs && blogs?.length > 0 && slug) {
+  useEffect(() =>
+  {
+    if (blogs && blogs?.length > 0 && slug)
+    {
       const response = blogs?.find((elem) => elem?.slug == slug);
       setBlog(response);
-    } else {
+    } else
+    {
       navigate("/blogs");
     }
   }, [slug]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     console.log(blog);
-    if (blog && blog?.id && blog?.blog_id && slug) {
+    if (blog && blog?.id && blog?.blog_id && slug)
+    {
       dispatch(fetchBlogComment(blog?.blog_id));
     }
   }, [slug, blog]);
 
-  useEffect(() => {
-    if (created) {
+  useEffect(() =>
+  {
+    if (created)
+    {
       toast("Comment added successful");
       setComment("");
     }
   }, [created]);
 
-  const sendMessageHander = async (params) => {
-    if (params && blog && blog?.id && user && user?.id) {
+  const sendMessageHander = async (params) =>
+  {
+    if (params && blog && blog?.id && user && user?.id)
+    {
       const data = {
         comment: params,
         blog_id: blog?.blog_id,
@@ -102,9 +113,9 @@ const Blog = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-20 lg:flex-row px-2 lg:px-8">
           <div className="text-sm md:text-base lg:w-full space-y-4 lg:space-y-8">
             <h4 className="text-lg font-bold">{blog?.blog_title}</h4>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {blog?.post}
-            </ReactMarkdown>
+            {/* <ReactMarkdown remarkPlugins={[remarkGfm]}> */}
+            {blog?.post}
+            {/* </ReactMarkdown> */}
           </div>
           <div className="w-full lg:space-y-8">
             <div className="w-full">

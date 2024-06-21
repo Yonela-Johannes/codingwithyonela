@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
 import toast, { Toaster } from "react-hot-toast";
 import Dropzone from "react-dropzone";
 import axios from "axios";
@@ -10,8 +10,18 @@ import { MdCloudUpload } from "react-icons/md";
 // import { createBlog } from "../../app/features/blogs/blogsSlice";
 import { FallingLines } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+// import { CircularProgressbar } from 'react-circular-progressbar';
+// import 'react-circular-progressbar/dist/styles.css';
 
-const CreateBlog = () => {
+const CreateBlog = () =>
+{
+  const [file, setFile] = useState(null);
+  const [imageUploadProgress, setImageUploadProgress] = useState(null);
+  const [imageUploadError, setImageUploadError] = useState(null);
+  const [formData, setFormData] = useState({});
+  const [publishError, setPublishError] = useState(null);
+
   const [imageSrc, setImageSrc] = useState(null);
   const navigate = useNavigate();
   //   const { _id } = useSelector((state) => state.auth);
@@ -25,7 +35,8 @@ const CreateBlog = () => {
     image: null,
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) =>
+  {
     e.preventDefault();
     if (!inputData.title) return toast("Blog title is required");
     if (inputData.title.length < 4)
@@ -38,7 +49,8 @@ const CreateBlog = () => {
     setLoading(true);
     console.log(inputData.image);
     const formData = new FormData();
-    if (inputData?.image) {
+    if (inputData?.image)
+    {
       formData.append("file", inputData?.image);
       formData.append("upload_preset", "nomiupload");
       await axios.post(
@@ -59,7 +71,8 @@ const CreateBlog = () => {
       //   toast("Error creating blog post")
       //   setLoading(false)
       // })
-    } else {
+    } else
+    {
       toast("Something went wrong!");
       setLoading(false);
     }
@@ -102,7 +115,6 @@ const CreateBlog = () => {
               <option value="mercedes">Mercedes</option>
               <option value="audi">Audi</option>
             </select>
-
             <div>
               <ReactQuill
                 theme="snow"
@@ -118,7 +130,8 @@ const CreateBlog = () => {
                 acceptedFiles=".jpg,.jpeg,.png"
                 multiple={false}
                 onDrop={(acceptedFiles) =>
-                  acceptedFiles.map((file, index) => {
+                  acceptedFiles.map((file, index) =>
+                  {
                     const { type } = file;
                     if (
                       type === "image/png" ||
@@ -126,12 +139,14 @@ const CreateBlog = () => {
                       type === "image/jpeg" ||
                       type === "image/gif" ||
                       type === "image/webp"
-                    ) {
+                    )
+                    {
                       setInputData({ ...inputData, image: file });
                       console.log(typeof inputData.image);
                       const reader = new FileReader();
                       reader.readAsDataURL(file);
-                      reader.onloadend = () => {
+                      reader.onloadend = () =>
+                      {
                         setImageSrc(reader.result);
                       };
                     }

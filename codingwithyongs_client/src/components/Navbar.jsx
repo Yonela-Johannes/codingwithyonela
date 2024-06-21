@@ -1,22 +1,47 @@
-import { useState } from "react";
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 import HoverUnderLine from "./HoverUnderLine";
 import { DownOutlined } from "@ant-design/icons";
-import { Dropdown, Space } from "antd";
+import { Space, Dropdown } from "antd";
 import { BiDonateHeart } from "react-icons/bi";
-import { Link } from "react-router-dom";
 import { FaGithubAlt, FaMoon, FaSun } from "react-icons/fa";
 import { BsFillMoonStarsFill } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
+import { toggleTheme } from '../features/theme/themeSlice';
+import logo from '../assets/logo.png'
+import { Search } from "lucide-react";
 
-const MobileMenu = ({user, items, user_items }) => {
+const MobileMenu = ({ user, items, user_items }) =>
+{
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
+  const path = useLocation().pathname;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const currentUser = {}
+  const toggleMenu = () =>
+  {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // const { currentUser } = useSelector((state) => state.user);
+  // const { theme } = useSelector((state) => state?.theme);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() =>
+  {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get('searchTerm');
+    if (searchTermFromUrl)
+    {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
   return (
-    <div className="flex items-center justify-between w-full">
+    <nav className="flex items-center justify-between w-full">
       {isMenuOpen ? (
         <div className="absolute md:fixed flex justify-between top-0 border border-bg_light rounded-sm left-0 w-full h-fit bg-white  z-50 py-10 px-6 shadow-xl">
           <div onClick={() => setIsMenuOpen(false)} className="absolute top-2 right-2">
@@ -48,31 +73,31 @@ const MobileMenu = ({user, items, user_items }) => {
                 </HoverUnderLine>
               </Link>
               {user && user?.id ? (
-            <Dropdown
-            menu={{
-              user_items,
-            }}
-          >
-            <a onClick={(e) => e.preventDefault()}>
-              <Space>
-                <HoverUnderLine>
-                  <div className="flex gap-2 items-center cursor-pointer p-2">
-                    <img src={user?.image} className="h-7 w-7 rounded-full object-cover" />
-                    <DownOutlined />
-                  </div>
-                </HoverUnderLine>
-              </Space>
-            </a>
-          </Dropdown>
-          ) : (
-          <Link to="/sign-in" onClick={() => setIsMenuOpen(false)}>
-            <HoverUnderLine>
-              <div className="flex gap-2 items-center cursor-pointer p-2">
-                Login
-              </div>
-            </HoverUnderLine>
-          </Link>
-          )}
+                <Dropdown
+                  menu={{
+                    user_items,
+                  }}
+                >
+                  <a onClick={(e) => e.preventDefault()}>
+                    <Space>
+                      <HoverUnderLine>
+                        <div className="flex gap-2 items-center cursor-pointer p-2">
+                          <img src={user?.image} className="h-7 w-7 rounded-full object-cover" />
+                          <DownOutlined />
+                        </div>
+                      </HoverUnderLine>
+                    </Space>
+                  </a>
+                </Dropdown>
+              ) : (
+                <Link to="/sign-in" onClick={() => setIsMenuOpen(false)}>
+                  <HoverUnderLine>
+                    <div className="flex gap-2 items-center cursor-pointer p-2">
+                      Login
+                    </div>
+                  </HoverUnderLine>
+                </Link>
+              )}
               <div className="flex gap-4 items-center">
                 <Link href="https://github.com/yonela-johannes">
                   <HoverUnderLine>
@@ -96,13 +121,13 @@ const MobileMenu = ({user, items, user_items }) => {
       ) : (
         <>
           <div className="">
-          <Link to="/">
-            <HoverUnderLine>
-              <p className="font-tech_mono font-bold text-base">
-                <span className="bg-clr_alt text-white rounded-md p-1">YL</span>
-              </p>
-            </HoverUnderLine>
-          </Link>
+            <Link to="/">
+              <HoverUnderLine>
+                <p className="font-tech_mono font-bold text-base">
+                  <span className="bg-clr_alt text-white rounded-md p-1">YL</span>
+                </p>
+              </HoverUnderLine>
+            </Link>
           </div>
           <button
             onClick={toggleMenu}
@@ -125,11 +150,48 @@ const MobileMenu = ({user, items, user_items }) => {
           </button>
         </>
       )}
-    </div>
+    </nav>
   );
 };
 
-const Navbar = ({user}) => {
+export default function ({ user })
+{
+  const path = useLocation().pathname;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState('');
+  const currentUser = {}
+
+  const handleSignout = async () =>
+  {
+    try
+    {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok)
+      {
+        console.log(data.message);
+      } else
+      {
+        // dispatch(signoutSuccess());
+      }
+    } catch (error)
+    {
+      console.log(error.message);
+    }
+  };
+
+  const handleSubmit = (e) =>
+  {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('searchTerm', searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
   const items = [
     {
       key: "1",
@@ -178,18 +240,26 @@ const Navbar = ({user}) => {
       ),
     },
   ];
+
+
   return (
     <nav className="flex flex-col z-50 md:flex-row py-3 w-full bg-white top-0 left-0 right-0 items-center justify-between gap-4 md:gap-0">
       <div className="hidden md:flex items-center justify-between w-full">
         <div className="">
           <Link to="/">
             <HoverUnderLine>
-              <p className="font-tech_mono font-bold text-2xl">
-                CodingWith<span className="bg-clr_alt text-white rounded-md p-1">Yonela</span>
-              </p>
+              <img src={logo} className="w-8 h-8 object-center object-contain" />
             </HoverUnderLine>
           </Link>
         </div>
+        <form onSubmit={handleSubmit}>
+          <div className="md:mt-4 flex gap-1 md:gap-4 items-center">
+            <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search" className="md:w-[350px] px-2" />
+            <button className="hidden items-center justify-center h-[26px] w-[26px] md:rounded-full md:h-[46px] md:w-[46px] p-1 text-clr_alt md:bg-clr_alt md:text-white">
+              <Search className="md:h-4 md:w-4 " />
+            </button>
+          </div>
+        </form>
         <div className="flex gap-6 text-base text-black uppercase">
           <Dropdown
             menu={{
@@ -216,29 +286,29 @@ const Navbar = ({user}) => {
           </Link>
           {user && user?.id ? (
             <Dropdown
-            menu={{
-              items,
-            }}
-          >
-            <a onClick={(e) => e.preventDefault()}>
-              <Space>
-                <HoverUnderLine>
-                  <div className="flex items-center cursor-pointer p-2 text-sm text-bg_core">
-                    <img src={user?.profile} className="h-7 w-7 rounded-full object-cover" />
-                    <DownOutlined />
-                  </div>
-                </HoverUnderLine>
-              </Space>
-            </a>
-          </Dropdown>
+              menu={{
+                items,
+              }}
+            >
+              <button onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <HoverUnderLine>
+                    <div className="flex items-center cursor-pointer p-2 text-sm text-bg_core">
+                      <img src={user?.profile} className="h-7 w-7 rounded-full object-cover" />
+                      <DownOutlined />
+                    </div>
+                  </HoverUnderLine>
+                </Space>
+              </button>
+            </Dropdown>
           ) : (
-          <Link to="/sign-in">
-            <HoverUnderLine>
-              <div className="flex gap-2 items-center cursor-pointer p-2">
-                Login
-              </div>
-            </HoverUnderLine>
-          </Link>
+            <Link to="/sign-in">
+              <HoverUnderLine>
+                <div className="flex gap-2 items-center cursor-pointer p-2">
+                  Login
+                </div>
+              </HoverUnderLine>
+            </Link>
           )}
           <Link href="https://github.com/yonela-johannes">
             <HoverUnderLine>
@@ -249,9 +319,10 @@ const Navbar = ({user}) => {
           </Link>
           <Link href="https://github.com/yonela-johannes">
             <HoverUnderLine>
-              <div className="flex gap-2 items-center cursor-pointer p-2">
+              <div onClick={() => dispatch(toggleTheme())} className="flex gap-2 items-center cursor-pointer p-2">
                 {/* <FaSun size={22} /> */}
                 <BsFillMoonStarsFill />
+                {/* {theme === 'light' ? <FaSun /> : <FaMoon />} */}
               </div>
             </HoverUnderLine>
           </Link>
@@ -263,5 +334,3 @@ const Navbar = ({user}) => {
     </nav>
   );
 };
-
-export default Navbar;

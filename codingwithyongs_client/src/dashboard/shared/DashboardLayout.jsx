@@ -3,7 +3,8 @@ import Footer from "../../shared/Footer";
 import DashboardNavMenu from "../components/DashboardNavMenu";
 import DashboardWrapper from "./DashboardWrapper";
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = ({ children }) =>
+{
   return (
     <div className="relative h-screen w-screen flex justify-center items-center flex-col overflow-x-hidden">
       <div className="absolute mx-auto h-[calc(100vh)] flex flex-col left-0 right-0">

@@ -1,13 +1,15 @@
-import {
-  FaFacebook,
-  FaGithubAlt,
-  FaInstagramSquare,
-  FaLinkedin,
-} from "react-icons/fa";
+import
+  {
+    FaFacebook,
+    FaGithubAlt,
+    FaInstagramSquare,
+    FaLinkedin,
+  } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import HoverUnderLine from "../components/HoverUnderLine";
 
-const Footer = () => {
+const Footer = () =>
+{
   return (
     <div className="flex items-start gap-3 mt-2 flex-col md:flex-row justify-between py-2 overflow-x-hidden">
       <div className="flex flex-col gap-10  w-full">

@@ -8,10 +8,10 @@ import { useEffect } from "react";
 import { getUser } from "../features/user/userSlice";
 import { Toaster } from "react-hot-toast";
 
-const Layout = ({ children, user }) => {
+const Layout = ({ children }) =>
+{
   const dispatch = useDispatch();
-  console.log(children)
-  console.log('USER: ==>: ', user)
+  const user = ''
   return (
     <div className="min-h-screen w-screen flex justify-center items-center flex-col overflow-x-hidden">
       <Toaster
