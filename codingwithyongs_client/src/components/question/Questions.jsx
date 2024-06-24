@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Watermark } from "antd";
 import { useEffect, useState } from "react";
 import { MdOutlineAdd } from "react-icons/md";
 import { Modal } from "antd";
 import { getAllTopics } from "../../features/topic/topicSlice";
 import { getAllCategories } from "../../features/category/categorySlice";
 import toast from "react-hot-toast";
-import {
+import
+{
   createQuestion,
   createQuestionComment,
   getAllQuestions,
@@ -15,10 +15,12 @@ import {
 import Card from "./Card";
 import moment from "moment";
 
-const Questions = () => {
-  const { user } = useSelector((state) => state.user);
+const Questions = () =>
+{
+  const user = {}
+  // const { user } = useSelector((state) => state?.user);
   const { questions, created, loading, commented, comments } = useSelector(
-    (state) => state.question
+    (state) => state?.question
   );
   const { categories } = useSelector((state) => state.categories);
   const { topics } = useSelector((state) => state.topic);
@@ -32,39 +34,50 @@ const Questions = () => {
   const [skill, setSkill] = useState("");
   const [comment, setComment] = useState("");
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     dispatch(getAllTopics());
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     dispatch(getAllCategories());
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     dispatch(getAllQuestions());
   }, []);
 
-  useEffect(() => {
-    if (created) {
+  useEffect(() =>
+  {
+    if (created)
+    {
       setQuestion("");
       setCategory("");
       setSkill("");
       setOpen(false);
       toast("Created successful");
-    } else if (commented) {
+    } else if (commented)
+    {
       toast("Comment created successful");
       setComment("");
       dispatch(getResponses(selectedQuestion?.question_id));
-    } else if (selectedQuestion) {
+    } else if (selectedQuestion)
+    {
       dispatch(getResponses(selectedQuestion?.question_id));
     }
   }, [created, commented, selectedQuestion]);
 
-  const commentHandler = async () => {
-    if (comment > 200) {
+  const commentHandler = async () =>
+  {
+    if (comment > 200)
+    {
       toast("Must be less or equal 200 characters");
-    } else {
-      if ((selectedQuestion && user && user?.id, comment)) {
+    } else
+    {
+      if ((selectedQuestion && user && user?.id, comment))
+      {
         const data = {
           account_id: user?.id,
           comment: comment,
@@ -75,10 +88,14 @@ const Questions = () => {
     }
   };
 
-  const questionHandler = () => {
-    if (user && user?.id) {
-      if (question.length > 10) {
-        if (category && skill) {
+  const questionHandler = () =>
+  {
+    if (user && user?.id)
+    {
+      if (question.length > 10)
+      {
+        if (category && skill)
+        {
           const data = {
             account_id: user?.id,
             question: question,
@@ -86,16 +103,20 @@ const Questions = () => {
             topic_id: skill,
           };
           dispatch(createQuestion(data));
-        } else {
+        } else
+        {
           toast("Category and Topic required!");
         }
-      } else {
+      } else
+      {
         toast("Question too short");
       }
-    } else {
+    } else
+    {
       toast("You are not authorized");
     }
   };
+
   return (
     <div className="h-full my-5 w-full ">
       <div className="flex items-start w-full mb-8 justify-between lg:px-10">

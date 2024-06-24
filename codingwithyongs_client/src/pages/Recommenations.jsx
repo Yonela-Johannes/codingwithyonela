@@ -10,8 +10,10 @@ import Dropzone from "react-dropzone";
 import { getAllCountries } from "../features/countries/countrySlice";
 import { getAllRecommendations } from "../features/recommenation/recommendationSlice";
 
-const Recommendations = () => {
-  const { user } = useSelector((state) => state.user);
+const Recommendations = () =>
+{
+  const user = useSelector((state) => state?.user);
+  console.log(user)
   const { countries } = useSelector((state) => state.countries);
   const { recommendations } = useSelector((state) => state.recommendation);
   const [imageSrc, setImageSrc] = useState(null);
@@ -33,12 +35,14 @@ const Recommendations = () => {
     country: "",
   });
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     dispatch(getAllTitles());
     // dispatch(getAllCountries());
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     dispatch(getAllRecommendations());
   }, []);
 
@@ -177,7 +181,8 @@ const Recommendations = () => {
                       acceptedFiles=".jpg,.jpeg,.png"
                       multiple={false}
                       onDrop={(acceptedFiles) =>
-                        acceptedFiles.map((file, index) => {
+                        acceptedFiles.map((file, index) =>
+                        {
                           const { type } = file;
                           if (
                             type === "image/png" ||
@@ -185,12 +190,14 @@ const Recommendations = () => {
                             type === "image/jpeg" ||
                             type === "image/gif" ||
                             type === "image/webp"
-                          ) {
+                          )
+                          {
                             setInputData({ ...inputData, image: file });
                             console.log(typeof inputData.image);
                             const reader = new FileReader();
                             reader.readAsDataURL(file);
-                            reader.onloadend = () => {
+                            reader.onloadend = () =>
+                            {
                               setImageSrc(reader.result);
                             };
                           }

@@ -7,7 +7,8 @@ import { HiUsers } from "react-icons/hi2";
 import { FaUsers } from "react-icons/fa";
 import { ImBlogger } from "react-icons/im";
 
-const NavMenu = () => {
+const NavMenu = () =>
+{
   return (
     <nav className="flex flex-col md:flex-row w-full items-center justify-between gap-4 md:gap-0">
       <div className="md:flex items-center justify-between w-full overflow-x-scroll lg:overflow-x-hidden">
@@ -87,6 +88,19 @@ const NavMenu = () => {
                   <GrStatusUnknownSmall />
                 </div>
                 Progress
+              </div>
+            </HoverUnderLine>
+          </Link>
+          <Link
+            className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
+            to="/posts"
+          >
+            <HoverUnderLine>
+              <div className="flex gap-1 items-center cursor-pointer">
+                <div className="lg:hidden">
+                  <GrStatusUnknownSmall />
+                </div>
+                Feed
               </div>
             </HoverUnderLine>
           </Link>

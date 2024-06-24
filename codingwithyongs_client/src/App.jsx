@@ -75,7 +75,9 @@ function App()
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/blogs" element={<Blogs />} />
-          <Route path="/blogs/:id" element={<Blog />} />
+          <Route path="/blogs/:id" element={<PostsPage />} />
+          <Route path="/posts" element={<PostPage />} />
+          <Route path="/posts/:id" element={<Blog />} />
           <Route path="/suggestions" element={<SuggestionScreen />} />
           <Route path="/questions" element={<QuestionScreen />} />
           <Route path="/testimonials" element={<Testimonials />} />

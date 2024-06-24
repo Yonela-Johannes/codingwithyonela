@@ -4,8 +4,6 @@ import Footer from "./Footer";
 import Header from "./Header";
 import NavMenu from "./NavMenu";
 import Wrapper from "./Wrapper";
-import { useEffect } from "react";
-import { getUser } from "../features/user/userSlice";
 import { Toaster } from "react-hot-toast";
 
 const Layout = ({ children }) =>

@@ -9,9 +9,9 @@ import { BiDonateHeart } from "react-icons/bi";
 import { FaGithubAlt, FaMoon, FaSun } from "react-icons/fa";
 import { BsFillMoonStarsFill } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
-import { toggleTheme } from '../features/theme/themeSlice';
 import logo from '../assets/logo.png'
 import { Search } from "lucide-react";
+import ThemeToggle from './themeToggle/ThemeToggle';
 
 const MobileMenu = ({ user, items, user_items }) =>
 {
@@ -243,7 +243,7 @@ export default function ({ user })
 
 
   return (
-    <nav className="flex flex-col z-50 md:flex-row py-3 w-full bg-white top-0 left-0 right-0 items-center justify-between gap-4 md:gap-0">
+    <nav className="fixed px-10 flex flex-col z-50 md:flex-row py-3 w-full bg-white top-0 left-0 right-0 items-center justify-between gap-4 md:gap-0">
       <div className="hidden md:flex items-center justify-between w-full">
         <div className="">
           <Link to="/">
@@ -317,16 +317,8 @@ export default function ({ user })
               </div>
             </HoverUnderLine>
           </Link>
-          <Link href="https://github.com/yonela-johannes">
-            <HoverUnderLine>
-              <div onClick={() => dispatch(toggleTheme())} className="flex gap-2 items-center cursor-pointer p-2">
-                {/* <FaSun size={22} /> */}
-                <BsFillMoonStarsFill />
-                {/* {theme === 'light' ? <FaSun /> : <FaMoon />} */}
-              </div>
-            </HoverUnderLine>
-          </Link>
         </div>
+        <ThemeToggle />
       </div>
       <div className="block md:hidden w-full">
         <MobileMenu items={items} user={user} user_items={user_items} />
