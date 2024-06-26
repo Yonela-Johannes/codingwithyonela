@@ -12,14 +12,16 @@ def recommendation(id):
                 response = fetch_recommendation(id)
                 if response:
                     res = {
-                            "message": "Fetch successful",
-                            "data": response
-                            }
+                        "message": "Fetch successful",
+                        "data": response
+                    }
                     return res, 200
                 else:
                     res = {"message": "Fetch failed: something went wrong."}
                     return res, 400
-    
+            else:
+                res = {"message": "Missing data"}
+                return res, 400 
         except:
             return {"message": "Fetch failed: something went wrong."}
         
@@ -67,50 +69,49 @@ def all_recommendations():
             response = fetch_recommendations()
             if response:
                 res = {
-                        "message": "Fetch successful",
-                        "data": response
-                        }
+                    "message": "Fetch successful",
+                    "data": response
+                    }
                 return res, 200
             else:
-                res = {"message": "Fetch failed: something went wrong."}
+                res = {data: []}
                 return res, 400
-    
-        except:
+        except err:
+            print(err)
             return {"message": "Fetch failed: something went wrong."}
         
-
     # Create recommendation
     elif REQUEST == 'POST':
         try:
 
             data = request.get_json()
 
-            account_id = data['account_id']
-            name = data['name']
-            second_name = data['second_name']
-            lastname = data['lastname']
-            re_image = data['re_image']
-            github = data['github']
-            linkedin = data['linkedin']
-            email = data['email']
-            portfolio = data['portfolio']
-            quote = data['quote']
-            status_id = data['status_id']
-            title_id = data['title_id']
-            country_id = data['country_id']
+            if "account_id" in data and "name" in data and "lastname" in data and "re_image" in data and "github" in data and "linkedin" in data and "email" in data and "portfolio" in data and "quote" in data and "status_id" in data and "title_id" in data and "country_id" in data:
+                account_id = data['account_id']
+                name = data['name']
+                second_name = data['second_name']
+                lastname = data['lastname']
+                re_image = data['re_image']
+                github = data['github']
+                linkedin = data['linkedin']
+                email = data['email']
+                portfolio = data['portfolio']
+                quote = data['quote']
+                status_id = data['status_id']
+                title_id = data['title_id']
+                country_id = data['country_id']
             
-            if account_id and name:
-                response = create_recommendation(account_id, name, second_name, lastname, re_image, github, linkedin, email, portfolio, quote, status_id, country_id, title_id)
-                if response:
-                        print(response)
-                        res = {"data": f"{response}"}
-                        return res, 201
-                else:
-                    res = {"message": "Blog already exist"}
-                    return res, 400 
-                
-            res = {"message": "Title invalid: (you must enter title)"}
-            return res, 200 
+                if account_id and name:
+                    response = create_recommendation(account_id, name, second_name, lastname, re_image, github, linkedin, email, portfolio, quote, status_id, country_id, title_id)
+                    if response:
+                            res = {"message": "Profile created successful"}
+                            return res, 201
+                    else:
+                        res = {"message": "Profile already exist"}
+                        return res, 400 
+            else:
+                res = {"message": "Error: Missing required data"}
+                return res, 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
             print(res)

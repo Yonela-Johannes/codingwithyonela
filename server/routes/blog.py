@@ -81,9 +81,8 @@ def blogs():
             slug = slugify(blog_title)
             if account and post and category_id:
                 response = create_blog(account, post, category_id, blog_image, blog_title, slug)
-                print("RESPONSE: ", response)
                 if response:
-                        res = {"data": f"{response}"}
+                        res = {"message": "Blog created successful"}
                         return res, 201
                 else:
                     res = {"message": "Blog already exist"}

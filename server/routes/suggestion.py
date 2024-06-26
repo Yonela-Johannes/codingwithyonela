@@ -13,14 +13,17 @@ def suggestion(id):
                 response = fetch_suggestion(id)
                 if response:
                     res = {
-                            "message": "Fetch successful",
-                            "data": response
-                            }
+                        "message": "Fetch successful",
+                        "data": response
+                    }
                     return res, 200
                 else:
                     res = {"message": "Fetch failed: something went wrong."}
                     return res, 400
-    
+            else:
+                response = fetch_suggestions()
+                res = {"data": response}
+                return res, 200
         except:
             return {"message": "Fetch failed: something went wrong."}
         
@@ -84,12 +87,10 @@ def all_suggestion():
     
         except:
             return {"message": "Fetch failed: something went wrong."}
-    # Create title
+    # Create suggestion
     elif REQUEST == 'POST':
         try:
-
             data = request.get_json()
-
             account_id = data['account_id']
             post = data['post']
             status_id = data['status_id']
@@ -100,19 +101,16 @@ def all_suggestion():
             if account_id and post and category_id and slug and suggestion_title:
                 response = create_suggestion(account_id, post, status_id, category_id, slug, suggestion_title)
                 if response:
-                        print(response)
-                        res = {"data": f"{response}"}
-                        return res, 201
+                    res = {"message": "Suggestion added successful"}
+                    return res, 201
                 else:
-                    res = {"message": "Blog already exist"}
+                    res = {"message": "Something went wrong"}
                     return res, 400 
-                
-            res = {"message": "Title invalid: (you must enter title)"}
-            return res, 200 
+
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
             print(res)
-        return res, 200 
+            return res, 200 
 
 def suggestion_response():
     REQUEST = request.method 
@@ -177,14 +175,12 @@ def suggestion_comment():
                 response = create_suggestion_comment(account_id, comment, suggestion_id)
                 print("THIS IS THE COMMENT: ", response)
                 if response:
-                        res = {"data": f"{response}"}
-                        return res, 201
+                    res = {"data": f"{response}"}
+                    return res, 201
                 else:
                     res = {"message": "Blog already exist"}
                     return res, 400 
                 
-            res = {"message": "Title invalid: (you must enter title)"}
-            return res, 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400 
+            return res, 400 

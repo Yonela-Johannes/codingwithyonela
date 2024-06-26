@@ -7,29 +7,29 @@ def category():
     if REQUEST == 'GET':
         # Fetch one
         try:
-            data = json.loads(request.data)
-        
-            if data:
-                id = json.loads(request.data)['id']
-                print("TITLE: => ", id)
-                if id:
-                    response = fetch_category(id)
-                    if response:
-                        res = {
-                                "message": "Fetch successful",
-                                "data": response
-                                }
-                        return res, 200
-                    else:
-                        res = {"message": "Fetch failed: something went wrong."}
-                        return res, 400
-            
+            data = request.get_json()
+            if "id" in data:
+                id = data['id']
+                response = fetch_category(id)
+                if response:
+                    res = {
+                        "message": "Fetch successful",
+                        "data": response
+                    }
+                    return res, 200
+                else:
+                    res = {"message": "Fetch failed: something went wrong."}
+                    return res, 400
+            else:
+                # Fetch All
+                print('WE ARE FETCHING ALL_____')
+                response = fetch_categories()
+                result = response
+                res = {"data": result}
+                return res, 200
         except json.decoder.JSONDecodeError:   
-            # Fetch All
-            response = fetch_categories()
-            result = response
-            res = {"data": result}
-            return res, 200
+            print(res)
+            return res, 400 
     
     # Create title
     elif REQUEST == 'POST':

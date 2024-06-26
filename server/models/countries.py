@@ -5,10 +5,8 @@ load_dotenv()
 
 import json
  
-f = open('countries.json')
+f = open('countries.json', encoding="utf8")
  
-
-
 DATABASE = os.getenv('DATABASE')
 DATABASE_USER = os.getenv('DATABASE_USER')
 HOST = os.getenv('HOST')
@@ -44,7 +42,8 @@ def insert_countries():
                     conn.commit()
             print(response)
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)    
+            print(error) 
+               
     f.close()
     
 if __name__ == '__main__':

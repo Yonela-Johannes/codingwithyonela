@@ -7,50 +7,51 @@ def status():
     if REQUEST == 'GET':
         # Fetch one
         try:
-            data = json.loads(request.data)
-        
-            if data:
-                id = json.loads(request.data)['id']
-                if id:
-                    response = fetch_status(id)
-                    if response:
-                        res = {
-                                "message": "Fetch successful",
-                                "data": response
-                                }
-                        return res, 200
-                    else:
-                        res = {"message": "Fetch failed: something went wrong."}
-                    return res, 400
-            
+            data =  request.get_json()
+            if "id" in data:
+                id = data['id']
+                response = fetch_status(id)
+                if response:
+                    res = {
+                        "message": "Fetch successful",
+                        "data": response
+                    }
+                    return res, 200
+                else:
+                    res = {"message": "Fetch failed: something went wrong."}
+                return res, 400
+            else:
+                response = fetch_statuses()
+                print("RESPONSE: ", response)
+                result = response
+                res = {"data": result}
+                return res, 200
+                
         except json.decoder.JSONDecodeError:   
-            # Fetch All
-            response = fetch_statuses()
-            print("RESPONSE: ", response)
-            result = response
-            res = {"data": result}
+            res = {"message": "Something went wrong"}
             return res, 200
     
-    # Create title
+    # Create status
     elif REQUEST == 'POST':
         try:
-            status = json.loads(request.data)['status']
-            account_id = json.loads(request.data)['account_id']
-            
-            if status and account_id:
-                response = create_status(status, account_id)
-                if response:
-                        res = {"data": f"{response}"}
-                        return res, 201
-                else:
-                    res = {"message": f"Category already exist"}
-                    return res, 400 
+            data = request.get_json()
+            if "status" in data and "account_id" in data:
+                status = data['status']
+                account_id = data['account_id']
                 
-            res = {"message": "Category invalid: (you must enter status)"}
-            return res, 400 
+                if status and account_id:
+                    response = create_status(status, account_id)
+                    print(response)
+                    if response:
+                        res = {"message":"Status added sucessfull"}
+                        return res, 201
+                    else:
+                        res = {"message": "Error: something went wrong"}
+                        return res, 400 
+
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400 
+            return res, 400 
             
         # edit/update
     elif REQUEST == 'PUT':

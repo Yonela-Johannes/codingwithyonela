@@ -25,7 +25,8 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS quotes (
             id SERIAL PRIMARY KEY,
-            quote TEXT UNIQUE NOT NULL
+            quote TEXT UNIQUE NOT NULL,
+            author VARCHAR(70) NOT NULL
         );
         """,
         # TOPICS TABLE/SCHEMA
@@ -40,7 +41,7 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS countries (
             id SERIAL PRIMARY KEY,
             name VARCHAR(100) UNIQUE NOT NULL,
-            code NVARCHAR(255) NOT NULL,
+            code VARCHAR(255) NOT NULL,
             emoji TEXT NOT NULL,
             unicode TEXT NOT NULL,
             image TEXT NOT NULL
@@ -60,8 +61,8 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS account (
             id SERIAL PRIMARY KEY,
             email VARCHAR(50) UNIQUE NOT NULL,
-            username VARCHAR(20) UNIQUE NOT NULL,
-            lastname VARCHAR(20) UNIQUE NOT NULL,
+            username VARCHAR(20) NOT NULL,
+            lastname VARCHAR(20) NOT NULL,
             is_admin BOOLEAN NOT NULL,
             is_staff BOOLEAN NOT NULL,
             profile TEXT,
@@ -86,7 +87,7 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS status (
             id SERIAL PRIMARY KEY,
-            status VARCHAR(50) NOT NULL,
+            status VARCHAR(50) UNIQUE NOT NULL,
             account_id INTEGER NOT NULL,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
@@ -325,7 +326,7 @@ def create_tables():
             re_image TEXT NOT NULL,
             github VARCHAR(50),
             linkedin VARCHAR(50),
-            email VARCHAR(50),
+            email VARCHAR(50) UNIQUE NOT NULL,
             country_id INTEGER NOT NULL,
             portfolio VARCHAR(50),         
             account_id INTEGER NOT NULL,

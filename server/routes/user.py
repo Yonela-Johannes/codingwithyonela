@@ -70,28 +70,32 @@ def create_user_profile():
     if REQUEST == 'POST':
         try:
             data = request.get_json()
+            
+            print("DATA: ", data)
             email = data['email']
             username = data['username']
             lastname = data['lastname']
             is_admin = data['is_admin']
             is_staff = data['is_staff']
-            profile = data['profile']
-            user_title_id = data['user_title_id']
-            seeded = False
-            if seeded in data:
-                seeded = data['seeded']
+            
+            user_title_id = ""
+            if "user_title_id" in data:
+                user_title_id = data['user_title_id']
+            
+            profile = ""
+            if 'profile' in data:
+                profile = data['profile']
                 
-
-            if email and username and lastname and profile and user_title_id and seeded:
-                response = create_user(email, username, lastname, is_admin, is_staff, profile, user_title_id, seeded)
+            if email and username and lastname and user_title_id:
+                response = create_user(email, username, lastname, is_admin, is_staff, profile, user_title_id)
                 if response:
-                        res = {"data": f"{user}"}
+                        res = {"data": f"{user.json()}"}
                         return res, 201
                 else:
                     res = {"message": f"{email} already exist"}
                     return res, 400 
                 
-            res = {"message": "Title invalid: (you must enter title)"}
+            res = {"message": "Missing data"}
             return res, 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
