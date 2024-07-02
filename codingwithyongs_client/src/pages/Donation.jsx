@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import AddButton from '../components/donation/AddButton'
 import CreateProject from '../components/donation/CreateProject'
-import Hero from '../components/donation/Hero'
+import Hero from '../shared/Hero'
 import Projects from '../components/donation/Projects'
 import { useGlobalState } from '../features/donation/index'
 

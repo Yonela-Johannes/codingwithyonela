@@ -104,6 +104,32 @@ const NavMenu = () =>
               </div>
             </HoverUnderLine>
           </Link>
+          <Link
+            className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
+            to="/showcase"
+          >
+            <HoverUnderLine>
+              <div className="flex gap-1 items-center cursor-pointer">
+                <div className="lg:hidden">
+                  <GrStatusUnknownSmall />
+                </div>
+                Showcase
+              </div>
+            </HoverUnderLine>
+          </Link>
+          <Link
+            className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
+            to="/daily-dreams"
+          >
+            <HoverUnderLine>
+              <div className="flex gap-1 items-center cursor-pointer">
+                <div className="lg:hidden">
+                  <GrStatusUnknownSmall />
+                </div>
+                Daily Dreams
+              </div>
+            </HoverUnderLine>
+          </Link>
           {/* <Link
             className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
             to="/events"

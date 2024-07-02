@@ -22,6 +22,12 @@ import SignUp from "./dashboard/pages/SignUp";
 import Recommendations from "./pages/Recommenations";
 import Donation from './pages/Donation'
 import RootLayout from "./_root/RootLayout";
+import Showcase from './pages/showcase/Showcase'
+import Projects from "./pages/projects/Projects";
+import Project from "./pages/projects/Project";
+import CreateProject from "./components/donation/CreateProject";
+import MyProjects from "./pages/projects/MyProjects";
+import DreamsPage from "./pages/dreams/DreamsPage";
 
 function App()
 {
@@ -76,6 +82,14 @@ function App()
           <Route path="/about" element={<About />} />
           <Route path="/project-status" element={<Collaboration />} />
           <Route path="/donate" element={<Donation />} />
+
+          <Route path="/showcase" element={<Showcase />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/add" element={<CreateProject />} />
+          <Route path="/projects/my-projects/user/:id" element={<MyProjects />} />
+          <Route path="/projects/:id" element={<Project />} />
+          <Route path="/daily-dreams" element={<DreamsPage />} />
+          <Route path="/daily-dreams/:id" element={<DreamsPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>

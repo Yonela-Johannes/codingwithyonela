@@ -1,6 +1,7 @@
-import AboutMe from "../components/AboutMe";
+// import AboutMe from "../context/AboutMe";
 
-const About = () => {
+const About = () =>
+{
   return (
     <div className="h-full space-y-8">
       <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
@@ -30,7 +31,7 @@ const About = () => {
         <strong>Yours in ambition,</strong> <br />
         Yonela Johannes
       </p>
-      <AboutMe />
+      {/* <AboutMe /> */}
     </div>
   );
 };

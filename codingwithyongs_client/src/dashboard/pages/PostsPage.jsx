@@ -20,7 +20,8 @@ export default function PostsPage()
   return (
     <div>
       <div className='flex flex-col gap-6 px-3 max-w-6xl'>
-        <h1 className='text-3xl font-bold lg:text-6xl'>Welcome to my updates</h1>
+        <h1 className='text-xl md:text-2xl xl:text-3xl font-bold
+      tracking-tight mb-12'>Welcome to my updates</h1>
         <p className='text-gray-500 text-xs sm:text-sm'>
           Here you'll find a variety of posts on topics such as daily explorations, family,
           web development, software engineering, and programming languages.

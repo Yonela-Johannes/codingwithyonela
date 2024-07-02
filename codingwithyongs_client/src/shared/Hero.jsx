@@ -1,4 +1,4 @@
-import { setGlobalState, useGlobalState } from '../../features/donation'
+import { setGlobalState, useGlobalState } from '../features/donation'
 const Hero = () =>
 {
   const [stats] = useGlobalState('stats')
