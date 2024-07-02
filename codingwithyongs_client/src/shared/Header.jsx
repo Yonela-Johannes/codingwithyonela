@@ -4,7 +4,7 @@ import Hero from "../components/Hero";
 const Header = () => {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col md:flex-row md:gap-20 items-center overflow-x-hidden">
+    <div className="flex flex-col pt-10 md:flex-row md:gap-20 items-center overflow-x-hidden">
       <div className="flex items-start gap-3 flex-col pt-8 md:h-[40%] w-full">
         <h2 className="text-xl lg:text-2xl xl:text-3xl 2xl:text-5xl md:mb-3">
           Becoming a{" "}
