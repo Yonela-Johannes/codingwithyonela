@@ -1,5 +1,5 @@
-const Welcome = () => {
-
+const Welcome = () =>
+{
 
   return (
     <div className="absolute z-40 flex items-center justify-center top-0 left-0 bottom-0 right-0 h-screen backdrop-blur-[67px] w-screen">
@@ -9,9 +9,9 @@ const Welcome = () => {
             Hey Yonela 👋 welcome to ithYongs<br />
             Ready to create your first report?</p>
           <div className='mb-[70px] mt-[70px]'>
-          {/* <Button title="Get Started" active={true} /> */}
-        </div>
-        
+            {/* <Button title="Get Started" active={true} /> */}
+          </div>
+
         </div>
       </div>
     </div>

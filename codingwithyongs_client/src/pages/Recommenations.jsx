@@ -13,7 +13,6 @@ import { getAllRecommendations } from "../features/recommenation/recommendationS
 const Recommendations = () =>
 {
   const user = useSelector((state) => state?.user);
-  console.log(user)
   const { countries } = useSelector((state) => state.countries);
   const { recommendations } = useSelector((state) => state.recommendation);
   const [imageSrc, setImageSrc] = useState(null);
@@ -169,11 +168,11 @@ const Recommendations = () =>
                       </p>
                     </div>
                     <div>
-                      <img
+                      {/* <img
                         src={user?.profile}
                         alt="cover"
                         className="rounded-full object-cover object-center h-[35px] w-[35px]"
-                      />
+                      /> */}
                     </div>
                   </div>
                   <div className="p-2">

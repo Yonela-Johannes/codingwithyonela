@@ -83,15 +83,14 @@ def question():
 
             if account_id and question and category_id:
                 response = create_question(account_id, question, category_id, topic_id)
-                print("RESPONSE: ", response)
                 if response:
-                        res = {"data": f"{response}"}
+                        res = {"data": "Question created successful"}
                         return res, 201
                 else:
-                    res = {"message": "Blog already exist"}
+                    res = {"message": "Question already exist"}
                     return res, 400 
                 
-            res = {"message": "Title invalid: (you must enter title)"}
+            res = {"message": "Error: Something went wrong"}
             return res, 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
@@ -99,8 +98,16 @@ def question():
     elif REQUEST == 'GET':
         try:
             response = fetch_questions()
-            res = {"data": response}
-            return res, 200
+           
+            if response == None:
+                res = {"data": []}
+                return res, 200
+            elif response:
+                res = {"data": response}
+                return res, 200
+            else:                
+                res = {"data", []}
+                return res, 200
         except:
             return {"message": "Fetch failed: something went wrong."}
         

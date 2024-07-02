@@ -65,10 +65,10 @@ const MobileMenu = ({ user, items, user_items }) =>
                   </Space>
                 </a>
               </Dropdown>
-              <Link to="/blogs" onClick={() => setIsMenuOpen(false)}>
+              <Link to="/donate" onClick={() => setIsMenuOpen(false)}>
                 <HoverUnderLine>
                   <div className="flex gap-2 items-center cursor-pointer p-2">
-                    Blog
+                    Donate
                   </div>
                 </HoverUnderLine>
               </Link>
@@ -277,10 +277,10 @@ export default function ({ user })
               </Space>
             </a>
           </Dropdown>
-          <Link to="/blogs">
+          <Link to="/donate">
             <HoverUnderLine>
               <div className="flex gap-2 items-center cursor-pointer p-2">
-                Blog
+                Donate
               </div>
             </HoverUnderLine>
           </Link>

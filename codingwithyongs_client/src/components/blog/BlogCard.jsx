@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import HoverUnderLine from "../HoverUnderLine";
 
-const BlogCard = ({ blog }) => {
+const BlogCard = ({ blog }) =>
+{
   console.log(blog)
   return (
     <HoverUnderLine>
-      <div className="rounded-md border border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer">
+      <div className="group relative overflow-hidden rounded-md border border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer">
         <Link to={`/blogs/${blog?.slug}`}>
           <div className="flex h-full flex-col space-y-2 px-2 py-4">
             <div className="flex justify-between">
@@ -32,6 +33,12 @@ const BlogCard = ({ blog }) => {
             </div>
             <h4 className="text-lg">{blog?.blog_title}</h4>
           </div>
+        </Link>
+        <Link
+          to={`/blogs/${blog.slug}`}
+          className='z-10 group-hover:bottom-0 absolute bottom-[-50px] left-0 right-0 text-black bg-teal-500 border border-teal-500 hover:bg-teal-500 hover:text-white transition-all duration-300 text-center py-2 rounded-md !rounded-tl-none m-2'
+        >
+          Read article
         </Link>
       </div>
     </HoverUnderLine>

@@ -10,7 +10,8 @@ import { getAllBlogs } from "../features/blogs/blogSlice";
 import { useEffect, useState } from "react";
 import { getAllCategories } from "../features/category/categorySlice";
 
-const Blogs = () => {
+const Blogs = () =>
+{
   const dispatch = useDispatch();
   const { blogs, loading } = useSelector((state) => state.blogs);
   const [filterCat, setFilterCat] = useState("");
@@ -20,31 +21,40 @@ const Blogs = () => {
   );
   const [journeyBlogs, setJourneyBlogs] = useState({});
 
-  useEffect(() => {
-    const fetchData = () => {
+  useEffect(() =>
+  {
+    const fetchData = () =>
+    {
       dispatch(getAllBlogs());
     };
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const fetchData = () => {
+  useEffect(() =>
+  {
+    const fetchData = () =>
+    {
       dispatch(getAllCategories());
     };
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (filterCat) {
-      if (blogs && blogs?.length > 0) {
+  useEffect(() =>
+  {
+    if (filterCat)
+    {
+      if (blogs && blogs?.length > 0)
+      {
         const response = blogs.filter((elem) => elem.category == filterCat);
         setSelectedBlogs(response);
       }
     }
   }, [blogs, filterCat]);
 
-  useEffect(() => {
-    if (blogs && blogs?.length > 0) {
+  useEffect(() =>
+  {
+    if (blogs && blogs?.length > 0)
+    {
       const response = blogs.filter(
         (elem) => elem?.category.toLowerCase() == "My quest".toLowerCase()
       );
@@ -60,8 +70,7 @@ const Blogs = () => {
         description="Welcome to my blog website. Built using React, Tailwind, Flask,
             Python and Postgresql"
       />
-      <Watermark content="Coding W-Yongs">
-        {/* <h2 className="text-xl sm:text-xl md:text-2xl lg:text-3xl font-black">
+      {/* <h2 className="text-xl sm:text-xl md:text-2xl lg:text-3xl font-black">
           Featured Posts
         </h2>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full mt-6">
@@ -69,7 +78,6 @@ const Blogs = () => {
             <BlogCard blog={blog} key={blog._id} />
           ))}
         </div> */}
-      </Watermark>
       {journeyBlogs && journeyBlogs?.length > 0 ? (
         <section className="max-w-4xl py-2 lg:py-4 flex flex-col space-y-6 mt-4">
           <h2 className="text-xl sm:text-xl md:text-2xl lg:text-3xl font-black">
@@ -103,7 +111,7 @@ const Blogs = () => {
       ) : (
         "No data"
       )}
-      <Watermark content="Coding W-Yongs mb-10">
+      <div className="mb-10">
         <h2 className="text-xl sm:text-xl md:text-2xl lg:text-3xl font-black">
           {filterCat ? filterCat : "Latest posts"}
         </h2>
@@ -116,15 +124,15 @@ const Blogs = () => {
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full mt-6">
               {filterCat && selectedBlogs?.length > 0
                 ? blogs
-                    .filter((blog) => blog.category == filterCat)
-                    .map((blog) => <BlogCard blog={blog} key={blog.id} />)
+                  .filter((blog) => blog.category == filterCat)
+                  .map((blog) => <BlogCard blog={blog} key={blog.id} />)
                 : blogs.map((blog) => <BlogCard blog={blog} key={blog.id} />)}
             </div>
           ) : (
             "No data"
           )}
         </>
-      </Watermark>
+      </div>
     </div>
   );
 };

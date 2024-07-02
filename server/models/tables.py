@@ -475,7 +475,7 @@ def create_tables():
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
-                """
+        """
         CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
             comment Text NOT NULL,
@@ -518,7 +518,7 @@ def create_tables():
             ON UPDATE CASCADE ON DELETE CASCADE      
         )
         """,
-                """
+        """
         CREATE TABLE IF NOT EXISTS project_like (
             id SERIAL PRIMARY KEY,
             account_id INTEGER NOT NULL,
@@ -537,13 +537,52 @@ def create_tables():
             message Text NOT NULL,
             project_id INTEGER NOT NULL,
             account_id INTEGER NOT NULL,
-            mes_com_time TIME 
-            NOT NULL DEFAULT CURRENT_TIME,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (project_id)
             REFERENCES project (id)
+            ON UPDATE CASCADE ON DELETE CASCADE
+        )
+        """,
+            # END OF PROJECT SCHEMA
+            # FEED TABLE/SCHEMA
+        """
+        CREATE TABLE IF NOT EXISTS feed (
+            id SERIAL PRIMARY KEY,
+            account_id INTEGER NOT NULL,
+            text Text NOT NULL,
+            image Text,
+            video Text,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE    
+        )
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS feed_like (
+            id SERIAL PRIMARY KEY,
+            account_id INTEGER NOT NULL,
+            feed_id INTEGER NOT NULL,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (feed_id)
+            REFERENCES feed (id)
+            ON UPDATE CASCADE ON DELETE CASCADE
+        )
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS feed_comment (
+            id SERIAL PRIMARY KEY,
+            comment Text NOT NULL,
+            feed_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (feed_id)
+            REFERENCES feed (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,

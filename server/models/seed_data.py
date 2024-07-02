@@ -37,10 +37,9 @@ def seed():
     if r == 5 or r == 2:
         r = 6
     user_title_id = r
-    seeded = True
-    user = create_user(email, username, lastname, is_admin, is_staff, profile, user_title_id, seeded)
+    user = create_user(email, username, lastname, is_admin, is_staff, user_title_id)
     
-    account_id = user["id"]
+    account_id = 1
     for _ in range(4):
         
         post = fake.sentence()

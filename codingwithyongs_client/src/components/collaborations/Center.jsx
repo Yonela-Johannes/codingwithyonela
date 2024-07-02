@@ -26,7 +26,7 @@ const Center = () => {
 
   return (
     <div className="flex flex-col relative gap-10 h-full">
-      <div className="z-20 h-[580px] overflow-y-scroll">
+      <div className="z-20 h-[580px] overflow-y-auto">
         {projects?.map((project) => (
           <List key={project.id} project={project} />
         ))}

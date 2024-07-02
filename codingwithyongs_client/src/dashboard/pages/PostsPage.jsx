@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import CallToAction from '../components/CallToAction';
 import { useEffect, useState } from 'react';
 import PostCard from '../components/PostCard';
+import { useDispatch, useSelector } from "react-redux";
 
 export default function PostsPage()
 {
-  const [posts, setPosts] = useState([]);
+  const { loading, posts } = useSelector((state) => state.posts)
 
   useEffect(() =>
   {
@@ -19,10 +19,10 @@ export default function PostsPage()
   }, []);
   return (
     <div>
-      <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto '>
-        <h1 className='text-3xl font-bold lg:text-6xl'>Welcome to my Blog</h1>
+      <div className='flex flex-col gap-6 px-3 max-w-6xl'>
+        <h1 className='text-3xl font-bold lg:text-6xl'>Welcome to my updates</h1>
         <p className='text-gray-500 text-xs sm:text-sm'>
-          Here you'll find a variety of articles and tutorials on topics such as
+          Here you'll find a variety of posts on topics such as daily explorations, family,
           web development, software engineering, and programming languages.
         </p>
         <Link
@@ -32,15 +32,12 @@ export default function PostsPage()
           View all posts
         </Link>
       </div>
-      <div className='p-3 bg-amber-100 dark:bg-slate-700'>
-        <CallToAction />
-      </div>
 
-      <div className='max-w-6xl mx-auto p-3 flex flex-col gap-8 py-7'>
+      <div className='mx-auto p-3 flex flex-col gap-8 py-7 items-center justify-center'>
         {posts && posts.length > 0 && (
-          <div className='flex flex-col gap-6'>
+          <div className='flex justify-center items-center flex-col gap-6'>
             <h2 className='text-2xl font-semibold text-center'>Recent Posts</h2>
-            <div className='flex flex-wrap gap-4'>
+            <div className='grid lg:grid-cols-3 items-center justify-center gap-4 md:gap-8'>
               {posts.map((post) => (
                 <PostCard key={post._id} post={post} />
               ))}

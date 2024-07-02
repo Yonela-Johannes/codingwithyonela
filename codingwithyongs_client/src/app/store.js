@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import userReducer from '../features/user/userSlice';
 import suggestionReducer from '../features/suggestions/suggestionSlice';
 import blogsReducer from '../features/blogs/blogSlice';
+import postsReducer from '../features/post/postSlice';
 import categoryReducer from '../features/category/categorySlice';
 import titleReducer from '../features/title/titleSlice';
 import countryReducer from '../features/countries/countrySlice';
@@ -11,12 +12,14 @@ import projectReducer from '../features/project/projectSlice';
 import recommendationReducer from '../features/recommenation/recommendationSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import quoteReducer from '../features/quote/quoteSlice';
 
 // Combine all reducers into a single root reducer
 const rootReducer = combineReducers({
   user: userReducer,
   suggestion: suggestionReducer,
   blogs: blogsReducer,
+  posts: postsReducer,
   categories: categoryReducer,
   titles: titleReducer,
   countries: countryReducer,
@@ -24,6 +27,7 @@ const rootReducer = combineReducers({
   question: questionReducer,
   project: projectReducer,
   recommendation: recommendationReducer,
+  quotes: quoteReducer
 });
 
 // Create a persist configuration

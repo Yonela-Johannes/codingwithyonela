@@ -2,7 +2,8 @@ import Center from "../components/collaborations/Center";
 import Right from "../components/collaborations/Right";
 import Details from "../components/collaborations/Details";
 
-const Collaboration = () => {
+const Collaboration = () =>
+{
   return (
     <div className="flex flex-col h-full overflow-y-hidden my-8">
       <div className="grid grid-cols-1 gap-8 xl:grid-cols-3 xl:gap-6 h-full text-center">
