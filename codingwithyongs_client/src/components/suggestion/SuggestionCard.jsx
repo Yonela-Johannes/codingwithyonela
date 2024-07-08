@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Modal, Space } from "antd";
 const { confirm } = Modal;
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import {
+import
+{
   deleteSuggestion,
   getSuggestionResponse,
   getSuggestionComments,
@@ -21,11 +22,13 @@ const SuggestionCard = ({
   editPost,
   edit,
   setEdit,
-}) => {
+}) =>
+{
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const showDeleteConfirm = (params) => {
+  const showDeleteConfirm = (params) =>
+  {
     setEdit(false);
     setOpen(false);
     setEdit(false);
@@ -37,7 +40,8 @@ const SuggestionCard = ({
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
-      onOk() {
+      onOk()
+      {
         const data = {
           account_id: params.account_id,
           suggestion_id: params.suggestion_id,
@@ -47,20 +51,24 @@ const SuggestionCard = ({
     });
   };
 
-  const handleSelect = (params) => {
+  const handleSelect = (params) =>
+  {
     setSelected(params);
     dispatch(getSuggestionResponse(params?.suggestion_id));
     setOpen(true);
   };
 
-  const handleEdit = (params) => {
-    if (edit && editPost) {
+  const handleEdit = (params) =>
+  {
+    if (edit && editPost)
+    {
       setOpenComments(false);
 
       setOpen(false);
       setEdit(false);
       setEditPost("");
-    } else {
+    } else
+    {
       setOpenComments(false);
 
       setOpen(false);
@@ -69,7 +77,8 @@ const SuggestionCard = ({
     }
   };
 
-  const handleComments = (params) => {
+  const handleComments = (params) =>
+  {
     setEdit(false);
     setOpen(false);
     setEdit(false);
@@ -79,7 +88,7 @@ const SuggestionCard = ({
   };
 
   return (
-    <div className="rounded-md p-2 w-full border border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer">
+    <div className="rounded-md p-2 w-full border border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer max-w-[680px]">
       <div className="w-full flex-col flex lg:flex-row items-center justify-between">
         <h4 className="p-2 text-clr_alt font-bold">
           {suggestion?.suggestion_title}
@@ -104,17 +113,7 @@ const SuggestionCard = ({
           </div>
         </div>
       </div>
-      <div className="grid lg:grid-cols-3  items-start gap-2 md:gap-4 justify-between w-full ">
-        <div className="flex gap-1 items-center">
-          <div className="flex w-min flex-row md:flex-col md:text-2xl items-center justify-evenly h-full gap-2 text-clr_alt rounded-md p-2">
-            <BiUpvote />
-            <p className="text-sm">{suggestion?.upvotes}</p>
-          </div>
-          <div className="flex text-black gap-1 items-center">
-            <BiDownvote />
-            <p className="text-sm">{suggestion?.downvotes}</p>
-          </div>
-        </div>
+      <div className="flex flex-col items-center gap-2 md:gap-4 justify-between w-full ">
         <h4 className="text-sm md:text-base">{suggestion?.post}</h4>
         <div className="w-max">
           <div className="flex gap-4 text-sm text-center items-center justify-center">

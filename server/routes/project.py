@@ -1,12 +1,22 @@
 import json
 from flask import request
 from sqlalchemy import JSON
-from controllers.project import create_project, create_project_chat, delete_project, edit_project, fetch_projects, fetch_projects_chats, project_like
+from controllers.project import create_project, create_project_chat, delete_project, edit_project, fetch_projects, fetch_projects_chats, project_like, fetch_project
 
 def project(id):
-    REQUEST = request.method 
+    REQUEST = request.method
+    if REQUEST == 'GET':
+        # Fetch project
+        try:
+            print("WE ARE HERE, AND ONE")
+            response = fetch_project(id)
+            res = {"data": response}
+            return res, 200
+
+        except:
+            return {"message": "Fetch failed: something went wrong."}, 400
     # edit/update
-    if REQUEST == 'PUT':
+    elif REQUEST == 'PUT':
         try:
 
             data = request.get_json()
@@ -65,14 +75,14 @@ def project(id):
 def projects():
     REQUEST = request.method 
     if REQUEST == 'GET':
-        # Fetch one
+        # Fetch projects
         try:
             response = fetch_projects()
             res = {"data": response}
             return res, 200
-    
+
         except:
-            return {"message": "Fetch failed: something went wrong."}
+            return {"message": "Fetch failed: something went wrong."}, 400
     # Create title
     elif REQUEST == 'POST':
         try:
@@ -81,24 +91,27 @@ def projects():
 
             account_id = data['account_id']
             project_name = data['project_name']
-            category_id = data['category_id']
             description = data['description']
+            image = data['image']
+            users_id = data['users_id']
+            skill_id = data['skill_id']
             github = data['github']
             link = data['link']
-
+            progress = data['progress']      
+            
             category_id = None
             status_id = None
             management_tool = ''
+            
             if 'category_id' in data and 'status_id' in data and 'management_tool' in data:
                 category_id = data['category_id']
                 status_id = data['status_id']
                 management_tool = data['management_tool']
             
             if account_id and project_name and description and github and link:
-                response = create_project(account_id, account_id, project_name, description, status_id, category_id, github, link, management_tool)
+                response = create_project(users_id, account_id, image, project_name, description, status_id, category_id, skill_id, github, link, management_tool, progress)
                 if response:
-                        print(response)
-                        res = {"data": f"{response}"}
+                        res = {"data": "Project created successfull"}
                         return res, 201
                 else:
                     res = {"message": "Project already exist"}

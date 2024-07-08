@@ -35,19 +35,15 @@ const Layout = ({ children }) =>
         }}
       />
       <div className="mx-auto overflow-x-hidden h-full flex-1 w-screen flex flex-col left-0 right-0">
-        <div className="border-b border-bg_light overflow-x-hidden">
+        <div className="fixed top-0 left-0 right-0 bg-white z-50 border-b border-bg_light overflow-x-hidden">
           <Wrapper>
             <Navbar user={user} />
+            <Header />
+            <NavMenu />
           </Wrapper>
         </div>
-        <Wrapper>
-          <Header />
-        </Wrapper>
-        <Wrapper>
-          <NavMenu />
-        </Wrapper>
         <div
-          className={`h-full overflow-x-hidden flex-1 flex-grow border-y-[1px] border-bg_light  w-full md:flex flex-col`}
+          className={`h-[calc(100vh-320px)] pt-[320px] overflow-x-hidden flex-1 flex-grow border-y-[1px] border-bg_light  w-full md:flex flex-col`}
         >
           <div className="md:py-3 md:pb-10 pb-5 flex-1 flex-grow w-[80%] mx-auto overflow-x-hidden h-full">
             {children}

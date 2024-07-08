@@ -243,7 +243,7 @@ export default function ({ user })
 
 
   return (
-    <nav className="fixed px-10 flex flex-col z-50 md:flex-row py-3 w-full bg-white top-0 left-0 right-0 items-center justify-between gap-4 md:gap-0">
+    <nav className="px-10 flex flex-col z-50 md:flex-row py-3 w-full bg-white items-center justify-between gap-4 md:gap-0">
       <div className="hidden md:flex items-center justify-between w-full">
         <div className="">
           <Link to="/">

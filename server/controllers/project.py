@@ -2,11 +2,11 @@ import psycopg2
 from utils.db import connection
 from psycopg2.extras import RealDictCursor
 
-def create_project(users_id, account_id, project_name, description, status_id, category_id, github, link, management_tool):
+def create_project(users_id, account_id, image, project_name, description, status_id, category_id, skill_id, github, link, management_tool, progress):
     """ Create new account_id into  the acount table """
     status_id = 1
-    sql = """INSERT INTO project (users_id, account_id, project_name, description, status_id, category_id, github, link, management_tool)
-             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id;"""
+    sql = """INSERT INTO project (users_id, account_id, image, project_name, description, status_id, category_id, skill_id, github, link, management_tool, progress)
+             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id;"""
     
     response = None
 
@@ -14,7 +14,7 @@ def create_project(users_id, account_id, project_name, description, status_id, c
         with  connection as conn:
             with  conn.cursor() as cur:
                 # execute the INSERT statement
-                cur.execute(sql, (users_id, account_id, project_name, description, status_id, category_id, github, link, management_tool))
+                cur.execute(sql, (users_id, account_id, image, project_name, description, status_id, category_id, skill_id, github, link, management_tool, progress))
             
                 rows = cur.fetchone()
                 if rows:
@@ -46,6 +46,26 @@ def fetch_projects():
         response = error
     finally:
         return response
+
+def fetch_project(id):
+
+    query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id AS status_id, status.status FROM project JOIN account on account_id = account.id JOIN status ON status_id = status.id WHERE project.id=%s"""
+
+    response = None
+
+    try:
+        with  connection as conn:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
+                cur.execute(query, (id,))            
+                rows = cur.fetchone()
+                if rows:
+                    response = rows
+                conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        response = error
+    finally:
+        return response
+    
 
 def edit_project(users_id, project_name, description, status_id, category_id, github, link, management_tool):
 

@@ -4,23 +4,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "antd";
 const { confirm } = Modal;
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import {
-  deleteSuggestion,
-  commentSuggestion,
-  createSuggestionResponse,
-  getSuggestionResponse,
-  getSuggestionComments,
-} from "../../features/suggestions/suggestionSlice";
+import
+{
+  getAllQuestions,
+  updateQuestion,
+  deleteQuestion,
+} from "../../features/question/questionSlice";
 import Comment from "../../shared/Comment";
+import { useNavigate } from "react-router-dom";
 
-const Card = ({ setSelectedQuestion, setOpenComments, question, setEdit }) => {
+const Card = ({ setSelectedQuestion, setOpenComments, question, setEdit }) =>
+{
   const { user } = useSelector((state) => state.user);
   const [option, setOption] = useState("comment");
   const [response, setResponse] = useState("");
   const [active, setActive] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
-  const showDeleteConfirm = (params) => {
+  const showDeleteConfirm = (params) =>
+  {
     setEdit(false);
     setActive(false);
     setOpenComments(false);
@@ -31,22 +34,37 @@ const Card = ({ setSelectedQuestion, setOpenComments, question, setEdit }) => {
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
-      onOk() {
+      onOk()
+      {
         const data = {
           account_id: params.account_id,
           suggestion_id: params.suggestion_id,
         };
-        dispatch(deleteSuggestion(data));
+        dispatch(deleteQuestion(data));
       },
     });
   };
 
-  const handleSelect = (params) => {
+  const handleSelect = (params) =>
+  {
     setActive(false);
     setSelectedQuestion(params);
-    dispatch(getSuggestionResponse(params?.suggestion_id));
+    dispatch(getAllQuestions(params?.suggestion_id));
     setOpenComments(true);
   };
+
+  const handleLike = (params) =>
+  {
+    setActive(false);
+    setSelectedQuestion(params);
+    const data = {
+      ...params,
+      account_id: user?._id
+    }
+    dispatch(updateQuestion(data));
+    setOpenComments(false);
+  };
+
 
   return (
     <div className="p-2 w-full border rounded-md lg:border-r border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer">
@@ -91,7 +109,7 @@ const Card = ({ setSelectedQuestion, setOpenComments, question, setEdit }) => {
             5 likes
           </div>
           <div
-            onClick={() => handleSelect(question)}
+            onClick={() => handleLike(question)}
             className="text-xs text-bg_core w-[130px] text-center"
           >
             5 comments

@@ -17,8 +17,7 @@ import moment from "moment";
 
 const Questions = () =>
 {
-  const user = {}
-  // const { user } = useSelector((state) => state?.user);
+  const { user } = useSelector((state) => state?.user);
   const { questions, created, loading, commented, comments } = useSelector(
     (state) => state?.question
   );
@@ -137,13 +136,15 @@ const Questions = () =>
           ""
         )}
 
-        <button
-          onClick={() => setOpen(true)}
-          title="Add recommendation"
-          className="flex p-0 items-center justify-center text-lg bg-clr_alt text-white rounded-full w-11 h-11"
-        >
-          <MdOutlineAdd size={20} />
-        </button>
+        {user && user?._id ? (
+          <button
+            onClick={() => setOpen(true)}
+            title="Add recommendation"
+            className="flex p-0 items-center justify-center text-lg bg-clr_alt text-white rounded-full w-11 h-11"
+          >
+            <MdOutlineAdd size={20} />
+          </button>
+        ) : ""}
       </div>
       {loading ? (
         "loading"

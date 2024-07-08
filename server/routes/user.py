@@ -25,23 +25,48 @@ def user(id):
     elif REQUEST == 'PUT':
         try:
             data = request.get_json()
-            is_admin = data['is_admin']
-            is_staff = data['is_staff']
-            user_title_id = data['user_title_id']
-            id = data['id']
+            print(data)
             
-            if id:
-                response = edit_user(id, is_admin, is_staff, user_title_id)
-                if response:
-                        res = {"data": f"{response}",
-                            "message": "Update successful"
-                            }
-                        return res, 200
-            res = {"message": "Title or is ID invalid"}
-            return res, 400
+            is_admin: bool = False
+            is_staff: bool = False
+            user_title_id: str = ""
+            
+            if "id" in data:
+                response = fetch_user(id)
+                if response is None:
+                    res = {"message": "Invalid user"}
+                    return res, 400
+
+                id = response['id']                            
+                if "is_admin" in data:
+                    is_admin = data['is_admin']
+                else:
+                    is_admin = False
+                    
+                if "is_staff" in data:
+                    is_staff = data['is_staff']
+                else:
+                    is_staff = False
+                    
+                if "user_title_id" in data:
+                    user_title_id = data['user_title_id']
+            
+                if id:
+                    # response = edit_user(id, is_admin, is_staff, user_title_id)
+                    # if response:
+                    #     res = {"data": f"{response}",
+                    #         "message": "Update successful"
+                    #         }
+                    # return res, 200
+                    return {"message": "We are inside", "id": id}, 201
+                else:
+                    res = {"message": "Invalid user"}
+                    return res, 400
+
+    
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400
+            return res, 400
     
     # delete
     elif REQUEST == 'DELETE':

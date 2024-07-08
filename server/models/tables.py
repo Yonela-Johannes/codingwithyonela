@@ -492,6 +492,7 @@ def create_tables():
             id SERIAL PRIMARY KEY,
             account_id INTEGER NOT NULL,
             project_name Text NOT NULL,
+            image TEXT NOT NULL,
             description Text NOT NULL,
             status_id INTEGER NOT NULL,
             category_id INTEGER NULL,
@@ -501,6 +502,7 @@ def create_tables():
             github Text NOT NULL,
             link Text NOT NULL,
             management_tool Text NULL,
+            progress INT NOT NULL,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
