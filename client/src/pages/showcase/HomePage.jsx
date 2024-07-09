@@ -60,32 +60,32 @@ const HomePage = () =>
     //     setSortType("recent");
     // };
 
-    const onSort = (sortType) =>
-    {
-        if (sortType === "recent")
-        {
-            repos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); //descending, recent first
-        } else if (sortType === "stars")
-        {
-            repos.sort((a, b) => b.stargazers_count - a.stargazers_count); //descending, most stars first
-        } else if (sortType === "forks")
-        {
-            repos.sort((a, b) => b.forks_count - a.forks_count); //descending, most forks first
-        }
-        setSortType(sortType);
-        setRepos([...repos]);
-    };
+    // const onSort = (sortType) =>
+    // {
+    //     if (sortType === "recent")
+    //     {
+    //         repos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); //descending, recent first
+    //     } else if (sortType === "stars")
+    //     {
+    //         repos.sort((a, b) => b.stargazers_count - a.stargazers_count); //descending, most stars first
+    //     } else if (sortType === "forks")
+    //     {
+    //         repos.sort((a, b) => b.forks_count - a.forks_count); //descending, most forks first
+    //     }
+    //     setSortType(sortType);
+    //     setRepos([...repos]);
+    // };
 
     console.log(userProfile)
     return (
         <div className='m-4'>
             {/* <Search onSearch={onSearch} /> */}
-            {repos.length > 0 && <SortRepos onSort={onSort} sortType={sortType} />}
+            {/* {repos.length > 0 && <SortRepos onSort={onSort} sortType={sortType} />} */}
             <div className='flex gap-4 flex-col lg:flex-row justify-center items-start'>
                 {<ProfileInfo userProfile={userProfile} />}
 
-                {<Repos repos={repos} />}
-                {loading && <Loader />}
+                {/* {<Repos repos={repos} />}
+                {loading && <Loader />} */}
             </div>
         </div>
     );
