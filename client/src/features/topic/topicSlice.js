@@ -6,30 +6,33 @@ const initialState = {
   topics: [],
   loading: false
 }
-  
-  export const getAllTopics = createAsyncThunk('topics/fetch all', async () => {
-    const response = await axios.get(`${apiUrl}topics`);
-    console.log(response)
-    return response.data;
-  });
+
+export const getAllTopics = createAsyncThunk('topics/fetch all', async () =>
+{
+  const response = await axios.get(`${apiUrl}topics`);
+  return response.data;
+});
 
 export const topicSlice = createSlice({
   name: 'topics',
   initialState,
   reducers: {
   },
-  
-  extraReducers: (builder) => {
+
+  extraReducers: (builder) =>
+  {
     builder
-      .addCase(getAllTopics.pending, (state) => {
+      .addCase(getAllTopics.pending, (state) =>
+      {
         state.loading = true;
       })
-      .addCase(getAllTopics.fulfilled, (state, action) => {
+      .addCase(getAllTopics.fulfilled, (state, action) =>
+      {
         state.loading = false;
-        console.log(action.payload)
         state.topics = action.payload.data;
       })
-      .addCase(getAllTopics.rejected, (state, action) => {
+      .addCase(getAllTopics.rejected, (state, action) =>
+      {
         state.loading = false;
         state.error = action.message;
       })

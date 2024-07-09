@@ -1,3 +1,5 @@
+
+
 export const PROGRAMMING_LANGUAGES = {
 	TypeScript: "/typescript.svg",
 	JavaScript: "/javascript.svg",

@@ -5,6 +5,7 @@ import blogsReducer from '../features/blogs/blogSlice';
 import postsReducer from '../features/post/postSlice';
 import categoryReducer from '../features/category/categorySlice';
 import titleReducer from '../features/title/titleSlice';
+import githubReducer from '../features/github/githubSlice';
 import countryReducer from '../features/countries/countrySlice';
 import topicReducer from '../features/topic/topicSlice';
 import questionReducer from '../features/question/questionSlice';
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
   question: questionReducer,
   project: projectReducer,
   recommendation: recommendationReducer,
-  quotes: quoteReducer
+  quotes: quoteReducer,
+  github: githubReducer,
 });
 
 // Create a persist configuration

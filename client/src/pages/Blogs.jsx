@@ -24,7 +24,7 @@ const Blogs = () =>
   {
     const fetchData = () =>
     {
-      // dispatch(getAllBlogs());
+      dispatch(getAllBlogs());
     };
     fetchData();
   }, []);

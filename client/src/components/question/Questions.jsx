@@ -25,6 +25,7 @@ const Questions = () =>
   const { topics } = useSelector((state) => state.topic);
   const [openComment, setOpenComment] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(false);
+  const [filterValue, setFilterValue] = useState("")
   const [edit, setEdit] = useState(false);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
@@ -121,10 +122,11 @@ const Questions = () =>
       <div className="flex items-start w-full mb-8 justify-between lg:px-10">
         {topics && topics?.length > 0 ? (
           <div className="grid grid-cols-1 w-max gap-2">
-            <select>
+            <select onChange={(e) => setFilterValue(e.target.value)}>
               {topics?.map((element) => (
                 <option
                   key={element?.id}
+                  value={element.name}
                   className="flex items-center cursor-pointer gap-4 rounded-none border-none border-b border-bg_core drop-shadow-none w-full"
                 >
                   {element?.name}
@@ -153,7 +155,7 @@ const Questions = () =>
       ) : questions?.length > 0 && loading == false ? (
         <div className="flex flex-col gap-8 h-full lg:px-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 overflow-hidden py-4 gap-8 h-full w-full">
-            {questions?.map((question) => (
+            {filterValue ? questions?.filter((element) => element.topic_name == filterValue)?.map((question) => (
               <Card
                 key={question?.id}
                 setSelectedQuestion={setSelectedQuestion}
@@ -161,7 +163,17 @@ const Questions = () =>
                 question={question}
                 setEdit={setEdit}
               />
-            ))}
+            )) : (
+              questions?.map((question) => (
+                <Card
+                  key={question?.id}
+                  setSelectedQuestion={setSelectedQuestion}
+                  setOpenComments={setOpenComment}
+                  question={question}
+                  setEdit={setEdit}
+                />
+              )
+              ))}
           </div>
         </div>
       ) : (

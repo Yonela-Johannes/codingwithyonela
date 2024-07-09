@@ -8,11 +8,11 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import
-  {
-    getBlog,
-    createBlogComment,
-    fetchBlogComment,
-  } from "../features/blogs/blogSlice";
+{
+  createBlogComment,
+  fetchBlogComment,
+  getAllBlogs,
+} from "../features/blogs/blogSlice";
 import GlobalComment from "../shared/BlogComment.jsx";
 import toast from "react-hot-toast";
 import moment from "moment";
@@ -28,6 +28,11 @@ const Blog = () =>
   const [blog, setBlog] = useState({});
   const navigate = useNavigate();
   const slug = useParams().id;
+
+  useEffect(() =>
+  {
+    dispatch(getAllBlogs())
+  }, []);
 
   useEffect(() =>
   {
@@ -72,7 +77,6 @@ const Blog = () =>
     }
   };
 
-  console.log(comments);
   return (
     <div className="rounded-md border border-bg_light w-full min-h-full">
       <img

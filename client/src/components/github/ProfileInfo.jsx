@@ -4,27 +4,10 @@ import { FaXTwitter } from "react-icons/fa6";
 import { TfiThought } from "react-icons/tfi";
 import { FaEye } from "react-icons/fa";
 import { formatMemberSince } from "../../utils/functions";
-import LikeProfile from "./LikeProfile";
 
-const ProfileInfo = ({ }) =>
+const ProfileInfo = ({ userProfile, followers }) =>
 {
-	const userProfile = {
-		avatar_url: "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745",
-		bio: "👨🏻‍💻👨🏻‍💻👨🏻‍💻",
-		email: "johndoe@gmail.com",
-		followers: 100,
-		following: 200,
-		html_url: "https://github.com/yonela-johannes",
-		location: "Somewhere, Earth",
-		name: "John Doe",
-		public_gists: 100,
-		public_repos: 100,
-		twitter_username: "johndoe",
-		login: "johndoe",
-	};
-
 	const memberSince = formatMemberSince(userProfile?.created_at);
-
 	return (
 		<div className='lg:w-1/3 w-full flex flex-col gap-2 lg:sticky md:top-10'>
 			<div className='bg-glass rounded-lg p-4'>
@@ -35,13 +18,12 @@ const ProfileInfo = ({ }) =>
 					</a>
 					{/* View on Github */}
 
-					<div className='flex gap-2 items-center flex-col'>
-						<LikeProfile userProfile={userProfile} />
+					<div className='flex gap-2 items-start flex-col'>
 						<a
 							href={userProfile?.html_url}
 							target='_blank'
 							rel='noreferrer'
-							className='bg-glass font-medium w-full text-xs p-2 rounded-md cursor-pointer border border-blue-400 flex items-center gap-2'
+							className='font-medium w-full text-xs p-2 rounded-md cursor-pointer border border-blue-400 flex items-center gap-2'
 						>
 							<FaEye size={16} />
 							View on Github
@@ -130,6 +112,16 @@ const ProfileInfo = ({ }) =>
 				<div className='flex items-center gap-2 bg-glass rounded-lg p-2 flex-1 min-w-24'>
 					<RiGitRepositoryFill className='w-5 h-5 text-blue-800' />
 					<p className='text-xs'>Public gists: {userProfile?.public_gists}</p>
+				</div>
+				<div className="flex w-full justify-center bg-slate-200 p-4 rounded-md flex-wrap h-full gap-y-2 gap-x-1">
+					{followers.length ? (
+						followers.map((follower) =>
+						(
+							<a title={follower.login} className="flex-wrap cursor-pointer" href={follower.html_url} key={follower.id} target="_blank">
+								<img src={follower.avatar_url} className="border lg:hover:scale-110 duration-100 w-8 h-8 lg:w-12 lg:h-12 border-cl_primary rounded-full object-cover object-center" alt={follower.login} />
+							</a>
+						))
+					) : ""}
 				</div>
 			</div>
 		</div>
