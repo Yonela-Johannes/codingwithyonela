@@ -66,6 +66,7 @@ def create_tables():
             is_admin BOOLEAN NOT NULL,
             is_staff BOOLEAN NOT NULL,
             profile TEXT,
+            password TEXT NOT NULL,
             user_title_id INTEGER NOT NULL,
             FOREIGN KEY (user_title_id)
             REFERENCES user_title (id)

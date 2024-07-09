@@ -8,27 +8,12 @@ def category():
         # Fetch one
         try:
             data = request.get_json()
-            if "id" in data:
-                id = data['id']
-                response = fetch_category(id)
-                if response:
-                    res = {
-                        "message": "Fetch successful",
-                        "data": response
-                    }
-                    return res, 200
-                else:
-                    res = {"message": "Fetch failed: something went wrong."}
-                    return res, 400
-            else:
-                # Fetch All
-                print('WE ARE FETCHING ALL_____')
-                response = fetch_categories()
-                result = response
-                res = {"data": result}
-                return res, 200
+            # Fetch All
+            response = fetch_categories()
+            res = {"data": response}
+            return res, 200
         except json.decoder.JSONDecodeError:   
-            print(res)
+            res = {"message": "Something went wrong!"}
             return res, 400 
     
     # Create title
@@ -40,10 +25,10 @@ def category():
             if category and account_id:
                 response = create_category(category, account_id)
                 if response:
-                        res = {"data": f"{response}"}
+                        res = {"message": "Category created successfull"}
                         return res, 201
                 else:
-                    res = {"message": f"Category already exist"}
+                    res = {"message": "Category already exist"}
                     return res, 400 
                 
             res = {"message": "Category invalid: (you must enter category)"}

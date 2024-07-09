@@ -26,9 +26,9 @@ def fetch_title(id):
     finally:
         return response
 # create title
-def create_title(user_title):
-    query = """INSERT INTO user_title(user_title)
-             VALUES(%s) RETURNING user_title;"""
+def create_title(user_title, description, skills):
+    query = """INSERT INTO user_title (user_title, description, skills)
+             VALUES(%s, %s, %s) RETURNING user_title;"""
     
     response = None
 
@@ -36,7 +36,7 @@ def create_title(user_title):
         with  connection as conn:
             with  conn.cursor() as cur:
                 # execute the INSERT statement
-                cur.execute(query, (user_title,))
+                cur.execute(query, (user_title, description, skills))
 
                 # get the generated title back                
                 rows = cur.fetchone()
@@ -52,7 +52,7 @@ def create_title(user_title):
 
 # fetch all titles
 def fetch_titles():
-    query = """SELECT id, user_title FROM user_title ORDER BY user_title;"""
+    query = """SELECT * FROM user_title ORDER BY user_title;"""
     
     response = None
 

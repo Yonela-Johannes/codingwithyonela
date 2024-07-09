@@ -18,14 +18,14 @@ def title():
     # Create title
     elif REQUEST == 'POST':
         try:
-            data = json.loads(request.data)['user_title']
+            data = json.loads(request.data)
             if data:
-                response = create_title(data)
-                if response == data:
-                        res = {"title": f"{response}"}
-                        return res, 201
+                response = create_title(data["user_title"], data["description"], data["skill_id"])
+                if response == data["user_title"]:
+                    res = {"title": "Title created successfull"}
+                    return res, 201
                 else:
-                    res = {"message": f"{data} already exist"}
+                    res = {"message": "Invalid input or already exists"}
                     return res, 400 
                 
             res = {"message": "Title invalid: (you must enter title)"}
