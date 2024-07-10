@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import HoverUnderLine from "./HoverUnderLine";
 import { DownOutlined } from "@ant-design/icons";
 import { Space, Dropdown } from "antd";
@@ -12,6 +12,7 @@ import { MdClose } from "react-icons/md";
 import logo from '../assets/logo.png'
 import { Search } from "lucide-react";
 import ThemeToggle from './themeToggle/ThemeToggle';
+import { ThemeContext } from '../context/ThemeContext';
 
 const MobileMenu = ({ user, items, user_items }) =>
 {
@@ -27,7 +28,6 @@ const MobileMenu = ({ user, items, user_items }) =>
   };
 
   // const { currentUser } = useSelector((state) => state.user);
-  // const { theme } = useSelector((state) => state?.theme);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() =>
@@ -156,6 +156,7 @@ const MobileMenu = ({ user, items, user_items }) =>
 
 export default function ({ user })
 {
+  const { theme } = useContext(ThemeContext)
   const path = useLocation().pathname;
   const location = useLocation();
   const navigate = useNavigate();
@@ -241,9 +242,8 @@ export default function ({ user })
     },
   ];
 
-
   return (
-    <nav className="px-10 flex flex-col z-50 md:flex-row py-3 w-full bg-white items-center justify-between gap-4 md:gap-0">
+    <nav className="px-10 flex flex-col z-50 md:flex-row py-3 w-full items-center justify-between gap-4 md:gap-0">
       <div className="hidden md:flex items-center justify-between w-full">
         <div className="">
           <Link to="/">
@@ -254,13 +254,13 @@ export default function ({ user })
         </div>
         <form onSubmit={handleSubmit}>
           <div className="md:mt-4 flex gap-1 md:gap-4 items-center">
-            <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search" className="md:w-[350px] px-2" />
+            <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search" className={`${theme == "light" ? "bg-white" : "bg-slate-800 placeholder:text-gray-300"} border border-gray-400 md:w-[350px] px-2`} />
             <button className="hidden items-center justify-center h-[26px] w-[26px] md:rounded-full md:h-[46px] md:w-[46px] p-1 text-clr_alt md:bg-clr_alt md:text-white">
               <Search className="md:h-4 md:w-4 " />
             </button>
           </div>
         </form>
-        <div className="flex gap-6 text-base text-black uppercase">
+        <div className={`${theme == "light" ? "text-black" : "text-white"} flex gap-6 text-base text-black uppercase`}>
           <Dropdown
             menu={{
               items,

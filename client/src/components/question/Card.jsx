@@ -1,5 +1,5 @@
 import { BiDownvote, BiUpvote } from "react-icons/bi";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "antd";
 const { confirm } = Modal;
@@ -12,9 +12,11 @@ import
 } from "../../features/question/questionSlice";
 import Comment from "../../shared/Comment";
 import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const Card = ({ setSelectedQuestion, setOpenComments, question, setEdit }) =>
 {
+  const { theme } = useContext(ThemeContext)
   const { user } = useSelector((state) => state.user);
   const [option, setOption] = useState("comment");
   const [response, setResponse] = useState("");
@@ -67,14 +69,14 @@ const Card = ({ setSelectedQuestion, setOpenComments, question, setEdit }) =>
 
 
   return (
-    <div className="p-2 w-full border rounded-md lg:border-r border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer">
+    <div className={`${theme == "light" ? "text-black" : "text-white"} p-2 w-full border rounded-md lg:border-r border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer`}>
       <div className="flex w-full flex-col space-y-2 my-2">
-        <div className="flex w-full items-start md:justify-end gap-2">
+        <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500"} flex w-full items-start md:justify-end gap-2`}>
           <div className="space-y-1">
-            <p className="text-xs">
+            <p className="text-sm">
               {question?.username} {question?.lastname}
             </p>
-            <p className="text-xs dark:text-gray-400">
+            <p className="text-sm dark:text-gray-400">
               {new Date(question?.question_time).toDateString()}
             </p>
           </div>
@@ -91,26 +93,26 @@ const Card = ({ setSelectedQuestion, setOpenComments, question, setEdit }) =>
         <div className="w-full h-full">
           <h4 className="text-base md:text-xl">{question?.question}</h4>
           <div className="flex">
-            <p className="text-xs p-1 font-bold text-bg_core">
+            <p className="text-sm p-1 font-bold text-slate-400">
               #{question?.category}
             </p>
-            <p className="text-xs p-1 font-bold text-bg_core">
+            <p className="text-sm p-1 font-bold text-slate-400">
               #{question?.topic_name}
             </p>
           </div>
         </div>
       </div>
-      <div className="w-full my-4 self-end">
-        <div className="flex gap-2 ml-4 text-sm text-center items-center">
+      <div className="w-full mb-4 self-end">
+        <div className={`${theme == "light" ? "text-bg_core" : "text-gray-500"} flex gap-2 ml-4 text-sm text-center items-center`}>
           <div
             onClick={() => handleSelect(question)}
-            className="text-xs text-bg_core text-center"
+            className="text-sm text-center"
           >
             5 likes
           </div>
           <div
             onClick={() => handleLike(question)}
-            className="text-xs text-bg_core w-[130px] text-center"
+            className="text-sm w-[130px] text-center"
           >
             5 comments
           </div>

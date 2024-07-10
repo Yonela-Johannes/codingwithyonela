@@ -26,6 +26,7 @@ import Projects from "./pages/projects/Projects";
 import Project from "./pages/projects/Project";
 import CreateProject from "./components/donation/CreateProject";
 import MyProjects from "./pages/projects/MyProjects";
+import PostDetails from "./pages/PostDetails";
 
 function App()
 {
@@ -70,7 +71,7 @@ function App()
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blogs/:id" element={<Blog />} />
           <Route path="/posts" element={<RootLayout><PostsPage /></RootLayout>} />
-          <Route path="/posts/:id" element={<Blog />} />
+          <Route path="/post/:slug" element={<PostDetails />} />
           <Route path="/suggestions" element={<SuggestionScreen />} />
           <Route path="/questions" element={<QuestionScreen />} />
           <Route path="/testimonials" element={<Testimonials />} />

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MdOutlineAdd } from "react-icons/md";
 import { Modal } from "antd";
 import { getAllTopics } from "../../features/topic/topicSlice";
@@ -14,9 +14,11 @@ import
 } from "../../features/question/questionSlice";
 import Card from "./Card";
 import moment from "moment";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const Questions = () =>
 {
+  const { theme } = useContext(ThemeContext)
   const { user } = useSelector((state) => state?.user);
   const { questions, created, loading, commented, comments } = useSelector(
     (state) => state?.question
@@ -122,12 +124,12 @@ const Questions = () =>
       <div className="flex items-start w-full mb-8 justify-between lg:px-10">
         {topics && topics?.length > 0 ? (
           <div className="grid grid-cols-1 w-max gap-2">
-            <select onChange={(e) => setFilterValue(e.target.value)}>
+            <select className={`${theme == "light" ? "bg-slate-200" : "bg-bg_core text-white"}`} onChange={(e) => setFilterValue(e.target.value)}>
               {topics?.map((element) => (
                 <option
                   key={element?.id}
                   value={element.name}
-                  className="flex items-center cursor-pointer gap-4 rounded-none border-none border-b border-bg_core drop-shadow-none w-full"
+                  className={`${theme == "light" ? "" : "text-white"} flex items-center cursor-pointer gap-4 rounded-none border-none border-b border-bg_core drop-shadow-none w-full`}
                 >
                   {element?.name}
                 </option>

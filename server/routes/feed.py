@@ -2,7 +2,7 @@ import json
 from flask import request, jsonify
 from sqlalchemy import JSON
 from controllers.feed import ( create_feed, fetch_feed, create_feed_comment, fetch_feed_comments, fetch_feeds, edit_feed )
-from slugify import slugify
+from icecream import ic
 
 def feed(id):
     REQUEST = request.method 
@@ -80,13 +80,13 @@ def feeds():
             if account and text and image:
                 response = create_feed(account, text, image, video)
                 if response:
-                        res = {"message": "Feed created successful"}
-                        return res, 201
+                    res = {"message": "Feed created successful"}
+                    return res, 201
                 else:
-                    res = {"message": "Feed already exist"}
+                    res = {"message": "Error: something went wrong"}
                     return res, 400 
                 
-            res = {"message": "Something went wrong"}
+            res = {"message": "Error: missing data"}
             return res, 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
@@ -94,8 +94,10 @@ def feeds():
     elif REQUEST == 'GET':
         try:
             response = fetch_feeds()
-            print(response)
-            return response, 200
+            if response:
+                return response, 200
+            else:
+                return [],200
         except:
             return {"message": "Fetch failed: something went wrong."}
         

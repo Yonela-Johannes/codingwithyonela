@@ -1,9 +1,12 @@
+import { useContext } from "react";
 import Top from "../components/blog/Top";
 import peer from '../data/peer.png'
+import { ThemeContext } from "../context/ThemeContext";
 const Home = () =>
 {
+  const { theme } = useContext(ThemeContext)
   return (
-    <div className="h-full grid lg:grid-cols-2 gap-4 lg:gap-8">
+    <div className={`${theme == "light" ? "text-black" : "text-white"} h-full grid lg:grid-cols-2 gap-4 lg:gap-8`}>
       <div className="">
         <Top
           title="Hello, I'm"

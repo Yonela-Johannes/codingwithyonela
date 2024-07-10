@@ -1,17 +1,20 @@
 import
-  {
-    FaFacebook,
-    FaGithubAlt,
-    FaInstagramSquare,
-    FaLinkedin,
-  } from "react-icons/fa";
+{
+  FaFacebook,
+  FaGithubAlt,
+  FaInstagramSquare,
+  FaLinkedin,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import HoverUnderLine from "../components/HoverUnderLine";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 const Footer = () =>
 {
+  const { theme } = useContext(ThemeContext)
   return (
-    <div className="flex items-start gap-3 mt-2 flex-col md:flex-row justify-between py-2 overflow-x-hidden">
+    <div className={`${theme == "light" ? "text-black" : "text-gray-500"} flex items-start gap-3 mt-2 flex-col md:flex-row justify-between py-2 overflow-x-hidden`}>
       <div className="flex flex-col gap-10  w-full">
         <h2 className="text-sm md:text-xl">
           Here I Share

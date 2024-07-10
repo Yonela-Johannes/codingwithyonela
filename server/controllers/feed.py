@@ -1,11 +1,14 @@
 import psycopg2                                                                                                                                                                       
 from utils.db import connection
 from psycopg2.extras import RealDictCursor
+from slugify import slugify
+from icecream import ic
 
 def create_feed(account_id, text, image, video):
+    slug = slugify(text)
     """ Create feed into the feed"""
-    sql = """INSERT INTO feed (account_id, text, image, video)
-             VALUES(%s, %s, %s, %s) RETURNING id;"""
+    sql = """INSERT INTO feed (account_id, text, image, video, slug)
+             VALUES(%s, %s, %s, %s, %s) RETURNING id;"""
     
     response = None
 
@@ -13,7 +16,7 @@ def create_feed(account_id, text, image, video):
         with  connection as conn:
             with  conn.cursor() as cur:
                 # execute the INSERT statement
-                cur.execute(sql, (account_id, text, image, video))
+                cur.execute(sql, (account_id, text, image, video, slug))
             
                 rows = cur.fetchone()
                 if rows:
@@ -47,7 +50,7 @@ def fetch_feed(id):
     
 # fetch all users
 def fetch_feeds():
-    query = """SELECT * FROM feed LEFT JOIN account ON account_id = account.id;"""
+    query = """SELECT *, feed.id as post_id FROM feed LEFT JOIN account ON account_id = account.id;"""
     
     response = None
 
@@ -59,6 +62,8 @@ def fetch_feeds():
 
                 # get the generated all data back                
                 rows = cur.fetchall()
+                ic()
+                ic(rows)
                 if rows:
                     response = rows
                 conn.commit()

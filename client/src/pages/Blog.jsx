@@ -122,15 +122,17 @@ const Blog = () =>
             {/* </ReactMarkdown> */}
           </div>
           <div className="w-full lg:space-y-8">
-            <div className="w-full">
-              <GlobalComment
-                object={blog}
-                handler={sendMessageHander}
-                comment={comment}
-                setComment={setComment}
-                placeholder="What do you think about this blog*"
-              />
-            </div>
+            {user && user?.id ? (
+              <div className="w-full">
+                <GlobalComment
+                  object={blog}
+                  handler={sendMessageHander}
+                  comment={comment}
+                  setComment={setComment}
+                  placeholder="What do you think about this blog*"
+                />
+              </div>
+            ) : ""}
 
             <div>
               {loading ? (
@@ -170,7 +172,7 @@ const Blog = () =>
                   ))}
                 </div>
               ) : (
-                "No data"
+                "Be the first one to comment"
               )}
             </div>
           </div>

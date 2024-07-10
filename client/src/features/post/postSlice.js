@@ -16,9 +16,9 @@ export const getAllPosts = createAsyncThunk('posts/fetch all', async () =>
   return response.data;
 });
 
-export const getPost = createAsyncThunk('post/fetch post', async (userId) =>
+export const getPost = createAsyncThunk('post/fetch post', async (slug) =>
 {
-  const response = await axios.get(`${apiUrl}posts?id=${userId}`);
+  const response = await axios.get(`${apiUrl}posts?slug=${slug}`);
   return response.data;
 });
 

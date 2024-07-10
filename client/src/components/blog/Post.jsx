@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import { cn, formatDate } from "../../lib/utils";
 import HoverUnderLine from "../HoverUnderLine";
 
-const Post = ({ slug, title, post, date }) => {
+const Post = ({ slug, title, post, date }) =>
+{
   return (
-    <article className="flex flex-col gap-2 border-bg_light border-border border-b py-3">
+    <article className={`${theme == "light" ? "text-bg_opp  border-bg_light border" : "text-slate-400 border-none"} flex flex-col gap-2 py-3`}>
       <div>
         <HoverUnderLine>
           <h2 className="text-base md:text-2xl font-bold">

@@ -3,14 +3,16 @@ import Headers from "../../shared/Headers";
 import Sender from "../../shared/Sender";
 import Suggestion from "../../shared/Suggestion";
 import { useState, useEffect } from "react";
-import {
-  createSuggestion,
-  updateSuggestion,
-} from "../../features/suggestions/suggestionSlice";
+import
+  {
+    createSuggestion,
+    updateSuggestion,
+  } from "../../features/suggestions/suggestionSlice";
 import { getAllCategories } from "../../features/category/categorySlice";
 import toast from "react-hot-toast";
 
-const Center = ({ user }) => {
+const Center = ({ user }) =>
+{
   const { success, deleted, updated } = useSelector(
     (state) => state.suggestion
   );
@@ -23,38 +25,46 @@ const Center = ({ user }) => {
   const [option, setOption] = useState([]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     dispatch(getAllCategories());
   }, []);
 
-  useEffect(() => {
-    if (edit && editPost) {
+  useEffect(() =>
+  {
+    if (edit && editPost)
+    {
       setResponse(editPost?.post);
       setTitle(editPost?.suggestion_title);
 
       setOption(["edit"]);
-    } else {
+    } else
+    {
       setResponse("");
       setTitle("");
       setOption([]);
     }
   }, [edit, editPost]);
 
-  const sendMessageHander = async (params) => {
-    if (title?.length >= 50) {
+  const sendMessageHander = async (params) =>
+  {
+    if (title?.length >= 50)
+    {
       toast("Title should not be more than 50 characters");
-    } else if (!category) {
+    } else if (!category)
+    {
       toast("Select category");
     } else if (
       (params,
-      edit == true &&
+        edit == true &&
         editPost &&
         option == "edit" &&
         title &&
         category &&
         user &&
         user?.id)
-    ) {
+    )
+    {
       console.log(editPost);
       const data = {
         account_id: user?.id,
@@ -65,7 +75,8 @@ const Center = ({ user }) => {
         suggestion_id: editPost?.suggestion_id,
       };
       dispatch(updateSuggestion(data));
-    } else if (response && params && title && category && user && user?.id) {
+    } else if (response && params && title && category && user && user?.id)
+    {
       const data = {
         account_id: user?.id,
         post: params,
@@ -74,20 +85,25 @@ const Center = ({ user }) => {
         suggestion_title: title,
       };
       dispatch(createSuggestion(data));
-    } else {
+    } else
+    {
       toast("Error something went wrong");
     }
   };
 
-  useEffect(() => {
-    if (success) {
+  useEffect(() =>
+  {
+    if (success)
+    {
       setResponse("");
       setTitle("");
       setEditPost("");
       toast("Create successful");
-    } else if (deleted) {
+    } else if (deleted)
+    {
       toast("Deleted successful");
-    } else if (updated) {
+    } else if (updated)
+    {
       setResponse("");
       setTitle("");
       setEditPost("");

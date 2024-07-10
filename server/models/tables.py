@@ -555,6 +555,7 @@ def create_tables():
             id SERIAL PRIMARY KEY,
             account_id INTEGER NOT NULL,
             text Text NOT NULL,
+            slug Text NOT NULL,
             image Text,
             video Text,
             FOREIGN KEY (account_id)

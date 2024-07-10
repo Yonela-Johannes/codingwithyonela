@@ -6,15 +6,18 @@ import { BsCalendar3EventFill, BsQuestionDiamondFill } from "react-icons/bs";
 import { HiUsers } from "react-icons/hi2";
 import { FaUsers } from "react-icons/fa";
 import { ImBlogger } from "react-icons/im";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 const NavMenu = () =>
 {
+  const { theme } = useContext(ThemeContext)
   return (
     <nav className="flex flex-col md:flex-row w-full items-center justify-between gap-4 md:gap-0">
       <div className="md:flex items-center justify-between w-full overflow-x-scroll lg:overflow-x-hidden">
-        <div className="flex text-sm font-bold gap-6  text-black">
+        <div className={`text-[#DA9D3C] flex text-sm font-bold gap-6`}>
           <Link
-            className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
+            className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
             to="/"
           >
             <HoverUnderLine>
@@ -27,7 +30,7 @@ const NavMenu = () =>
             </HoverUnderLine>
           </Link>
           <Link
-            className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
+            className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
             to="/suggestions"
           >
             <HoverUnderLine>
@@ -40,7 +43,7 @@ const NavMenu = () =>
             </HoverUnderLine>
           </Link>
           <Link
-            className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
+            className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
             to="/questions"
           >
             <HoverUnderLine>
@@ -53,7 +56,7 @@ const NavMenu = () =>
             </HoverUnderLine>
           </Link>
           <Link
-            className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
+            className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
             to="/blogs"
           >
             <HoverUnderLine>
@@ -66,7 +69,7 @@ const NavMenu = () =>
             </HoverUnderLine>
           </Link>
           <Link
-            className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
+            className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
             to="/recommendations"
           >
             <HoverUnderLine>
@@ -79,7 +82,7 @@ const NavMenu = () =>
             </HoverUnderLine>
           </Link>
           <Link
-            className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
+            className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
             to="/project-status"
           >
             <HoverUnderLine>
@@ -92,7 +95,7 @@ const NavMenu = () =>
             </HoverUnderLine>
           </Link>
           <Link
-            className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
+            className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
             to="/posts"
           >
             <HoverUnderLine>
@@ -105,7 +108,7 @@ const NavMenu = () =>
             </HoverUnderLine>
           </Link>
           <Link
-            className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
+            className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
             to="/showcase"
           >
             <HoverUnderLine>
@@ -117,19 +120,6 @@ const NavMenu = () =>
               </div>
             </HoverUnderLine>
           </Link>
-          {/* <Link
-            className="focus:outline-none focus:border-b focus:border-clr_alt focus:text-bg_opp"
-            to="/events"
-          >
-            <HoverUnderLine>
-              <div className="flex gap-1 items-center cursor-pointer">
-                <div className="lg:hidden">
-                  <BsCalendar3EventFill />
-                </div>
-                Events
-              </div>
-            </HoverUnderLine>
-          </Link> */}
         </div>
       </div>
     </nav>

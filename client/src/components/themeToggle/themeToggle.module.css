@@ -1,6 +1,6 @@
 .container {
-  width: 40px;
-  height: 20px;
+  width: 50px;
+  height: 22px;
   border-radius: 50px;
   cursor: pointer;
   display: flex;
@@ -9,9 +9,9 @@
   position: relative;
 }
 
-.ball{
-  width: 15px;
-  height: 15px;
+.ball {
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   position: absolute;
 }

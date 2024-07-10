@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { BiDownvote, BiUpvote } from "react-icons/bi";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Modal, Space } from "antd";
 const { confirm } = Modal;
@@ -12,6 +12,7 @@ import
   getSuggestionComments,
 } from "../../features/suggestions/suggestionSlice";
 import Comment from "../../shared/Comment";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const SuggestionCard = ({
   setSelected,
@@ -26,7 +27,7 @@ const SuggestionCard = ({
 {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
+  const { theme } = useContext(ThemeContext)
   const showDeleteConfirm = (params) =>
   {
     setEdit(false);
@@ -88,12 +89,12 @@ const SuggestionCard = ({
   };
 
   return (
-    <div className="rounded-md p-2 w-full border border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer max-w-[680px]">
+    <div className={`${theme == "light" ? "text-black" : "text-white"} rounded-md p-2 w-full border border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer max-w-[680px]`}>
       <div className="w-full flex-col flex lg:flex-row items-center justify-between">
         <h4 className="p-2 text-clr_alt font-bold">
           {suggestion?.suggestion_title}
         </h4>
-        <div className="flex justify-center items-end lg:items-center w-full md:w-max h-full flex-col space-y-2 py-4">
+        <div className={`${theme == "light" ? "text-black" : "text-white"} flex justify-center items-end lg:items-center w-full md:w-max h-full flex-col space-y-2 py-4`}>
           <div className="flex w-full justify-end items-end md:justify-between gap-2">
             <div className="space-y-1">
               <p className="text-xs dark:text-gray-400">
@@ -119,13 +120,13 @@ const SuggestionCard = ({
           <div className="flex gap-4 text-sm text-center items-center justify-center">
             <button
               onClick={() => handleSelect(suggestion)}
-              className="text-sm text-bg_core w-[120px] text-center border-none drop-shadow-none shadow-none"
+              className={`${theme == "light" ? "text-bg_core" : "text-gray-400"} text-sm text-bg_core w-[120px] text-center border-none drop-shadow-none shadow-none`}
             >
               5 responses
             </button>
             <button
               onClick={() => handleComments(suggestion)}
-              className="text-sm text-bg_core w-[130px] text-center border-none drop-shadow-none shadow-none"
+              className={`${theme == "light" ? "text-bg_core" : "text-gray-400"} text-sm  w-[130px] text-center border-none drop-shadow-none shadow-none`}
             >
               5 comments
             </button>

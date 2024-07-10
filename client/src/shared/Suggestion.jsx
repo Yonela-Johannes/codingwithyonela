@@ -2,18 +2,21 @@ import { useEffect, useState } from "react";
 import Header from "../components/blog/Header";
 import SuggestionCard from "../components/suggestion/SuggestionCard";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  commentSuggestion,
-  createSuggestionResponse,
-  getAllSuggestions,
-  getSuggestion,
-} from "../features/suggestions/suggestionSlice";
+import
+  {
+    commentSuggestion,
+    createSuggestionResponse,
+    getAllSuggestions,
+    getSuggestion,
+  } from "../features/suggestions/suggestionSlice";
 import { BiDownvote, BiUpvote } from "react-icons/bi";
 import moment from "moment/moment";
 import { Modal } from "antd";
 import Comment from "./Comment";
+import Loader from "../components/Loader/Loader";
 
-const Suggestion = ({ setEditPost, editPost, edit, setEdit }) => {
+const Suggestion = ({ setEditPost, editPost, edit, setEdit }) =>
+{
   const [open, setOpen] = useState(false);
   const [openComments, setOpenComments] = useState(false);
   const [option, setOption] = useState("comment");
@@ -32,11 +35,13 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) => {
   } = useSelector((state) => state.suggestion);
   const [selected, setSelected] = useState({});
 
-  const fetchSuggestions = () => {
+  const fetchSuggestions = () =>
+  {
     dispatch(getAllSuggestions());
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     fetchSuggestions();
   }, []);
 
@@ -44,11 +49,13 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) => {
   //   fetchSuggestions();
   // }, [success, responses, updated, deleted]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     fetchSuggestions();
   }, []);
 
-  const sendComment = async (params, element) => {
+  const sendComment = async (params, element) =>
+  {
     if (
       response &&
       params &&
@@ -56,7 +63,8 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) => {
       user?.id &&
       element &&
       element?.suggestion_id
-    ) {
+    )
+    {
       const data = {
         account_id: user?.id,
         comment: params,
@@ -66,7 +74,8 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) => {
     }
   };
 
-  const sendResponse = async (params, element) => {
+  const sendResponse = async (params, element) =>
+  {
     if (
       response &&
       params &&
@@ -74,7 +83,8 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) => {
       user?.id &&
       element &&
       element?.suggestion_id
-    ) {
+    )
+    {
       const data = {
         account_id: user?.id,
         response: params,
@@ -87,9 +97,9 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) => {
   return (
     <div className="w-full">
       {loading ? (
-        "loading"
-      ) : loading == false && suggestions?.length == 0 ? (
-        "No data"
+        <Loader />
+      ) : suggestions?.length == 0 ? (
+        ""
       ) : suggestions?.length > 0 && loading == false ? (
         <div className="flex flex-col gap-8 h-full lg:px-10">
           <div className="grid grid-cols-1 overflow-hidden py-4 gap-6 h-full">

@@ -1,18 +1,17 @@
 import BlogCard from "../components/blog/BlogCard";
 import Header from "../components/blog/Header";
-import { Watermark } from "antd";
-import Top from "../components/blog/Top";
-import { sortPosts } from "../lib/utils";
 import PostItem from "../components/blog/Post";
 import Post from "../components/blog/Post";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBlogs } from "../features/blogs/blogSlice";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getAllCategories } from "../features/category/categorySlice";
 import Loader from "../components/Loader/Loader";
+import { ThemeContext } from "../context/ThemeContext";
 
 const Blogs = () =>
 {
+  const { theme } = useContext(ThemeContext)
   const dispatch = useDispatch();
   const { blogs, loading } = useSelector((state) => state.blogs);
   const [filterCat, setFilterCat] = useState("");
@@ -61,23 +60,8 @@ const Blogs = () =>
     }
   }, [blogs]);
 
-  console.log(categories)
   return (
-    <div className="flex flex-col gap-8 h-full">
-      <Top
-        title="Hello, I'm"
-        name="Yonela"
-        description="Welcome to my blog website. Built using React, Tailwind, Flask,
-            Python and Postgresql"
-      />
-      {/* <h2 className="text-xl sm:text-xl md:text-2xl lg:text-3xl font-black">
-          Featured Posts
-        </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full mt-6">
-          {blogs.map((blog) => (
-            <BlogCard blog={blog} key={blog._id} />
-          ))}
-        </div> */}
+    <div className={`${theme == "light" ? "text-bg_opp" : "text-slate-400"} flex flex-col gap-8 h-full`}>
       {journeyBlogs && journeyBlogs?.length > 0 ? (
         <section className="max-w-4xl py-2 lg:py-4 flex flex-col space-y-6 mt-4">
           <h2 className="text-xl sm:text-xl md:text-2xl lg:text-3xl font-black">
@@ -119,7 +103,7 @@ const Blogs = () =>
           {loading ? (
             <Loader />
           ) : loading == false && blogs?.length == 0 ? (
-            "No data"
+            ""
           ) : blogs?.length > 0 && loading == false ? (
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full mt-6">
               {filterCat && selectedBlogs?.length > 0
@@ -129,7 +113,7 @@ const Blogs = () =>
                 : blogs.map((blog) => <BlogCard blog={blog} key={blog.id} />)}
             </div>
           ) : (
-            "No data"
+            ""
           )}
         </>
       </div>

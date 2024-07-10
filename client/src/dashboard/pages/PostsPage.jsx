@@ -19,10 +19,10 @@ export default function PostsPage()
     loading ? (
       <Loader />
     ) : (
-      <div>
-        <div className='flex flex-col gap-6 px-3 max-w-6xl'>
+      <div className='w-full'>
+        <div className='flex w-full flex-col gap-6'>
           <h1 className='text-xl md:text-2xl xl:text-3xl font-bold tracking-tight'>Welcome to my updates</h1>
-          <p className='text-gray-500 text-xl lg:text-2xl'>
+          <p className='text-gray-500 text-xl lg:text-2xl max-w-5xl'>
             Here you'll find a variety of posts on topics such as daily explorations, family,
             web development, software engineering, and programming languages.
           </p>
@@ -34,7 +34,7 @@ export default function PostsPage()
           </Link>
         </div>
 
-        <div className='mx-auto p-3 flex flex-col gap-8 py-7 items-center justify-center'>
+        <div className='p-3 flex flex-col gap-8 py-7 items-center justify-center'>
           {posts && posts.length > 0 ? (
             <div className='flex justify-center items-center flex-col gap-6'>
               <h2 className='text-2xl font-semibold text-center'>Recent Posts</h2>

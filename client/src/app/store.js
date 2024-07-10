@@ -29,7 +29,7 @@ const rootReducer = combineReducers({
   project: projectReducer,
   recommendation: recommendationReducer,
   quotes: quoteReducer,
-  github: githubReducer,
+  github: githubReducer
 });
 
 // Create a persist configuration

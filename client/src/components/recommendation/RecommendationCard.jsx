@@ -1,24 +1,23 @@
-import { FaGithub, FaInstagram, FaLinkedin, FaReact } from "react-icons/fa";
-import { IoInformationCircleOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
-import { Tooltip } from "antd";
-import data from '../../assets/data.json'
+import { FaGithub, FaLinkedin, FaReact } from "react-icons/fa";
 
 function RecommendationCard({ item, colors })
 {
   let color = Math.floor(Math.random() * colors?.length)
   color = colors[color]
+  console.log(item)
   return (
     <div className="relative">
-      <div className="rounded-md border border-bg_light">
-        <div className="flex justify-between">
-          <h2 className="font-bold  text-base p-3 w-max">{item?.user_title}</h2>
-          <div className="flex gap-1 items-center p-2 font-bold text-black">
-            <p className={`md:block text-xs bg-${color}-600 rounded-md`}>{item?.country_name.slice(0, 15)} - {item?.country_code}</p>
-            <p className="text-xl">{item?.country_flag}</p>
-          </div>
+      <div className="rounded-md">
+        <div className="flex gap-1 items-center px-2 font-bold justify-end text-black">
+          <p className={`md:block text-xs bg-${color}-600 rounded-md`}>{item?.country_name.slice(0, 15)} - {item?.country_code}</p>
+          <img
+            src={item?.image}
+            alt={item?.username}
+            className="h-[24px] md:h-[24px]
+                    object-contain"
+          />
         </div>
-        <div className="flex w-full gap-4 mt-3 items-center justify-center">
+        <div className="flex w-full gap-4 mt-3">
           <div
             className="shadow-md w-full
                 rounded-lg hover:shadow-lg cursor-pointer"
@@ -26,21 +25,24 @@ function RecommendationCard({ item, colors })
             <img
               src={item?.re_image}
               alt={item?.username}
-              className="h-[150px] w-[150px] md:w-[220px] md:h-[220px]
-                    object-cover rounded-full m-auto mt-3"
+              className="h-[150px] w-full rounded-lg md:h-[220px]
+                    object-cover mt-3 m-auto"
             />
             <div
               className="flex flex-col 
                     items-baseline p-3 gap-1"
             >
-              <h2
+              <p
                 className="p-1 bg-purple-200
                         text-primary rounded-sm xl:rounded-full px-2
                          text-sm"
               >
                 {item?.category?.name}
-              </h2>
+              </p>
               <h2 className="font-bold text-sm text-bg_core lg:text-lg">{item?.username} {item?.lastname}</h2>
+              <div className="flex justify-between">
+                <p className="text-base w-max">{item?.user_title}</p>
+              </div>
               <div className="flex items-center text-primary gap-4 my-2 text-bg_opp text-lg">
                 {item?.portfolio ? (
                   <a href={item.portfolio} className="" target="_blank">
