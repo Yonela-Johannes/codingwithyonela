@@ -3,6 +3,7 @@ from flask import request
 from sqlalchemy import JSON
 from controllers.blog import ( create_blog, create_blog_comment, fetch_blog, edit_blog, delete_blog, fetch_blog_comments, fetch_blogs )
 from slugify import slugify
+from icecream import ic
 
 def blog(id):
     REQUEST = request.method 
@@ -73,12 +74,14 @@ def blogs():
     if REQUEST == 'POST':
         try:
             data = request.get_json()
+            ic(data['post'])
             account = data['account']
             post = data['post']
             category_id = data['category_id']
             blog_image = data['blog_image']
             blog_title = data['blog_title']
             slug = slugify(blog_title)
+            
             if account and post and category_id:
                 response = create_blog(account, post, category_id, blog_image, blog_title, slug)
                 if response:
