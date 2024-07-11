@@ -9,7 +9,7 @@ from routes.quotes import quotes
 from routes.recommendation import all_recommendations, recommendation
 from routes.status import status
 from routes.topics import topics
-from routes.user import create_user_profile, user
+from routes.user import create_user_profile, user, login_user
 from routes.title import title
 from routes.blog import blog, blogs, blogs_comment_create, blogs_comments
 from routes.feed import feed, feeds, feed_comment_create, feed_comment
@@ -51,6 +51,11 @@ def topics_route():
 def user_route(id):
     print("USER: ", type(id))
     return user(id)
+
+# user route
+@app.route('/api/v1/login' , methods=['GET'])
+def login_route():
+    return login_user()
 
 # user route
 @app.route('/api/v1/user' , methods=['POST', 'GET'])
@@ -212,3 +217,4 @@ def github_feeds_route():
     return github_feeds()
 
 # ----------------
+# FFD343

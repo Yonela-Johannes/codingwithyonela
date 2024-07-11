@@ -3,12 +3,12 @@ import Header from "../components/blog/Header";
 import SuggestionCard from "../components/suggestion/SuggestionCard";
 import { useDispatch, useSelector } from "react-redux";
 import
-  {
-    commentSuggestion,
-    createSuggestionResponse,
-    getAllSuggestions,
-    getSuggestion,
-  } from "../features/suggestions/suggestionSlice";
+{
+  commentSuggestion,
+  createSuggestionResponse,
+  getAllSuggestions,
+  getSuggestion,
+} from "../features/suggestions/suggestionSlice";
 import { BiDownvote, BiUpvote } from "react-icons/bi";
 import moment from "moment/moment";
 import { Modal } from "antd";
@@ -102,7 +102,7 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) =>
         ""
       ) : suggestions?.length > 0 && loading == false ? (
         <div className="flex flex-col gap-8 h-full lg:px-10">
-          <div className="grid grid-cols-1 overflow-hidden py-4 gap-6 h-full">
+          <div className="grid grid-cols-1 overflow-hidden py-4 gap-6 h-full max-w-[800px]">
             {suggestions?.map((suggestion) => (
               <SuggestionCard
                 setSelected={setSelected}
@@ -135,10 +135,10 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) =>
         cancelButtonProps={{}}
       >
         {loading ? (
-          "loading"
-        ) : loading == false && responses?.length == 0 ? (
-          "No data"
-        ) : responses?.length > 0 && loading == false ? (
+          <Loader />
+        ) : responses?.length < 1 ? (
+          ""
+        ) : responses?.length > 0 ? (
           <div className="overflow-y-scroll max-h-96 rounded-md p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full border border-bg_light hover:border-bg_core duration-200 cursor-pointer">
             <div className="w-full">
               <Comment
@@ -152,7 +152,7 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) =>
             {responses?.map((res) => (
               <div
                 key={res?.id}
-                className="rounded-md p-2 flex-col lg:flex-row flex items-start gap-2 md:gap-4 justify-between w-full border border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer"
+                className="p-2 flex-col lg:flex-row flex items-start gap-2 md:gap-4 justify-between w-full border-b border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer"
               >
                 <div className="flex w-min flex-row md:flex-col md:text-2xl items-center justify-evenly h-full gap-2 text-clr_alt rounded-md p-2">
                   <div className="flex gap-1 items-center">
@@ -192,7 +192,7 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) =>
             ))}
           </div>
         ) : (
-          "No data"
+          ""
         )}
       </Modal>
 
@@ -210,10 +210,10 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) =>
         cancelButtonProps={{}}
       >
         {loading ? (
-          "loading"
-        ) : loading == false && comments?.length == 0 ? (
-          "No data"
-        ) : comments?.length > 0 && loading == false ? (
+          <Loader />
+        ) : comments?.length < 1 ? (
+          ""
+        ) : comments?.length > 0 ? (
           <div className="overflow-y-scroll max-h-96 rounded-md p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full border border-bg_light hover:border-bg_core duration-200 cursor-pointer">
             <div className="flex-col flex md:flex-row items-start gap-2 md:gap-4 justify-between w-full ">
               <div className="flex gap-1 items-center">
@@ -290,7 +290,7 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) =>
             ))}
           </div>
         ) : (
-          "No data"
+          ""
         )}
       </Modal>
     </div>

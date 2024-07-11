@@ -89,7 +89,7 @@ const SuggestionCard = ({
   };
 
   return (
-    <div className={`${theme == "light" ? "text-black" : "text-white"} rounded-md p-2 w-full border border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer max-w-[680px]`}>
+    <div className={`${theme == "light" ? "text-black" : "text-white"} p-2 w-full border-b border-bg_light hover:border-bg_core h-full duration-200 cursor-pointer`}>
       <div className="w-full flex-col flex lg:flex-row items-center justify-between">
         <h4 className="p-2 text-clr_alt font-bold">
           {suggestion?.suggestion_title}
@@ -114,10 +114,10 @@ const SuggestionCard = ({
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center gap-2 md:gap-4 justify-between w-full ">
+      <div className="flex flex-col gap-2 md:gap-4 justify-between w-full ">
         <h4 className="text-sm md:text-base">{suggestion?.post}</h4>
         <div className="w-max">
-          <div className="flex gap-4 text-sm text-center items-center justify-center">
+          <div className="flex gap-4 text-sm">
             <button
               onClick={() => handleSelect(suggestion)}
               className={`${theme == "light" ? "text-bg_core" : "text-gray-400"} text-sm text-bg_core w-[120px] text-center border-none drop-shadow-none shadow-none`}

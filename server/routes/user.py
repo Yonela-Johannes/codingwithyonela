@@ -1,8 +1,32 @@
 import json
 from flask import request
 from sqlalchemy import JSON
-from controllers.account import ( create_user, fetch_users, edit_user, delete_user, fetch_user )
+from controllers.account import ( create_user, fetch_users, edit_user, delete_user, fetch_user, login )
 
+def login_user():
+    REQUEST = request.method 
+    if REQUEST == 'GET':
+        try:
+            data = request.get_json()
+            email = data['email']
+            password = data['password']
+            if email and password:
+                response = login(email=email, password=password)
+                if response:
+                    res = {
+                            "message": "Fetch successful",
+                            "data": response
+                            }
+                    return res, 200
+                else:
+                    res = {"message": "Error: something went wrong."}
+                    return res, 400
+            else:
+                res = {"message": "Error: missing email or password"}
+                return res, 400 
+        except:
+            return {"message": "Fetch failed: something went wrong."}
+            
 def user(id):
     REQUEST = request.method 
     if REQUEST == 'GET':
@@ -88,7 +112,6 @@ def user(id):
            res = {"message": "Missing data"}
         return res, 400
     
-
 def create_user_profile():
     REQUEST = request.method 
     if REQUEST == 'POST':
@@ -114,7 +137,8 @@ def create_user_profile():
             if email:
                 response = create_user(email, username, lastname, password, is_admin, is_staff, user_title_id, profile)
                 if response:
-                    res = {"message": "User created successfull"}
+                    res = {"message": "User created successfull",
+                           "data": response}
                     return res, 201
                 else:
                     res = {"message": "Error creating user: check input data"}

@@ -15,6 +15,7 @@ import
 import Card from "./Card";
 import moment from "moment";
 import { ThemeContext } from "../../context/ThemeContext";
+import Loader from "../Loader/Loader";
 
 const Questions = () =>
 {
@@ -151,12 +152,12 @@ const Questions = () =>
         ) : ""}
       </div>
       {loading ? (
-        "loading"
-      ) : loading == false && questions?.length == 0 ? (
-        "No data"
-      ) : questions?.length > 0 && loading == false ? (
+        <Loader />
+      ) : questions?.length < 1 ? (
+        ""
+      ) : questions?.length > 0 ? (
         <div className="flex flex-col gap-8 h-full lg:px-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 overflow-hidden py-4 gap-8 h-full w-full">
+          <div className="grid grid-cols-1 overflow-hidden py-4 gap-8 h-full w-full max-w-[800px]">
             {filterValue ? questions?.filter((element) => element.topic_name == filterValue)?.map((question) => (
               <Card
                 key={question?.id}
@@ -179,7 +180,7 @@ const Questions = () =>
           </div>
         </div>
       ) : (
-        "No data"
+        ""
       )}
       <>
         <Modal

@@ -1,6 +1,3 @@
-// import ReactMarkdown from "react-markdown";
-// import remarkGfm from "remark-gfm";
-
 import { BiHeart, BiSolidHeart } from "react-icons/bi";
 import { FaEye, FaRegEye } from "react-icons/fa";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -16,6 +13,7 @@ import
 import GlobalComment from "../shared/BlogComment.jsx";
 import toast from "react-hot-toast";
 import moment from "moment";
+import Markdown from "../shared/Markdown.jsx";
 
 const Blog = () =>
 {
@@ -117,9 +115,7 @@ const Blog = () =>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-20 lg:flex-row px-2 lg:px-8">
           <div className="text-sm md:text-base lg:w-full space-y-4 lg:space-y-8">
             <h4 className="text-lg font-bold">{blog?.blog_title}</h4>
-            {/* <ReactMarkdown remarkPlugins={[remarkGfm]}> */}
-            {blog?.post}
-            {/* </ReactMarkdown> */}
+            <Markdown text={blog?.post} />
           </div>
           <div className="w-full lg:space-y-8">
             {user && user?.id ? (
