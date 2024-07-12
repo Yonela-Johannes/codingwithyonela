@@ -1,3 +1,4 @@
+import os
 from flask import jsonify
 import json
 from datetime import datetime, timedelta
@@ -10,7 +11,8 @@ from utils.db import connection
 from icecream import ic
 from jose import jwt
 
-SECRET_KEY = "699c228df46b9cf78837567965b88004628df169c4875ccab07725341762f531"
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE = 1440 # 24 hours
 

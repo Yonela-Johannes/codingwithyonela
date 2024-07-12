@@ -27,6 +27,7 @@ import Project from "./pages/projects/Project";
 import CreateProject from "./components/donation/CreateProject";
 import MyProjects from "./pages/projects/MyProjects";
 import PostDetails from "./pages/PostDetails";
+import Todopage from "./pages/Todopage";
 
 function App()
 {
@@ -80,6 +81,7 @@ function App()
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/about" element={<About />} />
           <Route path="/project-status" element={<Collaboration />} />
+          <Route path="/todo" element={<Todopage />} />
 
           <Route path="/showcase" element={<Showcase />} />
           <Route path="/projects" element={<Projects />} />

@@ -2,6 +2,8 @@ import json
 from flask import request
 from sqlalchemy import JSON
 from controllers.account import ( create_user, fetch_users, edit_user, delete_user, fetch_user, login )
+from flask_mail import Mail, Message
+from icecream import ic 
 
 def login_user():
     REQUEST = request.method 
@@ -112,7 +114,7 @@ def user(id):
            res = {"message": "Missing data"}
         return res, 400
     
-def create_user_profile():
+def create_user_profile(mail):
     REQUEST = request.method 
     if REQUEST == 'POST':
         try:
@@ -133,19 +135,28 @@ def create_user_profile():
             profile = ""
             if 'profile' in data:
                 profile = data['profile']
+            ic()
+            ic(mail)
+            msg = Message(subject="Hey", sender='noreplay@email.com', recipients=[email]) 
+            msg.body = "Hey how are! Is everything okay?"   
+            response = mail.send(message=msg)
+            
+            ic(response)
+            
+            return {"message": "message sent"}, 200
+        
+            # if email:
+            #     response = create_user(email, username, lastname, password, is_admin, is_staff, user_title_id, profile)
+            #     if response:
+            #         res = {"message": "User created successfull",
+            #                "data": response}
+            #         return res, 201
+            #     else:
+            #         res = {"message": "Error creating user: check input data"}
+            #         return res, 400 
                 
-            if email:
-                response = create_user(email, username, lastname, password, is_admin, is_staff, user_title_id, profile)
-                if response:
-                    res = {"message": "User created successfull",
-                           "data": response}
-                    return res, 201
-                else:
-                    res = {"message": "Error creating user: check input data"}
-                    return res, 400 
-                
-            res = {"message": "Missing data"}
-            return res, 400 
+            # res = {"message": "Missing data"}
+            # return res, 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
         return res, 400

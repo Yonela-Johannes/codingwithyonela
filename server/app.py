@@ -17,12 +17,30 @@ from routes.category import category
 from routes.suggestion import all_suggestion, get_suggestion_comments, get_suggestion_response, suggestion, suggestion_comment, suggestion_response
 from routes.github_api import list_my_repos, my_profile, list_profiles, list_all_users_repos, github_feeds, github_my_followers
 from flask_cors import CORS, cross_origin
+from flask_mail import Mail
+from icecream import ic
 
 app = Flask(__name__)
 cors = CORS(app)
-app.config['SECRET_KEY'] = 'secretbrodie'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+app.config.update(dict(
+    MAIL_SERVER = 'smtp.gmail.com',
+    MAIL_PORT = 465,
+    MAIL_USERNAME = 'johannesyonela@gmail.com',
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD'),
+    MAIL_USE_TLS = False,
+    MAIL_USE_SSL = True,
+))
+
+mail = Mail(app)
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
+PASSWORD = os.environ.get('MAIL_PASSWORD')
+ic()
+ic(SECRET_KEY)
+ic(PASSWORD)
 # quotes route
 @app.route('/api/v1/quote', methods=['GET', 'POST'])
 def quotes_route():
@@ -60,7 +78,7 @@ def login_route():
 # user route
 @app.route('/api/v1/user' , methods=['POST', 'GET'])
 def create_user_route():
-    return create_user_profile()
+    return create_user_profile(mail)
 # ----------------
 
 # blog route
