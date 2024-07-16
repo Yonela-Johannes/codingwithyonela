@@ -1,12 +1,12 @@
 import psycopg2
 from utils.db import connection
 from psycopg2.extras import RealDictCursor
+from icecream import ic
 
-def create_project(users_id, account_id, image, project_name, description, status_id, category_id, skill_id, github, link, management_tool, progress):
+def create_project(users_id, account_id, image, project_name, description, category_id, skill_id, github, link, management_tool, progress, project_status, priority, tags_id):
     """ Create new account_id into  the acount table """
-    status_id = 1
-    sql = """INSERT INTO project (users_id, account_id, image, project_name, description, status_id, category_id, skill_id, github, link, management_tool, progress)
-             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id;"""
+    sql = """INSERT INTO project (users_id, account_id, image, project_name, description, category_id, skill_id, github, link, management_tool, progress, project_status, priority, tags_id)
+             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id;"""
     
     response = None
 
@@ -14,7 +14,7 @@ def create_project(users_id, account_id, image, project_name, description, statu
         with  connection as conn:
             with  conn.cursor() as cur:
                 # execute the INSERT statement
-                cur.execute(sql, (users_id, account_id, image, project_name, description, status_id, category_id, skill_id, github, link, management_tool, progress))
+                cur.execute(sql, (users_id, account_id, image, project_name, description, category_id, skill_id, github, link, management_tool, progress, project_status, priority, tags_id))
             
                 rows = cur.fetchone()
                 if rows:
@@ -27,7 +27,8 @@ def create_project(users_id, account_id, image, project_name, description, statu
     
 # fetch all users
 def fetch_projects():
-    query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id AS status_id, status.status FROM project JOIN account on account_id = account.id JOIN status ON status_id = status.id ORDER BY project_time;"""
+    # query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id A FROM project JOIN account on account_id = account.id JOIN status O = status.id ORDER BY project_time;"""
+    query = """SELECT project.*, project.id as project_id, topics.* FROM project JOIN account ON account_id = account.id JOIN topics ON tags_id = topics.id ORDER BY project_time;"""
     
     response = None
 
@@ -39,6 +40,8 @@ def fetch_projects():
 
                 # get the generated all data back                
                 rows = cur.fetchall()
+                ic()
+                print(rows)
                 if rows:
                     response = rows
                 conn.commit()
@@ -49,7 +52,7 @@ def fetch_projects():
 
 def fetch_project(id):
 
-    query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id AS status_id, status.status FROM project JOIN account on account_id = account.id JOIN status ON status_id = status.id WHERE project.id=%s"""
+    query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id A, status.status FROM project JOIN account on account_id = account.id JOIN status O = status.id WHERE project.id=%s"""
 
     response = None
 
@@ -67,9 +70,9 @@ def fetch_project(id):
         return response
     
 
-def edit_project(users_id, project_name, description, status_id, category_id, github, link, management_tool):
+def edit_project(users_id, project_name, description, category_id, github, link, management_tool):
 
-    query = """UPDATE project SET users_id = %s, project_name = %s, description = %s, status_id = %s, category_id = %s, github = %s, link = %s, management_tool = %s  WHERE id = %s AND account_id = %s RETURNING suggestion_title
+    query = """UPDATE project SET users_id = %s, project_name = %s, description = %s = %s, category_id = %s, github = %s, link = %s, management_tool = %s  WHERE id = %s AND account_id = %s RETURNING suggestion_title
     ;"""
     
     response = None
@@ -78,7 +81,7 @@ def edit_project(users_id, project_name, description, status_id, category_id, gi
         with  connection as conn:
             with  conn.cursor() as cur:
 
-                cur.execute(query, (users_id, project_name, description, status_id, category_id, github, link, management_tool))            
+                cur.execute(query, (users_id, project_name, description, category_id, github, link, management_tool))            
                 rows = cur.fetchone()
                 if rows:
                     response = rows[0]

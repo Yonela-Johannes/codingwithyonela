@@ -9,7 +9,7 @@ from passlib.context import CryptContext
 import psycopg2
 from utils.db import connection
 from icecream import ic
-from jose import jwt
+import jwt
 
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -25,37 +25,22 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 def create_access_token(data: dict, expires_delta: timedelta or None = None):
+    result = None
     if data:
-        ic(timedelta)
         if expires_delta:
             expire = datetime.utcnow() + timedelta(minutes=expires_delta)
         else:
             expire = datetime.utcnow() + timedelta(minutes=15)
         if data:
-            data["exp"] = expire
-        encode_jwt = jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
+            result = {
+                "exp": expire,
+                "email": data
+            }
+        encode_jwt = jwt.encode(result, SECRET_KEY, algorithm=ALGORITHM)
         return encode_jwt
     else:
         return None
 
-# async def get_current_user(token: str):
-#     credential_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, 
-#                                          detail="Could not validate credentials", headers={"WWW-Authenticate": "Bearer"})
-#     try:
-#         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-#         username: str = payload.get("sub")
-#         if username is None:
-#             raise credential_exception
-        
-#         token_data = TokenData(username=username)
-#     except JWTError:
-#         raise credential_exception
-    
-#     user = get_user(db, username=token_data.username)
-#     if user is None:
-#         raise credential_exception
-    
-#     return user
 
 # fetch user
 
@@ -84,8 +69,8 @@ def fetch_user(id):
     
     
 def get_user_by_email(email):
-    query = """SELECT email, password, id FROM account WHERE email=%s"""
     response = None
+    query = """SELECT email, password, id FROM account WHERE email=%s"""
 
     try:
         with  connection as conn:
@@ -105,35 +90,57 @@ def get_user_by_email(email):
     finally:
         return response
 
-def login(email, password):
-    db_user = get_user_by_email(email=email)
-    ic()
-    ic(db_user)
-    
-    if "email" in db_user and "password" in db_user and "id" in db_user:
-        user_password = db_user["password"]
-        user_email = db_user["email"]
-        user_id = db_user["id"]
-        verify_r = verify_password(plain_password=password, hashed_password=user_password)
-        if verify_r:
-            user = fetch_user(id=user_id)
-            ic(user)
-            create_access_token(data=user, expires_delta=ACCESS_TOKEN_EXPIRE)
-        else:
-            return {"message": "Error: invalid data provided"}, 400
-    else:
-        return {"message": "Error: missing data input"}, 400
+def get_current_user(token: str):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        if "email" in payload:
+            user = get_user_by_email(payload["email"])
+            return user
+        return None
+    except JWTError:
         
-    # print(db_user)
+        return {}, 200
+    #     raise credential_exception
     
-    return {}, 200
+    # user = get_user(db, email=token_data.email)
+    # if user is None:
+    #     raise credential_exception
+    # return user
 
-    # try:
 
-    # except (Exception, psycopg2.DatabaseError) as error:
-    #     print(error)    
-    # finally:
-    #     return response
+def login(email, password):
+    try:
+        result = None
+        db_user = get_user_by_email(email=email)
+        if db_user:
+            if "email" in db_user and "password" in db_user and "id" in db_user:
+                user_password = db_user["password"]
+                user_email = db_user["email"]
+                user_id = db_user["id"]
+                verify_r = verify_password(plain_password=password, hashed_password=user_password)
+                if verify_r:
+                    user = fetch_user(id=user_id)
+                    if user:
+                        token =  create_access_token(data=user["email"], expires_delta=ACCESS_TOKEN_EXPIRE)
+                        result = {
+                            "user": user,
+                            "token": token
+                        }
+                        
+                        return result
+                    else:
+                        return {"message": "Error: user not found"}
+                else:
+                    return {"message": "Error: invalid data provided"}
+            else:
+                return {"message": "Error: missing data input"}
+        else:
+            return {"message": "Error: user does not exist"}
+            
+        return {"data": result}, 200
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)    
 
 
 def create_user(email, username, lastname, password, is_admin, is_staff, user_title_id, profile):
@@ -173,12 +180,16 @@ def create_user(email, username, lastname, password, is_admin, is_staff, user_ti
     except (Exception, psycopg2.DatabaseError) as error:
         ic(error)    
     finally:
-        token = create_access_token(data=response, expires_delta=ACCESS_TOKEN_EXPIRE)
-        if token:
-            response["token"] = token
-            return response
-        else:
-            return None
+        ic()
+        ic(response)
+        if response:
+            token = create_access_token(data=response["email"], expires_delta=ACCESS_TOKEN_EXPIRE)
+            if token:
+                response["token"] = token
+                return response
+            else:
+                return None
+        return None
 # fetch all users
 def fetch_users():
     query = """SELECT * FROM account JOIN user_title on user_title_id = user_title.id  ORDER BY username;"""
@@ -203,36 +214,38 @@ def fetch_users():
         return response
 
 # update user
-def edit_user(id, is_admin, is_staff, user_title_id):
-    query = """UPDATE account SET (is_admin=%s,is_staff=%s,user_title_id=%s) WHERE id = %s RETURNING title
-    ;"""
-    
-    response = None
-
+def edit_user(id, is_admin, is_staff, user_title_id, token):
     try:
-        with  connection as conn:
-            with  conn.cursor() as cur:
-                # execute the UPDATE statement
-                cur.execute(query, (is_admin, is_staff, user_title_id, int(id)))
+        user = get_current_user(token=token)
+        if "id" in user:
+            query = """UPDATE account SET (is_admin=%s,is_staff=%s,user_title_id=%s) WHERE id=%s RETURNING *;"""
+            
+            response = None
+            with  connection as conn:
+                with  conn.cursor() as cur:
+                    # execute the UPDATE statement
+                    cur.execute(query, (is_admin, is_staff, user_title_id, id))
 
-                # get the generated id back                
-                rows = cur.fetchone()
-                if rows:
-                    response = rows[0]
+                    # get the generated id back                
+                    rows = cur.fetchone()
+                    if rows:
+                        response = rows[0]
 
-                # commit the changes to the database
-                conn.commit()
+                    # commit the changes to the database
+                    conn.commit()
+
     except (Exception, psycopg2.DatabaseError) as error:
         response = error
     finally:
         return response
-    
-# update user
-def delete_user(id):
-    query = """DELETE FROM account WHERE id=%s RETURNING id;"""
-    
-    response = None
 
+# update user
+def delete_user(id, token):
+    user = get_current_user(token=token)
+    if "id" in user:
+        query = """DELETE FROM account WHERE id=%s RETURNING id;"""
+        
+        response = None
     try:
         with  connection as conn:
             with  conn.cursor() as cur:

@@ -2,6 +2,7 @@ import json
 from flask import request
 from sqlalchemy import JSON
 from controllers.project import create_project, create_project_chat, delete_project, edit_project, fetch_projects, fetch_projects_chats, project_like, fetch_project
+from icecream import ic
 
 def project(id):
     REQUEST = request.method
@@ -77,6 +78,7 @@ def projects():
     if REQUEST == 'GET':
         # Fetch projects
         try:
+            ic()
             response = fetch_projects()
             res = {"data": response}
             return res, 200
@@ -98,23 +100,35 @@ def projects():
             github = data['github']
             link = data['link']
             progress = data['progress']      
-            
-            category_id = None
-            status_id = None
-            management_tool = ''
-            
-            if 'category_id' in data and 'status_id' in data and 'management_tool' in data:
-                category_id = data['category_id']
-                status_id = data['status_id']
-                management_tool = data['management_tool']
+            project_status = data['project_status']      
+            priority = data['priority']      
+            tags_id = data['tags_id']      
+                
+            category_id = data['category_id']
+            status_id = data['status_id']
+            management_tool = data['management_tool']
             
             if account_id and project_name and description and github and link:
-                response = create_project(users_id, account_id, image, project_name, description, status_id, category_id, skill_id, github, link, management_tool, progress)
+                response = create_project(users_id=users_id, 
+                                          account_id=account_id, 
+                                          image=image, 
+                                          project_name=project_name, 
+                                          description=description, 
+                                          skill_id=status_id,
+                                          category_id=category_id, 
+                                          github=github, 
+                                          link=link, 
+                                          management_tool=management_tool, 
+                                          progress=progress, 
+                                          project_status=project_status,
+                                          priority=priority,
+                                          tags_id=tags_id
+                                          )
                 if response:
                         res = {"data": "Project created successfull"}
                         return res, 201
                 else:
-                    res = {"message": "Project already exist"}
+                    res = {"message": "Error: something went wrong."}
                     return res, 400 
                 
             res = {"message": "Missing data"}

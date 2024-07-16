@@ -9,34 +9,20 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png'
+import { login } from "../features/user/userSlice";
+import { useEffect } from "react";
 
 const Signin = () =>
 {
-  const [formData, setFormData] = useState({});
-  const loading = false;
-  const errorMessage = ''
-  // const { loading, error: errorMessage } = useSelector((state) => state?.user);
+  const [formData, setFormData] = useState({
+    "email": "",
+    "password": ""
+  });
+
+  const { loading, error: errorMessage, currentUser } = useSelector((state) => state?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { linkedInLogin } = useLinkedIn({
-    clientId: "779t2vntfhhcna",
-    scope: "profile email w_member_social",
-    redirectUri: `${window.location.origin}/linkedin`,
-    onSuccess: async (code) =>
-    {
-      const response = await axios
-        .post("http://localhost:8000/api/auth/linkedin", {
-          code: code,
-        })
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error.message));
-      console.log(response);
-    },
-    onError: (error) =>
-    {
-      console.log(error);
-    },
-  });
+
 
   const handleChange = (e) =>
   {
@@ -56,32 +42,19 @@ const Signin = () =>
     e.preventDefault();
     if (!formData.email || !formData.password)
     {
-      // return dispatch(signInFailure('Please fill all the fields'));
-    }
-    try
-    {
-      // dispatch(signInStart());
-      const res = await fetch('/api/auth/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (data.success === false)
-      {
-        // dispatch(signInFailure(data.message));
-      }
 
-      if (res.ok)
-      {
-        // dispatch(signInSuccess(data));
-        navigate('/');
-      }
-    } catch (error)
-    {
-      // dispatch(signInFailure(error.message));
     }
-  };
+    dispatch(login(formData));
+
+  }
+
+  useEffect(() =>
+  {
+    if (currentUser)
+    {
+      navigate(-1);
+    }
+  }, [currentUser])
 
   return (
     <div className="grid lg:grid-cols-3 items-start">

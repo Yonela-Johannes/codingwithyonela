@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Header from "../components/blog/Header";
 import SuggestionCard from "../components/suggestion/SuggestionCard";
 import { useDispatch, useSelector } from "react-redux";
 import
@@ -7,7 +6,6 @@ import
   commentSuggestion,
   createSuggestionResponse,
   getAllSuggestions,
-  getSuggestion,
 } from "../features/suggestions/suggestionSlice";
 import { BiDownvote, BiUpvote } from "react-icons/bi";
 import moment from "moment/moment";
@@ -17,11 +15,10 @@ import Loader from "../components/Loader/Loader";
 
 const Suggestion = ({ setEditPost, editPost, edit, setEdit }) =>
 {
+  const { currentUser, token } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const [openComments, setOpenComments] = useState(false);
-  const [option, setOption] = useState("comment");
   const [response, setResponse] = useState("");
-  const [active, setActive] = useState(false);
   const dispatch = useDispatch();
   const {
     suggestions,
@@ -59,14 +56,14 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) =>
     if (
       response &&
       params &&
-      user &&
-      user?.id &&
+      currentUser &&
+      currentUser?.account_id &&
       element &&
       element?.suggestion_id
     )
     {
       const data = {
-        account_id: user?.id,
+        account_id: currentUser?.account_id,
         comment: params,
         suggestion_id: element?.suggestion_id,
       };
@@ -79,14 +76,14 @@ const Suggestion = ({ setEditPost, editPost, edit, setEdit }) =>
     if (
       response &&
       params &&
-      user &&
-      user?.id &&
+      currentUser &&
+      currentUser?.account_id &&
       element &&
       element?.suggestion_id
     )
     {
       const data = {
-        account_id: user?.id,
+        account_id: currentUser?.account_id,
         response: params,
         suggestion_id: element?.suggestion_id,
       };

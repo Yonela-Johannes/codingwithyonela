@@ -1,27 +1,41 @@
-import React from 'react'
-import TaskForm from '../components/TaksForm'
+import React, { useContext, useEffect } from 'react'
+import { ThemeContext } from '../context/ThemeContext'
+import Board from '../components/task/Board'
+import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllTasks } from '../features/tasks/tasksSlice'
+import Loader from '../components/Loader/Loader'
 
 const Todopage = () =>
 {
+    const { id } = useParams();
+    const { loading, tasks, success } = useSelector((state) => state.task);
+    const dispatch = useDispatch();
+    const { theme } = useContext(ThemeContext)
+
+    const getTasks = () =>
+    {
+        dispatch(getAllTasks(id))
+    }
+
+    useEffect(() =>
+    {
+        if (id)
+        {
+            console.log(id)
+            getTasks()
+        }
+    }, [id]);
+    console.log(tasks)
     return (
-        <div className="w-full h-full grid grid-rows-[150px auto]">
-            {/* To do header */}
-            <div className="">Header section</div>
-            <TaskForm />
-            {/* Todo body */}
-            <main className="flex justify-evenly py-5 bg-blue-500">
-                {/* task column */}
-                <section className="w-[35%] m-5 bg-slate-500">
-                    section 1
-                </section>
-                <section className="w-[35%] m-5 bg-slate-500">
-                    section 2
-                </section>
-                <section className="w-[35%] m-5 bg-slate-500">
-                    section 3
-                </section>
-            </main>
-        </div>
+        loading ? (
+            <Loader />
+        ) : tasks.length ? (
+            <div className={`${theme == "light" ? "text-bg_opp" : "text-white"} w-full h-full grid lg:grid-rows-[150px auto] gap-8`}>
+                <h2>{tasks[0]?.project_name}</h2>
+                <Board project={false} data={tasks} />
+            </div>
+        ) : ''
     )
 }
 

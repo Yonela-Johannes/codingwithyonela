@@ -14,20 +14,18 @@ import { Search } from "lucide-react";
 import ThemeToggle from './themeToggle/ThemeToggle';
 import { ThemeContext } from '../context/ThemeContext';
 
-const MobileMenu = ({ user, items, user_items }) =>
+const MobileMenu = ({ currentUser, items, user_items }) =>
 {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const path = useLocation().pathname;
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const currentUser = {}
   const toggleMenu = () =>
   {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // const { currentUser } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() =>
@@ -72,7 +70,7 @@ const MobileMenu = ({ user, items, user_items }) =>
                   </div>
                 </HoverUnderLine>
               </Link>
-              {user && user?.id ? (
+              {currentUser && currentUser?.id ? (
                 <Dropdown
                   menu={{
                     user_items,
@@ -82,7 +80,7 @@ const MobileMenu = ({ user, items, user_items }) =>
                     <Space>
                       <HoverUnderLine>
                         <div className="flex gap-2 items-center cursor-pointer p-2">
-                          <img src={user?.image} className="h-7 w-7 rounded-full object-cover" />
+                          <img src={currentUser?.image} className="h-7 w-7 rounded-full object-cover" />
                           <DownOutlined />
                         </div>
                       </HoverUnderLine>
@@ -154,7 +152,7 @@ const MobileMenu = ({ user, items, user_items }) =>
   );
 };
 
-export default function ({ user })
+export default function ({ currentUser })
 {
   const { theme } = useContext(ThemeContext)
   const path = useLocation().pathname;
@@ -162,13 +160,11 @@ export default function ({ user })
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
-  const currentUser = {}
-
   const handleSignout = async () =>
   {
     try
     {
-      const res = await fetch('/api/user/signout', {
+      const res = await fetch('/api/currentUser/signout', {
         method: 'POST',
       });
       const data = await res.json();
@@ -277,22 +273,20 @@ export default function ({ user })
               </Space>
             </a>
           </Dropdown>
-          {user && user?.id ? (
+          {currentUser && currentUser?.id ? (
             <Dropdown
               menu={{
                 items,
               }}
             >
-              <button onClick={(e) => e.preventDefault()}>
-                <Space>
-                  <HoverUnderLine>
-                    <div className="flex items-center cursor-pointer p-2 text-sm text-bg_core">
-                      <img src={user?.profile} className="h-7 w-7 rounded-full object-cover" />
-                      <DownOutlined />
-                    </div>
-                  </HoverUnderLine>
-                </Space>
-              </button>
+              <Space>
+                <HoverUnderLine>
+                  <div className="flex items-center cursor-pointer p-2 text-sm text-bg_core">
+                    <img src={currentUser?.profile} className="h-7 w-7 rounded-full object-cover" />
+                    <DownOutlined />
+                  </div>
+                </HoverUnderLine>
+              </Space>
             </Dropdown>
           ) : (
             <Link to="/sign-in">
@@ -307,7 +301,7 @@ export default function ({ user })
         <ThemeToggle />
       </div>
       <div className="block md:hidden w-full">
-        <MobileMenu items={items} user={user} user_items={user_items} />
+        <MobileMenu items={items} currentUser={currentUser} user_items={user_items} />
       </div>
     </nav>
   );

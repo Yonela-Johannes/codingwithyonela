@@ -20,7 +20,7 @@ import Loader from "../Loader/Loader";
 const Questions = () =>
 {
   const { theme } = useContext(ThemeContext)
-  const { user } = useSelector((state) => state?.user);
+  const { currentUser } = useSelector((state) => state?.user);
   const { questions, created, loading, commented, comments } = useSelector(
     (state) => state?.question
   );
@@ -79,10 +79,10 @@ const Questions = () =>
       toast("Must be less or equal 200 characters");
     } else
     {
-      if ((selectedQuestion && user && user?.id, comment))
+      if ((selectedQuestion && currentUser && currentUser?.account_id, comment))
       {
         const data = {
-          account_id: user?.id,
+          account_id: currentUser?.account_id,
           comment: comment,
           question_id: selectedQuestion?.question_id,
         };
@@ -93,14 +93,14 @@ const Questions = () =>
 
   const questionHandler = () =>
   {
-    if (user && user?.id)
+    if (currentUser && currentUser?.account_id)
     {
       if (question.length > 10)
       {
         if (category && skill)
         {
           const data = {
-            account_id: user?.id,
+            account_id: currentUser?.account_id,
             question: question,
             category_id: category,
             topic_id: skill,
@@ -141,7 +141,7 @@ const Questions = () =>
           ""
         )}
 
-        {user && user?._id ? (
+        {currentUser && currentUser?.account_id ? (
           <button
             onClick={() => setOpen(true)}
             title="Add recommendation"
@@ -231,12 +231,12 @@ const Questions = () =>
                   <div className="flex items-center bg-clr_alt text-white rounded-full md:justify-between gap-2">
                     <div className="space-y-1py-1 pl-3">
                       <p className="text-xs">
-                        {user?.username} {user?.lastname}
+                        {currentUser?.username} {currentUser?.lastname}
                       </p>
                     </div>
                     <div>
                       <img
-                        src={user?.profile}
+                        src={currentUser?.profile}
                         alt="cover"
                         className="rounded-full object-cover object-center h-[35px] w-[35px]"
                       />
@@ -300,7 +300,7 @@ const Questions = () =>
                 </div>
               </div>
             </div>
-            {user && user?.id ? (
+            {currentUser && currentUser?.account_id ? (
               <div className="rounded-md p-2 flex-col flex md:flex-row items-start gap-2 md:gap-4 justify-between w-full border border-bg_light hover:border-bg_core duration-200 cursor-pointer">
                 <div>
                   <textarea
@@ -315,7 +315,7 @@ const Questions = () =>
                     <div className="flex items-center text-black rounded-full md:justify-between gap-2">
                       <div>
                         <img
-                          src={user?.profile}
+                          src={currentUser?.profile}
                           alt="cover"
                           className="rounded-full object-cover object-center h-[35px] w-[35px]"
                         />

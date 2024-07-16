@@ -11,16 +11,9 @@ const Home = () =>
         <Top
           title="Hello, I'm"
           name="Yonela"
-          description="Welcome to my website. Built using React, Tailwind, Flask,
-          Python and Postgresql"
+          description="Welcome to my website. I build this website in order for myself and friends to teach, learn, and venture on projects together of our liking."
+          theme={theme}
         />
-        <p className="text-base lg:text-xl 2xl:text-2xl">
-          Welcome aboard our journey of exploration and growth, where we dive deep
-          <br /> into the world of entrepreneurship, exchange ideas, and support
-          each other
-          <br /> in reaching our full potential—all while having a blast along the
-          way!
-        </p>
       </div>
       <div className="flex items-end  justify-center w-full">
         <img src={peer} className="rounded-md h-[300px] w-[280px] object-cover" />

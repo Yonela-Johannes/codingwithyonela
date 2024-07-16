@@ -1,9 +1,7 @@
 import { cn } from "../../lib/utils";
-
-import { Link } from "react-router-dom";
 import HoverUnderLine from "../HoverUnderLine";
 
-export default function Top({ name, title, description })
+export default function Top({ name, title, description, theme })
 {
   return (
     <>
@@ -17,19 +15,24 @@ export default function Top({ name, title, description })
           </p>
           <div className="flex flex-col gap-4 sm:flex-row cursor-pointer font-bold">
             <HoverUnderLine>
-              <Link to="/blogs" className={cn("w-full sm:w-fit")}>
-                My Portfolio
-              </Link>
+              <button className={`${theme == "light" ? "" : "border-clr_alt"} shadow-none bg-clr_alt text-white`}>
+                <a href="https://portfolio-beta-red-17.vercel.app/" target="_blank" className={cn("w-full sm:w-fit")}>
+                  My Portfolio
+                </a>
+              </button>
             </HoverUnderLine>
             <HoverUnderLine>
-              <Link
-                href="https://github.com/yonela-johannes"
-                target="_blank"
-                rel="noreferrer"
-                className={cn("w-full sm:w-fit")}
-              >
-                GitHub
-              </Link>
+              <button className={`${theme == "light" ? "shadow-none" : "border-none"}`}>
+                <a
+                  href="https://github.com/yonela-johannes"
+                  target="_blank"
+                  rel="noreferrer"
+                  className={cn("w-full sm:w-fit ")}
+                >
+                  GitHub
+                </a>
+
+              </button>
             </HoverUnderLine>
           </div>
         </div>

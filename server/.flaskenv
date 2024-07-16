@@ -1,6 +1,6 @@
 FLASK_APP=app
 FLASK_DEBUG=True
-DATABASE="codingwithyongs"
+DATABASE="codingwithyonela"
 DATABASE_USER="yongs"
 PASSWORD="Juanesse"
 TOKEN="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"

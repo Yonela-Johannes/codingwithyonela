@@ -31,6 +31,45 @@ const NavMenu = () =>
           </Link>
           <Link
             className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
+            to="/project-status"
+          >
+            <HoverUnderLine>
+              <div className="flex gap-1 items-center cursor-pointer">
+                <div className="lg:hidden">
+                  <GrStatusUnknownSmall />
+                </div>
+                Progress
+              </div>
+            </HoverUnderLine>
+          </Link>
+          <Link
+            className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
+            to="/project-descussion"
+          >
+            <HoverUnderLine>
+              <div className="flex gap-1 items-center cursor-pointer">
+                <div className="lg:hidden">
+                  <GrStatusUnknownSmall />
+                </div>
+                Project descussion
+              </div>
+            </HoverUnderLine>
+          </Link>
+          <Link
+            className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
+            to="/repository"
+          >
+            <HoverUnderLine>
+              <div className="flex gap-1 items-center cursor-pointer">
+                <div className="lg:hidden">
+                  <GrStatusUnknownSmall />
+                </div>
+                Repository
+              </div>
+            </HoverUnderLine>
+          </Link>
+          <Link
+            className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
             to="/suggestions"
           >
             <HoverUnderLine>
@@ -83,19 +122,6 @@ const NavMenu = () =>
           </Link>
           <Link
             className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
-            to="/project-status"
-          >
-            <HoverUnderLine>
-              <div className="flex gap-1 items-center cursor-pointer">
-                <div className="lg:hidden">
-                  <GrStatusUnknownSmall />
-                </div>
-                Progress
-              </div>
-            </HoverUnderLine>
-          </Link>
-          <Link
-            className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
             to="/posts"
           >
             <HoverUnderLine>
@@ -104,19 +130,6 @@ const NavMenu = () =>
                   <GrStatusUnknownSmall />
                 </div>
                 Feed
-              </div>
-            </HoverUnderLine>
-          </Link>
-          <Link
-            className={`focus:outline-none focus:border-b focus:border-clr_alt ${theme == "light" ? "focus:text-bg_opp" : "focus:text-clr_alt"}`}
-            to="/showcase"
-          >
-            <HoverUnderLine>
-              <div className="flex gap-1 items-center cursor-pointer">
-                <div className="lg:hidden">
-                  <GrStatusUnknownSmall />
-                </div>
-                Showcase
               </div>
             </HoverUnderLine>
           </Link>

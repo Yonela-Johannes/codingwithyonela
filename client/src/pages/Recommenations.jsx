@@ -1,19 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import RecommendationCard from "../components/recommendation/RecommendationCard";
-import { Watermark } from "antd";
 import { useEffect, useState } from "react";
 import { getAllTitles } from "../features/title/titleSlice";
 import { MdOutlineAdd } from "react-icons/md";
 import { Modal } from "antd";
 import { MdCloudUpload } from "react-icons/md";
 import Dropzone from "react-dropzone";
-import { getAllCountries } from "../features/countries/countrySlice";
 import { getAllRecommendations } from "../features/recommenation/recommendationSlice";
 import Loader from "../components/Loader/Loader";
 
 const Recommendations = () =>
 {
-  const user = useSelector((state) => state?.user);
+  const { currentUser, token } = useSelector((state) => state?.user);
   const { countries } = useSelector((state) => state.countries);
   const [filterValue, setFilterValue] = useState("")
   const { loading, recommendations } = useSelector((state) => state.recommendation);
@@ -86,7 +84,7 @@ const Recommendations = () =>
           ) : (
             ""
           )}
-          {user && user?.id ? (
+          {currentUser && currentUser?.account_id ? (
             <button
               onClick={() => setOpen(true)}
               title="Add recommendation"
@@ -171,15 +169,15 @@ const Recommendations = () =>
                     <div className="flex items-center bg-clr_alt text-white rounded-full md:justify-between gap-2">
                       <div className="space-y-1py-1 pl-3">
                         <p className="text-xs">
-                          {user?.username} {user?.lastname}
+                          {currentUser?.username} {currentUser?.lastname}
                         </p>
                       </div>
                       <div>
-                        {/* <img
-                        src={user?.profile}
-                        alt="cover"
-                        className="rounded-full object-cover object-center h-[35px] w-[35px]"
-                      /> */}
+                        <img
+                          src={currentUser?.profile}
+                          alt="cover"
+                          className="rounded-full object-cover object-center h-[35px] w-[35px]"
+                        />
                       </div>
                     </div>
                     <div className="p-2">

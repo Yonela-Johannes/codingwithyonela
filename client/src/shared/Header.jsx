@@ -2,10 +2,12 @@ import { useNavigate } from "react-router-dom";
 import Hero from "../components/Hero";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
+import { useSelector } from "react-redux";
 
 const Header = () =>
 {
   const { theme } = useContext(ThemeContext)
+  const { currentUser, token } = useSelector((state) => state.user);
   const navigate = useNavigate();
   return (
     <div className="flex flex-col md:flex-row md:gap-20 items-center overflow-x-hidden mb-4">
@@ -17,7 +19,9 @@ const Header = () =>
             programmer
           </span>
         </h2>
-        <button className={`${theme == "light" ? "text-black" : "text-white border-none"}`} onClick={() => navigate('/sign-in')}>Join in</button>
+        {!currentUser && !currentUser?.account_id ? (
+          <button className={`${theme == "light" ? "text-clr_alt border-none" : "text-white border-none"} m-1`} onClick={() => navigate('/sign-in')}>Join in</button>
+        ) : ""}
       </div>
       <Hero />
     </div>

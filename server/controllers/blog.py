@@ -32,7 +32,6 @@ from utils.db import connection
 
 # fetch user
 def fetch_blog(id):
-    print("THIS IS THE ID:: ", id)
     query = """SELECT * FROM blog WHERE id=%s"""
     
     response = None

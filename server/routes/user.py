@@ -9,11 +9,14 @@ def login_user():
     REQUEST = request.method 
     if REQUEST == 'GET':
         try:
-            data = request.get_json()
-            email = data['email']
-            password = data['password']
+            email = request.args.get('email')
+            password = request.args.get('password')
+
             if email and password:
                 response = login(email=email, password=password)
+                ic(response)
+                if "message" in response:
+                    return response, 404
                 if response:
                     res = {
                             "message": "Fetch successful",
@@ -22,7 +25,7 @@ def login_user():
                     return res, 200
                 else:
                     res = {"message": "Error: something went wrong."}
-                    return res, 400
+                    return res, 400 
             else:
                 res = {"message": "Error: missing email or password"}
                 return res, 400 
@@ -51,44 +54,41 @@ def user(id):
     elif REQUEST == 'PUT':
         try:
             data = request.get_json()
-            print(data)
-            
+            token = data['token']
             is_admin: bool = False
             is_staff: bool = False
             user_title_id: str = ""
             
             response = fetch_user(id)
+            
             if response is None:
                 res = {"message": "Invalid user"}
                 return res, 400
+            
+            if response is None:
+                res = {"message": "Invalid user"}
+                return res, 400
+            
+            if token is None:
+                res = {"message": "Invalid token"}
+                return res, 400
 
             id = response['id']                            
-            if "is_admin" in data:
-                is_admin = data['is_admin']
-            else:
-                is_admin = False
-                
-            if "is_staff" in data:
-                is_staff = data['is_staff']
-            else:
-                is_staff = False
-                
-            if "user_title_id" in data:
-                user_title_id = data['user_title_id']
+            is_admin = data['is_admin']
+            is_staff = data['is_staff']
+            user_title_id = data['user_title_id']
         
-            if id:
-                # response = edit_user(id, is_admin, is_staff, user_title_id)
-                # if response:
-                #     res = {"data": f"{response}",
-                #         "message": "Update successful"
-                #         }
-                # return res, 200
-                return {"message": "We are inside", "id": id}, 201
+            response = edit_user(id, is_admin, is_staff, user_title_id, token=token)
+            ic(response)
+            if response:
+                res = {"data": f"{response}",
+                    "message": "Update successful"
+                    }
+                return res, 200
             else:
                 res = {"message": "Invalid user"}
                 return res, 400
 
-    
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
             return res, 400
@@ -135,8 +135,6 @@ def create_user_profile(mail):
             profile = ""
             if 'profile' in data:
                 profile = data['profile']
-            ic()
-            ic(mail)
             msg = Message(subject="Hey", sender='noreplay@email.com', recipients=[email]) 
             msg.body = "Hey how are! Is everything okay?"   
             response = mail.send(message=msg)

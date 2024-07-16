@@ -13,6 +13,7 @@ const Center = () =>
   const user = {}
   const [active, setActive] = useState(false);
   const dispatch = useDispatch();
+
   const getProjects = () =>
   {
     dispatch(getAllprojects())

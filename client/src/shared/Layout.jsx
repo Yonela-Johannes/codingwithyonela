@@ -10,7 +10,7 @@ import { ThemeContext } from "../context/ThemeContext";
 
 const Layout = ({ children }) =>
 {
-  const { user } = useSelector((state) => state.user)
+  const { currentUser } = useSelector((state) => state.user)
   const { theme } = useContext(ThemeContext)
 
   return (
@@ -40,7 +40,7 @@ const Layout = ({ children }) =>
       <div className={`${theme == "light" ? "bg-white" : "bg-slate-800"} mx-auto overflow-x-hidden h-full flex-1 w-screen flex flex-col left-0 right-0`}>
         <div className={`${theme == "light" ? "bg-white" : "bg-slate-800"} fixed top-0 left-0 right-0 z-50 border-b border-bg_light overflow-x-hidden`}>
           <Wrapper>
-            <Navbar user={user} />
+            <Navbar currentUser={currentUser} />
             <Header />
             <NavMenu />
           </Wrapper>

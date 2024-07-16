@@ -14,6 +14,7 @@ import recommendationReducer from '../features/recommenation/recommendationSlice
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import quoteReducer from '../features/quote/quoteSlice';
+import tasksReducer from '../features/tasks/tasksSlice';
 
 // Combine all reducers into a single root reducer
 const rootReducer = combineReducers({
@@ -29,7 +30,8 @@ const rootReducer = combineReducers({
   project: projectReducer,
   recommendation: recommendationReducer,
   quotes: quoteReducer,
-  github: githubReducer
+  github: githubReducer,
+  task: tasksReducer
 });
 
 // Create a persist configuration

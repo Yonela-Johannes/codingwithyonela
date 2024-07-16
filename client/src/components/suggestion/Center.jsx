@@ -4,15 +4,16 @@ import Sender from "../../shared/Sender";
 import Suggestion from "../../shared/Suggestion";
 import { useState, useEffect } from "react";
 import
-  {
-    createSuggestion,
-    updateSuggestion,
-  } from "../../features/suggestions/suggestionSlice";
+{
+  createSuggestion,
+  updateSuggestion,
+} from "../../features/suggestions/suggestionSlice";
 import { getAllCategories } from "../../features/category/categorySlice";
 import toast from "react-hot-toast";
 
-const Center = ({ user }) =>
+const Center = () =>
 {
+  const { currentUser, token } = useSelector((state) => state.user);
   const { success, deleted, updated } = useSelector(
     (state) => state.suggestion
   );
@@ -61,13 +62,12 @@ const Center = ({ user }) =>
         option == "edit" &&
         title &&
         category &&
-        user &&
-        user?.id)
+        currentUser &&
+        currentUser?.account_id)
     )
     {
-      console.log(editPost);
       const data = {
-        account_id: user?.id,
+        account_id: currentUser?.account_id,
         post: params,
         status_id: null,
         category_id: category,
@@ -75,10 +75,10 @@ const Center = ({ user }) =>
         suggestion_id: editPost?.suggestion_id,
       };
       dispatch(updateSuggestion(data));
-    } else if (response && params && title && category && user && user?.id)
+    } else if (response && params && title && category && currentUser && currentUser?.id)
     {
       const data = {
-        account_id: user?.id,
+        account_id: currentUser?.account_id,
         post: params,
         status_id: null,
         category_id: category,
@@ -112,8 +112,8 @@ const Center = ({ user }) =>
   }, [success, deleted, updated]);
 
   return (
-    <div className={`${user && user?.id ? "relative pt-40" : " "} flex  items-center flex-col w-full`}>
-      {user && user?.id ? (
+    <div className={`${currentUser && currentUser?.account_id ? "relative pt-40" : " "} flex  items-center flex-col w-full`}>
+      {currentUser && currentUser?.id ? (
         <div className="absolute top-0 w-full">
           <Sender
             handler={sendMessageHander}

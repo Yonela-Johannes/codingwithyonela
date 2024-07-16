@@ -14,6 +14,7 @@ from routes.title import title
 from routes.blog import blog, blogs, blogs_comment_create, blogs_comments
 from routes.feed import feed, feeds, feed_comment_create, feed_comment
 from routes.category import category
+from routes.task import task, project_task
 from routes.suggestion import all_suggestion, get_suggestion_comments, get_suggestion_response, suggestion, suggestion_comment, suggestion_response
 from routes.github_api import list_my_repos, my_profile, list_profiles, list_all_users_repos, github_feeds, github_my_followers
 from flask_cors import CORS, cross_origin
@@ -38,9 +39,21 @@ mail = Mail(app)
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 PASSWORD = os.environ.get('MAIL_PASSWORD')
-ic()
-ic(SECRET_KEY)
-ic(PASSWORD)
+
+# task route
+@app.route('/api/v1/task/<int:project_id>' , methods=['GET', 'PUT', 'DELETE', 'POST'])
+def task_route(project_id):
+    ic()
+    ic(project_id)
+    return project_task(project_id=project_id)
+
+# # user route
+# @app.route('/api/v1/task' , methods=['POST', 'GET'])
+# def create_user_route():
+#     return create_user_profile(mail)
+# ----------------
+
+
 # quotes route
 @app.route('/api/v1/quote', methods=['GET', 'POST'])
 def quotes_route():

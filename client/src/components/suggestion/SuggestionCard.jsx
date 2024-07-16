@@ -25,7 +25,7 @@ const SuggestionCard = ({
   setEdit,
 }) =>
 {
-  const { user } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext)
   const showDeleteConfirm = (params) =>
@@ -130,7 +130,7 @@ const SuggestionCard = ({
             >
               5 comments
             </button>
-            {user && user?.id && user?.id == suggestion?.account_id ? (
+            {currentUser && currentUser?.account_id == suggestion?.account_id ? (
               <>
                 <button
                   onClick={() => handleEdit(suggestion)}

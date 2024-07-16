@@ -17,7 +17,7 @@ import Markdown from "../shared/Markdown.jsx";
 
 const Blog = () =>
 {
-  const { user } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const { blogs, created, comments, loading } = useSelector(
     (state) => state.blogs
   );
@@ -64,12 +64,12 @@ const Blog = () =>
 
   const sendMessageHander = async (params) =>
   {
-    if (params && blog && blog?.id && user && user?.id)
+    if (params && blog && blog?.id && currentUser && currentUser?.account_id)
     {
       const data = {
         comment: params,
         blog_id: blog?.blog_id,
-        account_id: user?.id,
+        account_id: currentUser?.account_id,
       };
       dispatch(createBlogComment(data));
     }
@@ -118,7 +118,7 @@ const Blog = () =>
             <Markdown text={blog?.post} />
           </div>
           <div className="w-full lg:space-y-8">
-            {user && user?.id ? (
+            {currentUser && currentUser?.account_id ? (
               <div className="w-full">
                 <GlobalComment
                   object={blog}
