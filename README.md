@@ -43,14 +43,14 @@ Users should be able to:
 
 ### Screenshot
 
-![Screenshot](<./public/assets/1.png>)
-![Screenshot](<./public/assets/2.png>)
-![Screenshot](<./public/assets/3.png>)
-![Screenshot](<./public/assets/4.png>)
-![Screenshot](<./public/assets/5.png>)
-![Screenshot](<./public/assets/6.png>)
-![Screenshot](<./public/assets/7.png>)
-![Screenshot](<./public/assets/8.png>)
+![Screenshot](<./client/public/assets/1.png>)
+![Screenshot](<./client/public/assets/2.png>)
+![Screenshot](<./client/public/assets/3.png>)
+![Screenshot](<./client/public/assets/4.png>)
+![Screenshot](<./client/public/assets/5.png>)
+![Screenshot](<./client/public/assets/6.png>)
+![Screenshot](<./client/public/assets/7.png>)
+![Screenshot](<./client/public/assets/8.png>)
 
 ### Links
 
