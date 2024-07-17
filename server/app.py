@@ -91,7 +91,7 @@ def login_route():
 # user route
 @app.route('/api/v1/user' , methods=['POST', 'GET'])
 def create_user_route():
-    return create_user_profile(mail)
+    return create_user_profile()
 # ----------------
 
 # blog route
@@ -248,4 +248,3 @@ def github_feeds_route():
     return github_feeds()
 
 # ----------------
-# FFD343

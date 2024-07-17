@@ -1,7 +1,8 @@
 
 export default function HoverUnderLine({
 	children
-}) {
+})
+{
 	return (
 		<div className="group w-full max-w-max cursor-pointer ">
 			{children}

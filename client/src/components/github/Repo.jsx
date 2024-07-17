@@ -3,11 +3,13 @@ import { FaCodeFork } from "react-icons/fa6";
 import { formatDate } from "../../utils/functions";
 import { PROGRAMMING_LANGUAGES } from "../../utils/constants";
 import toast from "react-hot-toast";
+import { ThemeContext } from "../../context/ThemeContext";
+import { useContext } from "react";
 
 const Repo = ({ repo }) =>
 {
 	const formattedDate = formatDate(repo.created_at);
-
+	const { theme } = useContext(ThemeContext)
 	const handleCloneClick = async (repo) =>
 	{
 		try
@@ -21,7 +23,7 @@ const Repo = ({ repo }) =>
 	};
 
 	return (
-		<li className='mb-10 ms-7'>
+		<div className='mb-10 ms-7'>
 			<span
 				className='absolute flex items-center justify-center w-6 h-6 bg-blue-100
     rounded-full -start-3 ring-8 ring-white'
@@ -33,7 +35,7 @@ const Repo = ({ repo }) =>
 					href={repo.html_url}
 					target='_blank'
 					rel='noreferrer'
-					className='flex items-center gap-2 text-lg font-semibold'
+					className={`${theme == "light" ? "text-bg_opp" : "text-clr_alt"} text-base lg:text-lg semi-bold`}
 				>
 					{repo.name}
 				</a>
@@ -70,7 +72,7 @@ const Repo = ({ repo }) =>
 			{PROGRAMMING_LANGUAGES[repo.language] ? (
 				<img src={PROGRAMMING_LANGUAGES[repo.language]} alt='Programming language icon' className='h-8' />
 			) : null}
-		</li>
+		</div>
 	);
 };
 export default Repo;

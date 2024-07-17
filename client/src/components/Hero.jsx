@@ -32,8 +32,8 @@ function Hero()
 
   return (
     quote && quote.quote ? (
-      <div className="flex w-full mb-4 mt-6 gap-3 flex-col justify-center md:pt-14 md:pb-7">
-        <div className={`${theme == "light" ? "text-black" : "text-white"}bg-bg_lighter rounded-md max-w-[480px]`}>
+      <div className="flex w-full gap-3 flex-col justify-center">
+        <div className={`${theme == "light" ? "text-black" : "text-white"}bg-bg_lighter rounded-md max-w-[500px]`}>
           <span className={`${theme == "light" ? "text-black" : "text-white"} text-lg`}>"{quote?.quote}"
           </span>
           <p className={`${theme == "light" ? "text-black" : "text-white"} text-sm italic`}>- {quote?.author}</p>

@@ -19,7 +19,7 @@ const TaskCard = ({ elem, project }) =>
         <section className={`${theme == "light" ? "bg-white text-bg_opp" : "bg-bg_core border-bg_core text-slate-300"} flex flex-col gap-2 border rounded-md p-2 lg:p-4 mb-3`}>
             <div className='flex items-center justify-between'>
                 {elem?.project_name ? (
-                    <Link to={`/project/${elem?.project_id}/todo`} className='text-[13px] lg:text-xl cursor-pointer'>{elem?.project_name}</Link>
+                    <Link to={`/project/${elem?.project_id}/todo`} className='text-[13px] lg:text-xl cursor-pointer text-clr_alt'>{elem?.project_name}</Link>
 
                 ) : (
                     <p className='text-[13px] lg:text-xl cursor-pointer'>{elem?.task}</p>

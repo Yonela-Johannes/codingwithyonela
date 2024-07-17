@@ -49,20 +49,20 @@ const Board = ({ project, data }) =>
             <div className={`${theme == "light" ? "bg-slate-100 text-white" : "bg-bg_card text-slate-400"} flex flex-col lg:flex-row gap-4 lg:gap-0 lg:flex justify-evenly py-2 lg:py-5 rounded-md`}>
                 {/* task column */}
                 <section className="w-full lg:w-[35%] lg:m-5">
-                    <TaskColumn title="To Do" image={todo} />
+                    <TaskColumn title="To do" image={todo} />
                     {grouped?.todo?.map((elem) => (
                         <TaskCard elem={elem} project={project} />
                     ))}
                 </section>
                 <section className="w-full lg:w-[35%] lg:m-5">
-                    <TaskColumn title="Doing" image={doing} />
+                    <TaskColumn title="In progress" image={doing} />
                     {grouped?.doing?.map((elem) => (
                         <TaskCard elem={elem} />
                     ))}
                 </section>
                 {project ? (
                     <section className="w-full lg:w-[35%] lg:m-5">
-                        <TaskColumn title="Postponed" image={postponed} />
+                        <TaskColumn title="On hold" image={postponed} />
                         {grouped?.postponed?.map((elem) => (
                             <TaskCard elem={elem} />
                         ))}

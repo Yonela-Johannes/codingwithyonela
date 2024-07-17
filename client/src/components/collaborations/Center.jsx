@@ -7,7 +7,7 @@ import { getAllprojects } from "../../features/project/projectSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
 
-const Center = () =>
+const Center = ({ theme }) =>
 {
   const { loading, projects, success } = useSelector((state) => state.project);
   const user = {}
@@ -37,7 +37,7 @@ const Center = () =>
       <div className="flex flex-col relative gap-10 h-full">
         <div className="z-20 h-[580px] overflow-y-auto">
           {projects?.map((project) => (
-            <List key={project.id} project={project} />
+            <List theme={theme} key={project.id} project={project} />
           ))}
         </div>
         {active && user && user?.id ? (

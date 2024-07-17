@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        cl_primary: '#ff8906',
+        cl_primary: '#DA9D3C',
         cl_alt: '#252335',
         bg_core: '#343541',
         bg_primary: '#242323',
@@ -18,7 +18,8 @@ export default {
         bg_light: '#b3b3b3',
         bg_lighter: '#ececec',
         bg_grey: '#a7a9be',
-        clr_alt: "#7f57f1"
+        clr_alt: "#7f57f1",
+        cl_primary_alt: "#FFD343"
       },
       fontFamily: {
         'tech_mono': ['ShareTechMono'],

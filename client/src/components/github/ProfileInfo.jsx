@@ -4,12 +4,15 @@ import { FaXTwitter } from "react-icons/fa6";
 import { TfiThought } from "react-icons/tfi";
 import { FaEye } from "react-icons/fa";
 import { formatMemberSince } from "../../utils/functions";
+import { ThemeContext } from "../../context/ThemeContext";
+import { useContext } from "react";
 
 const ProfileInfo = ({ userProfile, followers }) =>
 {
+	const { theme } = useContext(ThemeContext)
 	const memberSince = formatMemberSince(userProfile?.created_at);
 	return (
-		<div className='lg:w-1/3 w-full flex flex-col gap-2 lg:sticky md:top-10'>
+		<div className={`${theme == "light" ? "text-bg_opp" : "text-white"} lg:w-1/3 w-full flex flex-col gap-2 lg:sticky md:top-10`}>
 			<div className='bg-glass rounded-lg p-4'>
 				<div className='flex gap-3 items-center'>
 					{/* User Avatar */}
@@ -35,41 +38,28 @@ const ProfileInfo = ({ userProfile, followers }) =>
 				{userProfile?.bio ? (
 					<div className='flex items-center gap-2'>
 						<TfiThought />
-						<p className='text-sm'>{userProfile?.bio.substring(0, 60)}...</p>
+						<p className='text-sm md:text-lg'>{userProfile?.bio.substring(0, 60)}...</p>
 					</div>
 				) : null}
 
 				{/* Location */}
 				{userProfile?.location ? (
-					<div className='flex items-center gap-2'>
+					<div className='flex items-center gap-2 text-sm md:text-lg'>
 						<IoLocationOutline />
 						{userProfile?.location}
 					</div>
 				) : null}
 
-				{/* Twitter Username */}
-				{userProfile?.twitter_username ? (
-					<a
-						href={`https://twitter.com/${userProfile?.twitter_username}`}
-						target='_blank'
-						rel='noreferrer'
-						className='flex items-center gap-2 hover:text-sky-500'
-					>
-						<FaXTwitter />
-						{userProfile?.twitter_username}
-					</a>
-				) : null}
-
 				{/* Member Since Date */}
 				<div className='my-2'>
-					<p className='text-gray-600 font-bold text-sm'>Member since</p>
+					<p className={`${theme == "light" ? "text-gray-300" : "text-gray-400"} text-sm md:text-base`}>Member since</p>
 					<p className=''>{memberSince}</p>
 				</div>
 
 				{/* Email Address */}
 				{userProfile?.email && (
 					<div className='my-2'>
-						<p className='text-gray-600 font-bold text-sm'>Email address</p>
+						<p className={`${theme == "light" ? "text-gray-300" : "text-gray-400"} text-sm md:text-base`}>Email address</p>
 						<p className=''>{userProfile.email}</p>
 					</div>
 				)}
@@ -77,14 +67,14 @@ const ProfileInfo = ({ userProfile, followers }) =>
 				{/* Full Name */}
 				{userProfile?.name && (
 					<div className='my-2'>
-						<p className='text-gray-600 font-bold text-sm'>Full name</p>
+						<p className={`${theme == "light" ? "text-gray-300" : "text-gray-400"} text-sm md:text-base`}>Full name</p>
 						<p className=''>{userProfile?.name}</p>
 					</div>
 				)}
 
 				{/* Username */}
 				<div className='my-2'>
-					<p className='text-gray-600 font-bold text-sm'>Username</p>
+					<p className={`${theme == "light" ? "text-gray-300" : "text-gray-400"} text-sm md:text-base`}>Username</p>
 					<p className=''>{userProfile?.login}</p>
 				</div>
 			</div>

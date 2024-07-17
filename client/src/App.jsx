@@ -17,7 +17,7 @@ import { useSelector } from "react-redux";
 import Dashboard from "./dashboard/pages/Dashboard";
 import ScrollToTop from './dashboard/components/ScrollToTop'
 import PostsPage from "./dashboard/pages/PostsPage";
-import SignUp from "./dashboard/pages/SignUp";
+import SignUp from "./pages/SignUp";
 import Recommendations from "./pages/Recommenations";
 import RootLayout from "./_root/RootLayout";
 import Showcase from './pages/showcase/Showcase'
@@ -30,6 +30,11 @@ import ProjectsTask from "./pages/ProjectsTask";
 
 function App()
 {
+  const { currentUser } = useSelector((state) => state.user)
+  useEffect(() =>
+  {
+
+  }, [currentUser])
 
   return (
     <BrowserRouter>
@@ -37,21 +42,21 @@ function App()
       <Layout>
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/blogs" element={<Blogs />} />
-          <Route path="/blogs/:id" element={<Blog />} />
+          <Route path="/blog" element={<Blogs />} />
+          <Route path="/blog/:id" element={<Blog />} />
           <Route path="/posts" element={<RootLayout><PostsPage /></RootLayout>} />
           <Route path="/post/:slug" element={<PostDetails />} />
           <Route path="/suggestions" element={<SuggestionScreen />} />
           <Route path="/questions" element={<QuestionScreen />} />
           <Route path="/testimonials" element={<Testimonials />} />
-          <Route path="/recommendations" element={<Recommendations />} />
+          <Route path="/recommendation" element={<Recommendations />} />
           <Route path="/sign-in" element={<Signin />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/about" element={<About />} />
           <Route path="/project-descussion" element={<Collaboration />} />
           <Route path="/project-status" element={<ProjectsTask />} />
           <Route path="/project/:id/todo" element={<Todopage />} />
-          <Route path="/repository" element={<Showcase />} />
+          <Route path="/version-control" element={<Showcase />} />
           <Route path="/projects/add" element={<CreateProject />} />
           <Route path="/projects/my-projects/user/:id" element={<MyProjects />} />
           <Route path="/projects/:id" element={<Project />} />

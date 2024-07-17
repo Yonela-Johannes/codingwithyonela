@@ -1,11 +1,9 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { AiOutlineSearch } from 'react-icons/ai';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useContext, useEffect, useState } from 'react';
 import HoverUnderLine from "./HoverUnderLine";
 import { DownOutlined } from "@ant-design/icons";
 import { Space, Dropdown } from "antd";
-import { BiDonateHeart } from "react-icons/bi";
 import { FaGithubAlt, FaMoon, FaSun } from "react-icons/fa";
 import { BsFillMoonStarsFill } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
@@ -13,14 +11,13 @@ import logo from '../assets/logo.png'
 import { Search } from "lucide-react";
 import ThemeToggle from './themeToggle/ThemeToggle';
 import { ThemeContext } from '../context/ThemeContext';
+import avatar from '../assets/pavatar.png'
+import { logout } from '../features/user/userSlice';
 
 const MobileMenu = ({ currentUser, items, user_items }) =>
 {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const path = useLocation().pathname;
   const location = useLocation();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const toggleMenu = () =>
   {
     setIsMenuOpen(!isMenuOpen);
@@ -155,31 +152,10 @@ const MobileMenu = ({ currentUser, items, user_items }) =>
 export default function ({ currentUser })
 {
   const { theme } = useContext(ThemeContext)
-  const path = useLocation().pathname;
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
-  const handleSignout = async () =>
-  {
-    try
-    {
-      const res = await fetch('/api/currentUser/signout', {
-        method: 'POST',
-      });
-      const data = await res.json();
-      if (!res.ok)
-      {
-        console.log(data.message);
-      } else
-      {
-        // dispatch(signoutSuccess());
-      }
-    } catch (error)
-    {
-      console.log(error.message);
-    }
-  };
 
   const handleSubmit = (e) =>
   {
@@ -199,14 +175,6 @@ export default function ({ currentUser })
       ),
     },
     {
-      key: "2",
-      label: (
-        <Link to="_blank" rel="noopener noreferrer">
-          Portfolio's
-        </Link>
-      ),
-    },
-    {
       key: "3",
       label: (
         <Link to="/friends" rel="noopener noreferrer">
@@ -219,27 +187,8 @@ export default function ({ currentUser })
     },
   ];
 
-  const user_items = [
-    {
-      key: "9",
-      label: (
-        <Link to="/account" rel="noopener noreferrer">
-          Account
-        </Link>
-      ),
-    },
-    {
-      key: "10",
-      label: (
-        <Link to="/friends" rel="noopener noreferrer">
-          Logout
-        </Link>
-      ),
-    },
-  ];
-
   return (
-    <nav className="px-10 flex flex-col z-50 md:flex-row py-3 w-full items-center justify-between gap-4 md:gap-0">
+    <nav className={`flex flex-col z-50 md:flex-row py-3 w-full items-center justify-between gap-4 md:gap-0`}>
       <div className="hidden md:flex items-center justify-between w-full">
         <div className="">
           <Link to="/">
@@ -256,7 +205,7 @@ export default function ({ currentUser })
             </button>
           </div>
         </form>
-        <div className={`${theme == "light" ? "text-black" : "text-white"} flex gap-6 text-base text-black uppercase`}>
+        <div className={`${theme == "light" ? "text-black" : "text-white"} flex gap-6 text-base text-black`}>
           <Dropdown
             menu={{
               items,
@@ -274,20 +223,15 @@ export default function ({ currentUser })
             </a>
           </Dropdown>
           {currentUser && currentUser?.id ? (
-            <Dropdown
-              menu={{
-                items,
-              }}
-            >
-              <Space>
+            <>
+              <div onClick={() => dispatch(logout())}>
                 <HoverUnderLine>
-                  <div className="flex items-center cursor-pointer p-2 text-sm text-bg_core">
-                    <img src={currentUser?.profile} className="h-7 w-7 rounded-full object-cover" />
-                    <DownOutlined />
+                  <div className="flex gap-2 items-center cursor-pointer p-2">
+                    Logout
                   </div>
                 </HoverUnderLine>
-              </Space>
-            </Dropdown>
+              </div>
+            </>
           ) : (
             <Link to="/sign-in">
               <HoverUnderLine>
@@ -298,11 +242,22 @@ export default function ({ currentUser })
             </Link>
           )}
         </div>
-        <ThemeToggle />
+        <div className='flex items-center gap-4'>
+          <ThemeToggle />
+          {currentUser && currentUser?.id ? (
+            <>
+              <HoverUnderLine>
+                <div className="flex items-center cursor-pointer p-2 text-sm text-bg_core">
+                  <img src={currentUser?.profile ? currentUser?.profile : avatar} className="h-7 w-7 rounded-full object-cover" />
+                </div>
+              </HoverUnderLine>
+            </>
+          ) : ""}
+        </div>
       </div>
-      <div className="block md:hidden w-full">
+      {/* <div className="block md:hidden w-full">
         <MobileMenu items={items} currentUser={currentUser} user_items={user_items} />
-      </div>
+      </div> */}
     </nav>
   );
 };

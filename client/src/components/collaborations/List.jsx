@@ -3,7 +3,7 @@ import HoverUnderLine from "../HoverUnderLine";
 import { getProjectMessages, setSelectProject } from "../../features/project/projectSlice";
 import { useDispatch } from "react-redux";
 
-const List = ({ project }) =>
+const List = ({ project, theme }) =>
 {
   const dispatch = useDispatch()
 
@@ -15,7 +15,7 @@ const List = ({ project }) =>
       dispatch(setSelectProject(project))
     }
   }
-  console.log(project)
+
   return (
     <div
       className={`${project?.progress == "done"
@@ -23,7 +23,7 @@ const List = ({ project }) =>
         : project?.progress == "progress"
           ? "text-orange-500"
           : "text-red-900"
-        } w-full h-[90px] rounded-md align-text-top text-start relative font-bold `}
+        } w-full h-[180px] mb-1 align-text-top text-start relative font-bold border-b`}
     >
       <div
         className="absolute top-6 z-10
@@ -35,12 +35,12 @@ const List = ({ project }) =>
           </div>
           <p
             onClick={() => activeGroupHandler()}
-            className="text-base text-black"
+            className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} text-xl mb-2 font-normal text-start`}
           >
             {project?.project_name}
           </p>
         </HoverUnderLine>
-        <p className="text-sm">{project?.description?.slice(0, 100)}...</p>
+        <p className={`${theme == "light" ? "text-cl_alt" : "text-white"} text-base lg:text-md mb-2 font-normal text-start`}>{project?.description?.slice(0, 100)}...</p>
       </div>
     </div>
   );

@@ -1,10 +1,7 @@
-import linkedin from "../assets/linkedInAds.png";
 import HoverUnderLine from "../components/HoverUnderLine";
-import { useLinkedIn } from "react-linkedin-login-oauth2";
-import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
-import { siteUrl, apiUrl, callback } from "../constants/base_urls";
-import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
+import { siteUrl, callback } from "../constants/base_urls";
+import { Alert, Label, Spinner, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
@@ -19,7 +16,7 @@ const Signin = () =>
     "password": ""
   });
 
-  const { loading, error: errorMessage, currentUser } = useSelector((state) => state?.user);
+  const { loading, error: errorMessage, currentUser, token } = useSelector((state) => state?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -31,10 +28,7 @@ const Signin = () =>
 
   const handleLoginSuccess = async (credentials) =>
   {
-    const response = await axios.post(`${apiUrl}user/login`, {
-      oauthCode: credentials.credentials,
-    });
-    console.log(response);
+    dispatch(login(credentials.credentials));
   };
 
   const handleSubmit = async (e) =>
@@ -50,11 +44,11 @@ const Signin = () =>
 
   useEffect(() =>
   {
-    if (currentUser)
+    if (currentUser && token)
     {
       navigate(-1);
     }
-  }, [currentUser])
+  }, [currentUser, token])
 
   return (
     <div className="grid lg:grid-cols-3 items-start">
@@ -142,7 +136,7 @@ const Signin = () =>
       <div className=''>
         <Link to='/' className='font-bold dark:text-white text-4xl'>
           <img src={logo} className="w-9 h-9 object-center object-contain" alt="logo" />
-          Blog
+          CodingWithYonela
         </Link>
         <p className='text-sm mt-5'>
           You can sign in with your email and password

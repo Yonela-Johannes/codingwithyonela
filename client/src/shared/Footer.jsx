@@ -24,7 +24,7 @@ const Footer = () =>
       <div className="flex flex-col gap-4 w-full">
         <div className="flex flex-col md:flex-row justify-between">
           <div>
-            <p className="text-base font-semibold">Company</p>
+            <p className="text-base font-semibold">Information</p>
             <p className="text-base">Cape Town</p>
             <p className="text-base">South Africa</p>
             <div className="flex gap-1 mt-2">
@@ -44,7 +44,7 @@ const Footer = () =>
               </Link>
             </HoverUnderLine>
             <HoverUnderLine>
-              <Link to="/blogs" className="text-base">
+              <Link to="/blog" className="text-base">
                 Blogs
               </Link>
             </HoverUnderLine>
@@ -58,23 +58,16 @@ const Footer = () =>
             <p className="text-base font-semibold">My Services</p>
             <p className="text-base">Web Development</p>
             <HoverUnderLine>
-              <Link href="https://github.com/yonela-johannes" className="text-base">
+              <a target="_blank" href="https://github.com/yonela-johannes" className="text-base">
                 GitHub
-              </Link>
+              </a>
             </HoverUnderLine>
             <HoverUnderLine>
-              <Link href="https://" className="text-base">
+              <a target="_blank" href="https://portfolio-beta-red-17.vercel.app/" className="text-base">
                 Portfolio
-              </Link>
+              </a>
             </HoverUnderLine>
           </div>
-        </div>
-
-        <div className="flex gap-8 text-lg">
-          <FaGithubAlt />
-          <FaInstagramSquare />
-          <FaLinkedin />
-          <FaFacebook />
         </div>
       </div>
     </div>

@@ -1,14 +1,30 @@
-import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
+import HoverUnderLine from "../components/HoverUnderLine";
+import { GoogleLogin } from "@react-oauth/google";
+import { siteUrl, callback } from "../constants/base_urls";
+import { Alert, Label, Spinner, TextInput } from 'flowbite-react';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import logo from '../../assets/logo.png'
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from "react-router-dom";
+import logo from '../assets/logo.png'
+import { login } from "../features/user/userSlice";
+import { useEffect } from "react";
+
 
 export default function SignUp()
 {
-  const [formData, setFormData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage, loading] = useState(null);
+  const [formData, setFormData] = useState({
+    "username": "",
+    "email": "",
+    "password": ""
+  });
   const navigate = useNavigate();
+
+  const handleLoginSuccess = async (credentials) =>
+  {
+    dispatch(login(credentials.credentials));
+  };
+
   const handleChange = (e) =>
   {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -16,37 +32,46 @@ export default function SignUp()
   const handleSubmit = async (e) =>
   {
     e.preventDefault();
-    if (!formData.username || !formData.email || !formData.password)
+    if (!formData.email || !formData.password)
     {
-      return setErrorMessage('Please fill out all fields.');
+
     }
-    try
-    {
-      setLoading(true);
-      setErrorMessage(null);
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (data.success === false)
-      {
-        return setErrorMessage(data.message);
-      }
-      setLoading(false);
-      if (res.ok)
-      {
-        navigate('/sign-in');
-      }
-    } catch (error)
-    {
-      setErrorMessage(error.message);
-      setLoading(false);
-    }
-  };
+    dispatch(login(formData));
+  }
+
   return (
-    <div className='flex flex-col lg:flex-row items-start'>
+    <div className='flex flex-col lg:flex-row items-start'>\
+      <div className="flex items-start space-y-4 h-full">
+        <div className="flex flex-col gap-4 rounded-sm shrink-0 items-start justify-center fill-fill backdrop-opacity-[17px]">
+          <h1 className="text-center text-base lg:text-2xl lg:font-bold tracking-tight mb-8">
+            Continue with CodingWithYonela
+          </h1>
+          <div className="flex flex-col shrink-0 bg-table_bg items-start w-[250px] rounded-[12px] duration-300 cursor-pointer">
+            <HoverUnderLine>
+              <GoogleLogin
+                onSuccess={handleLoginSuccess}
+                onError={() =>
+                {
+                  console.log("Login Failed");
+                }}
+                login_uri={siteUrl}
+                redirect_uri={callback}
+                cancel_on_tap_outside
+                useOneTap
+                size="large"
+                theme="filled_black"
+                text="continue_with"
+                shape="pill"
+                width="100%"
+              />
+            </HoverUnderLine>
+          </div>
+          <p className="my-5 text-[#646464] text-sm">
+            By clicking “Continue your account with Google”, you agree <br /> to
+            the CodingWithYonela <b>TOS</b> and <b>Privacy Policy</b>.
+          </p>
+        </div>
+      </div>
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
         <div className='flex-1'>
           <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
@@ -55,15 +80,15 @@ export default function SignUp()
               <TextInput
                 type='text'
                 placeholder='Username'
-                id='username'
+                id='name'
                 onChange={handleChange}
               />
             </div>
             <div>
               <Label value='Your email' />
               <TextInput
-                type='email'
-                placeholder='name@company.com'
+                type='text'
+                placeholder='your.name@example.com'
                 id='email'
                 onChange={handleChange}
               />
@@ -108,7 +133,7 @@ export default function SignUp()
       <div className=''>
         <Link to='/' className='font-bold dark:text-white text-4xl'>
           <img src={logo} className="w-9 h-9 object-center object-contain" alt="logo" />
-          Blog
+          CodingWithYonela
         </Link>
         <p className='text-sm mt-5'>
           You can sign up with your email and password

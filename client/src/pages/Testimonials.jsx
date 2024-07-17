@@ -1,8 +1,8 @@
 import Header from "../components/blog/Header";
 import TestimonialCard from "../components/testimonials/TesitmonialCard";
-import { Watermark } from "antd";
 
-const Testimonials = () => {
+const Testimonials = () =>
+{
   const testimonials = [
     {
       _id: "655b3f037a397a2c8546c2f5",
@@ -124,13 +124,11 @@ const Testimonials = () => {
   return (
     <div className="flex flex-col gap-8 h-full">
       <Header />
-      <Watermark content="Coding W-Yongs">
-        <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 h-full">
-          {testimonials.map((testimonial) => (
-            <TestimonialCard testimonial={testimonial} key={testimonial._id} />
-          ))}
-        </div>
-      </Watermark>
+      <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 h-full">
+        {testimonials.map((testimonial) => (
+          <TestimonialCard testimonial={testimonial} key={testimonial._id} />
+        ))}
+      </div>
     </div>
   );
 };

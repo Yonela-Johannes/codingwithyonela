@@ -114,27 +114,18 @@ def user(id):
            res = {"message": "Missing data"}
         return res, 400
     
-def create_user_profile(mail):
+def create_user_profile():
     REQUEST = request.method 
     if REQUEST == 'POST':
         try:
             data = request.get_json()
             
-            email = data['email']
-            username = data['username']
-            lastname = data['lastname']
-            is_admin = data['is_admin']
-            is_staff = data['is_staff']
-            profile = data['profile']
-            password = data['password']
+            email = request.args.get('email')
+            password = request.args.get('password')
+            username = request.args.get('username')
+            lastname = request.args.get('lastname')
             
-            user_title_id = ""
-            if "user_title_id" in data:
-                user_title_id = data['user_title_id']
-            
-            profile = ""
-            if 'profile' in data:
-                profile = data['profile']
+                
             msg = Message(subject="Hey", sender='noreplay@email.com', recipients=[email]) 
             msg.body = "Hey how are! Is everything okay?"   
             response = mail.send(message=msg)

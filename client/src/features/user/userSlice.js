@@ -17,17 +17,21 @@ export const login = createAsyncThunk('user/login', async (data) =>
     {
       headers: headers,
       params: data
-    });
-  console.log(response?.data);
+    });;
   return response.data;
 });
 
-export const signIn = createAsyncThunk('user/signin', async (userId) =>
+export const register = createAsyncThunk('user/register', async (data) =>
 {
-  const response = await axios.get(`${apiUrl}user?id=${userId}`);
-  console.log(response?.data);
+  console.log(data)
+  const response = await axios.post(`${apiUrl}login`,
+    {
+      headers: headers,
+      params: data
+    });;
   return response.data;
 });
+
 
 export const getUser = createAsyncThunk('user/getUser', async (userId) =>
 {
@@ -45,6 +49,11 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    logout(state)
+    {
+      state.token = ""
+      state.currentUser = {}
+    },
   },
   extraReducers: (builder) =>
   {
@@ -92,7 +101,23 @@ export const userSlice = createSlice({
         state.loading = false;
         state.error = action.message;
       })
+      .addCase(register.pending, (state) =>
+      {
+        state.loading = true;
+      })
+      .addCase(register.fulfilled, (state, action) =>
+      {
+        state.loading = false;
+        state.token = action.payload.data.token
+        state.currentUser = action.payload.data.user;
+      })
+      .addCase(register.rejected, (state, action) =>
+      {
+        state.loading = false;
+        state.error = action.message;
+      })
   },
 })
 
+export const { logout } = userSlice.actions
 export default userSlice.reducer

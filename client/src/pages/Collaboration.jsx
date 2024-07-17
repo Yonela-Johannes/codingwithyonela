@@ -1,24 +1,27 @@
 import Center from "../components/collaborations/Center";
 import Right from "../components/collaborations/Right";
 import Details from "../components/collaborations/Details";
+import { ThemeContext } from "../context/ThemeContext";
+import { useContext } from "react";
 
 const Collaboration = () =>
 {
+  const { theme } = useContext(ThemeContext)
   return (
     <div className="flex flex-col h-full overflow-y-hidden my-8">
       <div className="grid grid-cols-1 gap-8 xl:grid-cols-3 xl:gap-6 h-full text-center overflow-hidden">
         <div className=" h-full">
-          <h2 className="text-xl mb-2 font-normal text-start">Projects</h2>
-          <Center />
+          <h2 className={`${theme == "light" ? "text-cl_alt" : "text-white"} text-xl mb-2 font-normal text-start`}>Projects</h2>
+          <Center theme={theme} />
         </div>
 
         <div className=" h-full">
-          <h2 className="text-xl mb-2 font-normal text-start">Chat</h2>
-          <Right />
+          <h2 className={`${theme == "light" ? "text-cl_alt" : "text-white"} text-xl mb-2 font-normal text-start`}>Chat</h2>
+          <Right theme={theme} />
         </div>
         <div className=" h-full">
-          <h2 className="text-xl mb-2 font-normal text-start">Details</h2>
-          <Details />
+          <h2 className={`${theme == "light" ? "text-cl_alt" : "text-white"} text-xl mb-2 font-normal text-start`}>Information</h2>
+          <Details theme={theme} />
         </div>
       </div>
     </div>
