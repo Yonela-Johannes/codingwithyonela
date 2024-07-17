@@ -1,7 +1,7 @@
 # CodingWithYonela - Project management web app
 
 
-This solution is built with the intent of having my own dynamic website for project management and as a collaborating, learning, sharing and a communication website. 
+This solution is built to have my own dynamic website for project management and as a collaborating, learning, sharing, and communication website.
 
 ## Table of contents
 

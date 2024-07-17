@@ -80,9 +80,10 @@ def question():
             question = data['question']
             category_id = data['category_id']
             topic_id = data['topic_id']
+            token = data['token']
 
             if account_id and question and category_id:
-                response = create_question(account_id, question, category_id, topic_id)
+                response = create_question(account_id=account_id, question=question, category_id=category_id, topic_id=topic_id, token=token)
                 if response:
                         res = {"data": "Question created successful"}
                         return res, 201

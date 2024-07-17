@@ -93,13 +93,13 @@ def all_suggestion():
             data = request.get_json()
             account_id = data['account_id']
             post = data['post']
-            status_id = data['status_id']
             suggestion_title = data['suggestion_title']
             category_id = data['category_id']
+            token = data['token']
             slug = slugify(suggestion_title)
             
             if account_id and post and category_id and slug and suggestion_title:
-                response = create_suggestion(account_id, post, status_id, category_id, slug, suggestion_title)
+                response = create_suggestion(account_id=account_id, post=post, category_id=category_id, slug=slug, suggestion_title=suggestion_title, token=token)
                 if response:
                     res = {"message": "Suggestion added successful"}
                     return res, 201

@@ -76,9 +76,13 @@ def feeds():
             account = data['account']
             text = data['text']
             image = data['image']
-            video = data['video']
-            if account and text and image:
-                response = create_feed(account, text, image, video)
+            video : str = ""
+            if "video" in data:
+                video = data['video']
+            
+            token = data['token']
+            if account and text and token:
+                response = create_feed(account_id=account, text=text, image=image, video=video, token=token)
                 if response:
                     res = {"message": "Feed created successful"}
                     return res, 201

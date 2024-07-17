@@ -1,27 +1,30 @@
 from psycopg2.extras import RealDictCursor
 import psycopg2
 from utils.db import connection
+from controllers.account import get_current_user
 
-def create_blog(account, post, category_id, blog_image, blog_title, slug):
-    """ Create new account into the acount table """
-    sql = """INSERT INTO blog (account, post, category_id, blog_image, blog_title, slug)
-             VALUES(%s, %s, %s, %s, %s, %s) RETURNING id;"""
+def create_blog(account, post, category_id, blog_image, blog_title, slug, token):
     
-    response = None
-
     try:
-        with  connection as conn:
-            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
-                # execute the INSERT statement
-                cur.execute(sql, (account, post, category_id, blog_image, blog_title, slug))
+        user = get_current_user(token=token)
+        if "id" in user:
+            """ Create new account into the acount table """
+            sql = """INSERT INTO blog (account, post, category_id, blog_image, blog_title, slug)
+                    VALUES(%s, %s, %s, %s, %s, %s) RETURNING id;"""
+            
+            response = None
+            with  connection as conn:
+                with  conn.cursor(cursor_factory=RealDictCursor) as cur:
+                    # execute the INSERT statement
+                    cur.execute(sql, (account, post, category_id, blog_image, blog_title, slug))
 
-                # get the generated id back                
-                rows = cur.fetchone()
-                if rows:
-                    response = rows
+                    # get the generated id back                
+                    rows = cur.fetchone()
+                    if rows:
+                        response = rows
 
-                # commit the changes to the database
-                conn.commit()
+                    # commit the changes to the database
+                    conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)    
     finally:

@@ -98,14 +98,8 @@ def get_current_user(token: str):
             return user
         return None
     except JWTError:
-        
-        return {}, 200
-    #     raise credential_exception
-    
-    # user = get_user(db, email=token_data.email)
-    # if user is None:
-    #     raise credential_exception
-    # return user
+        raise credential_exception
+        return None
 
 
 def login(email, password):

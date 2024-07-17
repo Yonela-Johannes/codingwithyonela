@@ -100,9 +100,10 @@ def all_recommendations():
                 status_id = data['status_id']
                 title_id = data['title_id']
                 country_id = data['country_id']
+                token = data['token']
             
                 if account_id and name:
-                    response = create_recommendation(account_id, name, second_name, lastname, re_image, github, linkedin, email, portfolio, quote, status_id, country_id, title_id)
+                    response = create_recommendation(account_id=account_id, name=name, second_name=second_name, lastname=lastname, re_image=re_image, github=github, linkedin=linkedin, email=email, portfolio=portfolio, quote=quote, status_id=status_id, country_id=country_id, title_id=title_id, token=token)
                     if response:
                             res = {"message": "Profile created successful"}
                             return res, 201

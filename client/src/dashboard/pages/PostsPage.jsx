@@ -26,12 +26,6 @@ export default function PostsPage()
             Here you'll find a variety of posts on topics such as daily explorations, family,
             web development, software engineering, and programming languages.
           </p>
-          <Link
-            to='/search'
-            className='text-xs sm:text-sm text-teal-500 font-bold hover:underline'
-          >
-            View all posts
-          </Link>
         </div>
 
         <div className='p-3 flex flex-col gap-8 py-7 items-center justify-center'>
@@ -43,12 +37,6 @@ export default function PostsPage()
                   <PostCard key={post._id} post={post} />
                 ))}
               </div>
-              <Link
-                to={'/search'}
-                className='text-lg text-teal-500 hover:underline text-center'
-              >
-                View all posts
-              </Link>
             </div>
           ) : ""}
         </div>

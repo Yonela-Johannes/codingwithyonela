@@ -3,25 +3,28 @@ from utils.db import connection
 from psycopg2.extras import RealDictCursor
 from slugify import slugify
 from icecream import ic
+from controllers.account import get_current_user
 
-def create_feed(account_id, text, image, video):
-    slug = slugify(text)
-    """ Create feed into the feed"""
-    sql = """INSERT INTO feed (account_id, text, image, video, slug)
-             VALUES(%s, %s, %s, %s, %s) RETURNING id;"""
-    
-    response = None
-
+def create_feed(account_id, text, image, video, token):
     try:
-        with  connection as conn:
-            with  conn.cursor() as cur:
-                # execute the INSERT statement
-                cur.execute(sql, (account_id, text, image, video, slug))
+        user = get_current_user(token=token)
+        if "id" in user:
             
-                rows = cur.fetchone()
-                if rows:
-                    response = rows
-                conn.commit()
+            slug = slugify(text)
+            """ Create feed into the feed"""
+            sql = """INSERT INTO feed (account_id, text, image, video, slug)
+                    VALUES(%s, %s, %s, %s, %s) RETURNING id;"""
+            
+            response = None
+            with  connection as conn:
+                with  conn.cursor() as cur:
+                    # execute the INSERT statement
+                    cur.execute(sql, (account_id, text, image, video, slug))
+                
+                    rows = cur.fetchone()
+                    if rows:
+                        response = rows
+                    conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)    
     finally:

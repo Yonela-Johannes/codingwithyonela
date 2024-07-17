@@ -74,16 +74,16 @@ def blogs():
     if REQUEST == 'POST':
         try:
             data = request.get_json()
-            ic(data['post'])
             account = data['account']
             post = data['post']
             category_id = data['category_id']
             blog_image = data['blog_image']
             blog_title = data['blog_title']
+            token = data['token']
             slug = slugify(blog_title)
             
             if account and post and category_id:
-                response = create_blog(account, post, category_id, blog_image, blog_title, slug)
+                response = create_blog(account=account, post=post, category_id=category_id, blog_image=blog_image,blog_title= blog_title, slug=slug, token=token)
                 if response:
                         res = {"message": "Blog created successful"}
                         return res, 201

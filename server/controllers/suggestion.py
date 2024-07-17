@@ -1,25 +1,27 @@
 import psycopg2
 from utils.db import connection
 from psycopg2.extras import RealDictCursor
+from controllers.account import get_current_user
 
-def create_suggestion(account_id, post, status_id, category_id, slug, suggestion_title):
-    """ Create new account_id into  the acount table """
-    status_id = 1
-    sql = """INSERT INTO suggestion (account_id, post, status_id, category_id, slug, suggestion_title)
-             VALUES(%s, %s, %s, %s, %s, %s) RETURNING id;"""
-    
-    response = None
-
+def create_suggestion(account_id, post, category_id, slug, suggestion_title, token):
     try:
-        with  connection as conn:
-            with  conn.cursor() as cur:
-                # execute the INSERT statement
-                cur.execute(sql, (account_id, post, status_id, category_id, slug, suggestion_title))
+        user = get_current_user(token=token)
+        if "id" in user:
+            """ Create new account_id into  the acount table """
+            sql = """INSERT INTO suggestion (account_id, post, category_id, slug, suggestion_title)
+                    VALUES(%s, %s, %s, %s, %s) RETURNING id;"""
             
-                rows = cur.fetchone()
-                if rows:
-                    response = rows
-                conn.commit()
+            response = None
+
+            with  connection as conn:
+                with  conn.cursor() as cur:
+                    # execute the INSERT statement
+                    cur.execute(sql, (account_id, post, category_id, slug, suggestion_title))
+                
+                    rows = cur.fetchone()
+                    if rows:
+                        response = rows
+                    conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)    
     finally:

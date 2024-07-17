@@ -1,27 +1,30 @@
 from psycopg2.extras import RealDictCursor
 import psycopg2
 from utils.db import connection
+from controllers.account import get_current_user
 
-def create_question(account_id, question, category_id, topic_id):
-    """ Create new account into the acount table """
-    sql = """INSERT INTO question (account_id, question, category_id, topic_id)
-             VALUES(%s, %s, %s, %s) RETURNING id;"""
-    
-    response = None
-
+def create_question(account_id, question, category_id, topic_id, token):
     try:
-        with  connection as conn:
-            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
-                # execute the INSERT statement
-                cur.execute(sql, (account_id, question, category_id, topic_id))
+        user = get_current_user(token=token)
+        if "id" in user:
+            """ Create new account into the acount table """
+            sql = """INSERT INTO question (account_id, question, category_id, topic_id)
+                    VALUES(%s, %s, %s, %s) RETURNING id;"""
+            
+            response = None
 
-                # get the generated id back                
-                rows = cur.fetchone()
-                if rows:
-                    response = rows
+            with  connection as conn:
+                with  conn.cursor(cursor_factory=RealDictCursor) as cur:
+                    # execute the INSERT statement
+                    cur.execute(sql, (account_id, question, category_id, topic_id))
 
-                # commit the changes to the database
-                conn.commit()
+                    # get the generated id back                
+                    rows = cur.fetchone()
+                    if rows:
+                        response = rows
+
+                    # commit the changes to the database
+                    conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)    
     finally:
@@ -32,11 +35,11 @@ from utils.db import connection
 
 # fetch user
 def fetch_question(id):
-    query = """SELECT * FROM question WHERE id=%s"""
-    
-    response = None
-
     try:
+        query = """SELECT * FROM question WHERE id=%s"""
+        
+        response = None
+
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the UPDATE statement
