@@ -16,9 +16,18 @@ import storage from 'redux-persist/lib/storage';
 import quoteReducer from '../features/quote/quoteSlice';
 import tasksReducer from '../features/tasks/tasksSlice';
 
-// Combine all reducers into a single root reducer
-const rootReducer = combineReducers({
-  user: userReducer,
+// Create a persist configuration for suggestion reducer only
+const userPersistConfig = {
+  key: 'user',
+  storage,
+};
+
+// Create persisted suggestion reducer
+const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
+
+// Combine the reducers again, replacing the suggestion reducer with the persisted version
+const rootReducerWithPersistedSuggestion = combineReducers({
+  user: persistedUserReducer,
   suggestion: suggestionReducer,
   blogs: blogsReducer,
   posts: postsReducer,
@@ -31,22 +40,12 @@ const rootReducer = combineReducers({
   recommendation: recommendationReducer,
   quotes: quoteReducer,
   github: githubReducer,
-  task: tasksReducer
+  task: tasksReducer,
 });
 
-// Create a persist configuration
-const persistConfig = {
-  key: 'root',
-  storage,
-  version: 1,
-};
-
-// Create a persisted reducer
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-// Configure the store to use the persisted reducer
+// Configure the store to use the combined reducer
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: rootReducerWithPersistedSuggestion,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,

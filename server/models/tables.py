@@ -19,8 +19,6 @@ connection = psycopg2.connect(
     password = PASSWORD,
     port = PORT)
 
-ic()
-
 def create_tables():
     """ Create tables in the PostgreSQL database"""
     commands = (
@@ -69,7 +67,7 @@ def create_tables():
             is_admin BOOLEAN NOT NULL,
             is_staff BOOLEAN NOT NULL,
             profile TEXT,
-            password TEXT NOT NULL,
+            password TEXT,
             user_title_id INTEGER NOT NULL,
             FOREIGN KEY (user_title_id)
             REFERENCES user_title (id)
@@ -171,6 +169,15 @@ def create_tables():
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
+        """
+            DROP TYPE IF EXISTS question_request CASCADE;
+        """,
+        """
+        CREATE TYPE question_request 
+            AS 
+            ENUM('pending', 'answered'
+        )
+        """,
         # END OF BLOG SCHEMA
         # ######################
 
@@ -180,6 +187,7 @@ def create_tables():
             id SERIAL PRIMARY KEY,
             account_id INTEGER NOT NULL,
             question Text NOT NULL,
+            status question_request NOT NULL DEFAULT 'pending',
             category_id INTEGER NOT NULL,
             topic_id INTEGER NOT NULL,
             question_time DATE NOT NULL DEFAULT CURRENT_DATE,
@@ -305,6 +313,15 @@ def create_tables():
             REFERENCES testimonial (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
+        """, 
+        """
+            DROP TYPE IF EXISTS recommendation_request CASCADE;
+        """,
+        """
+        CREATE TYPE recommendation_request 
+            AS 
+            ENUM('pending', 'accepted'
+        )
         """,
         ######
             # END OF TESTIMONIAL TABLE/SCHEMA
@@ -325,6 +342,7 @@ def create_tables():
             account_id INTEGER NOT NULL,
             title_id INTEGER NOT NULL,
             quote VARCHAR(200) NOT NULL,
+            status recommendation_request NOT NULL DEFAULT 'pending',
             re_time DATE NOT NULL DEFAULT CURRENT_DATE,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
@@ -336,6 +354,15 @@ def create_tables():
             REFERENCES user_title (id)
             ON UPDATE CASCADE ON DELETE CASCADE
         )
+        """,        
+        """
+            DROP TYPE IF EXISTS suggestion_request CASCADE;
+        """,
+        """
+        CREATE TYPE suggestion_request 
+            AS 
+            ENUM('pending', 'accepted', 'watching', 'completed'
+        )
         """,
         ######
         # END OF RECOMMENDATIONS TABLE/SCHEMA
@@ -344,6 +371,7 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS suggestion (
             id SERIAL PRIMARY KEY,
             account_id INTEGER NOT NULL,
+            status suggestion_request NOT NULL DEFAULT 'pending',
             post Text NOT NULL,
             suggestion_title VARCHAR(50) UNIQUE NOT NULL,
             slug VARCHAR(100) UNIQUE NOT NULL,
@@ -422,16 +450,6 @@ def create_tables():
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
-        """
-        CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
-            comment Text NOT NULL,
-            account_id INTEGER NOT NULL,
-            FOREIGN KEY (account_id)
-            REFERENCES account (id)
-            ON UPDATE CASCADE ON DELETE CASCADE
-        )
-        """,
                 # END OF BLOG SCHEMA
                 # PROJECT TABLE/SCHEMA
         """
@@ -470,7 +488,6 @@ def create_tables():
             skill_id INTEGER NULL,
             github Text NOT NULL,
             link Text NOT NULL,
-            management_tool Text NULL,
             progress INT NOT NULL,
             FOREIGN KEY (tags_id)
             REFERENCES topics (id)
@@ -590,77 +607,6 @@ def create_tables():
             ON UPDATE CASCADE ON DELETE CASCADE
         )
         """,
-        # # # # # # # # # # DATA COMBINE TABLES
-        # BLOG DATA
-        # """
-        # CREATE TABLE IF NOT EXISTS blog_data (
-        #     id SERIAL PRIMARY KEY,
-        #     account_id INTEGER NOT NULL,
-        #     blog_id INTEGER NOT NULL,
-        #     blog_response_id INTEGER NOT NULL,
-        #     blog_like_id INTEGER NOT NULL,
-        #     blog_comment_id INTEGER NOT NULL,
-        #     FOREIGN KEY (account_id)
-        #     REFERENCES account (id)
-        #     ON UPDATE CASCADE ON DELETE CASCADE,
-        #     FOREIGN KEY (blog_id)
-        #     REFERENCES blog (id)
-        #     ON UPDATE CASCADE ON DELETE CASCADE,
-        #     FOREIGN KEY (blog_response_id)
-        #     REFERENCES blog_response (id)
-        #     ON UPDATE CASCADE ON DELETE CASCADE,
-        #     FOREIGN KEY (blog_like_id)
-        #     REFERENCES blog_like (id)
-        #     ON UPDATE CASCADE ON DELETE CASCADE,
-        #     FOREIGN KEY (blog_comment_id)
-        #     REFERENCES blog_comment (id)
-        #     ON UPDATE CASCADE ON DELETE CASCADE,
-        # )
-        # """,
-        # QUESTION DATA
-        # """
-        # CREATE TABLE IF NOT EXISTS question_data (
-        #     id SERIAL PRIMARY KEY,
-        #     account_id INTEGER NOT NULL,
-        #     question_id INTEGER NOT NULL,
-        #     question_response_id INTEGER NOT NULL,
-        #     question_like_id INTEGER NOT NULL,
-        #     question_comment_id INTEGER NOT NULL,
-        #     FOREIGN KEY (account_id)
-        #     REFERENCES account (id)
-        #     ON UPDATE CASCADE ON DELETE CASCADE,
-        #     FOREIGN KEY (question_id)
-        #     REFERENCES question (id)
-        #     ON UPDATE CASCADE ON DELETE CASCADE,
-        #     FOREIGN KEY (question_response_id)
-        #     REFERENCES question_response (id)
-        #     ON UPDATE CASCADE ON DELETE CASCADE,
-        #     FOREIGN KEY (question_like_id)
-        #     REFERENCES question_like (id)
-        #     ON UPDATE CASCADE ON DELETE CASCADE,
-        #     FOREIGN KEY (question_comment_id)
-        #     REFERENCES question_comment (id)
-        #     ON UPDATE CASCADE ON DELETE CASCADE
-        # )
-        # """,
-        # SUGGESTION DATA
-        # """
-        # CREATE TABLE IF NOT EXISTS suggestion_data (
-        #     id SERIAL PRIMARY KEY,
-        #     account_id INTEGER NOT NULL,
-        #     suggestion_id INTEGER NOT NULL,
-        #     suggestion_response_id INTEGER NOT NULL,
-        #     FOREIGN KEY (account_id)
-        #     REFERENCES account (id)
-        #     ON UPDATE CASCADE ON DELETE CASCADE,
-        #     FOREIGN KEY (suggestion_id)
-        #     REFERENCES suggestion (id)
-        #     ON UPDATE CASCADE ON DELETE CASCADE,
-        #     FOREIGN KEY (suggestion_response_id)
-        #     REFERENCES question_response (id)
-        #     ON UPDATE CASCADE ON DELETE CASCADE,
-        # )
-        # """,
     )
     
     try:
