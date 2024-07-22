@@ -12,22 +12,28 @@ function Hero()
   const dispatch = useDispatch()
   let random;
 
-  useEffect(() =>
-  {
-    dispatch(getAllQuotes())
-  }, [])
+  // useEffect(() =>
+  // {
+  //   dispatch(getAllQuotes())
+  // }, [])
 
 
   useEffect(() =>
   {
-    random = Math.floor(Math.random() * quotes?.length)
-    setQuote(quotes[random])
+    if (quotes)
+    {
+      random = Math.floor(Math.random() * quotes?.length)
+      setQuote(quotes[random || 0])
+    }
   }, [quotes])
 
-  setTimeout(() =>
+  if (quotes)
   {
-    setQuote(quotes[random])
-  }, 120000)
+    setTimeout(() =>
+    {
+      setQuote(quotes[random || 0])
+    }, 120000)
+  }
 
 
   return (

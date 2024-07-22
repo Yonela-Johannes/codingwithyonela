@@ -1,18 +1,37 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ThemeContext } from '../../context/ThemeContext'
 import { FaEdit, FaTrash } from 'react-icons/fa'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../lib/utils';
+import { updateTask } from '../../features/tasks/tasksSlice';
+import { getAllprojects } from '../../features/project/projectSlice';
 
 const TaskCard = ({ elem, project }) =>
 {
     const { currentUser, token } = useSelector((state) => state.user);
-    const { theme } = useContext(ThemeContext)
 
-    const handleUpdate = (e) =>
+    const { theme } = useContext(ThemeContext)
+    const dispatch = useDispatch()
+
+    const handleStatusChange = (e, id) =>
     {
-        console.log(e.target.value)
+        const data = {
+            "project_id": id,
+            "user_id": currentUser?.account_id,
+            "status": e.target.value
+        }
+        dispatch(updateTask(data))
+    }
+
+    const handlePriorityChange = (e, id) =>
+    {
+        const data = {
+            "project_id": id,
+            "user_id": currentUser?.account_id,
+            "priority": e.target.value
+        }
+        dispatch(updateTask(data))
     }
 
     return (
@@ -56,24 +75,30 @@ const TaskCard = ({ elem, project }) =>
             ) : ""}
             {currentUser && currentUser?.account_id == elem?.account_id ? (
                 project ? (
-                    <select onChange={e => filterGrouped(e.target.value)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"}`}>
+                    <select value={elem?.progress} onChange={e => handleStatusChange(e, elem?.project_id)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"}`}>
                         <option value="" disabled selected hidden>Select status</option>
-                        <option value="todo">To Do</option>
-                        <option value="doing">Doing</option>
-                        <option value="postponed">Postponed</option>
+                        <option value="todo">To do</option>
+                        <option value="progress">Progress</option>
+                        <option value="testing">Testing</option>
                         <option value="done">Done</option>
                     </select>
 
                 ) : (
-                    <select onChange={e => filterGrouped(e.target.value)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"}`}>
+                    <select value={elem?.project_status} onChange={e => handleStatusChange(e, elem?.project_id)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"}`}>
                         <option value="" disabled selected hidden>Select status</option>
-                        <option value="todo">To Do</option>
-                        <option value="doing">Doing</option>
-                        <option value="testing">Testing</option>
+                        <option value="todo">To do</option>
+                        <option value="progress">Progress</option>
+                        <option value="on_hold">On hold</option>
                         <option value="done">Done</option>
                     </select>
                 )
             ) : ""}
+            <select value={elem?.priority} onChange={e => handlePriorityChange(e, elem?.project_id)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"}`}>
+                <option value="" disabled selected hidden>Select priority</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
         </section>
     )
 }

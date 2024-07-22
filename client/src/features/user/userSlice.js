@@ -7,7 +7,8 @@ const initialState = {
   currentUser: {},
   user: {},
   loading: false,
-  users: []
+  users: [],
+  message: ""
 }
 
 export const login = createAsyncThunk('user/login', async (data) =>
@@ -99,6 +100,7 @@ export const userSlice = createSlice({
       .addCase(login.rejected, (state, action) =>
       {
         state.loading = false;
+        state.message = 'Invalid user account'
         state.error = action.message;
       })
       .addCase(register.pending, (state) =>

@@ -28,9 +28,9 @@ const TaskForm = ({ project = false, filterGrouped }) =>
                         {project ? (
                             <select onChange={e => filterGrouped(e.target.value)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"}`}>
                                 <option value="" disabled selected hidden>Select status</option>
-                                <option value="todo">To Do</option>
-                                <option value="doing">Doing</option>
-                                <option value="postponed">Postponed</option>
+                                <option value="todo">To do</option>
+                                <option value="progrss">Progress</option>
+                                <option value="on_hold">On hold</option>
                                 <option value="done">Done</option>
                                 <option value="all">All</option>
                             </select>

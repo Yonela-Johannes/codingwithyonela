@@ -6,16 +6,16 @@ from icecream import ic
 from controllers.account import get_current_user
 
 def create_feed(account_id, text, image, video, token):
-    try:
+    try: 
+        response = None
         user = get_current_user(token=token)
+
         if "id" in user:
-            
             slug = slugify(text)
             """ Create feed into the feed"""
             sql = """INSERT INTO feed (account_id, text, image, video, slug)
                     VALUES(%s, %s, %s, %s, %s) RETURNING id;"""
             
-            response = None
             with  connection as conn:
                 with  conn.cursor() as cur:
                     # execute the INSERT statement
@@ -25,6 +25,9 @@ def create_feed(account_id, text, image, video, token):
                     if rows:
                         response = rows
                     conn.commit()
+        else:
+            response = user
+            
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)    
     finally:
@@ -123,9 +126,6 @@ def delete_feed(feed_id, account_id):
     
 def create_feed_comment(account_id, comment, feed_id):
     """ Create feed into  the feed """
-    print("ACCOUNT_ ID: ", account_id)
-    print("COMMENT: ", comment)
-    print("feed ID: ", feed_id)
     sql = """INSERT INTO feed_comment (account_id, comment, feed_id)
              VALUES(%s, %s, %s) RETURNING id;"""
     

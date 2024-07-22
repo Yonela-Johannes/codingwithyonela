@@ -64,11 +64,12 @@ def create_tables():
             email VARCHAR(50) UNIQUE NOT NULL,
             username VARCHAR(20) NOT NULL,
             lastname VARCHAR(20) NOT NULL,
-            is_admin BOOLEAN NOT NULL,
-            is_staff BOOLEAN NOT NULL,
+            is_admin BOOLEAN NOT NULL DEFAULT false,
+            is_staff BOOLEAN NOT NULL DEFAULT false,
             profile TEXT,
+            profile_id TEXT,
             password TEXT,
-            user_title_id INTEGER NOT NULL,
+            user_title_id INTEGER,
             FOREIGN KEY (user_title_id)
             REFERENCES user_title (id)
             ON UPDATE CASCADE ON DELETE CASCADE
@@ -458,7 +459,7 @@ def create_tables():
         """
         CREATE TYPE progress 
             AS 
-            ENUM('todo', 'doing', 'postponed', 'testing', 'done'
+            ENUM('todo', 'progress', 'on_hold', 'testing', 'done'
         )
         """,
         """
@@ -472,40 +473,38 @@ def create_tables():
         """,
             # PROJECT TABLE/SCHEMA
         """
-        CREATE TABLE IF NOT EXISTS project (
-            id SERIAL PRIMARY KEY,
-            account_id INTEGER NOT NULL,
-            project_name Text NOT NULL,
-            image TEXT NOT NULL,
-            description Text NOT NULL,
-            tags_id INTEGER NOT NULL,
-            project_status progress NOT NULL DEFAULT 'todo',
-            priority progress_enum NOT NULL DEFAULT 'low',
-            created DATE NOT NULL DEFAULT CURRENT_DATE,
-            category_id INTEGER NULL,
-            project_time DATE NOT NULL DEFAULT CURRENT_DATE,
-            users_id INTEGER NOT NULL,
-            skill_id INTEGER NULL,
-            github Text NOT NULL,
-            link Text NOT NULL,
-            progress INT NOT NULL,
-            FOREIGN KEY (tags_id)
-            REFERENCES topics (id)
-            ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (account_id)
-            REFERENCES account (id)
-            ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (category_id )
-            REFERENCES category (id)
-            ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (users_id)
-            REFERENCES account (id)
-            ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (skill_id)
-            REFERENCES topics (id)
-            ON UPDATE CASCADE ON DELETE CASCADE      
-        )
+            CREATE TABLE IF NOT EXISTS project (
+                id SERIAL PRIMARY KEY,
+                account_id INTEGER NOT NULL,
+                project_name TEXT NOT NULL,
+                image TEXT NOT NULL,
+                description TEXT NOT NULL,
+                project_status progress NOT NULL DEFAULT 'todo',
+                priority progress_enum NOT NULL DEFAULT 'low',
+                created DATE NOT NULL DEFAULT CURRENT_DATE,
+                user_ids INTEGER NOT NULL,
+                github TEXT NOT NULL,
+                link TEXT NOT NULL,
+                progress INT NOT NULL,
+                topic_id INTEGER,
+                FOREIGN KEY (account_id) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE,
+                FOREIGN KEY (user_ids) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE,
+                FOREIGN KEY (topic_id) REFERENCES topics (id) 
+                ON UPDATE CASCADE ON DELETE CASCADE
+            );
         """,
+        """
+            CREATE TABLE IF NOT EXISTS note (
+                project_id INTEGER NOT NULL,
+                user_id INTEGER NOT NULL,
+                text TEXT NOT NULL,
+                topic_id INTEGER,
+                FOREIGN KEY (topic_id) REFERENCES topics (id) 
+                ON UPDATE CASCADE ON DELETE CASCADE,
+                FOREIGN KEY (user_id) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE
+            );
+        """,
+        
         # TASK TABLE/SCHEMA
         """
         CREATE TABLE IF NOT EXISTS tasks (
@@ -513,25 +512,17 @@ def create_tables():
             account_id INTEGER NOT NULL,
             task Text NOT NULL,
             description Text NOT NULL,
-            tags_id INTEGER NOT NULL,
+            topic_ids INTEGER NOT NULL,
             project_status progress NOT NULL DEFAULT 'todo',
             priority progress_enum NOT NULL DEFAULT 'low',
             created DATE NOT NULL DEFAULT CURRENT_DATE,
-            users_id INTEGER NOT NULL,
-            skill_id INTEGER NULL,
             progress INT NOT NULL,
             project_id INTEGER NOT NULL,
-            FOREIGN KEY (tags_id)
+            FOREIGN KEY (topic_ids)
             REFERENCES topics (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
-            ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (users_id)
-            REFERENCES account (id)
-            ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (skill_id)
-            REFERENCES topics (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (project_id)
             REFERENCES project (id)

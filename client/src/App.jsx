@@ -27,6 +27,8 @@ import MyProjects from "./pages/projects/MyProjects";
 import PostDetails from "./pages/PostDetails";
 import Todopage from "./pages/Todopage";
 import ProjectsTask from "./pages/ProjectsTask";
+import Verify from "./pages/Verify";
+import { NewNote } from "./pages/note/NewNote";
 
 function App()
 {
@@ -52,6 +54,7 @@ function App()
           <Route path="/recommendation" element={<Recommendations />} />
           <Route path="/sign-in" element={<Signin />} />
           <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/verify_account/:token" element={<Verify />} />
           <Route path="/about" element={<About />} />
           <Route path="/project-descussion" element={<Collaboration />} />
           <Route path="/project-status" element={<ProjectsTask />} />
@@ -60,7 +63,6 @@ function App()
           <Route path="/projects/add" element={<CreateProject />} />
           <Route path="/projects/my-projects/user/:id" element={<MyProjects />} />
           <Route path="/projects/:id" element={<Project />} />
-
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route path="/create-blog" element={<CreateBlog />} />
         </Routes>

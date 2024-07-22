@@ -3,10 +3,10 @@ from utils.db import connection
 from psycopg2.extras import RealDictCursor
 from icecream import ic
 
-def create_task(users_id, project_id, account_id, task, tags_id, skill_id, progress, priority, description):
+def create_task(project_id, account_id, task, topic_ids, progress, priority, description):
     """ Create new account_id into the acount table """
-    sql = """INSERT INTO tasks (users_id, project_id, account_id, task, tags_id, skill_id, progress, priority, description)
-             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING *;"""
+    sql = """INSERT INTO tasks (project_id, account_id, task, topic_ids, progress, priority, description)
+             VALUES(%s, %s, %s, %s, %s, %s, %s) RETURNING *;"""
     
     response = None
 
@@ -14,7 +14,7 @@ def create_task(users_id, project_id, account_id, task, tags_id, skill_id, progr
         with  connection as conn:
             with  conn.cursor() as cur:
                 # execute the INSERT statement
-                cur.execute(sql, (users_id, project_id, account_id, task, tags_id, skill_id, progress, priority, description))
+                cur.execute(sql, (project_id, account_id, task, topic_ids, progress, priority, description))
             
                 rows = cur.fetchone()
                 if rows:
@@ -48,6 +48,7 @@ def fetch_projects():
         return response
 
 def fetch_task(project_id):
+    
     query = """SELECT * FROM tasks JOIN account on users_id = account.id JOIN topics on tags_id = topics.id JOIN project ON project_id = project.id WHERE project_id=%s"""
 
     response = None

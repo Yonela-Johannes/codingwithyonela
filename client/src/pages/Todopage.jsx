@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllTasks } from '../features/tasks/tasksSlice'
 import Loader from '../components/Loader/Loader'
+import NoteList from './note/NoteList'
 
 const Todopage = () =>
 {
@@ -15,7 +16,7 @@ const Todopage = () =>
 
     const getTasks = () =>
     {
-        dispatch(getAllTasks(id))
+        // dispatch(getAllTasks(id))
     }
 
     useEffect(() =>
@@ -32,10 +33,11 @@ const Todopage = () =>
             <Loader />
         ) : tasks.length ? (
             <div className={`${theme == "light" ? "text-bg_opp" : "text-white"} w-full h-full grid lg:grid-rows-[150px auto] gap-8`}>
-                <h2>{tasks[0]?.project_name}</h2>
-                <Board project={false} data={tasks} />
+                {/* <h2>{tasks[0]?.project_name}</h2>
+                <Board project={false} data={tasks} /> */}
+                <NoteList />
             </div>
-        ) : ''
+        ) : <NoteList />
     )
 }
 

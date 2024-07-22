@@ -1,8 +1,10 @@
 import json
-from flask import request
+from flask import request, jsonify
 from sqlalchemy import JSON
 from controllers.project import create_project, create_project_chat, delete_project, edit_project, fetch_projects, fetch_projects_chats, project_like, fetch_project
 from icecream import ic
+from routes.image_upload import uploadImage
+from utils.token_handler import valid_token
 
 def project(id):
     REQUEST = request.method
@@ -21,32 +23,62 @@ def project(id):
         try:
 
             data = request.get_json()
-            account_id = data['account_id']
-            project_name = data['project_name']
-            description = data['description']
-            github = data['github']
-            link = data['link']
+            ic(data)
+            account_id = data['user_id']
+            project_id = data['project_id']
             
-            category_id = None
-            status_id = None
-            management_tool = ''
-            if 'category_id' in data and 'status_id' in data and 'management_tool' in data:
-                category_id = data['category_id']
-                status_id = data['status_id']
-                management_tool = data['management_tool']
+            project_name = None
+            description = None
+            github = None
+            link = None
+            status = None
+            priority = None
+            user_ids = None
+            progress = None
+            topic_id = None
+            progress = None
             
-            if id and project_name and category_id and account_id and id == account_id:
-                response = edit_project(account_id, project_name, description, status_id, category_id, github, link, management_tool)
-                print('RESPONSE: :', response)
-                if response:
-                        res = {"data": f"{response}",
-                            "message": "Update successful"
-                            }
-                        return res, 200
-                res = {"message": response}
-                return res, 400
-            res = {"message": "Missing data"}
+            if 'status' in data:
+                status = data['status']
+            if 'project_name' in data:
+                project_name = data['project_name']
+            if 'description' in data:
+                description = data['description']
+            if 'github' in data:
+                github = data['github']
+            if 'link' in data:
+                link = data['link']
+            if 'priority' in data:
+                priority = data['priority']
+            if 'user_ids' in data:
+                user_ids = data['user_ids']
+            if 'progress' in data:
+                progress = data['progress']
+            if 'topic_id' in data:
+                topic_id = data['topic_id']
+            if 'progress' in data:
+                progress = data['progress']
+            
+            response = edit_project(user_ids=account_id, 
+                                    project_id=project_id, 
+                                    project_status=status, 
+                                    project_name=project_name, 
+                                    description=description, 
+                                    github=github, 
+                                    link=link, 
+                                    priority=priority, 
+                                    topic_id=topic_id,
+                                    progress=progress
+                                    )
+            
+            if response:
+                    res = {"data": f"{response}",
+                        "message": "Update successful"
+                        }
+                    return res, 200
+            res = {"message": response}
             return res, 400
+
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
         return res, 400
@@ -78,60 +110,57 @@ def projects():
     if REQUEST == 'GET':
         # Fetch projects
         try:
-            ic()
             response = fetch_projects()
             res = {"data": response}
-            return res, 200
+            return jsonify(res), 200
 
         except:
             return {"message": "Fetch failed: something went wrong."}, 400
     # Create title
     elif REQUEST == 'POST':
         try:
-
-            data = request.get_json()
-
-            account_id = data['account_id']
-            project_name = data['project_name']
-            description = data['description']
-            image = data['image']
-            users_id = data['users_id']
-            skill_id = data['skill_id']
-            github = data['github']
-            link = data['link']
-            progress = data['progress']      
-            project_status = data['project_status']      
-            priority = data['priority']      
-            tags_id = data['tags_id']      
-                
-            category_id = data['category_id']
-            status_id = data['status_id']
-            management_tool = data['management_tool']
+            auth = valid_token()
+            ic(auth)
+            image = request.files['image']
+            account_id = request.form['account_id']
+            project_name = request.form['project_name']
+            description = request.form['description']
+            user_ids = request.form['user_ids']
+            github = request.form['github']
+            link = request.form['link']
+            progress = request.form['progress']           
+            priority = request.form['priority']      
+            topic_ids = request.form['topic_ids']      
+            category_id = request.form['category_id']
+            project_status = request.form['project_status']  
             
-            if account_id and project_name and description and github and link:
-                response = create_project(users_id=users_id, 
-                                          account_id=account_id, 
-                                          image=image, 
-                                          project_name=project_name, 
-                                          description=description, 
-                                          skill_id=status_id,
-                                          category_id=category_id, 
-                                          github=github, 
-                                          link=link, 
-                                          management_tool=management_tool, 
-                                          progress=progress, 
-                                          project_status=project_status,
-                                          priority=priority,
-                                          tags_id=tags_id
-                                          )
-                if response:
-                        res = {"data": "Project created successfull"}
-                        return res, 201
-                else:
-                    res = {"message": "Error: something went wrong."}
-                    return res, 400 
-                
-            res = {"message": "Missing data"}
+            res = uploadImage(image=image)
+            
+            if 'url' in res:
+                if account_id and project_name and description and github and link:
+                    response = create_project(user_ids=user_ids, 
+                                            account_id=account_id, 
+                                            image=res['url'], 
+                                            project_name=project_name, 
+                                            description=description,
+                                            project_status=project_status,
+                                            category_id=category_id, 
+                                            github=github, 
+                                            link=link, 
+                                            progress=progress, 
+                                            priority=priority,
+                                            topic_ids=topic_ids
+                                            )
+                    if response:
+                            res = {"data": "Project created successfull"}
+                            return res, 201
+                    else:
+                        res = {"message": "Error: something went wrong."}
+                        return res, 400 
+                    
+                res = {"message": "Missing data"}
+                return res, 400 
+            res = {"message": "Error: image upload"}
             return res, 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}

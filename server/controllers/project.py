@@ -1,12 +1,12 @@
 import psycopg2
+from flask import jsonify
 from utils.db import connection
 from psycopg2.extras import RealDictCursor
 from icecream import ic
 
-def create_project(users_id, account_id, image, project_name, description, category_id, skill_id, github, link, management_tool, progress, project_status, priority, tags_id):
-    """ Create new account_id into  the acount table """
-    sql = """INSERT INTO project (users_id, account_id, image, project_name, description, category_id, skill_id, github, link, management_tool, progress, project_status, priority, tags_id)
-             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id;"""
+def add_users(users_id):
+    """ Insert users in to project table """
+    sql = """UPDATE project SET users_id = (SELECT array_agg(users_id ORDER BY username) FROM account GROUP BY username) WHERE id = %s"""
     
     response = None
 
@@ -14,7 +14,7 @@ def create_project(users_id, account_id, image, project_name, description, categ
         with  connection as conn:
             with  conn.cursor() as cur:
                 # execute the INSERT statement
-                cur.execute(sql, (users_id, account_id, image, project_name, description, category_id, skill_id, github, link, management_tool, progress, project_status, priority, tags_id))
+                cur.execute(sql, (users_id))
             
                 rows = cur.fetchone()
                 if rows:
@@ -24,11 +24,34 @@ def create_project(users_id, account_id, image, project_name, description, categ
         print(error)    
     finally:
         return response
+
+def create_project(user_ids, account_id, project_name, image, description, project_status, category_id, github, link, progress, priority, topic_ids):
+    response = None
+    try:
+        with  connection as conn:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
+                """ Create new project into  the acount table """
+                cur.execute("""INSERT INTO project (account_id, project_name, image, description, project_status, priority, github, link, progress, user_ids, topic_id)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                
+                RETURNING id""",(account_id, project_name, image, description, project_status, priority, github, link, progress, user_ids, topic_ids))
+                
+                rows = cur.fetchone()
+                if rows:
+                    response = rows
+                else:
+                    response = None
+                conn.commit()
+                
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)    
+    finally:
+        return response
     
 # fetch all users
 def fetch_projects():
     # query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id A FROM project JOIN account on account_id = account.id JOIN status O = status.id ORDER BY project_time;"""
-    query = """SELECT project.*, project.id as project_id, topics.* FROM project JOIN account ON account_id = account.id JOIN topics ON tags_id = topics.id ORDER BY project_time;"""
+    query = """SELECT project.*, project.id as project_id, topics.name as tag_name, account.* FROM public.project JOIN topics on topic_id = topics.id JOIN account on account_id = account.id ORDER BY project.id ASC """
     
     response = None
 
@@ -40,12 +63,12 @@ def fetch_projects():
 
                 # get the generated all data back                
                 rows = cur.fetchall()
-                ic()
-                print(rows)
-                if rows:
+
+                if rows:  
                     response = rows
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
+        ic(error)
         response = error
     finally:
         return response
@@ -70,21 +93,47 @@ def fetch_project(id):
         return response
     
 
-def edit_project(users_id, project_name, description, category_id, github, link, management_tool):
+def edit_project(user_ids, project_id, project_status, project_name, description, github, link, priority, topic_id, progress):
 
-    query = """UPDATE project SET users_id = %s, project_name = %s, description = %s = %s, category_id = %s, github = %s, link = %s, management_tool = %s  WHERE id = %s AND account_id = %s RETURNING suggestion_title
-    ;"""
+    ic(user_ids)
+    
+
+    query = """UPDATE project SET user_ids = %s, project_status = %s, project_name = %s, description = %s, github = %s, link = %s, priority = %s, topic_id = %s, progress = %s WHERE id = %s RETURNING project.*;"""
     
     response = None
-
+    
     try:
         with  connection as conn:
-            with  conn.cursor() as cur:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
 
-                cur.execute(query, (users_id, project_name, description, category_id, github, link, management_tool))            
+                cur.execute("""SELECT * FROM project WHERE id = %s and user_ids = %s;""", (project_id, user_ids))
+                
+                row =  cur.fetchone()
+                
+                if row:
+                    if project_status == None:
+                        project_status = row['project_status']
+                    if project_name == None:
+                        project_name = row['project_name']
+                    if description == None:
+                        description = row['description']
+                    if github == None:
+                        github = row['github']
+                    if link == None:
+                        link = row['link']
+                    if priority == None:
+                        priority = row['priority']
+                    if user_ids == None:
+                        user_ids = row['user_ids']
+                    if progress == None:
+                        progress = row['progress']
+                    if topic_id == None:
+                        topic_id = row['topic_id']
+                
+                cur.execute(query, (user_ids, project_status, project_name, description, github, link, priority, topic_id, progress, project_id))            
                 rows = cur.fetchone()
                 if rows:
-                    response = rows[0]
+                    response = rows
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         response = error

@@ -31,18 +31,18 @@ def project_task(project_id):
             data = request.get_json()
             account_id = data['account_id']
             text = data['text']
-            users_id = data['users_id']
+            user_ids = data['user_ids']
             skill_id = data['skill_id']
             progress = data['progress']          
             priority = data['priority']      
-            tags_id = data['tags_id']      
+            topic_ids = data['topic_ids']      
             description = data['description']  
     
-            response = create_task(users_id=users_id, 
+            response = create_task(user_ids=user_ids, 
                                         project_id=project_id,
                                         account_id=account_id,
                                         task=text, 
-                                        tags_id=tags_id,
+                                        topic_ids=topic_ids,
                                         skill_id=skill_id, 
                                         progress=progress, 
                                         priority=priority,
@@ -63,34 +63,29 @@ def project_task(project_id):
     # edit/update
     elif REQUEST == 'PUT':
         try:
-
+            
             data = request.get_json()
-            account_id = data['account_id']
-            project_name = data['project_name']
-            description = data['description']
-            github = data['github']
-            link = data['link']
-            
-            category_id = None
-            status_id = None
-            management_tool = ''
-            if 'category_id' in data and 'status_id' in data and 'management_tool' in data:
-                category_id = data['category_id']
-                status_id = data['status_id']
-                management_tool = data['management_tool']
-            
-            if id and project_name and category_id and account_id and id == account_id:
-                response = edit_project(account_id, project_name, description, status_id, category_id, github, link, management_tool)
-                print('RESPONSE: :', response)
-                if response:
-                        res = {"data": f"{response}",
-                            "message": "Update successful"
-                            }
-                        return res, 200
-                res = {"message": response}
-                return res, 400
-            res = {"message": "Missing data"}
-            return res, 400
+            ic(project_id)
+            ic(data)
+            # account_id = data['account_id']
+            # text = data['text']
+            # user_ids = data['user_ids']
+            # skill_id = data['skill_id']
+            # progress = data['progress']          
+            # priority = data['priority']      
+            # topic_ids = data['topic_ids']      
+            # description = data['description']  
+                       
+            # response = edit_project(account_id, project_name, description, status_id, category_id, github, link)
+            return {}, 200
+            # if response:
+            #         res = {"data": f"{response}",
+            #             "message": "Update successful"
+            #             }
+            #         return res, 200
+            # res = {"message": response}
+            # return res, 400
+
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
         return res, 400

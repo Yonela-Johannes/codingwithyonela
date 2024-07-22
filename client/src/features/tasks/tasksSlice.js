@@ -18,9 +18,9 @@ export const getAllTasks = createAsyncThunk('tasks/fetch all', async (project_id
   return response.data;
 });
 
-export const updateTask = createAsyncThunk('tasks/fetch One', async (id) =>
+export const updateTask = createAsyncThunk('tasks/edit', async (data) =>
 {
-  const response = await axios.get(`${apiUrl}project/${id}`);
+  const response = await axios.put(`${apiUrl}project/${data?.project_id}`, { ...data });
   return response.data;
 });
 
@@ -101,16 +101,20 @@ export const tasksSlice = createSlice({
       })
       .addCase(updateTask.pending, (state) =>
       {
+        state.updated = false
         state.loading = true;
       })
       .addCase(updateTask.fulfilled, (state, action) =>
       {
-        console.log(action.payload)
+        state.updated = true
         state.project = action.payload.data;
+        state.loading = false;
       })
       .addCase(updateTask.rejected, (state, action) =>
       {
         state.error = action.message;
+        state.updated = true
+        state.loading = false;
       })
   },
 })

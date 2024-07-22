@@ -8,6 +8,7 @@ import done from '../../assets/task/check-mark-button.png'
 import TaskCard from '../../components/task/TaskCard'
 import postponed from '../../assets/task/postponed.png'
 import TaskForm from '../../components/task/TaskForm'
+import { useSelector } from 'react-redux'
 
 const Board = ({ project, data }) =>
 {
@@ -36,6 +37,7 @@ const Board = ({ project, data }) =>
         groupData()
     }, [data])
 
+
     const filterGrouped = (filter) =>
     {
         groupData(filter)
@@ -56,14 +58,14 @@ const Board = ({ project, data }) =>
                 </section>
                 <section className="w-full lg:w-[35%] lg:m-5">
                     <TaskColumn title="In progress" image={doing} />
-                    {grouped?.doing?.map((elem) => (
+                    {grouped?.progress?.map((elem) => (
                         <TaskCard elem={elem} />
                     ))}
                 </section>
                 {project ? (
                     <section className="w-full lg:w-[35%] lg:m-5">
                         <TaskColumn title="On hold" image={postponed} />
-                        {grouped?.postponed?.map((elem) => (
+                        {grouped?.on_hold?.map((elem) => (
                             <TaskCard elem={elem} />
                         ))}
                     </section>

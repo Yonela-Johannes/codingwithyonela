@@ -3,6 +3,7 @@ from flask import request, jsonify
 from sqlalchemy import JSON
 from controllers.feed import ( create_feed, fetch_feed, create_feed_comment, fetch_feed_comments, fetch_feeds, edit_feed )
 from icecream import ic
+from routes.image_upload import uploadImage
 
 def feed(id):
     REQUEST = request.method 
@@ -27,6 +28,7 @@ def feed(id):
         # edit/update
     elif REQUEST == 'PUT':
         try:
+            
             data = request.get_json()
             id = data['id']
             text = data['text']
@@ -44,7 +46,7 @@ def feed(id):
             return res, 400
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400
+            return res, 400
     
     # delete
     elif REQUEST == 'DELETE':
@@ -72,18 +74,36 @@ def feeds():
     REQUEST = request.method
     if REQUEST == 'POST':
         try:
-            data = request.get_json()
+            data = request.form
+            get_image = request.files
             account = data['account']
             text = data['text']
-            image = data['image']
-            video : str = ""
-            if "video" in data:
+            
+            image = get_image['image']
+  
+            new_image = uploadImage(image)
+            if new_image == None:        
+                return {"message": "Error: something went wrong with image upload"}, 409
+            
+            video = None
+            new_video = None
+            if "video" in data == True:
                 video = data['video']
+                new_video_response = uploadImage(video)
+                if new_video_response == None:
+                    return {"message": "Error: something went wrong with video upload"}, 409
+                new_video = new_video_response
+            else:
+                new_video = ''
             
             token = data['token']
+            
             if account and text and token:
-                response = create_feed(account_id=account, text=text, image=image, video=video, token=token)
-                if response:
+                response = create_feed(account_id=account, text=text, image=new_image, video=new_video, token=token)
+                ic(response)
+                if "message" in response and response['message'] == 'You are not authorized':
+                    return response, 409
+                elif response:
                     res = {"message": "Feed created successful"}
                     return res, 201
                 else:

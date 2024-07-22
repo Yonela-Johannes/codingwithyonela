@@ -9,7 +9,7 @@ from routes.quotes import quotes
 from routes.recommendation import all_recommendations, recommendation
 from routes.status import status
 from routes.topics import topics
-from routes.user import create_user_profile, user, login_user
+from routes.user import create_user_profile, user, login_user, verify_user, users
 from routes.title import title
 from routes.blog import blog, blogs, blogs_comment_create, blogs_comments
 from routes.feed import feed, feeds, feed_comment_create, feed_comment
@@ -43,8 +43,6 @@ PASSWORD = os.environ.get('MAIL_PASSWORD')
 # task route
 @app.route('/api/v1/task/<int:project_id>' , methods=['GET', 'PUT', 'DELETE', 'POST'])
 def task_route(project_id):
-    ic()
-    ic(project_id)
     return project_task(project_id=project_id)
 
 # # user route
@@ -52,6 +50,7 @@ def task_route(project_id):
 # def create_user_route():
 #     return create_user_profile(mail)
 # ----------------
+
 
 
 # quotes route
@@ -80,23 +79,35 @@ def topics_route():
 
 @app.route('/api/v1/user/<int:id>' , methods=['GET', 'PUT', 'DELETE'])
 def user_route(id):
+    
     print("USER: ", type(id))
     return user(id)
 
 # user route
-@app.route('/api/v1/login' , methods=['GET'])
+@app.route('/api/v1/login', methods=['GET'])
 def login_route():
     return login_user()
 
 # user route
-@app.route('/api/v1/user' , methods=['POST', 'GET'])
+@app.route('/api/v1/user', methods=['POST', 'GET'])
 def create_user_route():
-    return create_user_profile()
+    return create_user_profile(mail)
+
+# user route
+@app.route('/api/v1/users', methods=['POST', 'GET'])
+def users_route():
+    return users()
+
+# verify user route
+@app.route('/api/v1/verify-email', methods=['GET', 'POST'])
+def confirm_email():
+    return verify_user()
 # ----------------
 
 # blog route
 @app.route('/api/v1/blog/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def blog_route(id):
+    
     return blog(id)
 
 @app.route('/api/v1/blogs', methods=['GET', 'POST'])
@@ -106,6 +117,7 @@ def all_blogs_route():
 # blog comments route
 @app.route('/api/v1/blogs-comment/<int:id>', methods=['GET', 'DELETE'])
 def all_blogs_comments_route(id):
+    
     return blogs_comments(id)
 
 # blog comments route
@@ -117,6 +129,7 @@ def blogs_comments_route():
 # question route
 @app.route('/api/v1/question/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def question_route(id):
+    
     return questions(id)
 
 @app.route('/api/v1/question', methods=['GET', 'POST'])
@@ -126,6 +139,7 @@ def all_question_route():
 # question comments route
 @app.route('/api/v1/question-comment/<int:id>', methods=['GET', 'DELETE', 'POST'])
 def all_question_comments_route(id):
+    
     return question_comments(id)
 # ----------------
 
@@ -137,6 +151,7 @@ def category_route():
 # suggestion route
 @app.route('/api/v1/suggestion/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def suggestions_route(id):
+    
     return suggestion(id)
 
 @app.route('/api/v1/suggestion', methods=['GET', 'POST'])
@@ -146,6 +161,7 @@ def suggestion_route():
 # suggestion response route
 @app.route('/api/v1/suggestion-response/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def get_suggestion_response_route(id):
+    
     return get_suggestion_response(id)
 
 @app.route('/api/v1/suggestion-response', methods=['GET', 'POST'])
@@ -155,6 +171,7 @@ def suggestion_response_route():
 # comment suggestion route
 @app.route('/api/v1/suggestion-comments/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def get_suggestion_comments_route(id):
+    
     return get_suggestion_comments(id)
 
 @app.route('/api/v1/comment-suggestion', methods=['GET', 'POST'])
@@ -175,6 +192,7 @@ def recommendations_route():
 
 @app.route('/api/v1/recommendation/<int:id>', methods=['GET', 'PUT'])
 def recommendation_route(id):
+    
     return recommendation(id)
 
 # ---------------------
@@ -186,15 +204,18 @@ def project_route():
 # project route
 @app.route('/api/v1/project/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def projects_route(id):
+    
     return project(id)
 
 @app.route('/api/v1/project-chat/<int:id>', methods=['GET', 'POST'])
 def project_chat_route(id):
+    
     return project_chat(id)
 
 # comment project route
 @app.route('/api/v1/project-like/<int:id>', methods=['POST'])
 def create_project_like(id):
+    
     return add_project_like(id)
 
 # ----------------
@@ -203,6 +224,7 @@ def create_project_like(id):
 #feed route
 @app.route('/api/v1/posts/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def feed_route(id):
+    
     return feed(id)
 
 @app.route('/api/v1/posts', methods=['GET', 'POST'])
@@ -212,6 +234,7 @@ def all_feeds_route():
 #feed comments route
 @app.route('/api/v1/posts-comment/<int:id>', methods=['GET', 'DELETE'])
 def get_feed_comment(id):
+    
     return feed_comment(id)
 
 #feed comments route
@@ -248,3 +271,4 @@ def github_feeds_route():
     return github_feeds()
 
 # ----------------
+

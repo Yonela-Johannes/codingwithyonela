@@ -16,7 +16,8 @@ const Signin = () =>
     "password": ""
   });
 
-  const { loading, error: errorMessage, currentUser, token } = useSelector((state) => state?.user);
+  const { loading, error,
+    message, currentUser, token } = useSelector((state) => state?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -90,7 +91,7 @@ const Signin = () =>
             <div>
               <Label value='Your email' />
               <TextInput
-                type='email'
+                type='text'
                 placeholder='name@company.com'
                 id='email'
                 onChange={handleChange}
@@ -126,9 +127,9 @@ const Signin = () =>
               Sign Up
             </Link>
           </div>
-          {errorMessage && (
+          {message && (
             <Alert className='mt-5' color='failure'>
-              {errorMessage}
+              {message}
             </Alert>
           )}
         </div>
