@@ -4,7 +4,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa'
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../lib/utils';
-import { updateTask } from '../../features/tasks/tasksSlice';
+import { deleteTask, updateTask } from '../../features/tasks/tasksSlice';
 import { getAllprojects } from '../../features/project/projectSlice';
 
 const TaskCard = ({ elem, project }) =>
@@ -34,6 +34,15 @@ const TaskCard = ({ elem, project }) =>
         dispatch(updateTask(data))
     }
 
+    const handleDelete = (id) =>
+    {
+        const data = {
+            "project_id": id,
+            "user_id": currentUser?.account_id,
+        }
+        dispatch(deleteTask(data))
+    }
+
     return (
         <section className={`${theme == "light" ? "bg-white text-bg_opp" : "bg-bg_core border-bg_core text-slate-300"} flex flex-col gap-2 border rounded-md p-2 lg:p-4 mb-3`}>
             <div className='flex items-center justify-between'>
@@ -51,11 +60,11 @@ const TaskCard = ({ elem, project }) =>
                     <div className={`${theme == "light" ? "bg-slate-200" : "bg-bg_card text-slate-400"} text-xs lg:text-sm rounded-md px-[3px]`}>{elem?.name}</div>
                 </div>
                 {currentUser && currentUser?.account_id == elem?.account_id ? (
-                    <div className="flex gap-4">
-                        <div className={`${theme == "light" ? "text-bg_opp" : "text-slate-400"} w-4 h-4 object-contain`} alt='delete'>
+                    <div className="flex gap-4 cursor-pointer">
+                        <div onClick={(e) => handleDelete(elem?.project_id)} className={`${theme == "light" ? "text-bg_opp" : "text-slate-400"} w-4 h-4 object-contain  hover:text-clr_alt duration-300`} alt='delete'>
                             <FaTrash size={14} />
                         </div>
-                        <div className={`${theme == "light" ? "text-bg_opp" : "text-slate-400"} w-4 h-4 object-contain`} alt='delete'>
+                        <div className={`${theme == "light" ? "text-bg_opp" : "text-slate-400"} w-4 h-4 object-contain hover:text-clr_alt duration-300`} alt='delete'>
                             <FaEdit size={14} />
                         </div>
                     </div>

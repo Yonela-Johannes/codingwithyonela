@@ -1,11 +1,8 @@
 import { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
-// import { createProject } from '../services/blockchain'
-import { useGlobalState, setGlobalState } from '../../features/donation'
 
 const CreateProject = () =>
 {
-  const [createModal] = useGlobalState('createModal')
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [cost, setCost] = useState('')
@@ -53,46 +50,21 @@ const CreateProject = () =>
 
   return (
     <div
-      className={`fixed top-0 left-0 w-screen h-screen flex
-    items-center justify-center bg-black bg-opacity-50
-    transform transition-transform duration-300 ${createModal}`}
+      className={` w-full h-full flex
+    items-center justify-center 
+    transform transition-transform duration-300`}
     >
       <div
-        className="bg-white shadow-xl shadow-black
+        className="
         rounded-sm w-11/12 md:w-2/5 h-7/12 p-6"
       >
         <form onSubmit={handleSubmit} className="flex flex-col">
-          <div className="flex justify-between items-center">
-            <p className="font-semibold">Add Project</p>
-            <div
-              onClick={onClose}
-              type="button"
-              className="bg-transparent focus:outline-none cursor-pointer"
-            >
-              <FaTimes />
-            </div>
-          </div>
-
-          <div className="flex justify-center items-center mt-5">
-            <div className="rounded-sm overflow-hidden h-20 w-20">
-              <img
-                src={
-                  imageURL ||
-                  'https://media.wired.com/photos/5926e64caf95806129f50fde/master/pass/AnkiHP.jpg'
-                }
-                alt="project title"
-                className="h-full w-full object-cover cursor-pointer"
-              />
-            </div>
-          </div>
-
           <div
             className="flex justify-between items-center
           bg-gray-300 rounded-md mt-5"
           >
             <input
-              className="block w-full bg-transparent
-            border-0 text-sm text-slate-500 focus:outline-none
+              className="block w-full text-sm  focus:outline-none
             focus:ring-0"
               type="text"
               name="title"
@@ -107,62 +79,8 @@ const CreateProject = () =>
             className="flex justify-between items-center
           bg-gray-300 rounded-md mt-5"
           >
-            <input
-              className="block w-full bg-transparent
-            border-0 text-sm text-slate-500 focus:outline-none
-            focus:ring-0"
-              type="number"
-              step={0.01}
-              min={0.01}
-              name="cost"
-              placeholder="cost (ETH)"
-              onChange={(e) => setCost(e.target.value)}
-              value={cost}
-              required
-            />
-          </div>
-
-          <div
-            className="flex justify-between items-center
-          bg-gray-300 rounded-md mt-5"
-          >
-            <input
-              className="block w-full bg-transparent
-            border-0 text-sm text-slate-500 focus:outline-none
-            focus:ring-0"
-              type="date"
-              name="date"
-              placeholder="Expires"
-              onChange={(e) => setDate(e.target.value)}
-              value={date}
-              required
-            />
-          </div>
-
-          <div
-            className="flex justify-between items-center
-          bg-gray-300 rounded-md mt-5"
-          >
-            <input
-              className="block w-full bg-transparent
-            border-0 text-sm text-slate-500 focus:outline-none
-            focus:ring-0"
-              type="url"
-              name="imageURL"
-              placeholder="Image URL"
-              onChange={(e) => setImageURL(e.target.value)}
-              value={imageURL}
-              required
-            />
-          </div>
-
-          <div
-            className="flex justify-between items-center
-          bg-gray-300 rounded-md mt-5"
-          >
             <textarea
-              className="block w-full bg-transparent
-            border-0 text-sm text-slate-500 focus:outline-none
+              className="block w-full text-sm  focus:outline-none
             focus:ring-0"
               type="text"
               name="description"
@@ -175,9 +93,8 @@ const CreateProject = () =>
 
           <button
             type="submit"
-            className="inline-block px-6 py-2.5 bg-green-600
-            text-white font-medium text-md leading-tight
-            rounded-md hover:bg-green-700 mt-5"
+            className="inline-block px-6 py-2.5 font-medium text-md leading-tight
+            rounded-md mt-5"
           >
             Submit Project
           </button>

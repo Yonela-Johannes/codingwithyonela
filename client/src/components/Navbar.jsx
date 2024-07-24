@@ -12,7 +12,7 @@ import { Search } from "lucide-react";
 import ThemeToggle from './themeToggle/ThemeToggle';
 import { ThemeContext } from '../context/ThemeContext';
 import avatar from '../assets/pavatar.png'
-import { logout } from '../features/user/userSlice';
+import { activeSignup, logout } from '../features/user/authSlice';
 
 const MobileMenu = ({ currentUser, items, user_items }) =>
 {
@@ -233,13 +233,18 @@ export default function ({ currentUser })
               </div>
             </>
           ) : (
-            <Link to="/sign-in">
+            <>
               <HoverUnderLine>
                 <div className="flex gap-2 items-center cursor-pointer p-2">
                   Login
                 </div>
               </HoverUnderLine>
-            </Link>
+              <HoverUnderLine>
+                <div onClick={() => dispatch(activeSignup())} className="flex gap-2 items-center cursor-pointer p-2">
+                  Signup
+                </div>
+              </HoverUnderLine>
+            </>
           )}
         </div>
         <div className='flex items-center gap-4'>

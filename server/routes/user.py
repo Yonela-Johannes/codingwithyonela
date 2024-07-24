@@ -35,20 +35,19 @@ def login_user():
                    
 def verify_user():
     REQUEST = request.method
-    if REQUEST == 'GET':
+    if REQUEST == 'POST':
         try:
             token = request.args['token']
             if token:
-                
                 response = create_new_user_with_token(token=token)
                 ic(response)
-                print(response)
                 if response == None:
                     return {"error": "Something went wrong"}, 400
                 elif  response['message'] == 'User created successfull':
+                    response["token"] = token
                     return response, 200
                 elif response['message'] == 'You are not authorized' or response['message'] == "Data missing: register again":
-                    return {"message": "Token expired, try creating an account again"}, 400
+                    return {"message": "Token expired, try creating an account again"}, 403
                 else:
                     return response, 400
             else:
@@ -56,7 +55,7 @@ def verify_user():
         except:
             res = {"message": "Error: something went wrong"},
             return res, 400
-              
+     
 def user(id):
     REQUEST = request.method 
     if REQUEST == 'GET':
@@ -79,31 +78,48 @@ def user(id):
     elif REQUEST == 'PUT':
         try:
             data = request.get_json()
-            token = data['token']
-            is_admin: bool = False
-            is_staff: bool = False
-            user_title_id: str = ""
             
             response = fetch_user(id)
             
-            if response is None:
-                res = {"message": "Invalid user"}
-                return res, 400
-            
-            if response is None:
-                res = {"message": "Invalid user"}
-                return res, 400
-            
-            if token is None:
-                res = {"message": "Invalid token"}
-                return res, 400
+            is_admin: bool = False
+            is_staff: bool = False
+            username = None
+            lastname = None
+            user_title_id = None
+            github_username = None
 
-            id = response['id']                            
-            is_admin = data['is_admin']
-            is_staff = data['is_staff']
-            user_title_id = data['user_title_id']
+            if 'user_title_id' in data:
+                user_title_id = data['user_title_id']
+            else:
+                user_title_id = response['user_title_id']
+            if 'is_admin' in data:      
+                is_admin = data['is_admin']
+            else:
+                is_admin = response['is_admin']
+                
+            if 'is_staff' in data:
+                is_staff = data['is_staff']
+            else:
+                is_staff = response['is_staff']
+            
+            if 'username' in data:
+                username = data['username']
+            else:
+                username = response['username']
+
+            if 'lastname' in data:
+                lastname = data['lastname']
+            else:
+                lastname = response['lastname']
+                
+            if 'github_username' in data:
+                github_username = data['github_username']
+            else:
+                github_username = response['github_username']
+
+  
         
-            response = edit_user(id, is_admin, is_staff, user_title_id, token=token)
+            response = edit_user(id=id, is_admin=is_admin, is_staff=is_staff, user_title_id=user_title_id, github_username=user_title_idn)
             ic(response)
             if response:
                 res = {"data": f"{response}",
@@ -143,45 +159,65 @@ def create_user_profile(mail):
     REQUEST = request.method 
     if REQUEST == 'POST':
         try:
+            ic(request.form)
             email_validate_pattern = r"^\S+@\S+\.\S+$"
             email = request.form['email']
             password = request.form['password']
             username = request.form['username']
+            firstname = request.form['firstname']
             lastname = request.form['lastname']
             profile = request.files['profile']
             
             valid_email_format: str = ''
-   
+        
             if email:
                 if re.match(email_validate_pattern, email):
                     valid_email_format = email
                 else:
-                    return {"message": "Error: email not found"}, 404
+                    return {"message": "Error: email format. Check you email."}, 404
             
             db_user = get_user_by_email(email=valid_email_format)
             
             if db_user:
-                res = {"message": f"Error: user {valid_email_format} already exists"}
+                res = {"message": f"Error: user {valid_email_format} already exists. Try signin in."}
                 return res, 400 
             else:
                 res = uploadImage(image=profile)
                 if res:
                     user_data = {
                         "email": valid_email_format,
-                        "password": password,
                         "username": username,
+                        "firstname": firstname,
                         "lastname": lastname,
+                        "password": password,
                         "profile": res['url'],
                         "profile_id": res['asset_id']
                     }
                     token = {}
-
+                    
                     token = create_access_token(data=user_data)
                     if token:
-                        msg = Message(subject="CodingWithYonela", sender='noreplay@email.com', recipients=[valid_email_format]) 
-                        msg.body = f"Hey {username} {lastname} \n click here to verify you account: http://localhost:3000/verify_account/{token}"   
+                        # Create the verification link
+                        verification_link = f"http://localhost:3000/verify_account/{token}"
+                        
+                        # Create the HTML email body
+                        html_body = f"""
+                        <html>
+                        <body>
+                            <p>Hey {username} {lastname},</p>
+                            <p>Click the link below to verify your account:</p>
+                            <p><a href="{verification_link}" title="Verify your account">Verify your account</a></p>
+                        </body>
+                        </html>
+                        """
+                        msg = Message(
+                            subject="Verify Your Account",
+                            sender='noreplay@email.com',
+                            recipients=[valid_email_format],
+                            html=html_body
+                        )   
                         response = mail.send(message=msg)
-                        return {"message": "verification sent"}, 200
+                        return {"message": "verification sent check you emails"}, 200
                     else:
                         return {"message": "Error invalid token or token expired"}, 404
                 else:
@@ -199,9 +235,9 @@ def users():
             response = fetch_users()
             if response:
                 res = {
-                        "message": "Fetch successful",
-                        "data": response
-                        }
+                    "message": "Fetch successful",
+                    "data": response
+                    }
                 return res, 200
             else:
                 res = {"message":  "Fetch successful",

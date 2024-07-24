@@ -43,12 +43,10 @@ html {
 
 body {
   font-family: 'BaiJamjuree';
-  font-size: 16px;
 }
 
 ::-webkit-scrollbar {
   width: 12px;
-  /* for vertical scrollbar */
   height: 5px;
 }
 
@@ -73,9 +71,4 @@ h2 {
   font-size: 25px;
   font-weight: bold;
   line-height: 1.2;
-}
-
-p {
-  font-size: 20px;
-  line-height: 1.3;
 }

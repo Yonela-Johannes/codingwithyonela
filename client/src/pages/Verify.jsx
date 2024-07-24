@@ -1,52 +1,53 @@
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { apiUrl } from '../constants/base_urls'
+import { useNavigate, useParams } from "react-router-dom";
+import logo from '../assets/logo.png'
+import { useDispatch, useSelector } from "react-redux";
+import { verifyRegistration } from "../features/user/authSlice";
+import Loader from "../components/Loader/Loader";
+import toast from "react-hot-toast";
 
 const Verify = () =>
 {
-    const [user, setUser] = useState()
-    const { token } = useParams()
-    const { theme } = useContext(ThemeContext)
-    console.log(token)
+  const { message } = useSelector((state) => state.user)
+  const { token } = useParams()
+  const { theme } = useContext(ThemeContext)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-    useEffect(() =>
+  useEffect(() =>
+  {
+    dispatch(verifyRegistration(token))
+  }, [token])
+
+
+  useEffect(() =>
+  {
+    if (message)
     {
-        const fetchUserData = async () =>
-        {
-            if (token)
-            {
-                const res = await axios.get(`${apiUrl}/confirm_email/${token}`)
-                console.log(res)
-            }
-            fetchUserData()
-        }
-    }, [token])
+      toast(message)
+      navigate('/edit-account')
+    }
 
-    return (
-        <div className={`${theme == "light" ? "text-black" : "text-white"}`}>
-            <p>Verify Acount</p>
-            {/* <img
-        src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
-        alt="creator"
-        className="rounded-full w-14 h-14"
-      />
+  }, [message])
 
-      <div className="flex-center flex-col gap-1">
-        <p className="base-medium text-light-1 text-center line-clamp-1">
-          {user.name}
+
+  return (
+    <div
+      className={`${theme == "light" ? "text-bg_opp" : "text-white"} lg:relative h-full bg-cover bg-center flex flex-col justify-center items-center text-white mb-4`}
+    >
+      <header className={`${theme == "light" ? "text-bg_opp" : "text-white"} lg:absolute top-0 left-0 p-4 w-full`}>
+        <img src={logo} alt='CodingWithYonela' className='h-8 w-8 lg:w-12 lg:h-12 object-contain object-center' />
+      </header>
+      <main className='flex flex-col items-center text-center error-page--content z-10'>
+        <h1 className={`${theme == "light" ? "text-bg_opp" : "text-white"} text-2xl lg:text-7xl font-semibold mb-4`}>Confirming</h1>
+        <p className={`${theme == "light" ? "text-bg_opp" : "text-white"}  mb-6 lg:text-xl`}>
+          We are confirming your account
         </p>
-        <p className="small-regular text-light-3 text-center line-clamp-1">
-          @{user.username}
-        </p>
-      </div> */}
-
-            {/* <Button type="button" size="sm" className="shad-button_primary px-5">
-        Follow
-      </Button> */}
-        </div>
-    );
+        <Loader />
+      </main>
+    </div >
+  );
 };
 
 export default Verify;

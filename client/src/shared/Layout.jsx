@@ -7,16 +7,17 @@ import Wrapper from "./Wrapper";
 import { Toaster } from "react-hot-toast";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
+import SignUp from "../pages/SignUp";
 
 const Layout = ({ children }) =>
 {
-  const { currentUser } = useSelector((state) => state.user)
+  const { currentUser, active_signup_modal } = useSelector((state) => state.user)
   const { theme } = useContext(ThemeContext)
 
   return (
-    <div className="min-h-screen w-screen flex justify-center items-center flex-col overflow-x-hidden">
+    <div className="relative min-h-screen w-screen flex justify-center items-center flex-col overflow-x-hidden">
       <Toaster
-        position="top-center"
+        position="top-right"
         reverseOrder={false}
         gutter={8}
         containerClassName=""
@@ -56,6 +57,7 @@ const Layout = ({ children }) =>
           <Footer />
         </Wrapper>
       </div>
+      <div className="hidden lg:block ">{active_signup_modal ? (<SignUp />) : ""}</div>
     </div>
   );
 };

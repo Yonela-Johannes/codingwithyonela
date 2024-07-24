@@ -9,7 +9,7 @@ const ProjectsTask = () =>
 {
     const { theme } = useContext(ThemeContext)
     const { loading, projects } = useSelector((state) => state.project);
-    const { updated } = useSelector((state) => state.task);
+    const { updated, deleted } = useSelector((state) => state.task);
     const dispatch = useDispatch();
 
     const getProjects = () =>
@@ -29,6 +29,13 @@ const ProjectsTask = () =>
             dispatch(getAllprojects())
         }
     }, [updated])
+
+    useEffect(() =>
+    {
+
+        dispatch(getAllprojects())
+    }, [deleted])
+
 
     return (
         loading ? (

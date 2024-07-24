@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Layout from "./shared/Layout";
 import Home from "./pages/Home";
 import Blogs from "./pages/Blogs";
@@ -10,7 +9,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Testimonials from "./pages/Testimonials";
 import Signin from "./pages/Signin";
 import CreateBlog from "./dashboard/components/blog/CreateBlog";
-import { LinkedInCallback } from 'react-linkedin-login-oauth2'
 import About from "./pages/About";
 import Collaboration from "./pages/Collaboration";
 import { useSelector } from "react-redux";
@@ -29,6 +27,10 @@ import Todopage from "./pages/Todopage";
 import ProjectsTask from "./pages/ProjectsTask";
 import Verify from "./pages/Verify";
 import { NewNote } from "./pages/note/NewNote";
+import AllUsers from "./pages/AllUsers";
+import Profile from "./pages/EditAccount";
+import NotFoundPage from './pages/404'
+import EditAccount from "./pages/EditAccount";
 
 function App()
 {
@@ -60,11 +62,18 @@ function App()
           <Route path="/project-status" element={<ProjectsTask />} />
           <Route path="/project/:id/todo" element={<Todopage />} />
           <Route path="/version-control" element={<Showcase />} />
-          <Route path="/projects/add" element={<CreateProject />} />
+          <Route path="/project/add" element={<CreateProject />} />
+
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/edit-account" element={<EditAccount />} />
           <Route path="/projects/my-projects/user/:id" element={<MyProjects />} />
           <Route path="/projects/:id" element={<Project />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route path="/create-blog" element={<CreateBlog />} />
+
+
+          <Route path="/friends" element={<AllUsers />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>

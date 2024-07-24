@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png'
-import { login } from "../features/user/userSlice";
+import { login } from "../features/user/authSlice";
 import { useEffect } from "react";
 
 const Signin = () =>

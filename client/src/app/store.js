@@ -1,5 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import userReducer from '../features/user/userSlice';
+import authReducer from '../features/user/authSlice';
 import suggestionReducer from '../features/suggestions/suggestionSlice';
 import blogsReducer from '../features/blogs/blogSlice';
 import postsReducer from '../features/post/postSlice';
@@ -23,11 +24,12 @@ const userPersistConfig = {
 };
 
 // Create persisted suggestion reducer
-const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
+const persistedUserReducer = persistReducer(userPersistConfig, authReducer);
 
 // Combine the reducers again, replacing the suggestion reducer with the persisted version
 const rootReducerWithPersistedSuggestion = combineReducers({
   user: persistedUserReducer,
+  users: userReducer,
   suggestion: suggestionReducer,
   blogs: blogsReducer,
   posts: postsReducer,

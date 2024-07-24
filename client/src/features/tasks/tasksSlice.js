@@ -32,11 +32,10 @@ export const createTask = createAsyncThunk('tasks/create', async (data) =>
 
 export const deleteTask = createAsyncThunk('tasks/delete', async (data) =>
 {
-  const response = await axios.delete(`${apiUrl}project/${data?.account_id}`, {
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    data: JSON.stringify(data)
+  const response = await axios.delete(`${apiUrl}project/${data?.project_id}`, {
+    data: {
+      ...data
+    }
   });
   return response.data;
 });

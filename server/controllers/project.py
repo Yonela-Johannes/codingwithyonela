@@ -142,28 +142,28 @@ def edit_project(user_ids, project_id, project_status, project_name, description
     
 
 def delete_project(project_id, account_id):
-    print("ID ID: ", account_id)
-    print("SUGGESTION ID: ", project_id)
-    query = """DELETE FROM projects WHERE id = %s AND account_id = %s RETURNING id;"""
+
+    query = """DELETE FROM project WHERE id = %s AND account_id = %s RETURNING id;"""
     
     response = None
 
     try:
         with  connection as conn:
-            with  conn.cursor() as cur:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
 
-                cur.execute(query, (project_id, account_id,) )
+                cur.execute(query, (project_id, account_id))
             
                 rows = cur.fetchone()
+                ic(rows)
                 if rows:
-                    response = rows[0]
+                    response = rows
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         response = error
     finally:
+        ic(response)
         return response
-    
-    
+
 def create_project_chat(account_id, message, project_id):
     """ Create new account_id into  the acount table """
     sql = """INSERT INTO project_chat (account_id, message, project_id)

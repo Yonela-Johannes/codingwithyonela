@@ -79,8 +79,6 @@ def topics_route():
 
 @app.route('/api/v1/user/<int:id>' , methods=['GET', 'PUT', 'DELETE'])
 def user_route(id):
-    
-    print("USER: ", type(id))
     return user(id)
 
 # user route
@@ -204,7 +202,6 @@ def project_route():
 # project route
 @app.route('/api/v1/project/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def projects_route(id):
-    
     return project(id)
 
 @app.route('/api/v1/project-chat/<int:id>', methods=['GET', 'POST'])

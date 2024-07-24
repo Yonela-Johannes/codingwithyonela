@@ -2,46 +2,69 @@ import HoverUnderLine from "../components/HoverUnderLine";
 import { GoogleLogin } from "@react-oauth/google";
 import { siteUrl, callback } from "../constants/base_urls";
 import { Alert, Label, Spinner, TextInput } from 'flowbite-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png'
-import { login } from "../features/user/userSlice";
+import { disableAuthModals, login, register } from "../features/user/authSlice";
 import { useEffect } from "react";
-
+import { toast } from 'react-hot-toast'
+import { MdClose } from "react-icons/md";
+import { ThemeContext } from "../context/ThemeContext";
 
 export default function SignUp()
 {
-  const [errorMessage, setErrorMessage, loading] = useState(null);
+  const { message, loading, signup_success } = useSelector((state) => state.user);
+  const dispatch = useDispatch()
+  const [profile, setProfile] = useState(null)
   const [formData, setFormData] = useState({
     "username": "",
+    "firstname": "",
+    "lastname": "",
     "email": "",
     "password": ""
   });
+
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext)
 
   const handleLoginSuccess = async (credentials) =>
   {
-    dispatch(login(credentials.credentials));
+    dispatch(register(credentials.credentials));
   };
 
   const handleChange = (e) =>
   {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
+
   const handleSubmit = async (e) =>
   {
     e.preventDefault();
-    if (!formData.email || !formData.password)
-    {
-
-    }
-    dispatch(login(formData));
+    if (!formData.username || !formData.email || !formData.password || !formData.firstname || !formData.lastname || !profile) return toast("Missing information")
+    const newFormData = new FormData();
+    newFormData.append('username', formData.username);
+    newFormData.append('firstname', formData.firstname);
+    newFormData.append('lastname', formData.lastname);
+    newFormData.append('email', formData.email);
+    newFormData.append('password', formData.password);
+    newFormData.append('profile', profile);
+    dispatch(register(newFormData));
   }
 
+  useEffect(() =>
+  {
+    if (signup_success)
+    {
+      toast("Check you email for verification link")
+      dispatch(disableAuthModals())
+      navigate('/')
+    }
+  }, [message, signup_success])
+
   return (
-    <div className='flex flex-col lg:flex-row items-start'>\
-      <div className="flex items-start space-y-4 h-full">
+    <div className={`${theme == 'light' ? '' : 'border-none'} flex flex-col lg:flex-row items-center justify-center lg:items-center lg:absolute min-h-screen lg:h-sceen w-full lg:z-50 backdrop-blur-xl overflow-hidden top-0 left-0 right-0 bottom-0`}>
+      {/* <div className="flex items-start space-y-4 h-full">
         <div className="flex flex-col gap-4 rounded-sm shrink-0 items-start justify-center fill-fill backdrop-opacity-[17px]">
           <h1 className="text-center text-base lg:text-2xl lg:font-bold tracking-tight mb-8">
             Continue with CodingWithYonela
@@ -71,39 +94,87 @@ export default function SignUp()
             the CodingWithYonela <b>TOS</b> and <b>Privacy Policy</b>.
           </p>
         </div>
-      </div>
-      <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
+      </div> */}
+      <div className={`${theme == "light" ? "bg-white" : "bg-bg_card border-none"} w-full lg:relative flex py-8 lg:px-16 mx-auto flex-col md:flex-row md:items-center gap-5 lg:border lg:rounded-lg lg:w-[700px]`}>
+        <div className={`${theme == "light" ? "bg-white" : "bg-slate-800 text-white"} rounded-full hidden lg:block lg:absolute top-2 lg:right-2 text-xl lg:text-2xl cursor-pointer`} onClick={() => dispatch(disableAuthModals())}>
+          <MdClose />
+        </div>
         <div className='flex-1'>
-          <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+          <form className='flex flex-col gap-4' onSubmit={handleSubmit} encType="multipart/form-data">
             <div>
-              <Label value='Your username' />
-              <TextInput
-                type='text'
-                placeholder='Username'
-                id='name'
-                onChange={handleChange}
+              <label value='Username'>Profile image</label>
+              <input
+                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+
+                type='file'
+                placeholder='your avatar'
+                name="profile"
+                id='profile'
+                onChange={(e) => setProfile(e.target.files[0])}
               />
             </div>
             <div>
-              <Label value='Your email' />
-              <TextInput
-                type='text'
+              <label value='Your email' className={`${theme == "light" ? "text-black" : "bg-bg_card text-white"}`}>Email</label>
+              <input
+                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                value={formData?.email}
+                type='email'
+                name="email"
                 placeholder='your.name@example.com'
                 id='email'
                 onChange={handleChange}
               />
             </div>
             <div>
-              <Label value='Your password' />
-              <TextInput
+              <label value='Username' className={`${theme == "light" ? "text-black" : "bg-bg_card text-white"}`}>Username</label>
+              <input
+                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                type='text'
+                value={formData.username}
+                placeholder='your username'
+                name="username"
+                id='username'
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label value='firstname' className={`${theme == "light" ? "text-black" : "bg-bg_card text-white"}`}>First name</label>
+              <input
+                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                type='text'
+                value={formData.firstname}
+                placeholder='your firstname'
+                name="firstname"
+                id='firstname'
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label value='lastname' className={`${theme == "light" ? "text-black" : "bg-bg_card text-white"}`}>Last name</label>
+              <input
+                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                type='text'
+                value={formData.lastname}
+                placeholder='your username'
+                name="lastname"
+                id='lastname'
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label value='Your password' className={`${theme == "light" ? "text-black" : "bg-bg_card text-white"}`}>Password</label>
+              <input
+                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                value={formData.password}
                 type='password'
                 placeholder='Password'
+                name="password"
                 id='password'
                 onChange={handleChange}
               />
             </div>
             <button
-              className="md:mt-4 text-center flex justify-center gap-1 md:gap-4 items-center"
+              className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold text-white ${theme == "light" ? "bg-clr_alt" : "bg-clr_alt"}`}
               type='submit'
               disabled={loading}
             >
@@ -118,27 +189,17 @@ export default function SignUp()
             </button>
           </form>
           <div className='flex gap-2 text-sm mt-5'>
-            <span>Have an account?</span>
+            <span className={`${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}>Have an account?</span>
             <Link to='/sign-in' className='text-blue-500'>
               Sign In
             </Link>
           </div>
-          {errorMessage && (
+          {message && (
             <Alert className='mt-5' color='failure'>
-              {errorMessage}
+              {message}
             </Alert>
           )}
         </div>
-      </div>
-      <div className=''>
-        <Link to='/' className='font-bold dark:text-white text-4xl'>
-          <img src={logo} className="w-9 h-9 object-center object-contain" alt="logo" />
-          CodingWithYonela
-        </Link>
-        <p className='text-sm mt-5'>
-          You can sign up with your email and password
-          or with Google.
-        </p>
       </div>
     </div>
   );

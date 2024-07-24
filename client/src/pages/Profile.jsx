@@ -1,146 +1,152 @@
-import {
-  Route,
-  Routes,
-  Link,
-  Outlet,
-  useParams,
-  useLocation,
-} from "react-router-dom";
+import { useContext, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import UserProfile from "./github/UserProfile";
+import { useEffect } from "react";
+import { getAllTitles } from "../features/title/titleSlice";
+import { ThemeContext } from "../context/ThemeContext";
 
-import { Button } from "@/components/ui";
-import { LikedPosts } from "@/_root/pages";
-import { useUserContext } from "@/context/AuthContext";
-import { useGetUserById } from "@/lib/react-query/queries";
-import { GridPostList, Loader } from "@/components/shared";
+const Profile = () =>
+{
+    const { currentUser, loading: load } = useSelector((state) => state.user)
+    const { titles, loading: titles_load } = useSelector((state) => state.titles)
+    const [email, setEmail] = useState(currentUser?.email || "");
+    const [username, setUsername] = useState(currentUser?.username || "");
+    const [lastname, setLastname] = useState(currentUser?.lastname || "");
+    const [title, setTitle] = useState(currentUser?.title || "");
+    const [query, setQuery] = useState("");
+    const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const { theme } = useContext(ThemeContext)
+    const dispatch = useDispatch()
 
-interface StabBlockProps {
-  value: string | number;
-  label: string;
-}
+    useEffect(() =>
+    {
+        dispatch(getAllTitles())
+    }, [])
 
-const StatBlock = ({ value, label }: StabBlockProps) => (
-  <div className="flex-center gap-2">
-    <p className="small-semibold lg:body-bold text-primary-500">{value}</p>
-    <p className="small-medium lg:base-medium text-light-2">{label}</p>
-  </div>
-);
 
-const Profile = () => {
-  const { id } = useParams();
-  const { user } = useUserContext();
-  const { pathname } = useLocation();
+    const handleSubmit = async (e) =>
+    {
+        e.preventDefault();
+        if (!query) return;
+        setLoading(true);
+        setUserData(null);
+        try
+        {
+            const res = await fetch(`https://api.github.com/users/${query}`);
+            console.log(res)
+            const data = await res.json();
 
-  const { data: currentUser } = useGetUserById(id || "");
-
-  if (!currentUser)
-    return (
-      <div className="flex-center w-full h-full">
-        <Loader />
-      </div>
-    );
-
-  return (
-    <div className="profile-container">
-      <div className="profile-inner_container">
-        <div className="flex xl:flex-row flex-col max-xl:items-center flex-1 gap-7">
-          <img
-            src={
-              currentUser.imageUrl || "/assets/icons/profile-placeholder.svg"
+            if (data.message)
+            {
+                return toast({
+                    title: "Error",
+                    description: data.message === "Not Found" ? "User not found" : data.message,
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
             }
-            alt="profile"
-            className="w-28 h-28 lg:h-36 lg:w-36 rounded-full"
-          />
-          <div className="flex flex-col flex-1 justify-between md:mt-2">
-            <div className="flex flex-col w-full">
-              <h1 className="text-center xl:text-left h3-bold md:h1-semibold w-full">
-                {currentUser.name}
-              </h1>
-              <p className="small-regular md:body-medium text-light-3 text-center xl:text-left">
-                @{currentUser.username}
-              </p>
-            </div>
+            setUserData(data);
+            // addUserToLocalStorage(data, query);
+        } catch (error)
+        {
+            toast({
+                title: "Error",
+                description: error.message,
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        } finally
+        {
+            setLoading(false);
+        }
+    };
 
-            <div className="flex gap-8 mt-10 items-center justify-center xl:justify-start flex-wrap z-20">
-              <StatBlock value={currentUser.posts.length} label="Posts" />
-              <StatBlock value={20} label="Followers" />
-              <StatBlock value={20} label="Following" />
-            </div>
+    return (
+        <div className='grid lg:grid-cols-2 h-full w-full'>
+            <div className='flex lg:mx-3'>
+                <div className={`w-full max-w-md lg:p-8 space-y-6 ${theme == "light" ? "text-black" : "text-white"}`}>
+                    <form className='space-y-4' onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor='username' className='text-sm font-medium block'>
+                                Username
+                            </label>
+                            <input
+                                type='text'
+                                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                                placeholder='john'
+                                id='username'
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor='username' className='text-sm font-medium block'>
+                                Lastname
+                            </label>
+                            <input
+                                type='text'
+                                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                                placeholder='doe'
+                                id='lastname'
+                                value={lastname}
+                                onChange={(e) => setLastname(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor='username' className='text-sm font-medium block'>
+                                Title
+                            </label>
+                            <select value={title} onChange={(e) => setTitle(e.target.value)}
+                                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"} rounded-none`}
+                            >
+                                {titles?.map((element) => (
+                                    <option
+                                        key={element?.id}
+                                        value={element?.id}
+                                        className={`flex items-center cursor-pointer gap-4 rounded-none border-none border-b border-bg_core drop-shadow-none w-full`}
+                                    >
+                                        {element?.user_title}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label htmlFor='githubUser' className='text-sm font-medium block'>
+                                GitHub Username
+                            </label>
+                            <input
+                                type='text'
+                                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"} rounded-none`}
+                                placeholder='johndoe'
+                                id='githubUser'
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                            />
+                        </div>
+                        <div className="flex gap-4">
+                            <button
+                                className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}  ${!query ? 'opacity-[0.5]' : 'opacity-1'}`}
+                                disabled={!query}
+                            >
+                                Search GitHub
+                            </button>
 
-            <p className="small-medium md:base-medium text-center xl:text-left mt-7 max-w-screen-sm">
-              {currentUser.bio}
-            </p>
-          </div>
-
-          <div className="flex justify-center gap-4">
-            <div className={`${user.id !== currentUser.$id && "hidden"}`}>
-              <Link
-                to={`/update-profile/${currentUser.$id}`}
-                className={`h-12 bg-dark-4 px-5 text-light-1 flex-center gap-2 rounded-lg ${
-                  user.id !== currentUser.$id && "hidden"
-                }`}>
-                <img
-                  src={"/assets/icons/edit.svg"}
-                  alt="edit"
-                  width={20}
-                  height={20}
-                />
-                <p className="flex whitespace-nowrap small-medium">
-                  Edit Profile
-                </p>
-              </Link>
+                            <button
+                                className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold text-white ${theme == "light" ? "bg-clr_alt" : "bg-clr_alt"}  ${!username || !lastname ? 'opacity-[0.5]' : 'opacity-1'}`}
+                                disabled={!username || !lastname}
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div className={`${user.id === id && "hidden"}`}>
-              <Button type="button" className="shad-button_primary px-8">
-                Follow
-              </Button>
-            </div>
-          </div>
+            {userData && <UserProfile userData={userData} theme={theme} />}
         </div>
-      </div>
-
-      {currentUser.$id === user.id && (
-        <div className="flex max-w-5xl w-full">
-          <Link
-            to={`/profile/${id}`}
-            className={`profile-tab rounded-l-lg ${
-              pathname === `/profile/${id}` && "!bg-dark-3"
-            }`}>
-            <img
-              src={"/assets/icons/posts.svg"}
-              alt="posts"
-              width={20}
-              height={20}
-            />
-            Posts
-          </Link>
-          <Link
-            to={`/profile/${id}/liked-posts`}
-            className={`profile-tab rounded-r-lg ${
-              pathname === `/profile/${id}/liked-posts` && "!bg-dark-3"
-            }`}>
-            <img
-              src={"/assets/icons/like.svg"}
-              alt="like"
-              width={20}
-              height={20}
-            />
-            Liked Posts
-          </Link>
-        </div>
-      )}
-
-      <Routes>
-        <Route
-          index
-          element={<GridPostList posts={currentUser.posts} showUser={false} />}
-        />
-        {currentUser.$id === user.id && (
-          <Route path="/liked-posts" element={<LikedPosts />} />
-        )}
-      </Routes>
-      <Outlet />
-    </div>
-  );
+    );
 };
-
 export default Profile;

@@ -27,3 +27,9 @@ export const headers = {
     'Content-Type': 'application/json',
   }
 }
+
+export const formHeaders = {
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+} 

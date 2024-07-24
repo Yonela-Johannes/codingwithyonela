@@ -100,11 +100,14 @@ def get_current_user(token: str):
 
 def create_new_user_with_token(token: str):
     try:
+        ic(token)
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        ic(payload)
         if "user" in payload:
             data = payload['user']
             email = data['email']
             username = data['username']
+            firstname = data['firstname']
             lastname = data['lastname']
             password = data['password'] 
             profile = data['profile']
@@ -113,24 +116,32 @@ def create_new_user_with_token(token: str):
             user_title_id = None
             if 'user_title_id' in data:
                 user_title_id = data['user_title_id']
-
-            response = create_user(email=email, username=username, lastname=lastname, password=password, profile=profile, profile_id=profile_id, user_title_id=user_title_id)
-            if response and 'id' in response:
-                return  {"message": "User created successfull"}
-            elif 'message' in response and response['message'] == "dup email error":
+                
+            exist_user = get_user_by_email(email=email)
+            if exist_user:
+                response = {"message": "Error: User already exist. Try login in."}
                 return response
-            elif response and 'email' in response or 'id' in response:
-                token = create_access_token(data=response["email"], expires_delta=ACCESS_TOKEN_EXPIRE)
-                if token:
-                    response["token"] = token
+            else:
+                response = create_user(email=email, username=username, lastname=lastname, password=password, profile=profile, profile_id=profile_id, user_title_id=user_title_id, firstname=firstname)
+                if response and 'id' in response:
+                    return  {"message": "User created successfull",
+                            "data": response
+                            }
+                elif 'message' in response and response['message'] == "dup email error":
                     return response
-                else:
-                    response = {"message": "Error: creating login token"}
-                    return response
+                elif response and 'email' in response or 'id' in response:
+                    token = create_access_token(data=response["email"], expires_delta=ACCESS_TOKEN_EXPIRE)
+                    if token:
+                        response["token"] = token
+                        return response
+                    else:
+                        response = {"message": "Error: creating login token"}
+                        return response
         else:
             res = {"message": "Data missing: register again"}
             return res
-    except:
+    except Exception as error:
+        ic(error)
         return {"message": "You are not authorized"}
 
 def login(email, password):
@@ -168,14 +179,14 @@ def login(email, password):
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)    
 
-def create_user(email, username, lastname, password, profile, profile_id, user_title_id):
+def create_user(email, username, lastname, password, profile, profile_id, user_title_id, firstname):
     
     hashed_password = get_password_hash(password)
     
     """Create new account into the acount table """
 
-    sql = """INSERT INTO account(email, username, lastname, password, profile, profile_id, user_title_id)
-            VALUES(%s, %s, %s, %s, %s, %s, %s) RETURNING id, email;"""
+    sql = """INSERT INTO account(email, username, lastname, password, profile, profile_id, user_title_id, firstname)
+            VALUES(%s, %s, %s, %s, %s, %s, %s, %s) RETURNING *;"""
     
     response = None
 
@@ -183,13 +194,12 @@ def create_user(email, username, lastname, password, profile, profile_id, user_t
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the INSERT statement
-                cur.execute(sql, (email, username, lastname, hashed_password, profile, profile_id, user_title_id))
+                cur.execute(sql, (email, username, lastname, hashed_password, profile, profile_id, user_title_id, firstname))
 
                 # get the generated id back                
                 rows = cur.fetchone()
                 if rows:
                     response = rows
-
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
@@ -212,6 +222,7 @@ def fetch_users():
 
                 # get the generated all data back                
                 rows = cur.fetchall()
+                ic(rows)
                 if rows:
                     response = rows
                 # commit the changes to the database
@@ -222,25 +233,24 @@ def fetch_users():
         return response
 
 # update user
-def edit_user(id, is_admin, is_staff, user_title_id, token):
+def edit_user(id, is_admin, is_staff, user_title_id, username, lastname, github_username):
     try:
-        user = get_current_user(token=token)
-        if "id" in user:
-            query = """UPDATE account SET (is_admin=%s,is_staff=%s,user_title_id=%s) WHERE id=%s RETURNING *;"""
-            
-            response = None
-            with  connection as conn:
-                with  conn.cursor() as cur:
-                    # execute the UPDATE statement
-                    cur.execute(query, (is_admin, is_staff, user_title_id, id))
+        query = """UPDATE account SET (is_admin=%s,is_staff=%s,user_title_id=%s,username=%s,lastname=%s,github_username=%s) WHERE id=%s RETURNING *;"""
+        
+        response = None
+        with  connection as conn:
+            with  conn.cursor() as cur:
+                # execute the UPDATE statement
+                cur.execute(query, (is_admin, is_staff, user_title_id, username, lastname, github_username, id))
 
-                    # get the generated id back                
-                    rows = cur.fetchone()
-                    if rows:
-                        response = rows[0]
+                # get the generated id back                
+                rows = cur.fetchone()
+                ic(rows)
+                if rows:
+                    response = rows[0]
 
-                    # commit the changes to the database
-                    conn.commit()
+                # commit the changes to the database
+                conn.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
         response = error

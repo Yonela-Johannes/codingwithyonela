@@ -62,13 +62,15 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS account (
             id SERIAL PRIMARY KEY,
             email VARCHAR(50) UNIQUE NOT NULL,
-            username VARCHAR(20) NOT NULL,
-            lastname VARCHAR(20) NOT NULL,
+            firstname VARCHAR(20) NOT NULL,
+            username VARCHAR(20),
+            lastname VARCHAR(20),
             is_admin BOOLEAN NOT NULL DEFAULT false,
             is_staff BOOLEAN NOT NULL DEFAULT false,
             profile TEXT,
             profile_id TEXT,
             password TEXT,
+            github_username TEXT,
             user_title_id INTEGER,
             FOREIGN KEY (user_title_id)
             REFERENCES user_title (id)

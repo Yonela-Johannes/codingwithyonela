@@ -23,7 +23,6 @@ def project(id):
         try:
 
             data = request.get_json()
-            ic(data)
             account_id = data['user_id']
             project_id = data['project_id']
             
@@ -82,24 +81,23 @@ def project(id):
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
         return res, 400
+    
     elif REQUEST == 'DELETE':
         try:
             data = request.get_json()
-            account_id = data['account_id']
+            account_id = data['user_id']
             project_id = data['project_id']
-    
-            if id and project_id and account_id and id == account_id:
-                response = delete_project(project_id, account_id)
-                if response == id:
-                    res = {"message": "Delete failed: something went wrong."}
-                    return res, 400
-                else:
-                    res = {
-                            "message": "Delete successful"
-                            }
-                    return res, 200
-            res = {"message": "Title or is ID invalid"}
-            return res, 00 
+ 
+            response = delete_project(project_id=project_id, account_id=account_id)
+            if 'id' in response:
+                res = {
+                        "message": "Delete successful"
+                        }
+                return res, 200
+            else:
+                res = {"message": "Delete failed: something went wrong."}
+                return res, 400
+ 
         except json.decoder.JSONDecodeError:
            res = {"message": "Missing data"}
         return res, 400
