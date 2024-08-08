@@ -3,28 +3,26 @@ import psycopg2
 from utils.db import connection
 from controllers.account import get_current_user
 
-def create_question(account_id, question, category_id, topic_id, token):
+def create_question(account_id, question,topic_id):
     try:
-        user = get_current_user(token=token)
-        if "id" in user:
-            """ Create new account into the acount table """
-            sql = """INSERT INTO question (account_id, question, category_id, topic_id)
-                    VALUES(%s, %s, %s, %s) RETURNING id;"""
-            
-            response = None
+        """ Create new account into the acount table """
+        sql = """INSERT INTO question (account_id, question, topic_id)
+                VALUES(%s, %s, %s) RETURNING id;"""
+        
+        response = None
 
-            with  connection as conn:
-                with  conn.cursor(cursor_factory=RealDictCursor) as cur:
-                    # execute the INSERT statement
-                    cur.execute(sql, (account_id, question, category_id, topic_id))
+        with  connection as conn:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
+                # execute the INSERT statement
+                cur.execute(sql, (account_id, question, topic_id))
 
-                    # get the generated id back                
-                    rows = cur.fetchone()
-                    if rows:
-                        response = rows
+                # get the generated id back                
+                rows = cur.fetchone()
+                if rows:
+                    response = rows
 
-                    # commit the changes to the database
-                    conn.commit()
+                # commit the changes to the database
+                conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)    
     finally:
@@ -59,7 +57,7 @@ def fetch_question(id):
     
 # fetch all users
 def fetch_questions():
-    query = """SELECT question.*, question.id AS question_id, category.*, account.*, account.id AS account_id, topics.id AS topic_id, topics.name as topic_name FROM question JOIN account on account_id = account.id JOIN category on category_id = category.id JOIN topics ON topic_id = topics.id ORDER BY question_time;"""
+    query = """SELECT question.*, question.id AS question_id, account.*, account.id AS account_id, topics.id AS topic_id, topics.name as topic_name FROM question JOIN account on account_id = account.id JOIN topics ON topic_id = topics.id ORDER BY question_time ASC;"""
     
     response = None
 

@@ -4,27 +4,22 @@ from flask import Flask
 from models.tables import create_tables
 from routes.countries import countries
 from routes.project import add_project_like, project, project_chat, projects
-from routes.questions import question, question_comments, questions
 from routes.quotes import quotes
 from routes.recommendation import all_recommendations, recommendation
-from routes.status import status
 from routes.topics import topics
 from routes.user import create_user_profile, user, login_user, verify_user, users
 from routes.title import title
 from routes.blog import blog, blogs, blogs_comment_create, blogs_comments
-from routes.feed import feed, feeds, feed_comment_create, feed_comment
-from routes.category import category
+from routes.post_router import post, posts, post_comment_create, post_comment, post_vote_create, post_response_create
 from routes.task import task, project_task
-from routes.suggestion import all_suggestion, get_suggestion_comments, get_suggestion_response, suggestion, suggestion_comment, suggestion_response
-from routes.github_api import list_my_repos, my_profile, list_profiles, list_all_users_repos, github_feeds, github_my_followers
+from routes.enums import blog_enum
 from flask_cors import CORS, cross_origin
 from flask_mail import Mail
 from icecream import ic
 
 app = Flask(__name__)
-cors = CORS(app)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app)
 
 app.config.update(dict(
     MAIL_SERVER = 'smtp.gmail.com',
@@ -103,85 +98,27 @@ def confirm_email():
 # ----------------
 
 # blog route
-@app.route('/api/v1/blog/<int:id>', methods=['GET', 'PUT', 'DELETE'])
-def blog_route(id):
-    
-    return blog(id)
+@app.route('/api/v1/blog', methods=['GET', 'PUT', 'DELETE'])
+def blog_route():
+    return blog()
 
 @app.route('/api/v1/blogs', methods=['GET', 'POST'])
 def all_blogs_route():
     return blogs()
 
+@app.route('/api/v1/blog-enums', methods=['GET', 'POST'])
+def blog_enums_route():
+    return blog_enum()
+
 # blog comments route
-@app.route('/api/v1/blogs-comment/<int:id>', methods=['GET', 'DELETE'])
-def all_blogs_comments_route(id):
-    
-    return blogs_comments(id)
+@app.route('/api/v1/blogs-comment', methods=['GET', 'DELETE'])
+def all_blogs_comments_route():
+    return blogs_comments()
 
 # blog comments route
 @app.route('/api/v1/blog-comment', methods=['GET', 'POST'])
 def blogs_comments_route():
     return blogs_comment_create()
-
-# ----------------
-# question route
-@app.route('/api/v1/question/<int:id>', methods=['GET', 'PUT', 'DELETE'])
-def question_route(id):
-    
-    return questions(id)
-
-@app.route('/api/v1/question', methods=['GET', 'POST'])
-def all_question_route():
-    return question()
-
-# question comments route
-@app.route('/api/v1/question-comment/<int:id>', methods=['GET', 'DELETE', 'POST'])
-def all_question_comments_route(id):
-    
-    return question_comments(id)
-# ----------------
-
-# category route
-@app.route('/api/v1/category', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def category_route():
-    return category()
-
-# suggestion route
-@app.route('/api/v1/suggestion/<int:id>', methods=['GET', 'PUT', 'DELETE'])
-def suggestions_route(id):
-    
-    return suggestion(id)
-
-@app.route('/api/v1/suggestion', methods=['GET', 'POST'])
-def suggestion_route():
-    return all_suggestion()
-
-# suggestion response route
-@app.route('/api/v1/suggestion-response/<int:id>', methods=['GET', 'PUT', 'DELETE'])
-def get_suggestion_response_route(id):
-    
-    return get_suggestion_response(id)
-
-@app.route('/api/v1/suggestion-response', methods=['GET', 'POST'])
-def suggestion_response_route():
-    return suggestion_response()
-
-# comment suggestion route
-@app.route('/api/v1/suggestion-comments/<int:id>', methods=['GET', 'PUT', 'DELETE'])
-def get_suggestion_comments_route(id):
-    
-    return get_suggestion_comments(id)
-
-@app.route('/api/v1/comment-suggestion', methods=['GET', 'POST'])
-def suggestion_comment_route():
-    return suggestion_comment()
-# ----------------
-
-# status route
-@app.route('/api/v1/status', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def status_route():
-    return status()
-# ----------------
 
 # recommendation route
 @app.route('/api/v1/recommendation', methods=['GET', 'POST', 'DELETE'])
@@ -218,54 +155,39 @@ def create_project_like(id):
 # ----------------
 # ----------------
 
-#feed route
-@app.route('/api/v1/posts/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+#post route
+@app.route('/api/v1/post/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def feed_route(id):
-    
-    return feed(id)
+    return post(id)
 
 @app.route('/api/v1/posts', methods=['GET', 'POST'])
 def all_feeds_route():
-    return feeds()
+    return posts()
 
-#feed comments route
+#post comments route
 @app.route('/api/v1/posts-comment/<int:id>', methods=['GET', 'DELETE'])
-def get_feed_comment(id):
-    
-    return feed_comment(id)
+def get_post_comment(id):
+    return post_comment(id)
 
-#feed comments route
+#post comments route
 @app.route('/api/v1/posts-comment', methods=['GET', 'POST'])
 def get_feeds_route():
-    return feed_comment_create()
+    return post_comment_create()
 
-# ----------------
+#post comments route
+@app.route('/api/v1/posts-response/<int:id>', methods=['GET', 'DELETE'])
+def get_post_response(id):
+    return post_comment(id)
 
-#github route
-@app.route('/api/v1/github/my-repos', methods=['GET'])
-def my_github_repos():
-    return list_my_repos()
+#post response route
+@app.route('/api/v1/posts-response', methods=['GET', 'POST'])
+def response_route():
+    return post_response_create()
 
-@app.route('/api/v1/github/my-profile', methods=['GET'])
-def my_github_profile():
-    return my_profile()
-
-@app.route('/api/v1/github/my-followers', methods=['GET'])
-def github_followers_route():
-    return github_my_followers()
-
-@app.route('/api/v1/github/github/repos', methods=['GET', 'DELETE'])
-def github_repos():
-    return list_all_users_repos()
-
-
-@app.route('/api/v1/github/profiles', methods=['GET', 'POST'])
-def github_profiles():
-    return list_all_users_repos()
-
-@app.route('/api/v1/github/feeds', methods=['GET'])
-def github_feeds_route():
-    return github_feeds()
+#post vote route
+@app.route('/api/v1/posts-vote/<int:id>', methods=['GET', 'POST'])
+def vote_route(id):
+    return post_vote_create(id)
 
 # ----------------
 

@@ -25,16 +25,16 @@ def add_users(users_id):
     finally:
         return response
 
-def create_project(user_ids, account_id, project_name, image, description, project_status, category_id, github, link, progress, priority, topic_ids):
+def create_project( account_id, project_name, image, description, github, link, topic_id):
     response = None
     try:
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 """ Create new project into  the acount table """
-                cur.execute("""INSERT INTO project (account_id, project_name, image, description, project_status, priority, github, link, progress, user_ids, topic_id)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                cur.execute("""INSERT INTO project (account_id, project_name, image, description, github, link, topic_id)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
                 
-                RETURNING id""",(account_id, project_name, image, description, project_status, priority, github, link, progress, user_ids, topic_ids))
+                RETURNING id""",(account_id, project_name, image, description, github, link, topic_id))
                 
                 rows = cur.fetchone()
                 if rows:
@@ -51,7 +51,7 @@ def create_project(user_ids, account_id, project_name, image, description, proje
 # fetch all users
 def fetch_projects():
     # query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id A FROM project JOIN account on account_id = account.id JOIN status O = status.id ORDER BY project_time;"""
-    query = """SELECT project.*, project.id as project_id, topics.name as tag_name, account.* FROM public.project JOIN topics on topic_id = topics.id JOIN account on account_id = account.id ORDER BY project.id ASC """
+    query = """SELECT project.*, project.id as project_id, topics.name as tag_name, account.* FROM project JOIN topics on topic_id = topics.id JOIN account on account_id = account.id ORDER BY project.id ASC """
     
     response = None
 
@@ -75,7 +75,7 @@ def fetch_projects():
 
 def fetch_project(id):
 
-    query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id A, status.status FROM project JOIN account on account_id = account.id JOIN status O = status.id WHERE project.id=%s"""
+    query = """SELECT project.*, project.id as project_id, account.*, account.id as account_id FROM project JOIN account on account_id = account.id WHERE project.id=%s"""
 
     response = None
 
@@ -88,17 +88,15 @@ def fetch_project(id):
                     response = rows
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
+        ic(error)
         response = error
     finally:
         return response
     
 
-def edit_project(user_ids, project_id, project_status, project_name, description, github, link, priority, topic_id, progress):
+def edit_project(user_id, project_id, project_status, project_name, description, github, link, priority, topic_id):
 
-    ic(user_ids)
-    
-
-    query = """UPDATE project SET user_ids = %s, project_status = %s, project_name = %s, description = %s, github = %s, link = %s, priority = %s, topic_id = %s, progress = %s WHERE id = %s RETURNING project.*;"""
+    query = """UPDATE project SET account_id = %s, project_status = %s, project_name = %s, description = %s, github = %s, link = %s, priority = %s, topic_id = %s WHERE id = %s RETURNING project.*;"""
     
     response = None
     
@@ -106,7 +104,7 @@ def edit_project(user_ids, project_id, project_status, project_name, description
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
 
-                cur.execute("""SELECT * FROM project WHERE id = %s and user_ids = %s;""", (project_id, user_ids))
+                cur.execute("""SELECT * FROM project WHERE id = %s and account_id = %s;""", (project_id, user_id))
                 
                 row =  cur.fetchone()
                 
@@ -123,14 +121,10 @@ def edit_project(user_ids, project_id, project_status, project_name, description
                         link = row['link']
                     if priority == None:
                         priority = row['priority']
-                    if user_ids == None:
-                        user_ids = row['user_ids']
-                    if progress == None:
-                        progress = row['progress']
                     if topic_id == None:
                         topic_id = row['topic_id']
                 
-                cur.execute(query, (user_ids, project_status, project_name, description, github, link, priority, topic_id, progress, project_id))            
+                cur.execute(query, (user_id, project_status, project_name, description, github, link, priority, topic_id, project_id))            
                 rows = cur.fetchone()
                 if rows:
                     response = rows

@@ -12,7 +12,6 @@ config = cloudinary.config(secure=True)
 
 def uploadImage(image):
   response = None
-  print(type(image))
   response = cloudinary.uploader.upload(image, unique_filename = False, overwrite=True,
         transformation=[{"width": 400, "height": 400, "crop": "auto", "gravity":"auto", "effect": "improve:50"}]
       )

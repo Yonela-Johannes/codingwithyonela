@@ -13,11 +13,12 @@ def login_user():
         try:
             email = request.args.get('email')
             password = request.args.get('password')
+            
             if email and password:
                 response = login(email=email, password=password)
-
+                ic(response)
                 if "message" in response:
-                    return response, 404
+                    return response, 403
                 if response:
                     res = {
                             "message": "Fetch successful",
@@ -30,7 +31,8 @@ def login_user():
             else:
                 res = {"message": "Error: missing email or password"}
                 return res, 400 
-        except:
+        except Exception as error:
+            ic(error)
             return {"message": "Fetch failed: something went wrong."}
                    
 def verify_user():
@@ -81,15 +83,18 @@ def user(id):
             
             response = fetch_user(id)
             
+            return {}, 200
+        
             is_admin: bool = False
             is_staff: bool = False
             username = None
+            firstname = None
             lastname = None
             user_title_id = None
             github_username = None
 
-            if 'user_title_id' in data:
-                user_title_id = data['user_title_id']
+            if 'title_id' in data:
+                user_title_id = data['title_id']
             else:
                 user_title_id = response['user_title_id']
             if 'is_admin' in data:      
@@ -106,6 +111,11 @@ def user(id):
                 username = data['username']
             else:
                 username = response['username']
+                
+            if 'firstname' in data:
+                firstname = data['firstname']
+            else:
+                firstname = response['firstname']
 
             if 'lastname' in data:
                 lastname = data['lastname']
@@ -118,11 +128,17 @@ def user(id):
                 github_username = response['github_username']
 
   
-        
-            response = edit_user(id=id, is_admin=is_admin, is_staff=is_staff, user_title_id=user_title_id, github_username=user_title_idn)
-            ic(response)
+            response = edit_user(id=id, 
+                                 is_admin=is_admin, 
+                                 is_staff=is_staff, 
+                                 user_title_id=user_title_id,
+                                 username=username,
+                                 firstname=firstname,
+                                 lastname=lastname,
+                                 github_username=github_username
+                                 )
             if response:
-                res = {"data": f"{response}",
+                res = {"data": response,
                     "message": "Update successful"
                     }
                 return res, 200
@@ -159,7 +175,6 @@ def create_user_profile(mail):
     REQUEST = request.method 
     if REQUEST == 'POST':
         try:
-            ic(request.form)
             email_validate_pattern = r"^\S+@\S+\.\S+$"
             email = request.form['email']
             password = request.form['password']

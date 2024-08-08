@@ -3,10 +3,10 @@ from utils.db import connection
 from psycopg2.extras import RealDictCursor
 from icecream import ic
 
-def create_task(project_id, account_id, task, topic_ids, progress, priority, description):
+def create_task(project_id, account_id, task, status, priority, description):
     """ Create new account_id into the acount table """
-    sql = """INSERT INTO tasks (project_id, account_id, task, topic_ids, progress, priority, description)
-             VALUES(%s, %s, %s, %s, %s, %s, %s) RETURNING *;"""
+    sql = """INSERT INTO tasks (project_id, account_id, task, status, priority, description)
+             VALUES(%s, %s, %s, %s, %s, %s) RETURNING *;"""
     
     response = None
 
@@ -14,7 +14,7 @@ def create_task(project_id, account_id, task, topic_ids, progress, priority, des
         with  connection as conn:
             with  conn.cursor() as cur:
                 # execute the INSERT statement
-                cur.execute(sql, (project_id, account_id, task, topic_ids, progress, priority, description))
+                cur.execute(sql, (project_id, account_id, task, status, priority, description))
             
                 rows = cur.fetchone()
                 if rows:
@@ -49,19 +49,19 @@ def fetch_projects():
 
 def fetch_task(project_id):
     
-    query = """SELECT * FROM tasks JOIN account on users_id = account.id JOIN topics on tags_id = topics.id JOIN project ON project_id = project.id WHERE project_id=%s"""
-
+    query = """SELECT * FROM tasks WHERE project_id=%s"""
     response = None
-
     try:
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute(query, (project_id,))            
                 rows = cur.fetchall()
+                ic(rows)
                 if rows:
                     response = rows
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
+        ic(error)
         response = error
     finally:
         return response

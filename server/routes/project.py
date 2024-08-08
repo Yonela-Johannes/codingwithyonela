@@ -11,7 +11,6 @@ def project(id):
     if REQUEST == 'GET':
         # Fetch project
         try:
-            print("WE ARE HERE, AND ONE")
             response = fetch_project(id)
             res = {"data": response}
             return res, 200
@@ -25,7 +24,7 @@ def project(id):
             data = request.get_json()
             account_id = data['user_id']
             project_id = data['project_id']
-            
+            ic(data)
             project_name = None
             description = None
             github = None
@@ -49,16 +48,11 @@ def project(id):
                 link = data['link']
             if 'priority' in data:
                 priority = data['priority']
-            if 'user_ids' in data:
-                user_ids = data['user_ids']
-            if 'progress' in data:
-                progress = data['progress']
             if 'topic_id' in data:
                 topic_id = data['topic_id']
-            if 'progress' in data:
-                progress = data['progress']
+
             
-            response = edit_project(user_ids=account_id, 
+            response = edit_project(user_id=account_id, 
                                     project_id=project_id, 
                                     project_status=status, 
                                     project_name=project_name, 
@@ -67,7 +61,6 @@ def project(id):
                                     link=link, 
                                     priority=priority, 
                                     topic_id=topic_id,
-                                    progress=progress
                                     )
             
             if response:
@@ -117,38 +110,29 @@ def projects():
     # Create title
     elif REQUEST == 'POST':
         try:
-            auth = valid_token()
-            ic(auth)
+            # auth = valid_token()
+            # ic(auth)
             image = request.files['image']
             account_id = request.form['account_id']
             project_name = request.form['project_name']
             description = request.form['description']
-            user_ids = request.form['user_ids']
             github = request.form['github']
-            link = request.form['link']
-            progress = request.form['progress']           
-            priority = request.form['priority']      
-            topic_ids = request.form['topic_ids']      
-            category_id = request.form['category_id']
-            project_status = request.form['project_status']  
+            link = request.form['link']               
+            topic_id = request.form['topic_id']      
             
             res = uploadImage(image=image)
             
             if 'url' in res:
                 if account_id and project_name and description and github and link:
-                    response = create_project(user_ids=user_ids, 
-                                            account_id=account_id, 
-                                            image=res['url'], 
-                                            project_name=project_name, 
-                                            description=description,
-                                            project_status=project_status,
-                                            category_id=category_id, 
-                                            github=github, 
-                                            link=link, 
-                                            progress=progress, 
-                                            priority=priority,
-                                            topic_ids=topic_ids
-                                            )
+                    response = create_project(
+                        account_id=account_id, 
+                        image=res['url'], 
+                        project_name=project_name, 
+                        description=description,
+                        github=github, 
+                        link=link, 
+                        topic_id=topic_id
+                        )
                     if response:
                             res = {"data": "Project created successfull"}
                             return res, 201

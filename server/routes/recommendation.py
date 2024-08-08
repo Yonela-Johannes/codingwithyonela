@@ -2,6 +2,8 @@ import json
 from flask import request
 from sqlalchemy import JSON
 from controllers.recommendation import create_recommendation, delete_recommendation, edit_recommendation, fetch_recommendation, fetch_recommendations
+from icecream import ic
+from routes.image_upload import uploadImage
 
 def recommendation(id):
     REQUEST = request.method 
@@ -59,8 +61,6 @@ def recommendation(id):
             res = {"message": "Missing data"}
         return res, 400
 
-
-
 def all_recommendations():
     REQUEST = request.method 
     if REQUEST == 'GET':
@@ -76,34 +76,43 @@ def all_recommendations():
             else:
                 res = {data: []}
                 return res, 400
-        except err:
+        except  json.decoder.JSONDecodeError as err:
             print(err)
             return {"message": "Fetch failed: something went wrong."}
         
     # Create recommendation
     elif REQUEST == 'POST':
         try:
+            data = request.form
+            files = request.files
+            ic(data)
+            ic(files)
 
-            data = request.get_json()
-
-            if "account_id" in data and "name" in data and "lastname" in data and "re_image" in data and "github" in data and "linkedin" in data and "email" in data and "portfolio" in data and "quote" in data and "status_id" in data and "title_id" in data and "country_id" in data:
+            if "account_id" in data and "name" in data and "lastname" in data and "re_image" in files and "github" in data and "linkedin" in data and "email" in data and "portfolio" in data and "quote" in data and "title_id" in data and "country_id" in data:
                 account_id = data['account_id']
                 name = data['name']
-                second_name = data['second_name']
+                second_name = ''
+                if 'second_name' in data:
+                    second_name = data['second_name']
                 lastname = data['lastname']
-                re_image = data['re_image']
+                get_image = files['re_image']
+                res = uploadImage(image=get_image)
+                re_image = ''
+                if res:
+                    re_image = res['url']
+                else:
+                    return {'message': 'Error image upload'}, 4000
                 github = data['github']
                 linkedin = data['linkedin']
                 email = data['email']
                 portfolio = data['portfolio']
                 quote = data['quote']
-                status_id = data['status_id']
                 title_id = data['title_id']
                 country_id = data['country_id']
-                token = data['token']
+ 
             
                 if account_id and name:
-                    response = create_recommendation(account_id=account_id, name=name, second_name=second_name, lastname=lastname, re_image=re_image, github=github, linkedin=linkedin, email=email, portfolio=portfolio, quote=quote, status_id=status_id, country_id=country_id, title_id=title_id, token=token)
+                    response = create_recommendation(account_id=account_id, name=name, second_name=second_name, lastname=lastname, re_image=re_image, github=github, linkedin=linkedin, email=email, portfolio=portfolio, quote=quote, country_id=country_id, title_id=title_id)
                     if response:
                             res = {"message": "Profile created successful"}
                             return res, 201
@@ -115,7 +124,6 @@ def all_recommendations():
                 return res, 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-            print(res)
         return res, 200
     
     elif REQUEST == 'DELETE':

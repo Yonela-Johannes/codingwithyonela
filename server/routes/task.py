@@ -10,8 +10,6 @@ def project_task(project_id):
     if REQUEST == 'GET':
         # Fetch project
         try:
-            ic()
-            ic(project_id)
             response = fetch_task(project_id=project_id)
             if response:
                 res = jsonify({"data": response})
@@ -31,23 +29,19 @@ def project_task(project_id):
             data = request.get_json()
             account_id = data['account_id']
             text = data['text']
-            user_ids = data['user_ids']
-            skill_id = data['skill_id']
             progress = data['progress']          
-            priority = data['priority']      
-            topic_ids = data['topic_ids']      
+            priority = data['priority']          
+            status = data['status']          
             description = data['description']  
     
-            response = create_task(user_ids=user_ids, 
-                                        project_id=project_id,
-                                        account_id=account_id,
-                                        task=text, 
-                                        topic_ids=topic_ids,
-                                        skill_id=skill_id, 
-                                        progress=progress, 
-                                        priority=priority,
-                                        description=description
-                                        )
+            response = create_task(
+                project_id=project_id,
+                account_id=account_id,
+                task=text, 
+                priority=priority,
+                status=status,
+                description=description
+                )
             ic(response)
             if response:
                     res = {"data": "Project task created successfull"}

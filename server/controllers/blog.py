@@ -2,40 +2,38 @@ from psycopg2.extras import RealDictCursor
 import psycopg2
 from utils.db import connection
 from controllers.account import get_current_user
+from icecream import ic
 
-def create_blog(account, post, category_id, blog_image, blog_title, slug, token):
-    
+def create_blog(account, post, blog_image, blog_title, slug, category):
+
     try:
-        user = get_current_user(token=token)
-        if "id" in user:
-            """ Create new account into the acount table """
-            sql = """INSERT INTO blog (account, post, category_id, blog_image, blog_title, slug)
-                    VALUES(%s, %s, %s, %s, %s, %s) RETURNING id;"""
-            
-            response = None
-            with  connection as conn:
-                with  conn.cursor(cursor_factory=RealDictCursor) as cur:
-                    # execute the INSERT statement
-                    cur.execute(sql, (account, post, category_id, blog_image, blog_title, slug))
+        """ Create new account into the acount table """
+        sql = """INSERT INTO blog (account, post, blog_image, blog_title, slug, category)
+                VALUES(%s, %s, %s, %s, %s, %s) RETURNING id;"""
+        
+        response = None
+        with  connection as conn:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
+                # execute the INSERT statement
+                cur.execute(sql, (account, post, blog_image, blog_title, slug, category))
 
-                    # get the generated id back                
-                    rows = cur.fetchone()
-                    if rows:
-                        response = rows
+                # get the generated id back                
+                rows = cur.fetchone()
+ 
+                if rows:
+                    response = rows
 
-                    # commit the changes to the database
-                    conn.commit()
+                # commit the changes to the database
+                conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
+        ic(error)
         print(error)    
     finally:
         return response
     
-import psycopg2
-from utils.db import connection
-
 # fetch user
-def fetch_blog(id):
-    query = """SELECT * FROM blog WHERE id=%s"""
+def fetch_blog(slug):
+    query = """SELECT blog.*, blog.id AS blog_id, account.*, account.id AS account_id, user_title.user_title AS title FROM blog JOIN account on account = account.id JOIN user_title on user_title_id = user_title.id WHERE slug=%s ORDER BY blog.blog_time"""
     
     response = None
 
@@ -43,7 +41,7 @@ def fetch_blog(id):
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the UPDATE statement
-                cur.execute(query, (id,))
+                cur.execute(query, (slug,))
 
                 # get the generated id back                
                 rows = cur.fetchone()
@@ -59,7 +57,7 @@ def fetch_blog(id):
     
 # fetch all users
 def fetch_blogs():
-    query = """SELECT blog.*, blog.id AS blog_id, category.*, account.*, account.id AS account_id, user_title.user_title AS title FROM blog JOIN account on account = account.id JOIN category on category_id = category.id JOIN user_title on user_title_id = user_title.id ORDER BY blog_time;"""
+    query = """SELECT blog.*, blog.id AS blog_id, account.*, account.id AS account_id, user_title.user_title AS title FROM blog JOIN account on account = account.id JOIN user_title on user_title_id = user_title.id ORDER BY blog_time;"""
     
     response = None
 
@@ -131,8 +129,6 @@ def delete_blog(id):
     
 # fetch all users
 def fetch_blog_comments(id):
-    print("ID: INSIDE")
-    print("ID: ", id)
     query = """SELECT blog_comment.*, blog_comment.id AS blog_comment_id, account.*, account.id AS account_id FROM blog_comment JOIN account on account_id = account.id WHERE blog_id = %s;"""
     response = None
 
@@ -149,6 +145,7 @@ def fetch_blog_comments(id):
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
+        ic(error)
         response = error
     finally:
         return response

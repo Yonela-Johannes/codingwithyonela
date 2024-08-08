@@ -153,20 +153,22 @@ def login(email, password):
                 user_password = db_user["password"]
                 user_email = db_user["email"]
                 user_id = db_user["id"]
-                verify_r = verify_password(plain_password=password, hashed_password=user_password)  
-                if verify_r:
-                    ic(user_id)
-                    user = fetch_user(id=user_id)
-                    if user:
-                        token =  create_access_token(data=user["email"], expires_delta=ACCESS_TOKEN_EXPIRE)
-                        result = {
-                            "user": user,
-                            "token": token
-                        }
-                        
-                        return result
-                    else:
-                        return {"message": "Error: user not found"}
+                
+                verify_r = verify_password(plain_password=password, hashed_password=user_password)
+                if verify_r == False:
+                    return {"message": "Invalid user details provided"}
+                
+                user = fetch_user(id=user_id)
+                if user:
+                    token =  create_access_token(data=user["email"], expires_delta=ACCESS_TOKEN_EXPIRE)
+                    result = {
+                        "user": user,
+                        "token": token
+                    }
+                    
+                    return result
+                    # else:
+                    #     return {"message": "Error: user not found"}
                 else:
                     return {"message": "Error: invalid data provided"}
             else:
@@ -203,10 +205,8 @@ def create_user(email, username, lastname, password, profile, profile_id, user_t
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        ic(error)
         response = {"message": "dup email error"}
     finally:
-        ic(response)
         return response
 # fetch all users
 def fetch_users():
@@ -222,7 +222,6 @@ def fetch_users():
 
                 # get the generated all data back                
                 rows = cur.fetchall()
-                ic(rows)
                 if rows:
                     response = rows
                 # commit the changes to the database
@@ -233,22 +232,35 @@ def fetch_users():
         return response
 
 # update user
-def edit_user(id, is_admin, is_staff, user_title_id, username, lastname, github_username):
+def edit_user(id, is_admin, is_staff, user_title_id, username, firstname, lastname, github_username):
     try:
-        query = """UPDATE account SET (is_admin=%s,is_staff=%s,user_title_id=%s,username=%s,lastname=%s,github_username=%s) WHERE id=%s RETURNING *;"""
+        query = """UPDATE account SET is_admin = %s
+        , is_staff = %s, 
+        user_title_id = %s, 
+        username = %s, 
+        firstname = %s, 
+        lastname = %s, 
+        github_username = %s 
+        WHERE id = %s 
+        RETURNING *;"""
+        
+        query_all = """SELECT account.*, account.id AS account_id, user_title.* FROM account JOIN user_title on user_title_id = user_title.id WHERE account.id=%s"""
         
         response = None
         with  connection as conn:
-            with  conn.cursor() as cur:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the UPDATE statement
-                cur.execute(query, (is_admin, is_staff, user_title_id, username, lastname, github_username, id))
+                cur.execute(query, (is_admin, is_staff, user_title_id, username, firstname, lastname, github_username, id))
 
                 # get the generated id back                
                 rows = cur.fetchone()
-                ic(rows)
-                if rows:
-                    response = rows[0]
-
+                
+                if rows and 'id' in rows:
+                    cur.execute(query_all, (rows['id'], ))
+                    user = cur.fetchone()
+                    response = user
+                else:
+                    response = None
                 # commit the changes to the database
                 conn.commit()
 

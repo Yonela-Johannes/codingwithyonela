@@ -4,24 +4,24 @@ from sqlalchemy import JSON
 from controllers.blog import ( create_blog, create_blog_comment, fetch_blog, edit_blog, delete_blog, fetch_blog_comments, fetch_blogs )
 from slugify import slugify
 from icecream import ic
+from routes.image_upload import uploadImage
 
-def blog(id):
+def blog():
     REQUEST = request.method 
     if REQUEST == 'GET':
+        slug = request.args.get('slug')
         # Fetch one
         try:
-            if id:
-                response = fetch_blog(id)
-                if response:
-                    res = {
-                            "message": "Fetch successful",
-                            "data": response
-                            }
-                    return res, 200
-                else:
-                    res = {"message": "Fetch failed: something went wrong."}
-                    return res, 400
-            
+            response = fetch_blog(slug=slug)
+            if response:
+                res = {
+                        "message": "Fetch successful",
+                        "data": response
+                        }
+                return res, 200
+            else:
+                res = {"message": "Fetch failed: something went wrong."}
+                return res, 400
         except:
             return {"message": "Fetch failed: something went wrong."}
             
@@ -34,14 +34,12 @@ def blog(id):
             category_id = data['category_id']
             blog_image = data['blog_image']
             
-            if id:
-                response = edit_blog(id, post, category_id, blog_image)
-                if response:
-                        res = {"data": f"{response}",
-                            "message": "Update successful"
-                            }
-                        return res, 200
-            res = {"message": "Title or is ID invalid"}
+            response = edit_blog(id, post, category_id, blog_image)
+            if response:
+                    res = {"data": f"{response}",
+                        "message": "Update successful"
+                        }
+                    return res, 200
             return res, 400
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
@@ -52,47 +50,58 @@ def blog(id):
         try:
             data = request.get_json()
             id = data['id']
-            if id:
-                response = delete_blog(id)
-                if response == id:
-                    res = {"message": "Delete failed: something went wrong."}
-                    return res, 400
-                else:
-                    res = {
-                            "message": "Delete successful"
-                            }
-                    return res, 200
-            res = {"message": "Title or is ID invalid"}
+            response = delete_blog(id)
+            if response == id:
+                res = {"message": "Delete failed: something went wrong."}
+                return res, 400
+            else:
+                res = {
+                        "message": "Delete successful"
+                        }
+                return res, 200
             return res, 400 
         except json.decoder.JSONDecodeError:
            res = {"message": "Missing data"}
         return res, 400
-    
-    
+      
 def blogs():
     REQUEST = request.method
     if REQUEST == 'POST':
         try:
-            data = request.get_json()
+            files = request.files
+            data = request.form
+            ic(data)
             account = data['account']
             post = data['post']
-            category_id = data['category_id']
-            blog_image = data['blog_image']
-            blog_title = data['blog_title']
-            token = data['token']
+            category = data['category']
+            image = files['image']
+            blog_title = data['title']
             slug = slugify(blog_title)
             
-            if account and post and category_id:
-                response = create_blog(account=account, post=post, category_id=category_id, blog_image=blog_image,blog_title= blog_title, slug=slug, token=token)
-                if response:
-                        res = {"message": "Blog created successful"}
-                        return res, 201
-                else:
-                    res = {"message": "Blog already exist"}
-                    return res, 400 
-                
-            res = {"message": "Title invalid: (you must enter title)"}
-            return res, 400 
+            res = uploadImage(image=image)
+
+            blog_image = ''
+            if 'url' in res:
+                blog_image = res['url']
+            else:
+                return {'message': 'Error image upload'}, 4000
+
+            response = create_blog(
+                account=account, 
+                post=post, 
+                blog_image=blog_image, 
+                blog_title=blog_title,
+                slug=slug,
+                category=category
+                )
+            ic(response)
+            if response:
+                    res = {"message": "Blog created successful"}
+                    return res, 201
+            else:
+                res = {"message": "Blog already exist"}
+                return res, 400 
+
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
         return res, 400 
@@ -105,18 +114,19 @@ def blogs():
             return {"message": "Fetch failed: something went wrong."}
         
         
-def blogs_comments(id):
+def blogs_comments():
     REQUEST = request.method
     if REQUEST == 'GET':
         try:
-            if id:
-                response = fetch_blog_comments(id)
-                print("RESPONSE: ", response)
-                res = {"data": response}
+            id = request.args.get('id')
+            response = fetch_blog_comments(id)
+            if response == None or len(response) < 1:
+                res = {"data": []}
                 return res, 200
             else:
-                res = {"data": "Missing data"}
-            return res, 200
+                res = {"data": response}
+                return res, 200
+
         except:
             return {"message": "Fetch failed: something went wrong."}, 400
         
@@ -128,11 +138,10 @@ def blogs_comment_create():
             account_id = data['account_id']
             comment = data['comment']
             blog_id = data['blog_id']
-
             if account_id and comment and blog_id:
                 response = create_blog_comment(account_id, comment,blog_id)
                 if len(response) > 0:
-                        res = {"data": f"{response}",
+                        res = {"data": response,
                                "message": "Commented successful"}
                         return res, 201
                 else:
@@ -144,3 +153,50 @@ def blogs_comment_create():
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
         return res, 400 
+    
+def blog_enum():
+    REQUEST = request.method
+    if REQUEST == 'POST':
+        try:
+            files = request.files
+            data = request.form
+
+            account = data['account']
+            post = data['post']
+            image = files['image']
+            blog_title = data['title']
+            slug = slugify(blog_title)
+            
+            res = uploadImage(image=image)
+
+            blog_image = ''
+            if 'url' in res:
+                blog_image = res['url']
+            else:
+                return {'message': 'Error image upload'}, 4000
+
+            response = create_blog(
+                account=account, 
+                post=post, 
+                blog_image=blog_image, 
+                blog_title=blog_title, 
+                slug=slug)
+            ic(response)
+            if response:
+                    res = {"message": "Blog created successful"}
+                    return res, 201
+            else:
+                res = {"message": "Blog already exist"}
+                return res, 400 
+
+        except json.decoder.JSONDecodeError:
+            res = {"message": "Missing data"}
+        return res, 400 
+    elif REQUEST == 'GET':
+        try:
+            response = fetch()
+            res = {"data": response}
+            return res, 200
+        except:
+            return {"message": "Fetch failed: something went wrong."}
+       
