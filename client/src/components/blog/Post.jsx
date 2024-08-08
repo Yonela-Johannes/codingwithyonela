@@ -1,16 +1,19 @@
 import { Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useContext } from 'react';
 import { cn, formatDate } from "../../lib/utils";
 import HoverUnderLine from "../HoverUnderLine";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const Post = ({ slug, title, post, date }) =>
 {
+  const { theme } = useContext(ThemeContext)
   return (
-    <article className={`${theme == "light" ? "text-bg_opp  border-bg_light border" : "text-slate-400 border-none"} flex flex-col gap-2 py-3`}>
+    <article className={`${theme == "light" ? "text-bg_primary  border-bg_light border-b" : "text-slate-400 border-none"} flex flex-col gap-2 py-3`}>
       <div>
         <HoverUnderLine>
-          <h2 className="text-base md:text-2xl font-bold">
-            <Link to={`/blogs/${slug}`}>{title}</Link>
+          <h2 className={`${theme == 'light' ? "text-clr_alt" : "text-cl_primary"} text-base lg:text-xl my-2`}>
+            <Link to={`/blog/${slug}`}>{title}</Link>
           </h2>
         </HoverUnderLine>
       </div>
@@ -23,7 +26,7 @@ const Post = ({ slug, title, post, date }) =>
             <time dateTime={date}>{formatDate(date)}</time>
           </dd>
         </dl>
-        <Link to={`/blogs/${slug}`} className={cn("py-0")}>
+        <Link to={`/blog/${slug}`} className={cn("py-0")}>
           <HoverUnderLine>Read more →</HoverUnderLine>
         </Link>
       </div>

@@ -4,35 +4,34 @@ import { useDispatch, useSelector } from "react-redux";
 import { createProjectMessage, getProjectMessages } from "../features/project/projectSlice";
 import toast from "react-hot-toast";
 
-const MessageInput = ({ setActive }) => {
+const MessageInput = ({ setActive }) =>
+{
   const [message, setMessage] = useState("");
-  const { project, success } = useSelector((state) => state.project);
-  const { user } = useSelector((state) => state.user);
+  const { project } = useSelector((state) => state.project);
+  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const messageHandler = () => {
-    if ((message, project && project?.project_id)) {
+  const messageHandler = (e) =>
+  {
+    e.preventDefault()
+    if ((message, project && project?.project_id))
+    {
       const data = {
-        account_id: user?.id,
+        account_id: currentUser?.id,
         message,
         project_id: project?.project_id,
       };
       dispatch(createProjectMessage(data));
-    } else {
+    } else
+    {
       toast("Missing data");
     }
+    setMessage('')
+    setActive(false)
   };
 
-  useEffect(() => {
-    if(success){
-      dispatch(getProjectMessages(project?.project_id))
-      setMessage("")
-    }
-  }, [success])
-
-
   return (
-    <div className="w-full md:my-4 z-10">
+    <form onSubmit={messageHandler} className="w-full md:my-4 z-10">
       <div className="flex bg-white border w-full rounded-md border-bg_light">
         <input
           className="w-full"
@@ -41,7 +40,7 @@ const MessageInput = ({ setActive }) => {
           onChange={(e) => setMessage(e.target.value)}
         />
         {message ? (
-          <button onClick={messageHandler} className="border-none">
+          <button type="submit" className="flex items-center rounded-r-md h-11 w-10 cursor-pointer text-white  bg-clr_alt justify-center">
             <RiSendPlaneFill />
           </button>
         ) : (
@@ -53,7 +52,7 @@ const MessageInput = ({ setActive }) => {
           </div>
         )}
       </div>
-    </div>
+    </form>
   );
 };
 

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import logo from '../assets/logo.png'
 import { useDispatch, useSelector } from "react-redux";
 import { verifyRegistration } from "../features/user/authSlice";
-import Loader from "../components/Loader/Loader";
+import Loader from "../shared/Loader";
 import toast from "react-hot-toast";
 
 const Verify = () =>

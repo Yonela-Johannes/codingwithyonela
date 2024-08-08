@@ -1,31 +1,35 @@
 import { RiSendPlaneFill } from "react-icons/ri";
+import { ThemeContext } from "../context/ThemeContext";
+import { useContext } from "react";
 
 const GlobalComment = ({
   handler,
   comment,
   setComment,
   placeholder,
-}) => {
+}) =>
+{
+  const { theme } = useContext(ThemeContext)
   return (
-      <div className="flex bg-red-300 border rounded-md border-bg_light w-full">
-        <textarea
-          rows="2"
-          placeholder={placeholder}
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          className="w-full"
-        />
-        {comment ? (
-          <button
-            onClick={() => handler(comment)}
-            className="flex items-center p-0 rounded-r-md h-11 w-16 text-lg cursor-pointer text-white  bg-clr_alt justify-center"
-          >
-            <RiSendPlaneFill color="white" />
-          </button>
-        ) : (
-          ""
-        )}
-      </div>
+    <div className="flex w-full">
+      <textarea
+        rows="2"
+        placeholder={placeholder}
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        className={`w-full px-3 py-2 mt-1 rounded-none border ${theme == "light" ? "text-black bg-bg_lightest" : "bg-bg_grey text-white"}`}
+      />
+      {comment ? (
+        <button
+          onClick={() => handler(comment)}
+          className={`flex items-center justify-center rounded-md h-full w-max p-2 text-center border-none font-bold text-white m-auto ml-2 ${theme == "light" ? "bg-clr_alt" : "bg-clr_alt"}`}
+        >
+          <RiSendPlaneFill color="white" />
+        </button>
+      ) : (
+        ""
+      )}
+    </div>
   );
 };
 

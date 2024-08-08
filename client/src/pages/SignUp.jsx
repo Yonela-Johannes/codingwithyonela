@@ -1,12 +1,8 @@
-import HoverUnderLine from "../components/HoverUnderLine";
-import { GoogleLogin } from "@react-oauth/google";
-import { siteUrl, callback } from "../constants/base_urls";
-import { Alert, Label, Spinner, TextInput } from 'flowbite-react';
+import { Alert, Spinner } from 'flowbite-react';
 import { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
-import logo from '../assets/logo.png'
-import { disableAuthModals, login, register } from "../features/user/authSlice";
+import { disableAuthModals, register } from "../features/user/authSlice";
 import { useEffect } from "react";
 import { toast } from 'react-hot-toast'
 import { MdClose } from "react-icons/md";
@@ -27,11 +23,6 @@ export default function SignUp()
 
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext)
-
-  const handleLoginSuccess = async (credentials) =>
-  {
-    dispatch(register(credentials.credentials));
-  };
 
   const handleChange = (e) =>
   {
@@ -62,39 +53,16 @@ export default function SignUp()
     }
   }, [message, signup_success])
 
+  useEffect(() =>
+  {
+    if (message)
+    {
+      toast(message)
+    }
+  }, [message, signup_success])
+
   return (
     <div className={`${theme == 'light' ? '' : 'border-none'} flex flex-col lg:flex-row items-center justify-center lg:items-center lg:absolute min-h-screen lg:h-sceen w-full lg:z-50 backdrop-blur-xl overflow-hidden top-0 left-0 right-0 bottom-0`}>
-      {/* <div className="flex items-start space-y-4 h-full">
-        <div className="flex flex-col gap-4 rounded-sm shrink-0 items-start justify-center fill-fill backdrop-opacity-[17px]">
-          <h1 className="text-center text-base lg:text-2xl lg:font-bold tracking-tight mb-8">
-            Continue with CodingWithYonela
-          </h1>
-          <div className="flex flex-col shrink-0 bg-table_bg items-start w-[250px] rounded-[12px] duration-300 cursor-pointer">
-            <HoverUnderLine>
-              <GoogleLogin
-                onSuccess={handleLoginSuccess}
-                onError={() =>
-                {
-                  console.log("Login Failed");
-                }}
-                login_uri={siteUrl}
-                redirect_uri={callback}
-                cancel_on_tap_outside
-                useOneTap
-                size="large"
-                theme="filled_black"
-                text="continue_with"
-                shape="pill"
-                width="100%"
-              />
-            </HoverUnderLine>
-          </div>
-          <p className="my-5 text-[#646464] text-sm">
-            By clicking “Continue your account with Google”, you agree <br /> to
-            the CodingWithYonela <b>TOS</b> and <b>Privacy Policy</b>.
-          </p>
-        </div>
-      </div> */}
       <div className={`${theme == "light" ? "bg-white" : "bg-bg_card border-none"} w-full lg:relative flex py-8 lg:px-16 mx-auto flex-col md:flex-row md:items-center gap-5 lg:border lg:rounded-lg lg:w-[700px]`}>
         <div className={`${theme == "light" ? "bg-white" : "bg-slate-800 text-white"} rounded-full hidden lg:block lg:absolute top-2 lg:right-2 text-xl lg:text-2xl cursor-pointer`} onClick={() => dispatch(disableAuthModals())}>
           <MdClose />
@@ -173,6 +141,10 @@ export default function SignUp()
                 onChange={handleChange}
               />
             </div>
+            <p className="my-1 lg:my-2 text-[#646464] text-sm">
+              By clicking “Sign up with CodingWithYonela”, you agree <br /> to
+              the CodingWithYonela <b>TOS</b> and <b>Privacy Policy</b>.
+            </p>
             <button
               className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold text-white ${theme == "light" ? "bg-clr_alt" : "bg-clr_alt"}`}
               type='submit'

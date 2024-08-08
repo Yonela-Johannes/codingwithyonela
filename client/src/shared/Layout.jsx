@@ -8,10 +8,10 @@ import { Toaster } from "react-hot-toast";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import SignUp from "../pages/SignUp";
-
+import Signin from "../pages/Signin";
 const Layout = ({ children }) =>
 {
-  const { currentUser, active_signup_modal } = useSelector((state) => state.user)
+  const { currentUser, active_signup_modal, active_signin_modal } = useSelector((state) => state.user)
   const { theme } = useContext(ThemeContext)
 
   return (
@@ -39,7 +39,7 @@ const Layout = ({ children }) =>
         }}
       />
       <div className={`${theme == "light" ? "bg-white" : "bg-slate-800"} mx-auto overflow-x-hidden h-full flex-1 w-screen flex flex-col left-0 right-0`}>
-        <div className={`${theme == "light" ? "bg-white border-bg_light" : "bg-slate-800 border-gray-900"} border-y-[1px] fixed top-0 left-0 right-0 z-50 overflow-x-hidden`}>
+        <div className={`${theme == "light" ? "bg-white border-bg_light" : "bg-slate-800 border-gray-900"} border-y-[1px] fixed top-0 left-0 right-0 z-50 overflow-hidden`}>
           <Wrapper>
             <Navbar currentUser={currentUser} />
             <Header />
@@ -47,17 +47,16 @@ const Layout = ({ children }) =>
           </Wrapper>
         </div>
         <div
-          className={`${theme == "light" ? "border-bg_light" : "border-gray-900"} border-b-[1px] h-[calc(100vh-320px)] pt-[160px] lg:pt-[300px] overflow-x-hidden flex-1 flex-grow  w-full md:flex flex-col`}
+          className={`${theme == "light" ? "border-bg_light" : "border-gray-900"} border-b-[1px] h-[calc(100vh-160px)] pt-[150px] lg:pt-[270px] overflow-hidden flex-1 flex-grow w-[80%] mx-auto md:flex flex-col`}
         >
-          <div className={`md:pb-4 flex-1 flex-grow w-[80%] mx-auto overflow-hidden h-full`}>
-            {children}
-          </div>
+          {children}
         </div>
         <Wrapper>
           <Footer />
         </Wrapper>
       </div>
-      <div className="hidden lg:block ">{active_signup_modal ? (<SignUp />) : ""}</div>
+      <div className="hidden lg:block">{active_signup_modal ? (<SignUp />) : ""}</div>
+      <div className="hidden lg:block">{active_signin_modal ? (<Signin />) : ""}</div>
     </div>
   );
 };

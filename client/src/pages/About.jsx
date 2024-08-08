@@ -1,12 +1,15 @@
-// import AboutMe from "../context/AboutMe";
+import { useContext } from "react";
+import AboutMe from "../components/AboutMe";
+import { ThemeContext } from "../context/ThemeContext";
 
 const About = () =>
 {
+  const { theme } = useContext(ThemeContext)
   return (
-    <div className="h-full space-y-8">
+    <div className={`${theme == "light" ? "text-cl_alt" : "text-bg_light"} h-full space-y-8`}>
       <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
         <div className="flex-1 space-x-4">
-          <h1 className="inline-block font-black text-xl lg:text-3xl">
+          <h1 className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} inline-block text-xl lg:text-2xl`}>
             About Me
           </h1>
         </div>
@@ -28,10 +31,11 @@ const About = () =>
         <br /> Thank you for visiting, friend.
         <br /> Let's make great things happen together.
         <br /> <br />
-        <strong>Yours in ambition,</strong> <br />
+        <strong className={`${theme == "light" ? "text-bg_lighter" : "text-bg_lighter"}`}>Yours in ambition,</strong> <br />
         Yonela Johannes
       </p>
-      {/* <AboutMe /> */}
+      <hr className="m4-8" />
+      <AboutMe theme={theme} />
     </div>
   );
 };

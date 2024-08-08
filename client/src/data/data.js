@@ -17,26 +17,6 @@ export const navLinks = [
         link: "/project-status",
     },
     {
-        title: "Project Descussion",
-        icon: GrStatusUnknownSmall,
-        link: "/project-descussion",
-    },
-    {
-        title: "Version Control",
-        icon: GrStatusUnknownSmall,
-        link: "/version-control",
-    },
-    {
-        title: "Suggestion",
-        icon: FaLayerGroup,
-        link: "/suggestions",
-    },
-    {
-        title: "Question",
-        icon: BsQuestionDiamondFill,
-        link: "/questions",
-    },
-    {
         title: "Blog",
         icon: ImBlogger,
         link: "/blog",
@@ -47,8 +27,8 @@ export const navLinks = [
         link: "/recommendation",
     },
     {
-        title: "Feed",
-        icon: GrStatusUnknownSmall,
-        link: "/posts",
+        title: "Chill",
+        icon: BsQuestionDiamondFill,
+        link: "/chill",
     },
 ]

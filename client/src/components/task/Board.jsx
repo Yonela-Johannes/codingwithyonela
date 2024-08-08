@@ -14,7 +14,6 @@ const Board = ({ project, data }) =>
 {
     const { theme } = useContext(ThemeContext)
     const [grouped, setGrouped] = useState()
-
     const groupData = (filter) =>
     {
         let result;
@@ -43,12 +42,11 @@ const Board = ({ project, data }) =>
         groupData(filter)
     }
 
-
     return (
-        <main className={`${theme == "light" ? "text-bg_opp" : "text-white"} w-full h-full grid lg:grid-rows-[150px auto] gap-8`}>
+        <main className={`${theme == "light" ? "text-bg_primary" : "text-white"} w-full h-full grid lg:grid-rows-[150px auto] gap-8`}>
             <TaskForm project={project} filterGrouped={filterGrouped} />
 
-            <div className={`${theme == "light" ? "bg-slate-100 text-white" : "bg-bg_card text-slate-400"} flex flex-col lg:flex-row gap-4 lg:gap-0 lg:flex justify-evenly py-2 lg:py-5 rounded-md`}>
+            <div className={`${theme == "light" ? "bg-slate-100 text-white" : "bg-bg_card text-slate-400"} flex flex-col lg:flex-row gap-4 lg:gap-0 lg:flex justify-evenly py-2 lg:py-5 rounded-md min-h-[600px]`}>
                 {/* task column */}
                 <section className="w-full lg:w-[35%] lg:m-5">
                     <TaskColumn title="To do" image={todo} />

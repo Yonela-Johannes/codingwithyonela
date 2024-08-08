@@ -1,6 +1,6 @@
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png'
-import Loader from "../components/Loader/Loader";
+import Loader from "../shared/Loader";
 
 const LeftSidebar = () =>
 {

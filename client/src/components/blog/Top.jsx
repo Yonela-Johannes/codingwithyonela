@@ -15,14 +15,14 @@ export default function Top({ name, title, description, theme })
           </p>
           <div className="flex flex-col gap-4 sm:flex-row cursor-pointer font-bold">
             <HoverUnderLine>
-              <button className={`${theme == "light" ? "" : "border-clr_alt"} shadow-none bg-clr_alt text-white`}>
+              <button className={`${theme == "light" ? "" : "border-clr_alt"} shadow-none bg-clr_alt text-white px-2 py-1 lg:px-4 lg:py-2`}>
                 <a href="https://portfolio-beta-red-17.vercel.app/" target="_blank" className={cn("w-full sm:w-fit")}>
                   My Portfolio
                 </a>
               </button>
             </HoverUnderLine>
             <HoverUnderLine>
-              <button className={`${theme == "light" ? "shadow-none" : "border-none"}`}>
+              <button className={`${theme == "light" ? "shadow-none" : "border-none"} px-2 py-1 lg:px-4 lg:py-2`}>
                 <a
                   href="https://github.com/yonela-johannes"
                   target="_blank"

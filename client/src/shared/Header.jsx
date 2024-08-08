@@ -7,8 +7,6 @@ import { useSelector } from "react-redux";
 const Header = () =>
 {
   const { theme } = useContext(ThemeContext)
-  const { currentUser, token } = useSelector((state) => state.user);
-  const navigate = useNavigate();
   return (
     <div className="flex flex-col md:flex-row md:gap-20 items-center overflow-x-hidden mb-2">
       <div className="flex items-start gap-3 flex-col pt-4 w-full">

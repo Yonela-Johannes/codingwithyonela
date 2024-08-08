@@ -1,260 +1,189 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import ListingItem from '../components/ListingItem';
+import { useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import PostCard from '../components/Post copy/PostItem/PostCard';
+import { ThemeContext } from '../context/ThemeContext';
 
-export default function Search() {
-  const navigate = useNavigate();
-  const [sidebardata, setSidebardata] = useState({
+export default function Search()
+{
+  const { theme } = useContext(ThemeContext)
+  const [sidebarData, setSidebarData] = useState({
     searchTerm: '',
-    type: 'all',
-    parking: false,
-    furnished: false,
-    offer: false,
-    sort: 'created_at',
-    order: 'desc',
+    sort: 'desc',
+    category: 'uncategorized',
   });
 
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [listings, setListings] = useState([]);
   const [showMore, setShowMore] = useState(false);
 
-  useEffect(() => {
+  const location = useLocation();
+
+  const navigate = useNavigate();
+
+  useEffect(() =>
+  {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get('searchTerm');
-    const typeFromUrl = urlParams.get('type');
-    const parkingFromUrl = urlParams.get('parking');
-    const furnishedFromUrl = urlParams.get('furnished');
-    const offerFromUrl = urlParams.get('offer');
     const sortFromUrl = urlParams.get('sort');
-    const orderFromUrl = urlParams.get('order');
-
-    if (
-      searchTermFromUrl ||
-      typeFromUrl ||
-      parkingFromUrl ||
-      furnishedFromUrl ||
-      offerFromUrl ||
-      sortFromUrl ||
-      orderFromUrl
-    ) {
-      setSidebardata({
-        searchTerm: searchTermFromUrl || '',
-        type: typeFromUrl || 'all',
-        parking: parkingFromUrl === 'true' ? true : false,
-        furnished: furnishedFromUrl === 'true' ? true : false,
-        offer: offerFromUrl === 'true' ? true : false,
-        sort: sortFromUrl || 'created_at',
-        order: orderFromUrl || 'desc',
+    const categoryFromUrl = urlParams.get('category');
+    if (searchTermFromUrl || sortFromUrl || categoryFromUrl)
+    {
+      setSidebarData({
+        ...sidebarData,
+        searchTerm: searchTermFromUrl,
+        sort: sortFromUrl,
+        category: categoryFromUrl,
       });
     }
 
-    const fetchListings = async () => {
+    const fetchPosts = async () =>
+    {
       setLoading(true);
-      setShowMore(false);
       const searchQuery = urlParams.toString();
-      const res = await fetch(`/api/listing/get?${searchQuery}`);
-      const data = await res.json();
-      if (data.length > 8) {
-        setShowMore(true);
-      } else {
-        setShowMore(false);
+      const res = await fetch(`/api/post/getposts?${searchQuery}`);
+      if (!res.ok)
+      {
+        setLoading(false);
+        return;
       }
-      setListings(data);
-      setLoading(false);
+      if (res.ok)
+      {
+        const data = await res.json();
+        setPosts(data.posts);
+        setLoading(false);
+        if (data.posts.length === 9)
+        {
+          setShowMore(true);
+        } else
+        {
+          setShowMore(false);
+        }
+      }
     };
-
-    fetchListings();
+    fetchPosts();
   }, [location.search]);
 
-  const handleChange = (e) => {
-    if (
-      e.target.id === 'all' ||
-      e.target.id === 'rent' ||
-      e.target.id === 'sale'
-    ) {
-      setSidebardata({ ...sidebardata, type: e.target.id });
+  const handleChange = (e) =>
+  {
+    if (e.target.id === 'searchTerm')
+    {
+      setSidebarData({ ...sidebarData, searchTerm: e.target.value });
     }
-
-    if (e.target.id === 'searchTerm') {
-      setSidebardata({ ...sidebardata, searchTerm: e.target.value });
+    if (e.target.id === 'sort')
+    {
+      const order = e.target.value || 'desc';
+      setSidebarData({ ...sidebarData, sort: order });
     }
-
-    if (
-      e.target.id === 'parking' ||
-      e.target.id === 'furnished' ||
-      e.target.id === 'offer'
-    ) {
-      setSidebardata({
-        ...sidebardata,
-        [e.target.id]:
-          e.target.checked || e.target.checked === 'true' ? true : false,
-      });
-    }
-
-    if (e.target.id === 'sort_order') {
-      const sort = e.target.value.split('_')[0] || 'created_at';
-
-      const order = e.target.value.split('_')[1] || 'desc';
-
-      setSidebardata({ ...sidebardata, sort, order });
+    if (e.target.id === 'category')
+    {
+      const category = e.target.value || 'uncategorized';
+      setSidebarData({ ...sidebarData, category });
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) =>
+  {
     e.preventDefault();
-    const urlParams = new URLSearchParams();
-    urlParams.set('searchTerm', sidebardata.searchTerm);
-    urlParams.set('type', sidebardata.type);
-    urlParams.set('parking', sidebardata.parking);
-    urlParams.set('furnished', sidebardata.furnished);
-    urlParams.set('offer', sidebardata.offer);
-    urlParams.set('sort', sidebardata.sort);
-    urlParams.set('order', sidebardata.order);
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('searchTerm', sidebarData.searchTerm);
+    urlParams.set('sort', sidebarData.sort);
+    urlParams.set('category', sidebarData.category);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
 
-  const onShowMoreClick = async () => {
-    const numberOfListings = listings.length;
-    const startIndex = numberOfListings;
+  const handleShowMore = async () =>
+  {
+    const numberOfPosts = posts.length;
+    const startIndex = numberOfPosts;
     const urlParams = new URLSearchParams(location.search);
     urlParams.set('startIndex', startIndex);
     const searchQuery = urlParams.toString();
-    const res = await fetch(`/api/listing/get?${searchQuery}`);
-    const data = await res.json();
-    if (data.length < 9) {
-      setShowMore(false);
+    const res = await fetch(`/api/post/getposts?${searchQuery}`);
+    if (!res.ok)
+    {
+      return;
     }
-    setListings([...listings, ...data]);
+    if (res.ok)
+    {
+      const data = await res.json();
+      setPosts([...posts, ...data.posts]);
+      if (data.posts.length === 9)
+      {
+        setShowMore(true);
+      } else
+      {
+        setShowMore(false);
+      }
+    }
   };
+
   return (
-    <div className='flex flex-col md:flex-row'>
-      <div className='p-7  border-b-2 md:border-r-2 md:min-h-screen'>
-        <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
-          <div className='flex items-center gap-2'>
+    <div className={`${theme == "light" ? "text-black" : "text-white"} flex flex-col md:flex-row`}>
+      <div className='p-7 h-full'>
+        <form className='flex flex-col gap-8' onSubmit={handleSubmit}>
+          <div className='flex   items-center gap-2'>
             <label className='whitespace-nowrap font-semibold'>
               Search Term:
             </label>
             <input
-              type='text'
-              id='searchTerm'
+              className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-bg_light" : "bg-bg_grey text-white"} rounded-sm`}
               placeholder='Search...'
-              className='border rounded-lg p-3 w-full'
-              value={sidebardata.searchTerm}
+              id='searchTerm'
+              type='text'
+              value={sidebarData.searchTerm}
               onChange={handleChange}
             />
           </div>
-          <div className='flex gap-2 flex-wrap items-center'>
-            <label className='font-semibold'>Type:</label>
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
-                id='all'
-                className='w-5'
-                onChange={handleChange}
-                checked={sidebardata.type === 'all'}
-              />
-              <span>Rent & Sale</span>
-            </div>
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
-                id='rent'
-                className='w-5'
-                onChange={handleChange}
-                checked={sidebardata.type === 'rent'}
-              />
-              <span>Rent</span>
-            </div>
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
-                id='sale'
-                className='w-5'
-                onChange={handleChange}
-                checked={sidebardata.type === 'sale'}
-              />
-              <span>Sale</span>
-            </div>
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
-                id='offer'
-                className='w-5'
-                onChange={handleChange}
-                checked={sidebardata.offer}
-              />
-              <span>Offer</span>
-            </div>
-          </div>
-          <div className='flex gap-2 flex-wrap items-center'>
-            <label className='font-semibold'>Amenities:</label>
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
-                id='parking'
-                className='w-5'
-                onChange={handleChange}
-                checked={sidebardata.parking}
-              />
-              <span>Parking</span>
-            </div>
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
-                id='furnished'
-                className='w-5'
-                onChange={handleChange}
-                checked={sidebardata.furnished}
-              />
-              <span>Furnished</span>
-            </div>
-          </div>
           <div className='flex items-center gap-2'>
             <label className='font-semibold'>Sort:</label>
-            <select
-              onChange={handleChange}
-              defaultValue={'created_at_desc'}
-              id='sort_order'
-              className='border rounded-lg p-3'
+            <select onChange={handleChange} value={sidebarData.sort} id='sort'
+              className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-bg_light" : "bg-bg_grey text-white"} rounded-sm`}
             >
-              <option value='regularPrice_desc'>Price high to low</option>
-              <option value='regularPrice_asc'>Price low to hight</option>
-              <option value='createdAt_desc'>Latest</option>
-              <option value='createdAt_asc'>Oldest</option>
+              <option value='desc'>Latest</option>
+              <option value='asc'>Oldest</option>
             </select>
           </div>
-          <button className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95'>
-            Search
+          <div className='flex items-center gap-2'>
+            <label className='font-semibold'>Category:</label>
+            <select
+              onChange={handleChange}
+              value={sidebarData.category}
+              id='category'
+              className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-bg_light" : "bg-bg_grey text-white"} rounded-sm`}
+            >
+              <option value='uncategorized'>Uncategorized</option>
+              <option value='reactjs'>React.js</option>
+              <option value='nextjs'>Next.js</option>
+              <option value='javascript'>JavaScript</option>
+            </select>
+          </div>
+          <button type='submit'
+            className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold text-white ${theme == "light" ? "bg-clr_alt" : "bg-clr_alt"}`}
+
+          >
+            Apply Filters
           </button>
         </form>
       </div>
-      <div className='flex-1'>
-        <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-5'>
-          Listing results:
+      <div className='w-full'>
+        <h1 className='text-3xl font-semibold  p-3 mt-5 '>
+          Search results:
         </h1>
         <div className='p-7 flex flex-wrap gap-4'>
-          {!loading && listings.length === 0 && (
-            <p className='text-xl text-slate-700'>No listing found!</p>
+          {!loading && posts.length === 0 && (
+            <p className='text-xl text-gray-500'>Nothing found.</p>
           )}
-          {loading && (
-            <p className='text-xl text-slate-700 text-center w-full'>
-              Loading...
-            </p>
-          )}
-
+          {loading && <p className='text-xl text-gray-500'>Loading...</p>}
           {!loading &&
-            listings &&
-            listings.map((listing) => (
-              <ListingItem key={listing._id} listing={listing} />
-            ))}
-
+            posts &&
+            posts.map((post) => <PostCard key={post._id} post={post} />)}
           {showMore && (
             <button
-              onClick={onShowMoreClick}
-              className='text-green-700 hover:underline p-7 text-center w-full'
+              onClick={handleShowMore}
+              className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold text-white ${theme == "light" ? "bg-clr_alt" : "bg-clr_alt"}}`}
             >
-              Show more
+              Show More
             </button>
           )}
         </div>

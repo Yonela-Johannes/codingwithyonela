@@ -1,23 +1,22 @@
-import HoverUnderLine from "../components/HoverUnderLine";
-import { GoogleLogin } from "@react-oauth/google";
-import { siteUrl, callback } from "../constants/base_urls";
-import { Alert, Label, Spinner, TextInput } from 'flowbite-react';
-import { useState } from 'react';
+import { Alert, Spinner } from 'flowbite-react';
+import { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
-import logo from '../assets/logo.png'
-import { login } from "../features/user/authSlice";
+import { disableAuthModals, login, logout } from "../features/user/authSlice";
 import { useEffect } from "react";
+import { MdClose } from "react-icons/md";
+import { ThemeContext } from "../context/ThemeContext";
+import toast from "react-hot-toast";
 
 const Signin = () =>
 {
+  const { theme } = useContext(ThemeContext)
   const [formData, setFormData] = useState({
     "email": "",
     "password": ""
   });
 
-  const { loading, error,
-    message, currentUser, token } = useSelector((state) => state?.user);
+  const { loading, message, currentUser, token, signin_success } = useSelector((state) => state?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,87 +26,74 @@ const Signin = () =>
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
 
-  const handleLoginSuccess = async (credentials) =>
-  {
-    dispatch(login(credentials.credentials));
-  };
-
   const handleSubmit = async (e) =>
   {
     e.preventDefault();
-    if (!formData.email || !formData.password)
-    {
-
+    if (!formData.email || !formData.password) return toast("Missing information")
+    const data = {
+      email: formData.email,
+      password: formData.password,
     }
-    dispatch(login(formData));
 
+    dispatch(login(data));
   }
 
   useEffect(() =>
   {
     if (currentUser && token)
     {
+      dispatch(disableAuthModals())
       navigate(-1);
     }
   }, [currentUser, token])
 
-  return (
-    <div className="grid lg:grid-cols-3 items-start">
-      <div className="flex items-start space-y-4 h-full">
-        <div className="flex flex-col gap-4 rounded-sm shrink-0 items-start justify-center fill-fill backdrop-opacity-[17px]">
-          <h1 className="text-center text-base lg:text-2xl lg:font-bold tracking-tight mb-8">
-            Continue with CodingWithYonela
-          </h1>
-          <div className="flex flex-col shrink-0 bg-table_bg items-start w-[250px] rounded-[12px] duration-300 cursor-pointer">
-            <HoverUnderLine>
-              <GoogleLogin
-                onSuccess={handleLoginSuccess}
-                onError={() =>
-                {
-                  console.log("Login Failed");
-                }}
-                login_uri={siteUrl}
-                redirect_uri={callback}
-                cancel_on_tap_outside
-                useOneTap
-                size="large"
-                theme="filled_black"
-                text="continue_with"
-                shape="pill"
-                width="100%"
-              />
-            </HoverUnderLine>
-          </div>
-          <p className="my-5 text-[#646464] text-sm">
-            By clicking “Continue your account with Google”, you agree <br /> to
-            the CodingWithYonela <b>TOS</b> and <b>Privacy Policy</b>.
-          </p>
-        </div>
-      </div>
+  useEffect(() =>
+  {
+    if (signin_success)
+    {
+      toast("Sign in successfull")
+      dispatch(disableAuthModals())
+      navigate('/')
+    }
+  }, [message, signin_success])
 
-      <div className='flex-1 flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
+
+
+  return (
+    <div className={`${theme == 'light' ? '' : 'border-none'} flex flex-col lg:flex-row items-center justify-center lg:items-center lg:absolute min-h-screen lg:h-sceen w-full lg:z-50 backdrop-blur-xl overflow-hidden top-0 left-0 right-0 bottom-0`}>
+      <div className={`${theme == "light" ? "bg-white" : "bg-bg_card border-none"} w-full lg:relative flex py-8 lg:px-16 mx-auto flex-col md:flex-row md:items-center gap-5 lg:border lg:rounded-lg lg:w-[700px]`}>
+        <div className={`${theme == "light" ? "bg-white" : "bg-slate-800 text-white"} rounded-full hidden lg:block lg:absolute top-2 lg:right-2 text-xl lg:text-2xl cursor-pointer`} onClick={() => dispatch(disableAuthModals())}>
+          <MdClose />
+        </div>
         <div className='flex-1'>
-          <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+          <form className='flex flex-col gap-4' onSubmit={handleSubmit} encType="multipart/form-data">
             <div>
-              <Label value='Your email' />
-              <TextInput
-                type='text'
-                placeholder='name@company.com'
+              <label value='Your email' className={`${theme == "light" ? "text-black" : "bg-bg_card text-white"}`}>Email</label>
+              <input
+                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                value={formData?.email}
+                type='email'
+                name="email"
+                placeholder='your.name@example.com'
                 id='email'
                 onChange={handleChange}
               />
             </div>
+
             <div>
-              <Label value='Your password' />
-              <TextInput
+              <label value='Your password' className={`${theme == "light" ? "text-black" : "bg-bg_card text-white"}`}>Password</label>
+              <input
+                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                value={formData.password}
                 type='password'
-                placeholder='**********'
+                placeholder='Password'
+                name="password"
                 id='password'
                 onChange={handleChange}
               />
             </div>
             <button
-              className="md:mt-4 text-center flex justify-center gap-1 md:gap-4 items-center"
+              className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold text-white ${theme == "light" ? "bg-clr_alt" : "bg-clr_alt"}`}
               type='submit'
               disabled={loading}
             >
@@ -117,14 +103,14 @@ const Signin = () =>
                   <span className='pl-3'>Loading...</span>
                 </>
               ) : (
-                'Sign In'
+                'Sign in'
               )}
-            </button >
+            </button>
           </form>
           <div className='flex gap-2 text-sm mt-5'>
-            <span>Dont Have an account?</span>
-            <Link to='/sign-up' className='text-blue-500'>
-              Sign Up
+            <span className={`${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}>Have an account?</span>
+            <Link to='/sign-in' className='text-blue-500'>
+              Sign In
             </Link>
           </div>
           {message && (
@@ -133,16 +119,6 @@ const Signin = () =>
             </Alert>
           )}
         </div>
-      </div>
-      <div className=''>
-        <Link to='/' className='font-bold dark:text-white text-4xl'>
-          <img src={logo} className="w-9 h-9 object-center object-contain" alt="logo" />
-          CodingWithYonela
-        </Link>
-        <p className='text-sm mt-5'>
-          You can sign in with your email and password
-          or with Google.
-        </p>
       </div>
     </div>
   );

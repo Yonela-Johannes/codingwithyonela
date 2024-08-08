@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import UserCard from "../shared/UserCard";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../components/Loader/Loader";
+import Loader from '../shared/Loader'
 import { useEffect } from "react";
 import { getUsers } from "../features/user/userSlice";
 

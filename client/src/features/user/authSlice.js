@@ -10,16 +10,17 @@ const initialState = {
     active_signup_modal: false,
     active_signin_modal: false,
     signup_success: false,
-    signin_success: false
+    signin_success: false,
+    update_success: false
 }
 
 export const login = createAsyncThunk('user/login', async (data) =>
 {
     const response = await axios.get(`${apiUrl}login`,
         {
-            headers: headers,
+            headers: formHeaders,
             params: data
-        });;
+        });
     return response.data;
 });
 
@@ -28,7 +29,7 @@ export const register = createAsyncThunk('user/register', async (data) =>
     const response = await axios.post(`${apiUrl}user`, data,
         {
             headers: formHeaders,
-        });;
+        });
     return response.data;
 });
 
@@ -37,7 +38,17 @@ export const verifyRegistration = createAsyncThunk('user/verify/email', async (t
     const response = await axios.post(`${apiUrl}verify-email?token=${token}`,
         {
             headers: formHeaders,
-        });;
+        });
+    return response.data;
+});
+
+export const updateUser = createAsyncThunk('user/edit', async (data) =>
+{
+
+    const response = await axios.put(`${apiUrl}user/${data?.id}`, data,
+        {
+            headers: formHeaders,
+        });
     return response.data;
 });
 
@@ -69,6 +80,8 @@ export const authSlice = createSlice({
             state.loading = false
             state.active_signin_modal = false
             state.active_signup_modal = false
+            state.message = ''
+            state.update_success = false
         }
     },
     extraReducers: (builder) =>
@@ -80,6 +93,7 @@ export const authSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action) =>
             {
+                console.log(action.payload)
                 state.loading = false;
                 state.token = action.payload.data.token
                 state.currentUser = action.payload.data.user;
@@ -88,7 +102,7 @@ export const authSlice = createSlice({
             .addCase(login.rejected, (state, action) =>
             {
                 state.loading = false;
-                state.message = 'Invalid user account'
+                state.message = 'Invalid data provided'
                 state.error = action.message;
             })
 
@@ -118,7 +132,6 @@ export const authSlice = createSlice({
             .addCase(verifyRegistration.fulfilled, (state, action) =>
             {
                 state.signin_success = true
-                console.log(action.payload)
                 state.loading = false;
                 state.token = action.payload.token
                 state.message = action.payload.message
@@ -128,8 +141,27 @@ export const authSlice = createSlice({
             {
                 state.signin_success = false
                 state.loading = false;
-                console.log(action.payload)
                 state.message = action.error.message == 'Request failed with status code 403' ? "Token expired. Try registering again" : ""
+            })
+            .addCase(updateUser.pending, (state) =>
+            {
+                state.update_success = false
+                state.loading = true;
+            })
+            .addCase(updateUser.fulfilled, (state, action) =>
+            {
+                state.loading = false;
+                state.token = action.payload.token
+                state.message = action.payload.message
+                state.currentUser = action.payload.data;
+                state.update_success = true
+            })
+            .addCase(updateUser.rejected, (state, action) =>
+            {
+                state.loading = false;
+                state.message = action.payload.message
+                state.error = action.message;
+                state.update_success = false
             })
     },
 })

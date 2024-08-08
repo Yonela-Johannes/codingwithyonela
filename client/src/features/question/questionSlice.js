@@ -13,7 +13,7 @@ const initialState = {
 
 export const getAllQuestions = createAsyncThunk('questions/fetch all', async () =>
 {
-  const response = await axios.get(`${apiUrl}question`);
+  const response = await axios.get(`${apiUrl}enquiry`);
   return response.data;
 });
 
@@ -25,7 +25,7 @@ export const getQuestion = createAsyncThunk('question/fetch question', async (qu
 
 export const createQuestion = createAsyncThunk('question/create question', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}question`, data);
+  const response = await axios.post(`${apiUrl}enquiry`, data);
   return response.data;
 });
 

@@ -1,38 +1,13 @@
-import React from 'react'
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeKatex from 'rehype-katex'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import { ThemeContext } from '../context/ThemeContext';
+import { useContext } from 'react';
 
-const Markdown = ({ text }) =>
+const Text = ({ text }) =>
 {
+    const { theme } = useContext(ThemeContext)
     return (
-        <ReactMarkdown
-            children={text}
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeKatex]}
-            components={{
-                code({ node, inline, className, children, ...props })
-                {
-                    const match = /language-(\w+)/.exec(className || '')
-                    return !inline && match ? (
-                        <SyntaxHighlighter
-                            children={String(children).replace(/\n$/, '')}
-                            style={dark}
-                            language={match[1]}
-                            PreTag="div"
-                            {...props}
-                        />
-                    ) : (
-                        <code className={className} {...props}>
-                            {children}
-                        </code>
-                    )
-                }
-            }}
-        />
+        <div className={`${theme == 'light' ? "text-bg_primary" : "text-bg_lightest"} my-2`}>{ReactHtmlParser(text)}</div>
     )
 }
 
-export default Markdown
+export default Text

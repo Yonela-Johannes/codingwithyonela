@@ -12,7 +12,7 @@ import { Search } from "lucide-react";
 import ThemeToggle from './themeToggle/ThemeToggle';
 import { ThemeContext } from '../context/ThemeContext';
 import avatar from '../assets/pavatar.png'
-import { activeSignup, logout } from '../features/user/authSlice';
+import { activeSignin, activeSignup, disableAuthModals, logout } from '../features/user/authSlice';
 
 const MobileMenu = ({ currentUser, items, user_items }) =>
 {
@@ -173,18 +173,7 @@ export default function ({ currentUser })
           About
         </Link>
       ),
-    },
-    {
-      key: "3",
-      label: (
-        <Link to="/friends" rel="noopener noreferrer">
-          Friends
-        </Link>
-      ),
-    },
-    {
-      key: "4",
-    },
+    }
   ];
 
   return (
@@ -231,11 +220,30 @@ export default function ({ currentUser })
                   </div>
                 </HoverUnderLine>
               </div>
+
+              {currentUser?.is_admin ? (
+                <>
+                  <Link to="/project/add">
+                    <HoverUnderLine>
+                      <div className="flex gap-2 items-center cursor-pointer p-2">
+                        Create project
+                      </div>
+                    </HoverUnderLine>
+                  </Link>
+                  <Link to="/create-blog">
+                    <HoverUnderLine>
+                      <div className="flex gap-2 items-center cursor-pointer p-2">
+                        Create blog
+                      </div>
+                    </HoverUnderLine>
+                  </Link>
+                </>
+              ) : ""}
             </>
           ) : (
             <>
               <HoverUnderLine>
-                <div className="flex gap-2 items-center cursor-pointer p-2">
+                <div onClick={() => (dispatch(disableAuthModals()), dispatch(activeSignin()))} className="flex gap-2 items-center cursor-pointer p-2">
                   Login
                 </div>
               </HoverUnderLine>
@@ -247,13 +255,26 @@ export default function ({ currentUser })
             </>
           )}
         </div>
-        <div className='flex items-center gap-4'>
+        <div className='flex items-center justify-center gap-4'>
           <ThemeToggle />
           {currentUser && currentUser?.id ? (
             <>
               <HoverUnderLine>
-                <div className="flex items-center cursor-pointer p-2 text-sm text-bg_core">
-                  <img src={currentUser?.profile ? currentUser?.profile : avatar} className="h-7 w-7 rounded-full object-cover" />
+                <div className="flex w-full items-center md:w-max h-full  space-y-2">
+                  <div className="flex items-center bg-clr_alt text-white rounded-full md:justify-between gap-2">
+                    <div className="space-y-1py-1 pl-3">
+                      <p className="text-sm lg:text-base">
+                        {currentUser?.username} {currentUser?.lastname}
+                      </p>
+                    </div>
+                    <div>
+                      <img
+                        src={currentUser?.profile}
+                        alt="cover"
+                        className="rounded-full object-cover object-center h-[35px] w-[35px]"
+                      />
+                    </div>
+                  </div>
                 </div>
               </HoverUnderLine>
             </>

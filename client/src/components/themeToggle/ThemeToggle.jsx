@@ -3,28 +3,19 @@ import { useContext } from "react";
 import sun from '../../assets/sun.png';
 import moon from '../../assets/moon.png';
 import { ThemeContext } from "../../context/ThemeContext";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 const ThemeToggle = () =>
 {
   const { toggle, theme } = useContext(ThemeContext);
   return (
     <div
-      className={styles.container}
       onClick={toggle}
-      style={
-        theme === "dark" ? { backgroundColor: "black" } : { backgroundColor: "gray" }
-      }
+      className="cursor-pointer text-2xl lg:text-4xl"
     >
-      <img src={moon} alt="" width={20} height={20} />
-      <div
-        className={styles.ball}
-        style={
-          theme === "dark"
-            ? { left: 1, background: "gray" }
-            : { right: 1, background: "white" }
-        }
-      ></div>
-      <img src={sun} alt="" width={22} height={22} />
+      {
+        theme === "dark" ? <p className="">🌞</p> : <p className="">🌚</p>
+      }
     </div>
   );
 };

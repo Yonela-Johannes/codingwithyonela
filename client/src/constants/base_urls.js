@@ -1,6 +1,7 @@
 let apiUrl;
 let siteUrl;
 let callback;
+const token = JSON.parse(localStorage.getItem('persist:user' || '')).token
 
 if (process.env.NODE_ENV === 'production')
 {
@@ -25,11 +26,13 @@ export
 export const headers = {
   headers: {
     'Content-Type': 'application/json',
+    'Autherization': "Bearer " + token
   }
 }
 
 export const formHeaders = {
   headers: {
-    'Content-Type': 'multipart/form-data'
+    'Content-Type': 'multipart/form-data',
+    'Autherization': "Bearer " + token
   }
 } 

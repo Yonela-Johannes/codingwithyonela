@@ -11,7 +11,7 @@ import { BiDownvote, BiUpvote } from "react-icons/bi";
 import moment from "moment/moment";
 import { Modal } from "antd";
 import Comment from "./Comment";
-import Loader from "../components/Loader/Loader";
+import Loader from "./Loader";
 
 const Suggestion = ({ setEditPost, editPost, edit, setEdit }) =>
 {

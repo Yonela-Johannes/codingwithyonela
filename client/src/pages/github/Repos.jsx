@@ -1,24 +1,27 @@
-"use client";
-import { Badge, Button, Flex, Spinner, useToast } from "@chakra-ui/react";
+import { Badge, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Text } from "@/app/chakra";
-import { Link } from "@chakra-ui/next-js";
+import { toast } from "react-hot-toast";
+import Loader from "../../shared/Loader";
 
-const Repos = ({ reposUrl }) => {
-	const toast = useToast();
+const Repos = ({ reposUrl, theme }) =>
+{
 	const [repos, setRepos] = useState([]);
 	const [loading, setLoading] = useState(false);
-	const [showMore, setShowMore] = useState(false);
 
-	useEffect(() => {
-		const fetchRepos = async () => {
-			try {
+	useEffect(() =>
+	{
+		const fetchRepos = async () =>
+		{
+			try
+			{
 				setLoading(true);
 				const res = await fetch(reposUrl);
 				const data = await res.json();
 				if (data.message) throw new Error(data.message);
 				setRepos(data);
-			} catch (error) {
+			} catch (error)
+			{
+
 				toast({
 					title: "Error",
 					description: error.message,
@@ -26,54 +29,34 @@ const Repos = ({ reposUrl }) => {
 					duration: 3000,
 					isClosable: true,
 				});
-			} finally {
+			} finally
+			{
 				setLoading(false);
 			}
 		};
 
 		fetchRepos();
-	}, [reposUrl, toast]);
+	}, []);
 
 	return (
-		<>
-			<Text
-				textAlign={"center"}
-				letterSpacing={1.5}
-				fontSize={"3xl"}
-				fontWeight={"bold"}
-				color={"green.400"}
-				mt={4}
-			>
-				REPOSITORIES
-			</Text>
+		<div>
+			<h2 className={`${theme == "light" ? "text-cl_alt" : "text-white"} text-md lg:text-xl mt-2`}>Repositories</h2>
 			{loading && (
-				<Flex justifyContent={"center"}>
-					<Spinner size={"xl"} my={4} />
-				</Flex>
+				<Loader />
 			)}
 
 			{repos
-				.sort((a, b) => b.stargazers_count - a.stargazers_count)
-				.map((repo, idx) => {
-					if (idx > 4 && !showMore) return null;
+				.map((repo) =>
+				{
 					return (
-						<Flex
+						<div
 							key={repo.id}
-							padding={4}
-							bg={"whiteAlpha.200"}
-							_hover={{ bg: "whiteAlpha.400" }}
-							my={4}
-							px={10}
-							gap={4}
-							borderRadius={4}
-							transition={"all 0.3s ease"}
-							justifyContent={"space-between"}
-							alignItems={"center"}
+							className={`grid grid-cols-2 p-1 lg:p-2 my-2 gap-4 items-center ${theme == 'light' ? "bg-bg_lightest" : "bg-bg_grey"}`}
 						>
 							<Flex flex={1} direction={"column"}>
-								<Link href={repo.html_url} fontSize={"md"} fontWeight={"bold"}>
+								<a className="text-base lg:text-lg" href={repo.html_url} fontSize={"md"} fontWeight={"bold"} target="_blank">
 									{repo.name}
-								</Link>
+								</a>
 								<Badge
 									fontSize={"0.7em"}
 									colorScheme={"whatsapp"}
@@ -82,41 +65,25 @@ const Repos = ({ reposUrl }) => {
 									px={1}
 									mt={1}
 								>
-									Language: {repo.language || "None"}
+									{repo.language || "None"}
 								</Badge>
 							</Flex>
 
 							<Flex flex={1} gap={4} ml={6}>
-								<Badge fontSize={"0.9em"} colorScheme='orange' flex={1} textAlign={"center"}>
+								<Badge fontSize={"0.8em"} colorScheme='orange' flex={1} textAlign={"center"}>
 									Stars: {repo.stargazers_count}
 								</Badge>
-								<Badge fontSize={"0.9em"} colorScheme='pink' flex={1} textAlign={"center"}>
+								<Badge fontSize={"0.8em"} colorScheme='pink' flex={1} textAlign={"center"}>
 									Forks: {repo.forks_count}
 								</Badge>
-								<Badge fontSize={"0.9em"} colorScheme='cyan' flex={1} textAlign={"center"}>
+								<Badge fontSize={"0.8em"} colorScheme='cyan' flex={1} textAlign={"center"}>
 									Watchers: {repo.watchers_count}
 								</Badge>
 							</Flex>
-						</Flex>
+						</div>
 					);
 				})}
-
-			{showMore && (
-				<Flex justifyContent={"center"} my={4}>
-					<Button size='md' colorScheme='whatsapp' onClick={() => setShowMore(false)}>
-						Show Less
-					</Button>
-				</Flex>
-			)}
-
-			{!showMore && repos.length > 5 && (
-				<Flex justifyContent={"center"} my={4}>
-					<Button size='md' colorScheme='whatsapp' onClick={() => setShowMore(true)}>
-						Show More
-					</Button>
-				</Flex>
-			)}
-		</>
+		</div>
 	);
 };
 

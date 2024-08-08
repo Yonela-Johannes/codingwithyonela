@@ -1,8 +1,9 @@
-import { Search } from "lucide-react";
+import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllQuotes } from "../features/quote/quoteSlice";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
+import { useLocation } from "react-router-dom";
 
 function Hero()
 {
@@ -10,13 +11,19 @@ function Hero()
   const [quote, setQuote] = useState("")
   const { quotes } = useSelector((state) => state.quotes)
   const dispatch = useDispatch()
+  const path = useLocation().pathname
   let random;
 
-  // useEffect(() =>
-  // {
-  //   dispatch(getAllQuotes())
-  // }, [])
-
+  useEffect(() =>
+  {
+    if (path == '/')
+    {
+      setTimeout(() =>
+      {
+        dispatch(getAllQuotes())
+      }, 3000000)
+    }
+  }, [path])
 
   useEffect(() =>
   {
@@ -27,20 +34,11 @@ function Hero()
     }
   }, [quotes])
 
-  if (quotes)
-  {
-    setTimeout(() =>
-    {
-      setQuote(quotes[random || 0])
-    }, 120000)
-  }
-
-
   return (
     quote && quote.quote ? (
       <div className="flex w-full gap-3 flex-col justify-center">
         <div className={`${theme == "light" ? "text-black" : "text-white"}bg-bg_lighter rounded-md max-w-[500px]`}>
-          <span className={`${theme == "light" ? "text-black" : "text-white"} text-lg`}>"{quote?.quote}"
+          <span className={`${theme == "light" ? "text-black" : "text-white"} text-lg`}><FaQuoteLeft />{quote?.quote}<FaQuoteRight />
           </span>
           <p className={`${theme == "light" ? "text-black" : "text-white"} text-sm italic`}>- {quote?.author}</p>
         </div>
