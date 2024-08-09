@@ -16,9 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <ThemeContextProvider>
         <ModalContextProvider>
           <ChakraProvider>
-            <GoogleOAuthProvider clientId="911304917763-lou0bgv2hh2k0h3e781psr9mcmukftup.apps.googleusercontent.com">
-              <App />
-            </GoogleOAuthProvider>
+            <App />
           </ChakraProvider>
         </ModalContextProvider>
       </ThemeContextProvider>
