@@ -10,7 +10,7 @@ DATABASE = os.getenv('DATABASE')
 DATABASE_USER = os.getenv('DATABASE_USER')
 HOST = os.getenv('HOST')
 PASSWORD = os.getenv('PASSWORD')
-PORT = 5432
+PORT = os.getenv('PORT')
 
 connection = psycopg2.connect(
     database = DATABASE, 
