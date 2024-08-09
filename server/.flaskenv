@@ -1,6 +1,5 @@
 FLASK_APP=app
 FLASK_DEBUG=False
-PORT="0,0,0,0"
 DATABASE="codingwithyonela"
 DATABASE_USER="yongs"
 PASSWORD="Juanesse"

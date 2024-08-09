@@ -32,9 +32,6 @@ app.config.update(dict(
 
 mail = Mail(app)
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
-PASSWORD = os.environ.get('MAIL_PASSWORD')
-
 # task route
 @app.route('/api/v1/task/<int:project_id>' , methods=['GET', 'PUT', 'DELETE', 'POST'])
 def task_route(project_id):
@@ -180,6 +177,4 @@ def response_route():
 @app.route('/api/v1/posts-vote/<int:id>', methods=['GET', 'POST'])
 def vote_route(id):
     return post_vote_create(id)
-
-# ----------------
 
