@@ -32,6 +32,6 @@ export const headers = {
 export const formHeaders = {
   headers: {
     'Content-Type': 'multipart/form-data',
-    'Autherization': "Bearer " + token
+    'Autherization': "Bearer "
   }
 } 
