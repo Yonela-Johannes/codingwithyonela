@@ -17,8 +17,7 @@ connection = psycopg2.connect(
     user = DATABASE_USER, 
     host= HOST,
     password = PASSWORD,
-    port = PORT
-    )
+    port = PORT)
 
 def create_tables():
     """ Create tables in the PostgreSQL database"""
