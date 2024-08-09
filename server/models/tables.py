@@ -10,14 +10,15 @@ DATABASE = os.getenv('DATABASE')
 DATABASE_USER = os.getenv('DATABASE_USER')
 HOST = os.getenv('HOST')
 PASSWORD = os.getenv('PASSWORD')
-PORT = os.getenv('PORT')
+PORT = 5432
 
 connection = psycopg2.connect(
     database = DATABASE, 
     user = DATABASE_USER, 
     host= HOST,
     password = PASSWORD,
-    port = PORT)
+    port = PORT
+    )
 
 def create_tables():
     """ Create tables in the PostgreSQL database"""

@@ -46,8 +46,6 @@ def task_route(project_id):
 #     return create_user_profile(mail)
 # ----------------
 
-
-
 # quotes route
 @app.route('/api/v1/quote', methods=['GET', 'POST'])
 def quotes_route():
@@ -127,7 +125,6 @@ def recommendations_route():
 
 @app.route('/api/v1/recommendation/<int:id>', methods=['GET', 'PUT'])
 def recommendation_route(id):
-    
     return recommendation(id)
 
 # ---------------------
@@ -143,17 +140,12 @@ def projects_route(id):
 
 @app.route('/api/v1/project-chat/<int:id>', methods=['GET', 'POST'])
 def project_chat_route(id):
-    
     return project_chat(id)
 
 # comment project route
 @app.route('/api/v1/project-like/<int:id>', methods=['POST'])
 def create_project_like(id):
-    
     return add_project_like(id)
-
-# ----------------
-# ----------------
 
 #post route
 @app.route('/api/v1/post/<int:id>', methods=['GET', 'PUT', 'DELETE'])
