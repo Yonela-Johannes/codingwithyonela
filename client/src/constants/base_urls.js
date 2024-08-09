@@ -1,7 +1,7 @@
 let apiUrl;
 let siteUrl;
 let callback;
-const token = JSON.parse(localStorage.getItem('persist:user' || '')).token
+const token = JSON.parse(localStorage.getItem('persist:user')).token || ''
 
 if (process.env.NODE_ENV === 'production')
 {

@@ -57,7 +57,6 @@ const EditAccount = () =>
 		setUserData(null);
 		try
 		{
-
 			getUserFromGithub(query);
 		} catch (error)
 		{

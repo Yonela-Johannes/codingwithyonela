@@ -258,7 +258,7 @@ export default function ({ currentUser })
         <div className='flex items-center justify-center gap-4'>
           <ThemeToggle />
           {currentUser && currentUser?.id ? (
-            <>
+            <Link to="/profile">
               <HoverUnderLine>
                 <div className="flex w-full items-center md:w-max h-full  space-y-2">
                   <div className="flex items-center bg-clr_alt text-white rounded-full md:justify-between gap-2">
@@ -277,7 +277,7 @@ export default function ({ currentUser })
                   </div>
                 </div>
               </HoverUnderLine>
-            </>
+            </Link>
           ) : ""}
         </div>
       </div>

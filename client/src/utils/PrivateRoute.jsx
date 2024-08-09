@@ -10,7 +10,7 @@ function PrivateRoute({ children })
 
     useEffect(() =>
     {
-        if (!currentUser == false)
+        if (!currentUser)
         {
             navigate('/')
         }

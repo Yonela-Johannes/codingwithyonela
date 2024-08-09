@@ -75,7 +75,7 @@ const UserProfile = ({ userData, theme, followers, following }) =>
 				</div>
 
 				<div className="flex justify-center p-4 rounded-md flex-wrap h-full gap-y-2 gap-x-1">
-					{followers.length ? (
+					{followers?.length ? (
 						followers.map((follower) =>
 						(
 							<a title={follower.login} className="flex-wrap cursor-pointer" href={follower.html_url} key={follower.id} target="_blank">
@@ -83,8 +83,8 @@ const UserProfile = ({ userData, theme, followers, following }) =>
 							</a>
 						))
 					) : ""}
-					{following.length ? (
-						following.map((follower) =>
+					{following?.length ? (
+						following?.map((follower) =>
 						(
 							<a title={follower.login} className="flex-wrap cursor-pointer" href={follower.html_url} key={follower.id} target="_blank">
 								<img src={follower.avatar_url} className="border lg:hover:scale-110 duration-100 w-8 h-8 lg:w-12 lg:h-12 border-cl_primary rounded-full object-cover object-center" alt={follower.login} />

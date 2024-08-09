@@ -5,6 +5,7 @@ import UserProfile from "./github/UserProfile";
 import { useEffect } from "react";
 import { getAllTitles } from "../features/title/titleSlice";
 import { ThemeContext } from "../context/ThemeContext";
+import ProfileInfoForm from "./ProfileInfoForm";
 
 const Profile = () =>
 {
@@ -14,9 +15,9 @@ const Profile = () =>
     const [username, setUsername] = useState(currentUser?.username || "");
     const [lastname, setLastname] = useState(currentUser?.lastname || "");
     const [title, setTitle] = useState(currentUser?.title || "");
-    const [query, setQuery] = useState("");
+    const [github, setGithub] = useState();
+    const [query, setQuery] = useState(currentUser?.github_username || "");
     const [userData, setUserData] = useState(null);
-    const [loading, setLoading] = useState(false);
     const { theme } = useContext(ThemeContext)
     const dispatch = useDispatch()
 
@@ -25,31 +26,39 @@ const Profile = () =>
         dispatch(getAllTitles())
     }, [])
 
+    const getUserFromGithub = async (username) =>
+    {
+        const res = await fetch(`https://api.github.com/users/${username}`);
+        const data = await res.json();
+        if (data.message)
+        {
+            return toast({
+                title: "Error",
+                description: data.message === "Not Found" ? "User not found" : data.message,
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
+        setUserData(data)
+    }
+
+    useEffect(() =>
+    {
+        if (currentUser && currentUser?.github_username)
+        {
+            getUserFromGithub(currentUser?.github_username)
+        }
+    }, ['', currentUser])
 
     const handleSubmit = async (e) =>
     {
         e.preventDefault();
         if (!query) return;
-        setLoading(true);
         setUserData(null);
         try
         {
-            const res = await fetch(`https://api.github.com/users/${query}`);
-            console.log(res)
-            const data = await res.json();
-
-            if (data.message)
-            {
-                return toast({
-                    title: "Error",
-                    description: data.message === "Not Found" ? "User not found" : data.message,
-                    status: "error",
-                    duration: 3000,
-                    isClosable: true,
-                });
-            }
-            setUserData(data);
-            // addUserToLocalStorage(data, query);
+            getUserFromGithub(query);
         } catch (error)
         {
             toast({
@@ -59,9 +68,6 @@ const Profile = () =>
                 duration: 3000,
                 isClosable: true,
             });
-        } finally
-        {
-            setLoading(false);
         }
     };
 
@@ -100,7 +106,7 @@ const Profile = () =>
                             <label htmlFor='username' className='text-sm font-medium block'>
                                 Title
                             </label>
-                            <select value={title} onChange={(e) => setTitle(e.target.value)}
+                            <select value={currentUser?.user_title_id} onChange={(e) => setTitle(e.target.value)}
                                 className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"} rounded-none`}
                             >
                                 {titles?.map((element) => (
@@ -143,6 +149,9 @@ const Profile = () =>
                             </button>
                         </div>
                     </form>
+                </div>
+                <div className="max-w-2xl mx-auto px-4 mt-4">
+                    {/* <ProfileInfoForm profileInfo={{}} /> */}
                 </div>
             </div>
             {userData && <UserProfile userData={userData} theme={theme} />}
