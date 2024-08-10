@@ -1,8 +1,6 @@
-
 import os
 import psycopg2
 from dotenv import load_dotenv
-from icecream import ic
 
 load_dotenv()
 
@@ -357,9 +355,7 @@ def create_tables():
                 for command in commands:
                     cur.execute(command)
     except (psycopg2.DatabaseError, Exception) as error:
-        print(error)
-
-ic()       
+        print(error) 
         
 if __name__ == '__main__':
     create_tables()

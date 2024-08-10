@@ -15,17 +15,19 @@ from routes.task import task, project_task
 from routes.enums import blog_enum
 from flask_cors import CORS, cross_origin
 from flask_mail import Mail
+from dotenv import load_dotenv
 from icecream import ic
 
+load_dotenv()
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 cors = CORS(app)
 
 app.config.update(dict(
     MAIL_SERVER = 'smtp.gmail.com',
     MAIL_PORT = 465,
     MAIL_USERNAME = 'johannesyonela@gmail.com',
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD'),
+    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD'),
     MAIL_USE_TLS = False,
     MAIL_USE_SSL = True,
 ))
@@ -178,3 +180,5 @@ def response_route():
 def vote_route(id):
     return post_vote_create(id)
 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
