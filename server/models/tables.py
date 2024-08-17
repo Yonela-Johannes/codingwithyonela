@@ -235,7 +235,7 @@ def create_tables():
             DROP TYPE IF EXISTS recommendation_request CASCADE;
         """,
         """
-        CREATE TYPE recommendation_request AS ENUM ('pending', 'accepted');
+        CREATE TYPE recommendation_request AS ENUM ('pending', 'accepted', 'watching', 'completed');
         """,
         ######
         # RECOMMENDATION SCHEMA

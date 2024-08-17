@@ -31,19 +31,14 @@ import ResponseModal from "./ResponseModal";
 
 const Chill = () =>
 {
+  const { theme } = useContext(ThemeContext)
   const { currentUser } = useSelector((state) => state?.user);
-  const { openDelete, setOpenDelete, openComment, setOpenComment, selectedPost, setSelectedPost, open, setOpen, setComment, openResponse, setOpenResponse } = useContext(ModalContext)
-  const { posts, created, loading, commented, updated, deleted } = useSelector((state) => state?.posts);
+  const { openDelete, setOpenDelete, openComment, setOpenComment, selectedPost, setSelectedPost, open, setOpen, setComment, openResponse, setOpenResponse, setResponseText } = useContext(ModalContext)
+  const { posts, created, loading, commented, updated, deleted, responded } = useSelector((state) => state?.posts);
   const [filterValue, setFilterValue] = useState("")
   const dispatch = useDispatch();
 
   const fetchPost = () =>
-  {
-    dispatch(getAllPosts());
-  }
-
-
-  const fetchUser = () =>
   {
     dispatch(getAllPosts());
   }
@@ -63,11 +58,17 @@ const Chill = () =>
     }
     if (commented && selectedPost)
     {
-      fetchPost()
       setComment('')
       dispatch(fetchPostComment(selectedPost?.post_id))
+      dispatch(disableUpdates())
     }
-  }, [created, commented, selectedPost, updated, deleted]);
+    if (responded && selectedPost)
+    {
+      setResponseText('')
+      dispatch(getPostResponses(selectedPost?.post_id))
+      dispatch(disableUpdates())
+    }
+  }, [created, commented, selectedPost, updated, deleted, responded]);
 
   const handleLike = (params) =>
   {
@@ -94,8 +95,8 @@ const Chill = () =>
     }
     setOpenDelete(false)
   }
-  console.log(currentUser)
 
+  console.log(filterValue)
   return (
     loading ? (
       <Loader />
@@ -120,7 +121,14 @@ const Chill = () =>
           ) : posts?.length > 0 ? (
             <div className="flex flex-col gap-8 h-full w-full overflow-x-hidden">
               <div className="flex flex-col overflow-hidden py-4 gap-8 h-full">
-                {filterValue ? posts?.filter((element) => element.topic_name == filterValue)?.map((post) => (
+                <div className="flex gap-1 lg:gap-4 flex-wrap w-full">
+                  {['all', 'post', 'question', 'suggestion', 'image/video', 'poll']?.map((elem) => (
+                    <button onClick={() => setFilterValue(elem)} className={`${filterValue == elem ? 'text-white bg-clr_alt' : ''} ${theme == 'light' ? 'text-bg_primary bg-bg_light' : ' border-none bg-bg_grey'} rounded-full text-bg_lightest`}>
+                      {elem?.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
+                {filterValue && filterValue !== 'all' ? posts?.filter((element) => element.type === filterValue)?.map((post) => (
                   <>
                     {post?.type == 'post' ? (
                       <PostCard
@@ -145,12 +153,9 @@ const Chill = () =>
                     {post?.type == 'suggestion' ? (
                       <SuggestionCard
                         key={post?.id}
-                        setSelectedPost={setSelectedPost}
                         setOpenComments={setOpenComment}
-                        setOpenResponse={setOpenResponse}
                         post={post}
                         handleLike={handleLike}
-                        setOpenDelete={setOpenDelete}
                       />
                     ) : ""}
                     {post?.type == 'image/video' ? (
@@ -174,62 +179,126 @@ const Chill = () =>
                       />
                     ) : ""}
                   </>
-                )) : (
-                  posts?.map((post) => (
-                    <>
-                      {post?.type == 'post' ? (
-                        <PostCard
-                          key={post?.id}
-                          setSelectedPost={setSelectedPost}
-                          setOpenComments={setOpenComment}
-                          post={post}
-                          handleLike={handleLike}
-                          setOpenDelete={setOpenDelete}
-                        />
-                      ) : ""}
-                      {post?.type == 'question' ? (
-                        <QuestionCard
-                          key={post?.id}
-                          setSelectedPost={setSelectedPost}
-                          setOpenComments={setOpenComment}
-                          post={post}
-                          handleLike={handleLike}
-                          setOpenDelete={setOpenDelete}
-                        />
-                      ) : ""}
-                      {post?.type == 'suggestion' ? (
-                        <SuggestionCard
-                          key={post?.id}
-                          setSelectedPost={setSelectedPost}
-                          setOpenComments={setOpenComment}
-                          post={post}
-                          handleLike={handleLike}
-                          setOpenDelete={setOpenDelete}
-                        />
-                      ) : ""}
-                      {post?.type == 'image/video' ? (
-                        <ImageCard
-                          key={post?.id}
-                          setSelectedPost={setSelectedPost}
-                          setOpenComments={setOpenComment}
-                          post={post}
-                          handleLike={handleLike}
-                          setOpenDelete={setOpenDelete}
-                        />
-                      ) : ""}
-                      {post?.type == 'poll' ? (
-                        <PollCard
-                          key={post?.id}
-                          setSelectedPost={setSelectedPost}
-                          setOpenComments={setOpenComment}
-                          post={post}
-                          handleLike={handleLike}
-                          setOpenDelete={setOpenDelete}
-                        />
-                      ) : ""}
-                    </>
+                )) :
+                  (
+                    posts?.map((post) => (
+                      (!currentUser?.is_admin || !currentUser?.is_staff) && post?.status != 'pending' ? (
+                        <>
+                          {post?.type == 'post' ? (
+                            <PostCard
+                              key={post?.id}
+                              setSelectedPost={setSelectedPost}
+                              setOpenComments={setOpenComment}
+                              post={post}
+                              handleLike={handleLike}
+                              setOpenDelete={setOpenDelete}
+                            />
+                          ) : ""}
+                          {post?.type == 'question' ? (
+                            <QuestionCard
+                              key={post?.id}
+                              setSelectedPost={setSelectedPost}
+                              setOpenComments={setOpenComment}
+                              post={post}
+                              handleLike={handleLike}
+                              setOpenDelete={setOpenDelete}
+                            />
+                          ) : ""}
+                          {post?.type == 'suggestion' ? (
+                            <SuggestionCard
+                              key={post?.id}
+                              setSelectedPost={setSelectedPost}
+                              setOpenComments={setOpenComment}
+                              post={post}
+                              handleLike={handleLike}
+                              setOpenDelete={setOpenDelete}
+                            />
+                          ) : ""}
+                          {post?.type == 'image/video' ? (
+                            <ImageCard
+                              key={post?.id}
+                              setSelectedPost={setSelectedPost}
+                              setOpenComments={setOpenComment}
+                              post={post}
+                              handleLike={handleLike}
+                              setOpenDelete={setOpenDelete}
+                            />
+                          ) : ""}
+                          {post?.type == 'poll' ? (
+                            <PollCard
+                              key={post?.id}
+                              setSelectedPost={setSelectedPost}
+                              setOpenComments={setOpenComment}
+                              post={post}
+                              handleLike={handleLike}
+                              setOpenDelete={setOpenDelete}
+                            />
+                          ) : ""}
+                        </>
+                      )
+                        :
+                        ((currentUser?.is_admin === true || currentUser?.is_staff === true) ? (
+                          <>
+                            {post?.type == 'post' ? (
+                              <PostCard
+                                key={post?.id}
+                                setSelectedPost={setSelectedPost}
+                                setOpenComments={setOpenComment}
+                                post={post}
+                                handleLike={handleLike}
+                                setOpenDelete={setOpenDelete}
+                              />
+                            ) : ""}
+                            {post?.type == 'question' ? (
+                              <QuestionCard
+                                key={post?.id}
+                                setSelectedPost={setSelectedPost}
+                                setOpenComments={setOpenComment}
+                                post={post}
+                                handleLike={handleLike}
+                                setOpenDelete={setOpenDelete}
+                              />
+                            ) : ""}
+                            {post?.type == 'suggestion' ? (
+                              <SuggestionCard
+                                key={post?.id}
+                                setSelectedPost={setSelectedPost}
+                                setOpenComments={setOpenComment}
+                                post={post}
+                                handleLike={handleLike}
+                                setOpenDelete={setOpenDelete}
+                              />
+                            ) : ""}
+                            {post?.type == 'image/video' ? (
+                              <ImageCard
+                                key={post?.id}
+                                setSelectedPost={setSelectedPost}
+                                setOpenComments={setOpenComment}
+                                post={post}
+                                handleLike={handleLike}
+                                setOpenDelete={setOpenDelete}
+                              />
+                            ) : ""}
+                            {post?.type == 'poll' ? (
+                              <PollCard
+                                key={post?.id}
+                                setSelectedPost={setSelectedPost}
+                                setOpenComments={setOpenComment}
+                                post={post}
+                                handleLike={handleLike}
+                                setOpenDelete={setOpenDelete}
+                              />
+                            ) : ""
+
+                            }
+                          </>
+                        )
+                          : ''
+                        )
+                    )
+                    )
                   )
-                  ))}
+                }
               </div>
             </div>
           ) : (

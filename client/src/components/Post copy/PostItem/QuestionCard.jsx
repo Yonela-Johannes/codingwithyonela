@@ -6,6 +6,7 @@ import { PiArrowCircleUpDuotone } from "react-icons/pi";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { fetchPostComment } from "../../../features/post/postSlice";
 import moment from 'moment'
+import Status from "../Status";
 
 const QuestionCard = ({
     post,
@@ -74,7 +75,7 @@ const QuestionCard = ({
                     </div>
                 </div>
                 <div
-                    className={`flex items-center justify-center py-4 px-5 font-semibold border-t border-bg_lighter`}>
+                    className={`flex items-center justify-center py-4 px-5 font-semibold ${post?.status == 'pending' ? 'border-none' : 'border-t'} border-bg_lighter`}>
                     <div
                         className={`flex items-center py-4 px-5 hover:bg-gray-200 cursor-pointer`}
                         onClick={() => handleLike(post)}
@@ -89,6 +90,9 @@ const QuestionCard = ({
                         <AiTwotoneMessage size={22} />
                         <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} flex items-center font-bold`}>{post?.comment_count}</p>
                     </div>
+                    {currentUser?.is_admin || currentUser?.is_staff ? (
+                        <Status post={post} />
+                    ) : ''}
 
                     {currentUser && currentUser?.account_id == post?.account_id ? (
                         <>

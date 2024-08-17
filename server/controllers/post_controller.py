@@ -97,7 +97,8 @@ def fetch_posts():
     path.id as path_id,
     path.text as path_text,
     COALESCE(pc.comment_count, 0) AS comment_count,
-    COALESCE(pl.like_count, 0) AS like_count
+    COALESCE(pl.like_count, 0) AS like_count,
+    COALESCE(pr.response_count, 0) AS response_count
         FROM 
             post p
         LEFT JOIN (
@@ -109,6 +110,15 @@ def fetch_posts():
             GROUP BY 
                 post_id
         ) pc ON p.id = pc.post_id
+        LEFT JOIN (
+            SELECT 
+                post_id,
+                COUNT(*) AS response_count
+            FROM 
+                post_response
+            GROUP BY 
+                post_id
+        ) pr ON p.id = pr.post_id
         LEFT JOIN (
             SELECT 
                 post_id,
@@ -171,6 +181,30 @@ def edit_post(id, user_id):
     finally:
         return response
     
+def edit_post_status(id, status):
+    ic(status)
+    sql = """UPDATE post SET status=%s
+            WHERE id=%s RETURNING *
+    ;"""
+                
+    response = None
+
+    try:
+        with  connection as conn:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
+                cur.execute(sql, (status, id))           
+                row = cur.fetchone()
+                if row:          
+                    response = row
+                conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        ic(error)
+        response = error
+    finally:
+        return response
+    
+
+
 
 def delete_post(post_id, account_id):
     post = """DELETE FROM post WHERE id = %s AND account_id = %s RETURNING id;"""
@@ -222,7 +256,7 @@ def create_post_comment(account_id, comment, post_id):
 
 # fetch feed responses
 def fetch_post_comment(id):
-    query = """SELECT post_comment.*, post_comment.id AS comment_id, account.email, account.username, account.lastname, account.is_admin, account.is_staff, account.profile, account.user_title_id, user_title.user_title FROM post_comment JOIN account ON account_id = account.id JOIN user_title ON user_title_id = user_title.id WHERE post_id=%s ORDER BY comment_id DESC;"""
+    query = """SELECT * FROM post_comment JOIN account ON account_id = account.id WHERE post_id=%s ORDER BY post_comment_time DESC;"""
     
     response = None
 
@@ -240,8 +274,7 @@ def fetch_post_comment(id):
         response = error
     finally:
         return response
-
-  
+ 
 def create_poll_vote(account_id, poll_a_id):
     """ Create post vote"""
     sql = """INSERT INTO poll_vote (account_id, poll_answer_id)
@@ -289,7 +322,7 @@ def create_post_response(account_id, text, post_id):
 
 # fetch feed responses
 def fetch_post_response(id):
-    query = """SELECT post_comment.*, post_comment.id AS comment_id, account.email, account.username, account.lastname, account.is_admin, account.is_staff, account.profile, account.user_title_id, user_title.user_title FROM post_comment JOIN account ON account_id = account.id JOIN user_title ON user_title_id = user_title.id WHERE post_id=%s ORDER BY comment_id DESC;"""
+    query = """SELECT post_response.*, post_response.id AS post_id, account.email, account.username, account.lastname, account.is_admin, account.is_staff, account.profile, account.user_title_id, user_title.user_title FROM post_response JOIN account ON account_id = account.id JOIN user_title ON user_title_id = user_title.id WHERE post_id=%s ORDER BY post_response_time DESC;"""
     
     response = None
 

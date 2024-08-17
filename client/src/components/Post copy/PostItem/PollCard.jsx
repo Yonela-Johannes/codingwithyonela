@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { PiArrowCircleUpDuotone } from "react-icons/pi";
 import { fetchPostComment, vote } from "../../../features/post/postSlice";
 import { ThemeContext } from "../../../context/ThemeContext";
+import Status from "../Status";
 
 const PollCard = ({
     post,
@@ -67,14 +68,16 @@ const PollCard = ({
 
             </div>
             <div className="flex justify-end p-2">
-                <div className="flex">
-                    <p className="text-sm p-1 font-bold text-slate-400">
-                        #{post?.type}
-                    </p>
-                </div>
+                <p className="text-sm p-1 font-bold text-slate-400">
+                    #{post?.status}
+                </p>
+                <p className="text-sm p-1 font-bold text-slate-400">
+                    #{post?.type}
+                </p>
             </div>
             <div
-                className={`flex items-center justify-center py-4 px-5 font-semibold border-t border-bg_lighter`}>
+                className={`flex items-center justify-center py-4 px-5 font-semibold  ${post?.status == 'pending' ? 'border-none' : 'border-t'} border-bg_lighter`}>
+
                 <div
                     className={`flex items-center py-4 px-5 cursor-pointer`}
                     onClick={() => (setSelectedPost(post), dispatch(fetchPostComment(post?.post_id)), setOpenComments(true))}
@@ -90,6 +93,9 @@ const PollCard = ({
                     {/* <AiFillLike size={22} /> */}
                     <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} flex items-center font-bold`}>{post?.like_count}</p>
                 </div>
+                {currentUser?.is_admin || currentUser?.is_staff ? (
+                    <Status post={post} />
+                ) : ''}
                 {currentUser && currentUser?.account_id == post?.account_id ? (
                     <>
                         <div

@@ -6,8 +6,8 @@ const Home = () =>
 {
   const { theme } = useContext(ThemeContext)
   return (
-    <div className={`${theme == "light" ? "text-black" : "text-white"} h-full grid lg:grid-cols-2 gap-4 lg:gap-8`}>
-      <div className="">
+    <div className={`${theme == "light" ? "text-black" : "text-white"} flex-1 h-full grid lg:grid-cols-2 gap-4 lg:gap-8`}>
+      <div className="flex items-center justify-center w-full h-full">
         <Top
           title="Hello, I'm"
           name="Yonela"
@@ -15,10 +15,10 @@ const Home = () =>
           theme={theme}
         />
       </div>
-      <div className="flex items-end  justify-center w-full">
+      <div className="flex items-center justify-center w-full h-full">
         <img src={peer} className="rounded-md h-[300px] w-[280px] object-cover" />
       </div>
-    </div>
+    </div >
   );
 };
 

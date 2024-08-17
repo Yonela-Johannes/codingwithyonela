@@ -1,7 +1,7 @@
 import json
 from flask import request, jsonify
 from sqlalchemy import JSON
-from controllers.post_controller import ( create_post, fetch_post, create_post_comment, fetch_post_comment, fetch_posts, edit_post, delete_post, create_poll_vote, create_post_response )
+from controllers.post_controller import ( create_post, fetch_post, create_post_comment, fetch_post_comment, fetch_posts, edit_post, delete_post, create_poll_vote, create_post_response, fetch_post_response, edit_post_status )
 from icecream import ic
 from routes.image_upload import uploadImage
 from faker import Faker
@@ -34,15 +34,27 @@ def post(id):
             user_id = data['account']
             post_id = data['post']
             
-            if id:
+            if 'status' in data and post_id:
+                status = data['status']
+                response = edit_post_status(id=post_id, status=status)
+                if response:
+                        res = {"data": f"{response}",
+                            "message": "Status update successful"
+                            }
+                        return res, 200
+                res = {"message": "Something went wrong"}
+                return res, 400
+            
+            elif id and user_id and post_id:
                 response = edit_post(id=post_id, user_id=user_id)
                 if response:
                         res = {"data": f"{response}",
                             "message": "Update successful"
                             }
                         return res, 200
-            res = {"message": "Title or is ID invalid"}
-            return res, 400
+                res = {"message": "Something went wrong, could not like"}
+                return res, 400
+        
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
             return res, 400
@@ -210,10 +222,10 @@ def post_response_create():
         try:
             data = request.get_json()
             account_id = data['account']
-            text = data['response']
+            post = data['text']
             post_id = data['post']
-
-            response = create_post_response(account_id=account_id, text=text, post_id=post_id)
+            
+            response = create_post_response(account_id=account_id, text=post, post_id=post_id)
             if len(response) > 0:
                     res = {"data": f"{response}",
                             "message": "Responsed successful"}
@@ -234,7 +246,7 @@ def post_response(id):
     if REQUEST == 'GET':
         try:
             if id:
-                response = fetch_post_comment(id)
+                response = fetch_post_response(id)
                 res = {"data": response}
                 return res, 200
             else:

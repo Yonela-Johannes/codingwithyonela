@@ -1,14 +1,8 @@
-import
-{
-  FaFacebook,
-  FaGithubAlt,
-  FaInstagramSquare,
-  FaLinkedin,
-} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import HoverUnderLine from "../components/HoverUnderLine";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
+import logo from '../assets/logo.png'
 
 const Footer = () =>
 {
@@ -20,6 +14,14 @@ const Footer = () =>
           Here I Share
           <br /> What I'm learning
         </h2>
+        <Link to="/">
+          <div className="flex gap-1 items-center justify-start">
+            <div>
+              <img src={logo} className="w-8 h-8 object-center object-contain" />
+            </div>
+            <p className='text-lg font-semibold line-clamp-2 clr'>CodingWithYonela</p>
+          </div>
+        </Link>
       </div>
       <div className="flex flex-col gap-4 w-full">
         <div className="flex flex-col md:flex-row justify-between">
@@ -49,8 +51,13 @@ const Footer = () =>
               </Link>
             </HoverUnderLine>
             <HoverUnderLine>
-              <Link to="/testimonials" className="text-base">
-                Testimonials
+              <Link to="/project-status" className="text-base">
+                Projects
+              </Link>
+            </HoverUnderLine>
+            <HoverUnderLine>
+              <Link to="/recommendation" className="text-base">
+                Recommendation
               </Link>
             </HoverUnderLine>
           </div>

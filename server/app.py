@@ -10,7 +10,7 @@ from routes.topics import topics
 from routes.user import create_user_profile, user, login_user, verify_user, users
 from routes.title import title
 from routes.blog import blog, blogs, blogs_comment_create, blogs_comments
-from routes.post_router import post, posts, post_comment_create, post_comment, post_vote_create, post_response_create
+from routes.post_router import post, posts, post_comment_create, post_comment, post_vote_create, post_response_create, post_response
 from routes.task import task, project_task
 from routes.enums import blog_enum
 from flask_cors import CORS, cross_origin
@@ -168,7 +168,7 @@ def get_feeds_route():
 #post comments route
 @app.route('/api/v1/posts-response/<int:id>', methods=['GET', 'DELETE'])
 def get_post_response(id):
-    return post_comment(id)
+    return post_response(id)
 
 #post response route
 @app.route('/api/v1/posts-response', methods=['GET', 'POST'])

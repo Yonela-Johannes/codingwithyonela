@@ -11,6 +11,7 @@ export const ModalContextProvider = ({ children }) =>
     const [open, setOpen] = useState(false);
     const [openDelete, setOpenDelete] = useState(false)
     const [comment, setComment] = useState("");
+    const [response_text, setResponseText] = useState("");
     const [response, setResponse] = useState("");
     const [selectedSuggestion, setSelectedSuggestion] = useState({});
 
@@ -33,7 +34,9 @@ export const ModalContextProvider = ({ children }) =>
             openSuggestion,
             setOpenSuggestion,
             selectedSuggestion,
-            setSelectedSuggestion
+            setSelectedSuggestion,
+            response_text,
+            setResponseText
         }}>
             {children}
         </ModalContext.Provider>

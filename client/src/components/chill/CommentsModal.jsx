@@ -10,12 +10,12 @@ import { activeSignin, disableAuthModals } from '../../features/user/authSlice';
 const CommentsModal = () =>
 {
     const { loading, comments } = useSelector((state) => state?.posts);
-    const { setOpenComment, setOpen, setOpenResponse, selectedPost, comment, setComment  } = useContext(ModalContext)
+    const { setOpenComment, setOpen, setOpenResponse, selectedPost, comment, setComment } = useContext(ModalContext)
     const { currentUser } = useSelector((state) => state.user)
     const { theme } = useContext(ThemeContext)
     const dispatch = useDispatch()
 
-    const commentHandler = async () =>
+    const re = async () =>
     {
 
         if (comment > 200)
@@ -34,6 +34,7 @@ const CommentsModal = () =>
             }
         }
     };
+    console.log(comments)
     return (
         <div className={`${theme == 'light' ? "bg-bg_lightest" : "bg-bg_light"} max-h-[520px] overflow-auto rounded-lg max-w-[800px] m-auto z-30`}
         >
@@ -106,7 +107,7 @@ const CommentsModal = () =>
                                             className="rounded-full object-cover object-center h-[35px] w-[35px]"
                                         />
                                     </div>
-                                    <button className="p-2 lg:px-4 lg:py-2" onClick={commentHandler}>Reply</button>
+                                    <button className="p-2 lg:px-4 lg:py-2" onClick={re}>Reply</button>
                                 </div>
                             </div>
                         </div>
@@ -151,7 +152,7 @@ const CommentsModal = () =>
                         ))}
                     </div>
                 ) : (
-                    <p onClick={() => (dispatch(disableAuthModals()), setOpenComment(false), setOpenResponse(false), setOpen(false), dispatch(activeSignin()))} className={`${theme == 'light' ? "text-bg_primary" : "text-bg_lightest"} text-base lg:text-lg my-2`}>Be the first to comment. <span>Signin</span></p>
+                    <p onClick={() => (dispatch(disableAuthModals()), setOpenComment(false), setOpenResponse(false), setOpen(false), dispatch(activeSignin()))} className={`${theme == 'light' ? "text-bg_primary" : "text-bg_lightest"} text-base lg:text-lg my-2`}>Be the first to comment.</p>
                 )}
             </div>
         </div >

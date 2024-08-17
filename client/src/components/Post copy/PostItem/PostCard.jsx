@@ -4,6 +4,7 @@ import { AiTwotoneDelete, AiTwotoneLike, AiTwotoneMessage } from "react-icons/ai
 import { useDispatch, useSelector } from "react-redux";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { fetchPostComment } from "../../../features/post/postSlice";
+import Status from "../Status";
 
 const PostCard = ({
     post,
@@ -69,7 +70,7 @@ const PostCard = ({
                 </div>
             </div>
             <div
-                className={`flex items-center justify-center py-4 px-5 font-semibold border-t border-bg_lighter`}>
+                className={`flex items-center justify-center py-4 px-5 font-semibold ${post?.status == 'pending' ? 'border-none' : 'border-t'} border-bg_lighter`}>
                 <div
                     className={`flex items-center py-4 px-5 cursor-pointer`}
                     onClick={() => (setSelectedPost(post), dispatch(fetchPostComment(post?.post_id)), setOpenComments(true))}
@@ -85,6 +86,9 @@ const PostCard = ({
                     {/* <AiFillLike size={22} /> */}
                     <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} flex items-center font-bold`}>{post?.like_count}</p>
                 </div>
+                {currentUser?.is_admin || currentUser?.is_staff ? (
+                    <Status post={post} />
+                ) : ''}
                 {currentUser && currentUser?.account_id == post?.account_id ? (
                     <>
                         <div
