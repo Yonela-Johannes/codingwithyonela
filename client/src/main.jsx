@@ -8,6 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeContextProvider } from "./context/ThemeContext.jsx";
 import { ChakraProvider } from '@chakra-ui/react'
 import { ModalContextProvider } from "./context/ModalContext.jsx";
+import '@radix-ui/themes/styles.css';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <PersistGate persistor={persistor}>

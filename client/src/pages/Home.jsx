@@ -2,6 +2,7 @@ import { useContext } from "react";
 import Top from "../components/blog/Top";
 import peer from '../data/peer.png'
 import { ThemeContext } from "../context/ThemeContext";
+import { Widget } from "../shared/Widget";
 const Home = () =>
 {
   const { theme } = useContext(ThemeContext)
@@ -18,6 +19,7 @@ const Home = () =>
       <div className="flex items-center justify-center w-full h-full">
         <img src={peer} className="rounded-md h-[300px] w-[280px] object-cover" />
       </div>
+      <Widget />
     </div >
   );
 };

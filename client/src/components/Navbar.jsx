@@ -13,6 +13,7 @@ import ThemeToggle from './themeToggle/ThemeToggle';
 import { ThemeContext } from '../context/ThemeContext';
 import avatar from '../assets/pavatar.png'
 import { activeSignin, activeSignup, disableAuthModals, logout } from '../features/user/authSlice';
+import { AiOutlineSearch } from 'react-icons/ai';
 
 const MobileMenu = ({ currentUser, items, user_items }) =>
 {
@@ -60,13 +61,6 @@ const MobileMenu = ({ currentUser, items, user_items }) =>
                   </Space>
                 </a>
               </Dropdown>
-              <Link to="/donate" onClick={() => setIsMenuOpen(false)}>
-                <HoverUnderLine>
-                  <div className="flex gap-2 items-center cursor-pointer p-2">
-                    Donate
-                  </div>
-                </HoverUnderLine>
-              </Link>
               {currentUser && currentUser?.id ? (
                 <Dropdown
                   menu={{
@@ -85,13 +79,18 @@ const MobileMenu = ({ currentUser, items, user_items }) =>
                   </a>
                 </Dropdown>
               ) : (
-                <Link to="/sign-in" onClick={() => setIsMenuOpen(false)}>
+                <div onClick={() => setIsMenuOpen(false)}>
                   <HoverUnderLine>
                     <div className="flex gap-2 items-center cursor-pointer p-2">
                       Login
                     </div>
                   </HoverUnderLine>
-                </Link>
+                  <HoverUnderLine>
+                    <div className="flex gap-2 items-center cursor-pointer p-2">
+                      signup
+                    </div>
+                  </HoverUnderLine>
+                </div>
               )}
               <div className="flex gap-4 items-center">
                 <Link href="https://github.com/yonela-johannes">
@@ -104,7 +103,6 @@ const MobileMenu = ({ currentUser, items, user_items }) =>
                 <Link href="https://github.com/yonela-johannes">
                   <HoverUnderLine>
                     <div className="flex gap-2 items-center cursor-pointer p-2">
-                      {/* <FaSun size={22} /> */}
                       <BsFillMoonStarsFill />
                     </div>
                   </HoverUnderLine>
@@ -187,8 +185,9 @@ export default function ({ currentUser })
           </Link>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="md:mt-4 flex gap-1 md:gap-4 items-center">
-            <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search" className={`${theme == "light" ? "bg-white" : "bg-slate-800 placeholder:text-gray-300"} border border-gray-400 md:w-[350px] px-2`} />
+          <div className="md:mt-4 flex gap-1 md:gap-2 items-center w-full md:w-auto  text-xs rounded-full ring-[1.5px] ring-gray-300 px-2">
+            <AiOutlineSearch size={20} />
+            <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search..." className={`${theme == "light" ? "bg-white" : "bg-slate-800 placeholder:text-gray-300"} border border-gray-400 md:w-[200px] p-2`} />
             <button className="hidden items-center justify-center h-[26px] w-[26px] md:rounded-full md:h-[46px] md:w-[46px] p-1 text-clr_alt md:bg-clr_alt md:text-white">
               <Search className="md:h-4 md:w-4 " />
             </button>
@@ -223,17 +222,10 @@ export default function ({ currentUser })
 
               {currentUser?.is_admin ? (
                 <>
-                  <Link to="/project/add">
+                  <Link to="/admin">
                     <HoverUnderLine>
                       <div className="flex gap-2 items-center cursor-pointer p-2">
-                        Create project
-                      </div>
-                    </HoverUnderLine>
-                  </Link>
-                  <Link to="/create-blog">
-                    <HoverUnderLine>
-                      <div className="flex gap-2 items-center cursor-pointer p-2">
-                        Create blog
+                        Admin
                       </div>
                     </HoverUnderLine>
                   </Link>
@@ -281,9 +273,9 @@ export default function ({ currentUser })
           ) : ""}
         </div>
       </div>
-      {/* <div className="block md:hidden w-full">
-        <MobileMenu items={items} currentUser={currentUser} user_items={user_items} />
-      </div> */}
+      <div className="block md:hidden w-full">
+        <MobileMenu items={items} currentUser={currentUser} />
+      </div>
     </nav>
   );
 };

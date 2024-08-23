@@ -2,7 +2,7 @@ import json
 from flask import request, jsonify
 from sqlalchemy import JSON
 from controllers.project import create_project, create_project_chat, delete_project, edit_project, fetch_projects, fetch_projects_chats, project_like, fetch_project
-from controllers.task import fetch_task, create_task
+from controllers.task import fetch_task, create_task, edit_task, delete_task
 from icecream import ic
 
 def project_task(project_id):
@@ -28,21 +28,17 @@ def project_task(project_id):
         try:
             data = request.get_json()
             account_id = data['account_id']
-            text = data['text']
-            progress = data['progress']          
-            priority = data['priority']          
-            status = data['status']          
+            task = data['task']              
             description = data['description']  
-    
+            project_id = data['project_id']  
+
             response = create_task(
                 project_id=project_id,
                 account_id=account_id,
-                task=text, 
-                priority=priority,
-                status=status,
+                task=task, 
                 description=description
                 )
-            ic(response)
+
             if response:
                     res = {"data": "Project task created successfull"}
                     return res, 201
@@ -59,26 +55,23 @@ def project_task(project_id):
         try:
             
             data = request.get_json()
-            ic(project_id)
-            ic(data)
-            # account_id = data['account_id']
-            # text = data['text']
-            # user_ids = data['user_ids']
-            # skill_id = data['skill_id']
-            # progress = data['progress']          
-            # priority = data['priority']      
-            # topic_ids = data['topic_ids']      
-            # description = data['description']  
-                       
-            # response = edit_project(account_id, project_name, description, status_id, category_id, github, link)
-            return {}, 200
-            # if response:
-            #         res = {"data": f"{response}",
-            #             "message": "Update successful"
-            #             }
-            #         return res, 200
-            # res = {"message": response}
-            # return res, 400
+            account_id = data['user_id']
+            task_id = data['task_id']
+            status = None
+            if 'status' in data:
+                status = data['status']
+            priority = None
+            if 'priority' in data:
+                priority = data['priority']
+                
+            response = edit_task(account_id=account_id, task_id=task_id, status=status, priority=priority)
+            if response:
+                    res = {"data": response,
+                        "message": "Update successful"
+                        }
+                    return res, 200
+            res = {"message": response}
+            return res, 400
 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
@@ -86,11 +79,11 @@ def project_task(project_id):
     elif REQUEST == 'DELETE':
         try:
             data = request.get_json()
-            account_id = data['account_id']
-            project_id = data['project_id']
+            account_id = data['user_id']
+            task_id = data['task_id']
     
-            if id and project_id and account_id and id == account_id:
-                response = delete_project(project_id, account_id)
+            if task_id and account_id:
+                response = delete_task(task_id=task_id, account_id=account_id)
                 if response == id:
                     res = {"message": "Delete failed: something went wrong."}
                     return res, 400
@@ -100,7 +93,7 @@ def project_task(project_id):
                             }
                     return res, 200
             res = {"message": "Title or is ID invalid"}
-            return res, 00 
+            return res, 400
         except json.decoder.JSONDecodeError:
            res = {"message": "Missing data"}
         return res, 400

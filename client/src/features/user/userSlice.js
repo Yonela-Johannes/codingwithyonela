@@ -16,7 +16,7 @@ export const getUser = createAsyncThunk('user/getUser', async (userId) =>
   return response.data;
 });
 
-export const getUsers = createAsyncThunk('user/getUsers', async (userId) =>
+export const getUsers = createAsyncThunk('user/getUsers', async () =>
 {
   const response = await axios.get(`${apiUrl}users`);
   return response.data;

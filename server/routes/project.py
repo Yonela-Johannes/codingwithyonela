@@ -24,7 +24,6 @@ def project(id):
             data = request.get_json()
             account_id = data['user_id']
             project_id = data['project_id']
-            ic(data)
             project_name = None
             description = None
             github = None
@@ -141,9 +140,10 @@ def projects():
                         return res, 400 
                     
                 res = {"message": "Missing data"}
+                return res, 400
+            else:
+                res = {"message": "Error: image upload"}
                 return res, 400 
-            res = {"message": "Error: image upload"}
-            return res, 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
             print(res)

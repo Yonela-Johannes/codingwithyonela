@@ -4,8 +4,8 @@ const UserProfile = ({ userData, theme, followers, following }) =>
 {
 
 	return (
-		<div className="max-w-[800px] mx-auto">
-			<h2 className={`${theme == "light" ? "text-cl_alt" : "text-white"} text-md lg:text-xl mb-3 lg:mt-10 `}>Github</h2>
+		<div className="w-full lg:max-w-[800px] mx-auto">
+			<p className={`${theme == "light" ? "text-cl_alt" : "text-white"} text-base mt-3 lg:mt-10 `}>Github</p>
 			<div className={` ${theme == "light" ? "text-black" : "text-white bg-bg_grey"} lg:mb-10 px-2  lg:p-4 rounded-md h-max hover:text-none`}>
 				<div className={`${theme == "light" ? "text-black bg-bg_light" : "text-white bg-bg_core"} lg:pr-8 w-max mb-2 bg-bg_greylg:mb-4 rounded-full flex gap-4 items-center`}>
 					<img className="w-12 lg:w-16 h-12 lg:h-16 object-cover object-center rounded-full" name={userData.name} src={userData.avatar_url} />
@@ -57,18 +57,18 @@ const UserProfile = ({ userData, theme, followers, following }) =>
 						</div>
 					</div>
 				</div>
-				<div className={`flex flex-col lg:flex-row gap-2 items-center`}>
-					<div className='flex items-center gap-2 bg-glass rounded-lg p-2 flex-1 min-w-24'>
+				<div className={`flex lg:flex-row gap-2 items-center`}>
+					<div className='flex items-center gap-2 bg-glass rounded-lg p-2 flex-1'>
 						<RiUserFollowFill className='w-5 h-5 text-blue-800' />
 						<p className='text-xs'>{userData?.followers}</p>
 					</div>
 
-					<div className='flex items-center gap-2 bg-glass rounded-lg p-2 flex-1 min-w-24'>
+					<div className='flex items-center gap-2 bg-glass rounded-lg p-2 flex-1'>
 						<RiUserFollowLine className='w-5 h-5 text-blue-800' />
 						<p className='text-xs'>{userData?.following}</p>
 					</div>
 
-					<div className='flex items-center gap-2 bg-glass rounded-lg p-2 flex-1 min-w-24'>
+					<div className='flex items-center gap-2 bg-glass rounded-lg p-2 flex-1'>
 						<RiGitRepositoryFill className='w-5 h-5 text-blue-800' />
 						<p className='text-xs'>{userData?.public_repos}</p>
 					</div>

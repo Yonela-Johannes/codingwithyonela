@@ -235,7 +235,7 @@ def create_tables():
             DROP TYPE IF EXISTS recommendation_request CASCADE;
         """,
         """
-        CREATE TYPE recommendation_request AS ENUM ('pending', 'accepted', 'watching', 'completed');
+        CREATE TYPE recommendation_request AS ENUM ('pending', 'accepted');
         """,
         ######
         # RECOMMENDATION SCHEMA
@@ -243,19 +243,20 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS recommendation (
             id SERIAL PRIMARY KEY,
             name VARCHAR(50) NOT NULL,
-            second_name VARCHAR(50),
             lastname VARCHAR(50) NOT NULL,
-            re_image TEXT NOT NULL,
+            portfolio TEXT NOT NULL,
             github VARCHAR(50),
             linkedin VARCHAR(50),
             email VARCHAR(50) UNIQUE NOT NULL,
             country_id INTEGER NOT NULL,
-            portfolio VARCHAR(50),         
-            account_id INTEGER NOT NULL,
+            website VARCHAR(50),         
+            account_id INTEGER,
             title_id INTEGER NOT NULL,
-            quote VARCHAR(200) NOT NULL,
+            sender_name VARCHAR(20),
+            sender_lastname VARCHAR(50),
+            sender_email VARCHAR(50),
             status recommendation_request NOT NULL DEFAULT 'pending',
-            re_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            profile_created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (account_id)
             REFERENCES account (id)
             ON UPDATE CASCADE ON DELETE CASCADE,
@@ -305,7 +306,7 @@ def create_tables():
             account_id INTEGER NOT NULL,
             task Text NOT NULL,
             description Text NOT NULL,
-            project_status progress NOT NULL DEFAULT 'todo',
+            task_status progress NOT NULL DEFAULT 'todo',
             priority progress_enum NOT NULL DEFAULT 'low',
             created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             project_id INTEGER NOT NULL,
@@ -342,6 +343,15 @@ def create_tables():
             FOREIGN KEY (project_id)
             REFERENCES project (id)
             ON UPDATE CASCADE ON DELETE CASCADE
+        );
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS feedback (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(20) NOT NULL,
+            lastname VARCHAR(20) NOT NULL,
+            message Text NOT NULL,
+            rating INTEGER NOT NULL
         );
         """
     )

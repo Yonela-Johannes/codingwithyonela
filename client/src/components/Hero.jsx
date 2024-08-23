@@ -38,9 +38,9 @@ function Hero()
     quote && quote.quote ? (
       <div className="flex w-full gap-3 flex-col justify-center">
         <div className={`${theme == "light" ? "text-black" : "text-white"}bg-bg_lighter rounded-md max-w-[500px]`}>
-          <span className={`${theme == "light" ? "text-black" : "text-white"} text-lg`}><FaQuoteLeft />{quote?.quote}<FaQuoteRight />
+          <span className={`${theme == "light" ? "text-black" : "text-white"} text-xs p-0 m-0 leading-3 lg:text-lg`}><FaQuoteLeft size={12} />{quote?.quote}<FaQuoteRight size={12} />
           </span>
-          <p className={`${theme == "light" ? "text-black" : "text-white"} text-sm italic`}>- {quote?.author}</p>
+          <p className={`${theme == "light" ? "text-black" : "text-white"} text-xs lg:text-sm italic`}>- {quote?.author}</p>
         </div>
       </div>
 

@@ -7,9 +7,13 @@ import { useEffect } from "react";
 import { toast } from 'react-hot-toast'
 import { MdClose } from "react-icons/md";
 import { ThemeContext } from "../context/ThemeContext";
+import { AiTwotoneFileImage } from 'react-icons/ai';
+import { useRef } from 'react';
 
 export default function SignUp()
 {
+  const [selectedFile, setSelectedFile] = useState();
+  const selectFileRef = useRef(null);
   const { message, loading, signup_success } = useSelector((state) => state.user);
   const dispatch = useDispatch()
   const [profile, setProfile] = useState(null)
@@ -61,6 +65,24 @@ export default function SignUp()
     }
   }, [message, signup_success])
 
+  const onSelectImage = (event) =>
+  {
+    setProfile(event.target.files[0])
+    const reader = new FileReader();
+    if (event.target.files?.[0])
+    {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    reader.onload = (readerEvent) =>
+    {
+      if (readerEvent.target?.result)
+      {
+        setSelectedFile(readerEvent.target?.result);
+      }
+    };
+  };
+
   return (
     <div className={`${theme == 'light' ? '' : 'border-none'} flex flex-col lg:flex-row items-center justify-center lg:items-center lg:absolute h-screen lg:h-sceen w-full lg:z-50 backdrop-blur-xl overflow-hidden top-0 left-0 right-0 bottom-0`}>
       <div className={`${theme == "light" ? "bg-white" : "bg-bg_card border-none"} w-full lg:relative flex py-8 lg:px-16 mx-auto flex-col md:flex-row md:items-center gap-5 lg:border lg:rounded-lg lg:w-[700px]`}>
@@ -69,17 +91,49 @@ export default function SignUp()
         </div>
         <div className='flex-1'>
           <form className='flex flex-col gap-4' onSubmit={handleSubmit} encType="multipart/form-data">
+            <p className='text-xl lg:text-2xl'>Create Account</p>
             <div>
-              <label value='Username'>Profile image</label>
-              <input
-                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
-
-                type='file'
-                placeholder='your avatar'
-                name="profile"
-                id='profile'
-                onChange={(e) => setProfile(e.target.files[0])}
-              />
+              <div
+                className="relative flex flex-col justify-between items-center"
+              >
+                {selectedFile ? (
+                  <>
+                    <img
+                      className="w-full max-h-[400px] object-cover"
+                      src={selectedFile}
+                    />
+                    <div className="absolute flex gap-3 top-1 right-1 bg-clr_alt rounded-full border-bg_grey">
+                      <button
+                        className="p-2 rounded-full text-lg lg:text-xl"
+                        onClick={() => setSelectedFile("")}
+                      >
+                        <MdClose />
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div
+                    className="flex flex-col w-full rounded-md justify-center items-center cursor-pointer my-4"
+                  >
+                    <div
+                      className={`text-xl lg:text-4xl px-3 py-2 mt-1 ${theme == "light" ? "text-black" : "bg-bg_card"} p-2 lg:px-4 lg:py-2`}
+                      onClick={() => selectFileRef.current?.click()}
+                    >
+                      <AiTwotoneFileImage />
+                    </div>
+                    <input
+                      id="file-upload"
+                      type="file"
+                      accept="image/x-png,image/gif,image/jpeg"
+                      hidden
+                      ref={selectFileRef}
+                      onChange={onSelectImage}
+                      className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                    />
+                  </div>
+                )
+                }
+              </div>
             </div>
             <div>
               <label value='Your email' className={`${theme == "light" ? "text-black" : "bg-bg_card text-white"}`}>Email</label>

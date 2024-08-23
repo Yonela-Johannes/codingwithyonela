@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import Loader from "../shared/Loader";
 import { ThemeContext } from "../context/ThemeContext";
 import toast from "react-hot-toast";
+import Empty from "./Empty";
 
 const Blogs = () =>
 {
@@ -80,9 +81,7 @@ const Blogs = () =>
             ))}
           </ul>
         </section>
-      ) : (
-        ""
-      )}
+      ) : ("")}
 
       <div className="mb-10">
         <>
@@ -99,7 +98,7 @@ const Blogs = () =>
                 : blogs.map((blog) => <BlogCard blog={blog} key={blog.id} />)}
             </div>
           ) : (
-            ""
+            <Empty title='No Blogs' description='The CodingWithYonela Team has not created a blog yet.' path='/create-blog' pathMessage="Create Blog" />
           )}
         </>
       </div>

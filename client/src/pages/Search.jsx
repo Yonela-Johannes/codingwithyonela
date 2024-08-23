@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import PostCard from '../components/Post copy/PostItem/PostCard';
+import PostCard from '../components/Posts/PostItem/PostCard';
 import { ThemeContext } from '../context/ThemeContext';
 
 export default function Search()

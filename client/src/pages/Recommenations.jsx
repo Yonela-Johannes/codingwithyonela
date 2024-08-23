@@ -1,18 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import RecommendationCard from "../components/recommendation/RecommendationCard";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { getAllTitles } from "../features/title/titleSlice";
-import { MdOutlineAdd } from "react-icons/md";
+import { MdClose, MdOutlineAdd } from "react-icons/md";
 import { Modal } from "antd";
-import { MdCloudUpload } from "react-icons/md";
-import Dropzone from "react-dropzone";
 import { createRecommendation, disableRecommendationUpdates, getAllRecommendations } from "../features/recommenation/recommendationSlice";
-import Loader from "../shared/Loader";
 import { getAllCountries } from "../features/countries/countrySlice";
 import toast from "react-hot-toast";
 import { ThemeContext } from "../context/ThemeContext";
 import Recommendation from "./Recommendation";
 import { ModalContext } from "../context/ModalContext";
+import { AiTwotoneFileImage } from "react-icons/ai";
 
 const Recommendations = () =>
 {
@@ -21,24 +19,27 @@ const Recommendations = () =>
   const { currentUser, } = useSelector((state) => state?.user);
   const { countries } = useSelector((state) => state.countries);
   const [filterValue, setFilterValue] = useState("")
-  const { loading, recommendations, created } = useSelector((state) => state.recommendation);
-  const [imageSrc, setImageSrc] = useState(null);
+  const { recommendations, created, updated } = useSelector((state) => state.recommendation);
+  const [selectedFile, setSelectedFile] = useState();
+  const selectFileRef = useRef(null);
   const [open, setOpen] = useState(false);
   const { titles } = useSelector((state) => state.titles);
   const dispatch = useDispatch();
+
   const [inputData, setInputData] = useState({
     account_id: "",
     name: "",
-    second_name: "",
     last_name: "",
     email: "",
-    quote: "",
     portfolio: "",
+    website: "",
     github: "",
     linkedin: "",
-    title_id: "",
+    profession: "",
     country: "",
-    re_image: "",
+    sender_email: "",
+    sender_name: "",
+    sender_lastname: "",
   });
 
   useEffect(() =>
@@ -49,28 +50,24 @@ const Recommendations = () =>
   useEffect(() =>
   {
     dispatch(getAllCountries());
-  }, [titles]);
+  }, [open]);
+
+  const fetchRecommendations = () =>
+  {
+    dispatch(getAllRecommendations());
+    dispatch(disableRecommendationUpdates())
+  }
 
   useEffect(() =>
   {
-    dispatch(getAllRecommendations());
-  }, [titles, countries, created]);
+    fetchRecommendations()
+  }, []);
 
-  const colors = [
-    "pink",
-    "red",
-    "yellow",
-    "orange",
-    "cyan",
-    "green",
-    "blue",
-    "purple",
-    "geekblue",
-    "magenta",
-    "volcano",
-    "gold",
-    "lime",
-  ];
+  useEffect(() =>
+  {
+    fetchRecommendations()
+  }, [titles, countries, created, updated]);
+
 
   const handleChange = (e) =>
   {
@@ -79,41 +76,50 @@ const Recommendations = () =>
 
   const handleSubmit = () =>
   {
-    if (currentUser && inputData?.name && inputData?.last_name && inputData?.email && inputData?.quote && inputData?.portfolio && inputData?.github && inputData?.linkedin && inputData?.title_id && inputData?.country, inputData.re_image)
+    if (currentUser || inputData.sender_email !== '' && inputData.sender_name !== '' && inputData.sender_lastname !== '')
     {
-      const formData = new FormData();
-      formData.append('account_id', currentUser?.id);
-      formData.append('name', inputData.name);
-      formData.append('second_name', inputData.second_name);
-      formData.append('lastname', inputData.last_name);
-      formData.append('re_image', inputData.re_image);
-      formData.append('github', inputData.github);
-      formData.append('linkedin', inputData.linkedin);
-      formData.append('email', inputData.email);
-      formData.append('portfolio', inputData.portfolio);
-      formData.append('quote', inputData.quote);
-      formData.append('status_id', inputData.status_id);
-      formData.append('title_id', inputData.title_id);
-      formData.append('country_id', inputData.country);
+      if (inputData?.name && inputData?.last_name && inputData?.email && inputData?.portfolio && inputData?.github && inputData?.linkedin && inputData?.profession && inputData?.country)
+      {
+        const formData = new FormData();
+        formData.append('account_id', currentUser?.id);
+        formData.append('name', inputData.name);
+        formData.append('lastname', inputData.last_name);
+        formData.append('github', inputData.github);
+        formData.append('linkedin', inputData.linkedin);
+        formData.append('email', inputData.email);
+        formData.append('portfolio', inputData.portfolio);
+        formData.append('website', inputData.website);
+        formData.append('profession', inputData.profession);
+        formData.append('country_id', inputData.country);
+        formData.append('sender_email', inputData.sender_email);
+        formData.append('sender_name', inputData.sender_name);
+        formData.append('sender_lastname', inputData.sender_lastname);
 
-      dispatch(createRecommendation(formData))
-      setInputData({
-        account_id: "",
-        name: "",
-        second_name: "",
-        last_name: "",
-        email: "",
-        quote: "",
-        portfolio: "",
-        github: "",
-        linkedin: "",
-        title_id: "",
-        country: "",
-        re_image: "",
-      })
+        dispatch(createRecommendation(formData))
+        setInputData({
+          account_id: "",
+          name: "",
+          last_name: "",
+          email: "",
+          quote: "",
+          portfolio: "",
+          website: "",
+          github: "",
+          linkedin: "",
+          profession: "",
+          country: "",
+          sender_email: "",
+          sender_name: "",
+          sender_lastname: "",
+        })
+        setSelectedFile('')
+      } else
+      {
+        toast("Missing data. Provide all information")
+      }
     } else
     {
-      toast("Missing data. Provide all information")
+      toast("Signin or enter you details")
     }
   }
 
@@ -126,42 +132,74 @@ const Recommendations = () =>
     }
   }, [created])
 
+  const onSelectImage = (event) =>
+  {
+    setInputData({ ...inputData, portfolio: event.target.files[0] });
+    const reader = new FileReader();
+    if (event.target.files?.[0])
+    {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    reader.onload = (readerEvent) =>
+    {
+      if (readerEvent.target?.result)
+      {
+        setSelectedFile(readerEvent.target?.result);
+      }
+    };
+  };
+
+  const handleFilter = (e) =>
+  {
+    setFilterValue(e.target.value)
+  }
+
   return (
     <div className="h-full my-5">
-      <div className="flex items-start w-full mb-8 justify-between">
+      <div className="hidden lg:flex gap-2 items-start w-full mb-8 justify-between">
         {titles && titles?.length > 0 ? (
           <div className="grid grid-cols-1 w-max gap-2">
-            <select onChange={(e) => setFilterValue(e.target.value)}
+            <select onChange={handleFilter}
               className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-bg_light" : "bg-bg_grey text-white"} rounded-md`}
             >
-              {titles?.map((element) => (
-                <option
-                  key={element?.id}
-                  value={element?.user_title}
-                >
-                  {element?.user_title}
-                </option>
-              ))}
+              <>
+                <option value="" disabled selected hidden>Select profession</option>
+                <option value="all">All professions</option>
+                {titles?.map((element) => (
+                  <>
+                    <option
+                      key={element?.id}
+                      value={element?.user_title}
+                    >
+                      {element?.user_title}
+                    </option>
+                  </>
+                ))}
+              </>
             </select>
           </div>
         ) : (
           ""
         )}
-        {currentUser && currentUser?.id ? (
-          <button
-            onClick={() => setOpen(true)}
-            title="Add recommendation"
-            className="flex p-0 items-center justify-center text-lg bg-clr_alt text-white rounded-full w-11 h-11"
-          >
-            <MdOutlineAdd size={20} />
-          </button>
-        ) : ""}
+        <button
+          onClick={() => setOpen(true)}
+          title="Add recommendation"
+          className="flex p-0 items-center justify-center text-lg bg-clr_alt text-white rounded-full w-11 h-11"
+        >
+          <MdOutlineAdd size={20} />
+        </button>
       </div>
       <div className="grid grid-cols-1 w-full lg:grid-cols-2 xl:grid-cols-4  gap-2 lg:grid-gap-4 xl:gap-6 h-full">
-        {filterValue ? recommendations?.filter((element) => element.user_title == filterValue)?.map((item) => (
-          <RecommendationCard theme={theme} item={item} key={item._id} colors={colors} />
-        )) : (recommendations?.map((item) => (
-          <RecommendationCard theme={theme} item={item} key={item._id} colors={colors} />
+        {filterValue && filterValue !== 'all' ? recommendations?.filter((element) => element.user_title == filterValue)?.map((item) => (
+          item?.status !== 'pending' ? (
+            <RecommendationCard theme={theme} item={item} key={item._id} />
+          ) : ''
+        )) : (currentUser?.is_admin || currentUser?.is_staff) ? (recommendations?.map((item) => (
+          <RecommendationCard theme={theme} item={item} key={item._id} />
+        ))) : (recommendations?.map((item) => (
+          item?.status !== 'pending' ?
+            (<RecommendationCard theme={theme} item={item} key={item._id} />) : ""
         )))}
       </div>
       <Modal
@@ -174,143 +212,135 @@ const Recommendations = () =>
         footer={false}
       >
         <div className="rounded-md p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full">
-          <div className="rounded-md pb-2 p-2 flex-col flex md:flex-row items-start gap-2 md:gap-4 justify-between w-full">
+          <div className="rounded-md pb-2 p-2 grid lg:grid-cols-2 items-start gap-2 md:gap-4 justify-center w-full">
             <div>
-              <div>
-                <input id='name' value={inputData.name} onChange={handleChange} placeholder="Name*" />
-              </div>
-              <div>
-                <input id='second_name' value={inputData.second_name} onChange={handleChange} placeholder="Second name" />
-              </div>
-              <div>
-                <input id='last_name' value={inputData.last_name} onChange={handleChange} placeholder="Last name*" />
-              </div>
-              <div>
-                <input type="email" id='email' value={inputData.email} onChange={handleChange} placeholder="Email*" />
-              </div>
-              <div>
-                <input id='quote' value={inputData.bio} onChange={handleChange} placeholder="Short bio*" />
-              </div>
-              <div>
-                <input id='portfolio' value={inputData.portfolio} onChange={handleChange} placeholder="Website (blog/portfolio) link*" />
-              </div>
-              <div className="flex items-center p-0 m-0 text-base">
-                <p className="p-0 m-0 text-base text-cl_core core ml-5">
-                  https://github.com/
-                </p>
-                <input id='github' value={inputData.github} onChange={handleChange} placeholder="Github username*" />
-              </div>
-              <div className="flex items-center p-0 m-0 text-base">
-                <p className="p-0 m-0 text-base text-bg_core ml-5">
-                  https://www.linkedin.com/in/
-                </p>
-                <input id="linkedin" value={inputData.linkedin} onChange={handleChange} placeholder="Linkedin username*" />
-              </div>
-              <div>
-                <select
-                  id='title_id'
-                  onChange={(e) => setInputData({ ...inputData, title_id: e.target.value })}
+              <p className="lg:text-lg text-bg_primary font-semibold">Developer</p>
+              <div className="flex flex-col gap-2">
+                <div
+                  className="relative flex flex-col justify-between items-center"
                 >
-                  {titles?.map((elem) => (
+                  {selectedFile ? (
                     <>
-                      <option value={elem.id} key={elem.id}>{elem?.user_title}</option>
+                      <img
+                        className="w-full max-h-[200px] object-cover object-center"
+                        src={selectedFile}
+                      />
+                      <div className="absolute flex gap-3 top-1 right-1 bg-clr_alt rounded-full border-bg_grey">
+                        <button
+                          className="p-2 rounded-full text-lg lg:text-xl"
+                          onClick={() => setSelectedFile("")}
+                        >
+                          <MdClose />
+                        </button>
+                      </div>
                     </>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <select
-                  id='country'
-                  onChange={(e) => setInputData({ ...inputData, country: e.target.value })}
-                >
-                  {countries?.map((elem) => (
-                    <>
-                      <option value={elem.id} key={elem.id}>
-                        {elem?.emoji} {elem?.name}{" "}
-                      </option>
-                    </>
-                  ))}
-                </select>
+                  ) : (
+                    <div
+                      className="flex flex-col w-full rounded-md justify-center items-center cursor-pointer my-4"
+                    >
+                      <div
+                        className={`text-xl lg:text-4xl px-3 py-2 mt-1 ${theme == "light" ? "text-black" : "bg-bg_card"} p-2 lg:px-4 lg:py-2`}
+                        onClick={() => selectFileRef.current?.click()}
+                      >
+                        <AiTwotoneFileImage />
+                      </div>
+                      <input
+                        id="file-upload"
+                        type="file"
+                        accept="image/x-png,image/gif,image/jpeg"
+                        hidden
+                        ref={selectFileRef}
+                        onChange={onSelectImage}
+                        className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                      />
+                    </div>
+                  )
+                  }
+                </div>
+                <div>
+                  <input className="rounded-none bg-bg_lightest" id='name' value={inputData.name} onChange={handleChange} placeholder="name" />
+                </div>
+                <div>
+                  <input className="rounded-none bg-bg_lightest" id='last_name' value={inputData.last_name} onChange={handleChange} placeholder="last name" />
+                </div>
+                <div>
+                  <input className="rounded-none bg-bg_lightest" id='email' value={inputData.email} onChange={handleChange} placeholder="email" />
+                </div>
+                <div className="flex items-center p-0 m-0 text-base">
+                  <input className="rounded-none bg-bg_lightest" id='github' value={inputData.github} onChange={handleChange} placeholder="github username" />
+                </div>
+                <div className="flex items-center p-0 m-0 text-base">
+                  <input className="rounded-none bg-bg_lightest" id="linkedin" value={inputData.linkedin} onChange={handleChange} placeholder="linkedin username" />
+                </div>
+                <div className="flex items-center p-0 m-0 text-base">
+                  <input className="rounded-none bg-bg_lightest" id='website' value={inputData.website} onChange={handleChange} placeholder="website" />
+                </div>
+                <div>
+                  <select
+                    className="w-full rounded-none bg-bg_lightest"
+                    id='profession'
+                    onChange={(e) => setInputData({ ...inputData, profession: e.target.value })}
+                  >
+                    {titles?.map((elem) => (
+                      <>
+                        <option value="" disabled selected hidden>Select profession</option>
+                        <option value={elem.id} key={elem.id}>{elem?.user_title}</option>
+                      </>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <select
+                    id='country'
+                    className="w-full rounded-none bg-bg_lightest"
+                    onChange={(e) => setInputData({ ...inputData, country: e.target.value })}
+                  >
+                    {countries?.map((elem) => (
+                      <>
+                        <option value="" disabled selected hidden>Select country</option>
+                        <option value={elem.id} key={elem.id}>
+                          {elem?.emoji} {elem?.name}{" "}
+                        </option>
+                      </>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
-            <div>
-              <div className="flex w-full md:w-max h-full flex-col space-y-2 pb-4">
-                <div className="flex items-center self-end bg-clr_alt w-max text-white rounded-full gap-2">
-                  <div className="space-y-1 py-1 pl-3">
-                    <p className="text-xs">
-                      {currentUser?.username} {currentUser?.lastname}
-                    </p>
+
+            <div className="w-full">
+              <p className="lg:text-lg text-bg_primary font-semibold">Your details</p>
+              <div className="flex w-full h-full flex-col space-y-2 pb-4">
+                {currentUser && currentUser?.id ? (
+                  <div className="flex items-center self-end bg-clr_alt w-max text-white rounded-full gap-2">
+                    <div className="space-y-1 py-1 pl-3">
+                      <p className="text-xs">
+                        {currentUser?.username} {currentUser?.lastname}
+                      </p>
+                    </div>
+                    <div>
+                      <img
+                        src={currentUser?.profile}
+                        alt="cover"
+                        className="rounded-full object-cover object-center h-[35px] w-[35px]"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <img
-                      src={currentUser?.profile}
-                      alt="cover"
-                      className="rounded-full object-cover object-center h-[35px] w-[35px]"
-                    />
-                  </div>
-                </div>
-                <div className="p-2">
-                  <Dropzone
-                    acceptedFiles=".jpg,.jpeg,.png"
-                    multiple={false}
-                    onDrop={(acceptedFiles) =>
-                      acceptedFiles.map((file, index) =>
-                      {
-                        const { type } = file;
-                        if (
-                          type === "image/png" ||
-                          type === "image/svg" ||
-                          type === "image/jpeg" ||
-                          type === "image/gif" ||
-                          type === "image/webp"
-                        )
-                        {
-                          setInputData({ ...inputData, re_image: file });
-                          const reader = new FileReader();
-                          reader.readAsDataURL(file);
-                          reader.onloadend = () => setInputData({ ...inputData, re_image: file })
-                          setImageSrc(reader.result);
-                        }
-                      })
-                    }
-                  >
-                    {({ getRootProps, getInputProps, isDragActive }) => (
-                      <div {...getRootProps()} className="p-[1rem]">
-                        <input name="banner" {...getInputProps()} />
-                        {isDragActive ? (
-                          <div className="flex flex-col text-center items-center justify-center">
-                            <p className="text-center text-[13px] text-primary">
-                              <MdCloudUpload size={22} />{" "}
-                            </p>
-                            <p className="text-center text-[13px]">
-                              {" "}
-                              Drop here!
-                            </p>
-                          </div>
-                        ) : imageSrc === null ? (
-                          <div className="flex flex-col text-center items-center justify-center">
-                            <p className="text-center text-[13px] text-primary">
-                              <MdCloudUpload size={22} />
-                            </p>
-                            <p className="text-center text-[13px]">
-                              Drag and Drop here or click to choose
-                            </p>
-                          </div>
-                        ) : (
-                          <div className="flex items-center justify-center">
-                            <div>
-                              <img
-                                className="h-[200px] w-[200px] object-cover rounded-md"
-                                src={imageSrc}
-                                alt=""
-                              />
-                            </div>
-                          </div>
-                        )}
+                ) : (
+                  <div className="w-full">
+                    <div className="flex flex-col gap-2 w-full">
+                      <div className="w-full">
+                        <input className="rounded-none bg-bg_lightest w-full" id='sender_name' value={inputData.sender_name} onChange={handleChange} placeholder="name" />
                       </div>
-                    )}
-                  </Dropzone>
-                </div>
+                      <div className="w-full">
+                        <input className="rounded-none bg-bg_lightest w-full" id='sender_lastname' value={inputData.send_lastname} onChange={handleChange} placeholder="last name" />
+                      </div>
+                      <div className="w-full">
+                        <input className="rounded-none bg-bg_lightest w-full" id='sender_email' value={inputData.sender_email} onChange={handleChange} placeholder="last name" />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

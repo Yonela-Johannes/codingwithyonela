@@ -16,7 +16,6 @@ def login_user():
             
             if email and password:
                 response = login(email=email, password=password)
-                ic(response)
                 if "message" in response:
                     return response, 403
                 if response:
@@ -248,6 +247,7 @@ def users():
     if REQUEST == 'GET':
         try:
             response = fetch_users()
+            ic(response)
             if response:
                 res = {
                     "message": "Fetch successful",
@@ -257,7 +257,7 @@ def users():
             else:
                 res = {"message":  "Fetch successful",
                        "users": []}
-                return res, 200
+                return res, 00
         except:
             return {"message": "Fetch failed: something went wrong."}
             

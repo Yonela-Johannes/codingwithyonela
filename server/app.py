@@ -120,11 +120,11 @@ def blogs_comments_route():
 # recommendation route
 @app.route('/api/v1/recommendation', methods=['GET', 'POST', 'DELETE'])
 def recommendations_route():
-    return all_recommendations()
+    return all_recommendations(mail=mail)
 
 @app.route('/api/v1/recommendation/<int:id>', methods=['GET', 'PUT'])
 def recommendation_route(id):
-    return recommendation(id)
+    return recommendation(id, mail)
 
 # ---------------------
 # project route

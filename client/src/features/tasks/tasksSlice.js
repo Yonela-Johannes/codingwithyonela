@@ -10,6 +10,7 @@ const initialState = {
   failed: false,
   deleted: false,
   updated: false,
+  created: false,
 }
 
 export const getAllTasks = createAsyncThunk('tasks/fetch all', async (project_id) =>
@@ -20,19 +21,19 @@ export const getAllTasks = createAsyncThunk('tasks/fetch all', async (project_id
 
 export const updateTask = createAsyncThunk('tasks/edit', async (data) =>
 {
-  const response = await axios.put(`${apiUrl}project/${data?.project_id}`, { ...data });
+  const response = await axios.put(`${apiUrl}task/${data?.task_id}`, { ...data });
   return response.data;
 });
 
 export const createTask = createAsyncThunk('tasks/create', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}project`, data);
+  const response = await axios.post(`${apiUrl}task/${data?.project_id}`, data);
   return response.data;
 });
 
 export const deleteTask = createAsyncThunk('tasks/delete', async (data) =>
 {
-  const response = await axios.delete(`${apiUrl}project/${data?.project_id}`, {
+  const response = await axios.delete(`${apiUrl}task/${data?.task_id}`, {
     data: {
       ...data
     }
@@ -51,6 +52,12 @@ export const tasksSlice = createSlice({
     getSelectedTask: (state) =>
     {
       state.project
+    },
+    disableTaskUpdates: (state) =>
+    {
+      state.created = false
+      state.updated = false
+      state.deleted = false
     }
   },
   extraReducers: (builder) =>
@@ -73,16 +80,19 @@ export const tasksSlice = createSlice({
       .addCase(createTask.pending, (state) =>
       {
         state.success = false
+        state.created = false
       })
       .addCase(createTask.fulfilled, (state) =>
       {
         state.success = true
+        state.created = true
       })
       .addCase(createTask.rejected, (state, action) =>
       {
         state.loading = false;
         state.error = action.message;
         state.failed = true
+        state.created = false
         state.success = false
       })
       .addCase(deleteTask.pending, (state) =>
@@ -118,5 +128,5 @@ export const tasksSlice = createSlice({
   },
 })
 
-export const { setSelecteTask, getSelectedTask } = tasksSlice.actions
+export const { setSelecteTask, getSelectedTask, disableTaskUpdates } = tasksSlice.actions
 export default tasksSlice.reducer

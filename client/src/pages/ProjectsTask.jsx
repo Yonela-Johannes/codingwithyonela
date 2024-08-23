@@ -3,6 +3,7 @@ import Board from '../components/task/Board'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllprojects } from '../features/project/projectSlice'
 import { ThemeContext } from '../context/ThemeContext'
+import Empty from './Empty'
 
 const ProjectsTask = () =>
 {
@@ -35,11 +36,16 @@ const ProjectsTask = () =>
         dispatch(getAllprojects())
     }, [deleted])
 
-
     return (
         <div className={`w-full h-full`}>
-            <h2 className={`${theme == "light" ? "text-cl_alt" : "text-white"} text-lg lg:text-3xl`}>Projects</h2>
-            <Board project={true} data={projects} />
+            {projects?.length > 0 ? (
+                <>
+                    <h2 className={`${theme == "light" ? "text-cl_alt" : "text-white"} text-lg lg:text-3xl`}>Projects</h2>
+                    <Board project={true} data={projects} />
+                </>
+            ) : (
+                <Empty title='No Projects' description='The CodingWithYonela Team has not created a project yet.' path='/project/add' pathMessage="Create Project" />
+            )}
         </div>
     )
 }

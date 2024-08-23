@@ -27,7 +27,7 @@ export const getRecommendation = createAsyncThunk('recommendations/fetch One', a
 
 export const updateRecommendation = createAsyncThunk('recommendations/update', async (data) =>
 {
-  const response = await axios.put(`${apiUrl}recommendation/${data?.account_id}`, data);
+  const response = await axios.put(`${apiUrl}recommendation/${data?.re_id}`, data);
   return response.data;
 });
 

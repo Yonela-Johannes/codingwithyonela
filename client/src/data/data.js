@@ -22,7 +22,7 @@ export const navLinks = [
         link: "/blog",
     },
     {
-        title: "Recommendation",
+        title: "Recommendations",
         icon: HiUsers,
         link: "/recommendation",
     },
@@ -30,5 +30,10 @@ export const navLinks = [
         title: "Chill",
         icon: BsQuestionDiamondFill,
         link: "/chill",
+    },
+    {
+        title: "Events",
+        icon: BsQuestionDiamondFill,
+        link: "/events",
     },
 ]

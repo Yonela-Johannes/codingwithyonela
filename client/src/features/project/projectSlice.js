@@ -63,6 +63,12 @@ export const likeProject = createAsyncThunk('projects/like', async (id) =>
   return response.data;
 });
 
+export const updateProject = createAsyncThunk('project/edit', async (data) =>
+{
+  const response = await axios.put(`${apiUrl}project/${data?.project_id}`, { ...data });
+  return response.data;
+});
+
 export const projectSlice = createSlice({
   name: 'project',
   initialState,
@@ -148,7 +154,6 @@ export const projectSlice = createSlice({
       })
       .addCase(getProject.fulfilled, (state, action) =>
       {
-        console.log(action.payload)
         state.project = action.payload.data;
       })
       .addCase(getProject.rejected, (state, action) =>
@@ -180,6 +185,22 @@ export const projectSlice = createSlice({
       {
         state.error = action.message;
         state.success = false
+      })
+      .addCase(updateProject.pending, (state) =>
+      {
+        state.success = false
+        state.updated = false
+      })
+      .addCase(updateProject.fulfilled, (state) =>
+      {
+        state.success = true
+        state.updated = true
+      })
+      .addCase(updateProject.rejected, (state, action) =>
+      {
+        state.error = action.message;
+        state.success = false
+        state.updated = false
       })
   },
 })

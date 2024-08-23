@@ -46,16 +46,18 @@ const Layout = ({ children }) =>
             <NavMenu />
           </Wrapper>
         </div>
-        {active_signin_modal == false || active_signup_modal == false ? (
-          <div
-            className={`${theme == "light" ? "border-bg_light" : "border-gray-900"} border-b-[1px] h-[calc(100vh-160px)] pt-[150px] lg:pt-[270px] overflow-hidden flex-1 flex-grow w-[80%] mx-auto md:flex flex-col`}
-          >
-            {children}
-          </div>
+        {(active_signin_modal == false || active_signup_modal == false) ? (
+          <>
+            <div
+              className={`${theme == "light" ? "border-bg_light" : "border-gray-900"} border-b-[1px] h-[calc(100vh-160px)] pt-[150px] lg:pt-[270px] overflow-hidden flex-1 flex-grow w-[80%] mx-auto md:flex flex-col`}
+            >
+              {children}
+            </div>
+            <Wrapper>
+              <Footer />
+            </Wrapper>
+          </>
         ) : ''}
-        <Wrapper>
-          <Footer />
-        </Wrapper>
       </div>
       {active_signup_modal ? (<SignUp />) : ""}
       {active_signin_modal ? (<Signin />) : ""}
