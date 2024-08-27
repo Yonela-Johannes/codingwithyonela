@@ -37,7 +37,7 @@ const Testimonials = () =>
   return (
     loading ? (
       <Loader />
-    ) : ((currentUser.is_staff || currentUser?.is_admin) ?
+    ) : ((currentUser?.is_staff || currentUser?.is_admin) ?
       (
         feedback?.length ? (
           <div className="mt-20 tracking-wide">
@@ -48,7 +48,7 @@ const Testimonials = () =>
               What People <span className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"}`}> are saying</span>
             </h2>
             <div className="flex flex-wrap h-full">
-              {(currentUser.is_staff || currentUser?.is_admin) ? (
+              {(currentUser?.is_staff || currentUser?.is_admin) ? (
                 feedback?.map((element) => (
                   <Card element={element} theme={theme} />
                 ))

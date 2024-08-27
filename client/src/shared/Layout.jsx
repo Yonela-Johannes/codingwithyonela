@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -47,7 +47,7 @@ const Layout = ({ children }) =>
             <NavMenu />
           </Wrapper>
         </div>
-        {(active_signin_modal == false || active_signup_modal == false) ? (
+        {(!active_signin_modal) && (!active_signup_modal) ? (
           <>
             <div
               className={`${theme == "light" ? "border-bg_light" : "border-gray-900"} my-5 lg:py-12 border-b-[1px] h-[calc(100vh-160px)] pt-[150px] lg:pt-[270px] overflow-hidden flex-1 flex-grow w-[80%] mx-auto md:flex flex-col`}

@@ -84,8 +84,8 @@ export default function SignUp()
   };
 
   return (
-    <div className={`${theme == 'light' ? '' : 'border-none'} flex flex-col lg:flex-row items-center justify-center lg:items-center lg:absolute h-screen lg:h-sceen w-full lg:z-50 backdrop-blur-xl overflow-hidden top-0 left-0 right-0 bottom-0`}>
-      <div className={`${theme == "light" ? "bg-white" : "bg-bg_card border-none"} w-full lg:relative flex py-8 lg:px-16 mx-auto flex-col md:flex-row md:items-center gap-5 lg:border lg:rounded-lg lg:w-[700px]`}>
+    <div className={`${theme == 'light' ? '' : 'border-none'} flex flex-col lg:flex-row items-center justify-center lg:items-center lg:absolute h-screen lg:h-sceen w-full lg:z-50 backdrop-blur-xl overflow-auto top-0 left-0 right-0 bottom-0`}>
+      <div className={`${theme == "light" ? "bg-white" : "bg-bg_card border-none"} w-full lg:relative flex lg:px-16 mx-auto flex-col md:flex-row md:items-center gap-5 lg:border lg:h-[80%] overflow-auto py-10 lg:rounded-lg lg:w-[700px]`}>
         <div className={`${theme == "light" ? "bg-white" : "bg-slate-800 text-white"} rounded-full hidden lg:block lg:absolute top-2 lg:right-2 text-xl lg:text-2xl cursor-pointer`} onClick={() => dispatch(disableAuthModals())}>
           <MdClose />
         </div>
@@ -99,7 +99,7 @@ export default function SignUp()
                 {selectedFile ? (
                   <>
                     <img
-                      className="w-full max-h-[400px] object-cover"
+                      className="w-full max-h-[100px] max-w-[100px] object-cover rounded-full"
                       src={selectedFile}
                     />
                     <div className="absolute flex gap-3 top-1 right-1 bg-clr_alt rounded-full border-bg_grey">
@@ -196,7 +196,7 @@ export default function SignUp()
               />
             </div>
             <p className="my-1 lg:my-2 text-[#646464] text-sm">
-              By clicking “Sign up with CodingWithYonela”, you agree <br /> to
+              By clicking “Sign up with CodingWithYonela” you agree <br /> to
               the CodingWithYonela <b>TOS</b> and <b>Privacy Policy</b>.
             </p>
             <button
@@ -214,12 +214,6 @@ export default function SignUp()
               )}
             </button>
           </form>
-          <div className='flex gap-2 text-sm mt-5'>
-            <span className={`${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}>Have an account?</span>
-            <Link to='/sign-in' className='text-blue-500'>
-              Sign In
-            </Link>
-          </div>
           {message && (
             <Alert className='mt-5' color='failure'>
               {message}

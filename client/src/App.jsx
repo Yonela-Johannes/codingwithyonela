@@ -28,9 +28,22 @@ import AdminBlogs from "./components/dashboard/list/Blogs";
 import AdminEvents from "./components/dashboard/list/Events";
 import CreateEvent from "./components/project/CreateEvent";
 import AdminFeedback from "./components/dashboard/list/Feedback";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { disableAuthModals } from "./features/user/authSlice";
 
 function App()
 {
+  const { update_success } = useSelector((state) => state.user)
+  const dispatch = useDispatch()
+
+  useEffect(() =>
+  {
+    if (update_success)
+    {
+      dispatch(disableAuthModals())
+    }
+  }, [update_success])
 
   return (
     <div>

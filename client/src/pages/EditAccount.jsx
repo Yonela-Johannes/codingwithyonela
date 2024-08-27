@@ -18,6 +18,7 @@ const EditAccount = () =>
 	const [query, setQuery] = useState("");
 	const [userData, setUserData] = useState(null);
 	const { theme } = useContext(ThemeContext)
+	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
 	useEffect(() =>
@@ -84,6 +85,7 @@ const EditAccount = () =>
 			github_username: query
 		}
 		dispatch(updateUser(data))
+		navigate('/')
 	}
 
 	useEffect(() =>

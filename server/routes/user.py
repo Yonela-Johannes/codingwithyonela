@@ -1,6 +1,7 @@
 import json
 from flask import request, jsonify
 from sqlalchemy import JSON
+from email_templates.verification import verification_email
 from controllers.account import ( create_user, fetch_users, edit_user, delete_user, fetch_user, login, get_user_by_email, create_access_token, get_current_user, create_new_user_with_token )
 from flask_mail import Mail, Message
 import re
@@ -211,26 +212,14 @@ def create_user_profile(mail):
                     
                     token = create_access_token(data=user_data)
                     if token:
-                        # Create the verification link
-                        verification_link = f"http://localhost:3000/verify_account/{token}"
-                        
-                        # Create the HTML email body
-                        html_body = f"""
-                        <html>
-                        <body>
-                            <p>Hey {username} {lastname},</p>
-                            <p>Click the link below to verify your account:</p>
-                            <p><a href="{verification_link}" title="Verify your account">Verify your account</a></p>
-                        </body>
-                        </html>
-                        """
-                        msg = Message(
-                            subject="Verify Your Account",
-                            sender='noreplay@email.com',
-                            recipients=[valid_email_format],
-                            html=html_body
-                        )   
-                        response = mail.send(message=msg)
+                        # Send email
+                        verification_email(
+                            username=username,
+                            lastname=lastname,
+                            email=email,
+                            token=token,
+                            mail=mail
+                            )
                         return {"message": "verification sent check you emails"}, 200
                     else:
                         return {"message": "Error invalid token or token expired"}, 404

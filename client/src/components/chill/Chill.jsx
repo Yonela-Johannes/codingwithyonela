@@ -103,7 +103,7 @@ const Chill = () =>
       <Loader />
     ) : (
       <div className="relative overflow-x-hidden flex-1 flex-grow">
-        <div className="absolute top-2 right-1 mb-8 lg:pt-4">
+        <div className="hidden lg:absolute top-2 right-1 mb-8 lg:pt-4">
           {currentUser && currentUser?.id ? (
             <button
               onClick={() => setOpen(true)}

@@ -107,12 +107,6 @@ const Signin = () =>
               )}
             </button>
           </form>
-          <div className='flex gap-2 text-sm mt-5'>
-            <span className={`${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}>Have an account?</span>
-            <Link to='/sign-in' className='text-blue-500'>
-              Sign In
-            </Link>
-          </div>
           {message && (
             <Alert className='mt-5' color='failure'>
               {message}

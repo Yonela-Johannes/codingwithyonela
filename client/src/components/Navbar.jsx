@@ -1,12 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import HoverUnderLine from "./HoverUnderLine";
-import { DownOutlined } from "@ant-design/icons";
-import { Space, Dropdown } from "antd";
-import { FaGithubAlt, FaMoon, FaSun } from "react-icons/fa";
-import { BsFillMoonStarsFill } from "react-icons/bs";
-import { MdClose } from "react-icons/md";
 import logo from '../assets/logo.png'
 import { Search } from "lucide-react";
 import ThemeToggle from './themeToggle/ThemeToggle';
@@ -98,7 +93,7 @@ export default function ({ currentUser })
                   <div className="flex items-center bg-clr_alt text-white rounded-full md:justify-between gap-2">
                     <div className="space-y-1py-1 pl-3">
                       <p className="text-sm lg:text-base">
-                        {currentUser?.username} {currentUser?.lastname}
+                        {currentUser?.firstname} {currentUser?.lastname}
                       </p>
                     </div>
                     <div>

@@ -153,7 +153,6 @@ export const authSlice = createSlice({
                 state.loading = false;
                 state.token = action.payload.token
                 state.message = action.payload.message
-                state.currentUser = action.payload.data;
                 state.update_success = true
             })
             .addCase(updateUser.rejected, (state, action) =>
