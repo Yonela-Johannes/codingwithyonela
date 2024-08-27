@@ -20,15 +20,12 @@ import AdminPrivateRoute from "./utils/AdminRoute";
 import Search from "./pages/Search";
 import Profile from "./pages/Profile";
 import { Theme } from '@radix-ui/themes';
-import AdminPage from "./pages/dashboard";
-import DashboardLayout from "./shared/dashboard/Layout";
 import BigCalendar from "./components/dashboard/BigCalender";
 import Users from "./components/dashboard/list/Users";
 import AdminRecommendations from "./components/dashboard/list/Recommendations";
 import AdminProjects from "./components/dashboard/list/Projects";
 import AdminBlogs from "./components/dashboard/list/Blogs";
 import AdminEvents from "./components/dashboard/list/Events";
-import AdminPosts from "./components/dashboard/list/Posts";
 import CreateEvent from "./components/project/CreateEvent";
 import AdminFeedback from "./components/dashboard/list/Feedback";
 
@@ -59,7 +56,7 @@ function App()
               <Route path="/edit-account" element={<PrivateRoute><EditAccount /></PrivateRoute>} />
               {/* admin routes */}
               <Route path="/admin">
-                <Route path="/admin" element={<AdminPrivateRoute><AdminPage /></AdminPrivateRoute>} />
+                <Route path="/admin" element={<AdminPrivateRoute><Users /></AdminPrivateRoute>} />
                 <Route path="users" element={<AdminPrivateRoute><Users /></AdminPrivateRoute>} />
                 <Route path="recommendations" element={<AdminPrivateRoute><AdminRecommendations /></AdminPrivateRoute>} />
                 <Route path="feedback" element={<AdminPrivateRoute><AdminFeedback /></AdminPrivateRoute>} />

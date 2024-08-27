@@ -4,38 +4,38 @@ import { BsCalendar3EventFill, BsQuestionDiamondFill } from "react-icons/bs";
 import { HiUsers } from "react-icons/hi2";
 import { FaUsers } from "react-icons/fa";
 import { ImBlogger } from "react-icons/im";
-import { PiChatDuotone, PiUserCheckDuotone } from "react-icons/pi";
-import { AiTwotoneEdit, AiTwotoneQuestionCircle, AiTwotoneMessage, } from "react-icons/ai";
+import { PiCalendarMinusDuotone, PiChatDuotone, PiListDashesDuotone, PiProjectorScreenDuotone, PiUserCheckDuotone, PiUsersDuotone } from "react-icons/pi";
+import { AiTwotoneEdit, AiTwotoneQuestionCircle, AiTwotoneMessage, AiTwotoneHome, AiTwotoneInteraction, } from "react-icons/ai";
 
 export const navLinks = [
     {
         title: "Home",
-        icon: FaHome,
+        icon: AiTwotoneHome,
         link: "/",
     },
     {
         title: "Progress",
-        icon: GrStatusUnknownSmall,
+        icon: PiProjectorScreenDuotone,
         link: "/project-status",
     },
     {
         title: "Blog",
-        icon: ImBlogger,
+        icon: PiListDashesDuotone,
         link: "/blog",
     },
     {
         title: "Recommendations",
-        icon: HiUsers,
+        icon: PiUsersDuotone,
         link: "/recommendation",
     },
     {
         title: "Chill",
-        icon: BsQuestionDiamondFill,
+        icon: AiTwotoneInteraction,
         link: "/chill",
     },
     {
         title: "Events",
-        icon: BsQuestionDiamondFill,
+        icon: PiCalendarMinusDuotone,
         link: "/events",
     },
 ]

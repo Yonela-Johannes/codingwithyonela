@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import peer from '../../data/peer.png'
 import { ThemeContext } from '../../context/ThemeContext';
+import { Link } from 'react-router-dom';
 
 const HeroSection = () =>
 {
@@ -18,12 +19,12 @@ const HeroSection = () =>
             into immersive reality!
           </p>
           <div className="flex my-10">
-            <a
-              href="#"
+            <Link
+              to="/recommendation"
               className={`${theme !== "light" ? "bg-clr_alt" : "bg-cl_primary"} lg:py-3 lg:px-4 py-1 px-2 mx-2 lg:mx-3 rounded-md`}
             >
-              Start here
-            </a>
+              Portfolio's
+            </Link>
             <a href="https://yonela-johannes.vercel.app/" target="_blank" className={`${theme == "light" ? "border-clr_alt" : "border-cl_primary"} lg:py-3 lg:px-4 py-1 px-2 mx-2 lg:mx-3 rounded-md border`}>
               Portfolio
             </a>

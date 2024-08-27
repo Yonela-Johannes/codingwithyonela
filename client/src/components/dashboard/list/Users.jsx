@@ -2,7 +2,6 @@ import FormModal from "../FormModal";
 import Pagination from "../Pagination";
 import Table from "../Table";
 import TableSearch from "../TableSearch";
-import { role } from "../../../constants/data";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { getUsers } from "../../../features/user/userSlice";

@@ -14,117 +14,6 @@ import { ThemeContext } from '../context/ThemeContext';
 import { activeSignin, activeSignup, disableAuthModals, logout } from '../features/user/authSlice';
 import { AiOutlineSearch } from 'react-icons/ai';
 
-const MobileMenu = ({ currentUser, items, user_items }) =>
-{
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
-  const toggleMenu = () =>
-  {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const [searchTerm, setSearchTerm] = useState('');
-
-  useEffect(() =>
-  {
-    const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get('searchTerm');
-    if (searchTermFromUrl)
-    {
-      setSearchTerm(searchTermFromUrl);
-    }
-  }, [location.search]);
-
-  return (
-    <nav className="flex items-center justify-between w-full">
-      {isMenuOpen ? (
-        <div className="absolute md:fixed flex justify-between top-0 border border-bg_light rounded-sm left-0 w-min h-fit bg-white  z-50 py-10 px-6 shadow-xl">
-          <div onClick={() => setIsMenuOpen(false)} className="absolute w-min h-min top-2 right-2">
-            <MdClose size={20} />
-          </div>
-          <div className=" flex gap-8">
-            <ul className="flex flex-col gap-4 text-base text-black dark:text-gray-300">
-              {currentUser && currentUser?.id ? (
-                <Dropdown
-                  menu={{
-                    user_items,
-                  }}
-                >
-                  <a onClick={(e) => e.preventDefault()}>
-                    <Space>
-                      <HoverUnderLine>
-                        <div className="flex gap-2 items-center cursor-pointer p-2">
-                          <img src={currentUser?.image} className="h-7 w-7 rounded-full object-cover" />
-                          <DownOutlined />
-                        </div>
-                      </HoverUnderLine>
-                    </Space>
-                  </a>
-                </Dropdown>
-              ) : (
-                <div>
-                  <HoverUnderLine>
-                    <div onClick={() => (dispatch(disableAuthModals()), dispatch(activeSignin()))} className="flex gap-2 items-center cursor-pointer p-2">
-                      Login
-                    </div>
-                  </HoverUnderLine>
-                  <HoverUnderLine>
-                    <div onClick={() => dispatch(activeSignup())} className="flex gap-2 items-center cursor-pointer p-2">
-                      signup
-                    </div>
-                  </HoverUnderLine>
-                </div>
-              )}
-              <div className="flex gap-4 items-center">
-                <Link href="https://github.com/yonela-johannes">
-                  <HoverUnderLine>
-                    <div className="flex gap-2 items-center cursor-pointer p-2">
-                      <FaGithubAlt size={22} />
-                    </div>
-                  </HoverUnderLine>
-                </Link>
-                <Link href="https://github.com/yonela-johannes">
-                  <HoverUnderLine>
-                    <div className="flex gap-2 items-center cursor-pointer p-2">
-                      <BsFillMoonStarsFill />
-                    </div>
-                  </HoverUnderLine>
-                </Link>
-              </div>
-            </ul>
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className="">
-            <Link to="/">
-              <img src={logo} className="w-8 h-8 object-center object-contain" />
-            </Link>
-          </div>
-          <button
-            onClick={toggleMenu}
-            className="lg:hidden p-2 text-gray-600 hover:text-gray-800"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
-        </>
-      )}
-    </nav>
-  );
-};
 
 export default function ({ currentUser })
 {
@@ -225,9 +114,6 @@ export default function ({ currentUser })
             </Link>
           ) : ""}
         </div>
-      </div>
-      <div className="block md:hidden w-full">
-        <MobileMenu currentUser={currentUser} />
       </div>
     </nav>
   );
