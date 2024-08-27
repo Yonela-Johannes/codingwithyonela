@@ -94,7 +94,6 @@ def project(id):
            res = {"message": "Missing data"}
         return res, 400
 
-
 def projects():
     REQUEST = request.method 
     if REQUEST == 'GET':

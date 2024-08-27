@@ -44,12 +44,18 @@ const Recommendations = () =>
 
   useEffect(() =>
   {
-    dispatch(getAllTitles());
-  }, []);
+    if (recommendations?.length)
+    {
+      dispatch(getAllTitles());
+    }
+  }, [recommendations]);
 
   useEffect(() =>
   {
-    dispatch(getAllCountries());
+    if (open)
+    {
+      dispatch(getAllCountries());
+    }
   }, [open]);
 
   const fetchRecommendations = () =>
@@ -60,13 +66,19 @@ const Recommendations = () =>
 
   useEffect(() =>
   {
-    fetchRecommendations()
-  }, []);
+    if (titles)
+    {
+      fetchRecommendations()
+    }
+  }, [titles]);
 
-  useEffect(() =>
-  {
-    fetchRecommendations()
-  }, [titles, countries, created, updated]);
+  // useEffect(() =>
+  // {
+  //   if (created || updated)
+  //   {
+  //     fetchRecommendations()
+  //   }
+  // }, [created, updated]);
 
 
   const handleChange = (e) =>

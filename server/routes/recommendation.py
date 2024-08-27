@@ -3,6 +3,7 @@ from flask import request
 from sqlalchemy import JSON
 from controllers.recommendation import create_recommendation, delete_recommendation, edit_recommendation, fetch_recommendation, fetch_recommendations, edit_recommendation_status
 from icecream import ic
+from flask import request, jsonify
 from controllers.account import get_user_by_email
 from email_templates.recommendation import recommendation_email_temp, send_to_me, recommendation_email_temp_user, send_to_creator, update_user_mail
 from routes.image_upload import uploadImage
@@ -94,19 +95,12 @@ def all_recommendations(mail):
         # Fetch all
         try:
             response = fetch_recommendations()
-            if response:
-                res = {
-                    "message": "Fetch successful",
-                    "data": response
-                    }
-                return res, 200
-            else:
-                res = {"data": []}
-                return res, 200
-        except  json.decoder.JSONDecodeError as err:
-            print(err)
-            return {"message": "Fetch failed: something went wrong."}
-        
+            res = {"data": response}
+            return jsonify(res), 200
+
+        except json.decoder.JSONDecodeError as error:
+            ic(error)
+            return {"message": "Fetch failed: something went wrong."}, 400
     # Create recommendation
     elif REQUEST == 'POST':
         try:
