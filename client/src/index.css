@@ -67,12 +67,6 @@ body {
   width: 16px;
 }
 
-h2 {
-  font-size: 25px;
-  font-weight: bold;
-  line-height: 1.2;
-}
-
 
 @layer base {
   .widget {
@@ -140,11 +134,9 @@ h2 {
 
 
 
-/* 
 .react-calendar {
   width: 100% !important;
   border: none !important;
-  font-family: "Inter", sans-serif !important;
 }
 
 .react-calendar__navigation__label__labelText {
@@ -157,7 +149,19 @@ h2 {
 }
 
 .rbc-btn-group:first-child {
-  display: none !important;
+    border: none !important;
+    font-size: 13px !important;
+}
+
+.rbc-btn-group:first-child button {
+  border: none !important;
+  background-color: #DA9D3C !important;
+  margin-left: 2px !important;
+}
+
+.rbc-toolbar button.rbc-active {
+  background-color: #eff4f7 !important;
+  box-shadow: none !important;
 }
 
 .rbc-toolbar-label {
@@ -176,16 +180,12 @@ h2 {
 }
 
 .rbc-toolbar button.rbc-active {
-  background-color: #dbdafe !important;
+  background-color: #eff4f7 !important;
   box-shadow: none !important;
 }
 
 .rbc-time-view {
   border-color: #eee !important;
-}
-
-.rbc-time-header {
-  display: none !important;
 }
 
 .rbc-time-content {
@@ -219,29 +219,58 @@ h2 {
 .rbc-event:nth-child(1) {
   background-color: #e2f8ff !important;
 }
+
 .rbc-event:nth-child(2) {
   background-color: #fefce8 !important;
 }
+
 .rbc-event:nth-child(3) {
   background-color: #f2f1ff !important;
 }
+
 .rbc-event:nth-child(4) {
   background-color: #fdf2fb !important;
 }
+
 .rbc-event:nth-child(5) {
   background-color: #e2f8ff !important;
 }
+
 .rbc-event:nth-child(6) {
   background-color: #fefce8 !important;
 }
+
 .rbc-event:nth-child(7) {
   background-color: #f2f1ff !important;
 }
+
 .rbc-event:nth-child(8) {
   background-color: #fdf2fb !important;
 }
 
-.rbc-event-label{
+.rbc-event-label {
   color: gray !important;
   margin-bottom: 5px;
-} */
+}
+
+.rbc-header {
+  color: white;
+  font-size: 14px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px !important;
+  background: #17405d;
+}
+
+.rbc-allday-cell {
+  display: none;
+}
+
+.rbc-time-header-cell .rbc-today {
+  background-color: #DA9D3C !important;
+}
+
+.rbc-time-slot:not(.rbc-today .rbc-time-slot) {
+  background-color: #eff4f7;
+}

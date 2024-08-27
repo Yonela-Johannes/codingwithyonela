@@ -60,7 +60,7 @@ const AdminProjects = () =>
     const renderRow = (item) => (
         <tr
             key={item.id}
-            className="border-b text-sm"
+            className="border-b border-gray-200 even:bg-slate-50 text-smm"
         >
             <td className="flex items-center gap-4 p-4">
                 <img
@@ -104,7 +104,7 @@ const AdminProjects = () =>
     );
 
     return (
-        <div className="p-4 rounded-md flex-1 m-4 mt-0">
+        <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
             {/* TOP */}
             <div className="flex items-center justify-between">
                 <h1 className="hidden md:block text-lg font-semibold">Projects</h1>

@@ -6,8 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AiTwotoneRightCircle } from "react-icons/ai";
-import { getAllRecommendations } from "../../../features/recommenation/recommendationSlice";
-import { getAllprojects } from "../../../features/project/projectSlice";
 import { getAllBlogs } from "../../../features/blogs/blogSlice";
 
 const columns = [
@@ -100,7 +98,7 @@ const AdminBlogs = () =>
                 <h1 className="hidden md:block text-lg font-semibold">Blogs</h1>
                 <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
                     <button onClick={() => navigate('/admin/new-blog')} className="rounded-full p-2 bg-bg_lightest font-semibold">
-                        New Blog
+                        New blog
                     </button>
                     <TableSearch />
                 </div>

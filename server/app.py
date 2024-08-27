@@ -6,6 +6,8 @@ from routes.countries import countries
 from routes.project import add_project_like, project, project_chat, projects
 from routes.quotes import quotes
 from routes.recommendation import all_recommendations, recommendation
+from routes.feedback import all_feedback, feedback
+from routes.event import all_events, event
 from routes.topics import topics
 from routes.user import create_user_profile, user, login_user, verify_user, users
 from routes.title import title
@@ -125,6 +127,26 @@ def recommendations_route():
 @app.route('/api/v1/recommendation/<int:id>', methods=['GET', 'PUT'])
 def recommendation_route(id):
     return recommendation(id, mail)
+
+# feedback route
+@app.route('/api/v1/event', methods=['GET', 'POST', 'DELETE'])
+def feedbacks_route():
+    return all_events()
+
+@app.route('/api/v1/event/<int:id>', methods=['GET', 'PUT'])
+def feedback_route(id):
+    return event(id)
+
+# ---------------------
+
+# events route
+@app.route('/api/v1/feedback', methods=['GET', 'POST', 'DELETE'])
+def event_route():
+    return all_feedback(mail=mail)
+
+@app.route('/api/v1/feedback/<int:id>', methods=['GET', 'PUT'])
+def events_route(id):
+    return feedback(id, mail)
 
 # ---------------------
 # project route

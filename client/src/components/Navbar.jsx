@@ -11,7 +11,6 @@ import logo from '../assets/logo.png'
 import { Search } from "lucide-react";
 import ThemeToggle from './themeToggle/ThemeToggle';
 import { ThemeContext } from '../context/ThemeContext';
-import avatar from '../assets/pavatar.png'
 import { activeSignin, activeSignup, disableAuthModals, logout } from '../features/user/authSlice';
 import { AiOutlineSearch } from 'react-icons/ai';
 
@@ -39,28 +38,12 @@ const MobileMenu = ({ currentUser, items, user_items }) =>
   return (
     <nav className="flex items-center justify-between w-full">
       {isMenuOpen ? (
-        <div className="absolute md:fixed flex justify-between top-0 border border-bg_light rounded-sm left-0 w-full h-fit bg-white  z-50 py-10 px-6 shadow-xl">
-          <div onClick={() => setIsMenuOpen(false)} className="absolute top-2 right-2">
+        <div className="absolute md:fixed flex justify-between top-0 border border-bg_light rounded-sm left-0 w-min h-fit bg-white  z-50 py-10 px-6 shadow-xl">
+          <div onClick={() => setIsMenuOpen(false)} className="absolute w-min h-min top-2 right-2">
             <MdClose size={20} />
           </div>
           <div className=" flex gap-8">
             <ul className="flex flex-col gap-4 text-base text-black dark:text-gray-300">
-              <Dropdown
-                menu={{
-                  items,
-                }}
-              >
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space>
-                    <HoverUnderLine>
-                      <div className="flex gap-2 items-center cursor-pointer p-2">
-                        More
-                        <DownOutlined />
-                      </div>
-                    </HoverUnderLine>
-                  </Space>
-                </a>
-              </Dropdown>
               {currentUser && currentUser?.id ? (
                 <Dropdown
                   menu={{
@@ -79,14 +62,14 @@ const MobileMenu = ({ currentUser, items, user_items }) =>
                   </a>
                 </Dropdown>
               ) : (
-                <div onClick={() => setIsMenuOpen(false)}>
+                <div>
                   <HoverUnderLine>
-                    <div className="flex gap-2 items-center cursor-pointer p-2">
+                    <div onClick={() => (dispatch(disableAuthModals()), dispatch(activeSignin()))} className="flex gap-2 items-center cursor-pointer p-2">
                       Login
                     </div>
                   </HoverUnderLine>
                   <HoverUnderLine>
-                    <div className="flex gap-2 items-center cursor-pointer p-2">
+                    <div onClick={() => dispatch(activeSignup())} className="flex gap-2 items-center cursor-pointer p-2">
                       signup
                     </div>
                   </HoverUnderLine>
@@ -115,11 +98,7 @@ const MobileMenu = ({ currentUser, items, user_items }) =>
         <>
           <div className="">
             <Link to="/">
-              <HoverUnderLine>
-                <p className="font-tech_mono font-bold text-base">
-                  <span className="bg-clr_alt text-white rounded-md p-1">YL</span>
-                </p>
-              </HoverUnderLine>
+              <img src={logo} className="w-8 h-8 object-center object-contain" />
             </Link>
           </div>
           <button
@@ -163,16 +142,6 @@ export default function ({ currentUser })
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
-  const items = [
-    {
-      key: "1",
-      label: (
-        <Link to="/about" rel="noopener noreferrer">
-          About
-        </Link>
-      ),
-    }
-  ];
 
   return (
     <nav className={`flex flex-col z-50 md:flex-row py-3 w-full items-center justify-between gap-4 md:gap-0`}>
@@ -194,22 +163,6 @@ export default function ({ currentUser })
           </div>
         </form>
         <div className={`${theme == "light" ? "text-black" : "text-white"} flex gap-6 text-base text-black`}>
-          <Dropdown
-            menu={{
-              items,
-            }}
-          >
-            <a onClick={(e) => e.preventDefault()}>
-              <Space>
-                <HoverUnderLine>
-                  <div className="flex gap-2 items-center cursor-pointer p-2">
-                    More
-                    <DownOutlined />
-                  </div>
-                </HoverUnderLine>
-              </Space>
-            </a>
-          </Dropdown>
           {currentUser && currentUser?.id ? (
             <>
               <div onClick={() => dispatch(logout())}>
@@ -274,7 +227,7 @@ export default function ({ currentUser })
         </div>
       </div>
       <div className="block md:hidden w-full">
-        <MobileMenu items={items} currentUser={currentUser} />
+        <MobileMenu currentUser={currentUser} />
       </div>
     </nav>
   );

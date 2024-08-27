@@ -1,15 +1,29 @@
-import { useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Input } from "../components/widget/input";
 import { Textarea } from "../components/widget/textarea";
 import { Popover, PopoverContent, PopoverTrigger } from "../components/widget/popover";
 import tailwindStyles from "../index.css?inline";
+import { createFeedback } from "../features/feedback/feedbackSlice";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { AiTwotoneFileImage } from "react-icons/ai";
+import { ThemeContext } from "../context/ThemeContext";
+import { MdClose } from "react-icons/md";
 
 export const Widget = () =>
 {
+  const { theme } = useContext(ThemeContext)
+  const { currentUser } = useSelector((state) => state.user);
+  const [selectedFile, setSelectedFile] = useState();
+  const selectFileRef = useRef(null);
+  const dispatch = useDispatch()
   const [formData, setFormData] = useState({
-    "name": "",
-    "lastname": "",
-    "email": "",
+    "account": currentUser ? currentUser?.id : '',
+    "image": currentUser ? currentUser?.profile : "",
+    "name": currentUser ? currentUser?.firstname : "",
+    "lastname": currentUser ? currentUser?.lastname : "",
+    "email": currentUser ? currentUser?.email : "",
+    "company": "",
     "feedback": "",
     "rating": 3
   });
@@ -23,23 +37,62 @@ export const Widget = () =>
 
   const handleChange = (e) =>
   {
-    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  console.log(formData)
   const submit = async (e) =>
   {
     e.preventDefault();
-    const data = {
-      name: formData.name,
-      lastname: formData.lastname,
-      email: formData.email,
-      feedback: formData.feedback,
-      rating: formData.rating,
-    };
+    if (!formData.name || !formData.lastname || !formData.email || !formData.feedback || !formData.rating || !formData.image) return toast('Please enter all fields')
+    const newFormData = new FormData();
+    newFormData.append('account', formData.account);
+    newFormData.append('name', formData.name);
+    newFormData.append('lastname', formData.lastname);
+    newFormData.append('company', formData.company);
+    newFormData.append('email', formData.email);
+    newFormData.append('image', formData.image);
+    newFormData.append('feedback', formData.feedback);
+    newFormData.append('rating', formData.rating);
 
+    dispatch(createFeedback(newFormData))
+    setSubmitted(true)
+    selectedFile("")
+    setFormData({
+      "account": currentUser ? currentUser?.id : '',
+      "image": currentUser ? currentUser?.profile : "",
+      "name": currentUser ? currentUser?.firstname : "",
+      "lastname": currentUser ? currentUser?.lastname : "",
+      "email": currentUser ? currentUser?.email : "",
+      "company": "",
+      "feedback": "",
+      "rating": 3
+    })
   };
 
+  if (submitted)
+  {
+    setTimeout(() =>
+    {
+      setSubmitted(false)
+    }, 5000);
+  }
+  const onSelectImage = (event) =>
+  {
+    setFormData({ ...formData, image: event.target.files[0] });
+    const reader = new FileReader();
+    if (event.target.files?.[0])
+    {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    reader.onload = (readerEvent) =>
+    {
+      if (readerEvent.target?.result)
+      {
+        setSelectedFile(readerEvent.target?.result);
+      }
+    };
+  };
   return (
     <>
       <style>{tailwindStyles}</style>
@@ -57,8 +110,8 @@ export const Widget = () =>
               <div>
                 <h3 className="text-lg font-bold">Thank you for your feedback!</h3>
                 <p className="mt-4">
-                  We appreciate your feedback. It helps us improve our product and provide better
-                  service to our customers.
+                  We appreciate your feedback. It helps us improve and provide better
+                  service to you.
                 </p>
               </div>
             ) : (
@@ -68,10 +121,57 @@ export const Widget = () =>
                   className="space-y-2"
                   onSubmit={submit}
                 >
+                  <div>
+                    <div
+                      className="relative flex flex-col justify-between items-center"
+                    >
+                      {(selectedFile || formData?.image) ? (
+                        <>
+                          <img
+                            className="w-full max-h-[200px] object-cover"
+                            src={currentUser?.id ? formData?.image : selectedFile}
+                          />
+                          {!currentUser?.id && (
+                            <div className="absolute flex gap-3 top-1 right-1 bg-clr_alt rounded-full border-bg_grey">
+                              <button
+                                type="button"
+                                className="p-2 rounded-full text-lg lg:text-xl"
+                                onClick={() => setSelectedFile("")}
+                              >
+                                <MdClose />
+                              </button>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <div
+                          className="flex flex-col w-full rounded-md justify-center items-center cursor-pointer my-4"
+                        >
+                          <div
+                            className={`text-xl lg:text-4xl px-3 py-2 mt-1 ${theme == "light" ? "text-black" : "bg-bg_card"} p-2 lg:px-4 lg:py-2`}
+                            onClick={() => selectFileRef.current?.click()}
+                          >
+                            <AiTwotoneFileImage />
+                          </div>
+                          <input
+                            id="file-upload"
+                            type="file"
+                            accept="image/x-png,image/gif,image/jpeg"
+                            hidden
+                            ref={selectFileRef}
+                            onChange={onSelectImage}
+                            className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                          />
+                        </div>
+                      )
+                      }
+                    </div>
+                  </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label htmlFor="name">Name</label>
                       <Input
+                        value={formData.name}
                         id="name"
                         handleChange={handleChange}
                         placeholder="Enter your name"
@@ -80,16 +180,26 @@ export const Widget = () =>
                     <div className="space-y-2">
                       <label htmlFor="name">Last name</label>
                       <Input
+                        value={formData.lastname}
                         id="lastname"
                         handleChange={handleChange}
-                        placeholder="Enter your name"
+                        placeholder="Enter your last name"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="company">Company</label>
+                      <Input
+                        value={formData.company}
+                        id="company"
+                        handleChange={handleChange}
+                        placeholder="Enter your work"
                       />
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="email">Email</label>
                       <Input
+                        value={formData.email}
                         id="email"
-                        type="email"
                         handleChange={handleChange}
                         placeholder="Enter your email"
                       />
@@ -98,6 +208,7 @@ export const Widget = () =>
                   <div className="space-y-2">
                     <label htmlFor="feedback">Feedback</label>
                     <Textarea
+                      value={formData.feedback}
                       id="feedback"
                       handleChange={handleChange}
                       placeholder="Tell us what you think"

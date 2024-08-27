@@ -6,36 +6,29 @@ const About = () =>
 {
   const { theme } = useContext(ThemeContext)
   return (
-    <div className={`${theme == "light" ? "text-cl_alt" : "text-bg_light"} h-full space-y-8`}>
-      <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
-        <div className="flex-1 space-x-4">
-          <h1 className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} inline-block text-xl lg:text-2xl`}>
-            About Me
-          </h1>
-        </div>
+    <div>
+      <div className="text-start mt-4">
+        <span className="bg-bg_grey text-cl_primary rounded-full h-6 text-sm font-medium px-2 py-1">
+          Focus
+        </span>
+        <h2 className="text-xl sm:text-3xl lg:text-5xl mt-10 lg:mt-20 tracking-wide">
+          Here passion {" "}
+          <span className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} bg-clip-text`}>
+            meets patience
+          </span>
+        </h2>
       </div>
-      <p>
-        Welcome to my hub! <strong>I'm Yonela Johannes</strong>, a{" "}
-        <em>self-taught software developer</em> and{" "}
-        <em>entrepreneurial enthusiast</em>
-        <br /> who believes in the power of continuous learning and growth.{" "}
-        <strong>My ultimate goal? To build my own tech company</strong>
-        <br /> and contribute valuable services to the world. As I embark on
-        this journey, I'm eager for guidance and advice
-        <br /> from those who see the path ahead and can offer insights on what
-        I need to learn or do to reach my destination. <br /> If you're as
-        driven and motivated as I am, or even more so,{" "}
-        <strong>let's join forces and walk this path together</strong>, learning
-        <br /> and growing from each other along the way.
-        <br />
-        <br /> Thank you for visiting, friend.
-        <br /> Let's make great things happen together.
-        <br /> <br />
-        <strong className={`${theme == "light" ? "text-bg_lighter" : "text-bg_lighter"}`}>Yours in ambition,</strong> <br />
-        Yonela Johannes
-      </p>
-      <hr className="m4-8" />
-      <AboutMe theme={theme} />
+      <div className={`lg:flex ${theme == "light" ? "text-cl_alt" : "text-bg_light"} h-full space-y-8`}>
+        <p className={`text-sm lg:text-base ${theme == "light" ? "text-bg_primary" : "text-bg_lightest"} max-w-2xl mt-10`}>
+
+          CodingWithYonela is a reflection of my journey as a developer, where being content means finding joy in the process and mastering the finer details of coding.
+          <br />
+          <br />
+          My name is Yonela, and true to its meaning — "to be content"— I've built this space to track my projects, collaborate efficiently, and share knowledge with a like-minded community.
+        </p>
+        <hr className="m4-8" />
+        <AboutMe theme={theme} />
+      </div>
     </div>
   );
 };

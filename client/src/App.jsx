@@ -27,7 +27,10 @@ import Users from "./components/dashboard/list/Users";
 import AdminRecommendations from "./components/dashboard/list/Recommendations";
 import AdminProjects from "./components/dashboard/list/Projects";
 import AdminBlogs from "./components/dashboard/list/Blogs";
+import AdminEvents from "./components/dashboard/list/Events";
 import AdminPosts from "./components/dashboard/list/Posts";
+import CreateEvent from "./components/project/CreateEvent";
+import AdminFeedback from "./components/dashboard/list/Feedback";
 
 function App()
 {
@@ -59,11 +62,14 @@ function App()
                 <Route path="/admin" element={<AdminPrivateRoute><AdminPage /></AdminPrivateRoute>} />
                 <Route path="users" element={<AdminPrivateRoute><Users /></AdminPrivateRoute>} />
                 <Route path="recommendations" element={<AdminPrivateRoute><AdminRecommendations /></AdminPrivateRoute>} />
+                <Route path="feedback" element={<AdminPrivateRoute><AdminFeedback /></AdminPrivateRoute>} />
                 <Route path="project" element={<AdminPrivateRoute><AdminProjects /></AdminPrivateRoute>} />
                 <Route path="blogs" element={<AdminPrivateRoute><AdminBlogs /></AdminPrivateRoute>} />
-                <Route path="feedback" element={<AdminPrivateRoute><AdminPage /></AdminPrivateRoute>} />
+                <Route path="events" element={<AdminPrivateRoute><AdminEvents /></AdminPrivateRoute>} />
+                <Route path="feedback" element={<AdminPrivateRoute><AdminFeedback /></AdminPrivateRoute>} />
                 <Route path="new-blog" element={<AdminPrivateRoute><CreateBlog /></AdminPrivateRoute>} />
                 <Route path="new-project" element={<AdminPrivateRoute><CreateProject /></AdminPrivateRoute>} />
+                <Route path="new-event" element={<AdminPrivateRoute><CreateEvent /></AdminPrivateRoute>} />
               </Route>
               <Route path="*" element={<NotFoundPage />} />
             </Routes>

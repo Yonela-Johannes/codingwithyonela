@@ -19,58 +19,58 @@ const Footer = () =>
             <div>
               <img src={logo} className="w-8 h-8 object-center object-contain" />
             </div>
-            <p className='text-lg font-semibold line-clamp-2 clr'>CodingWithYonela</p>
+            <p className='text-lg line-clamp-2 clr'>CodingWithYonela</p>
           </div>
         </Link>
       </div>
       <div className="flex flex-col gap-4 w-full">
         <div className="flex flex-col md:flex-row justify-between">
           <div>
-            <p className="text-base font-semibold">Information</p>
-            <p className="text-base">Cape Town</p>
-            <p className="text-base">South Africa</p>
+            <p className="text-sm lg:text-base font-semibold">Information</p>
+            <p className="text-sm lg:text-base">Cape Town</p>
+            <p className="text-sm lg:text-base">South Africa</p>
             <div className="flex gap-1 mt-2">
-              <p className="text-sm font-bold">Phone:</p>
+              <p className="text-sm font-semibold">Phone:</p>
               <p className="text-sm">069 356 4159</p>
             </div>
             <div className="flex gap-1">
-              <p className="text-sm font-bold">Email:</p>
+              <p className="text-sm font-semibold">Email:</p>
               <p className="text-sm">johannesyonela@gmail.com</p>
             </div>
           </div>
           <div>
-            <p className="text-base font-semibold">About</p>
+            <p className="text-sm lg:text-base font-semibold">About</p>
             <HoverUnderLine>
-              <Link to="/about" className="text-base">
+              <Link to="/about" className="text-sm lg:text-base">
                 About me
               </Link>
             </HoverUnderLine>
             <HoverUnderLine>
-              <Link to="/blog" className="text-base">
+              <Link to="/blog" className="text-sm lg:text-base">
                 Blogs
               </Link>
             </HoverUnderLine>
             <HoverUnderLine>
-              <Link to="/project-status" className="text-base">
+              <Link to="/project-status" className="text-sm lg:text-base">
                 Projects
               </Link>
             </HoverUnderLine>
             <HoverUnderLine>
-              <Link to="/recommendation" className="text-base">
+              <Link to="/recommendation" className="text-sm lg:text-base">
                 Recommendation
               </Link>
             </HoverUnderLine>
           </div>
           <div>
-            <p className="text-base font-semibold">My Services</p>
-            <p className="text-base">Web Development</p>
+            <p className="text-sm lg:text-base font-semibold">My Services</p>
+            <p className="text-sm lg:text-base">Web Development</p>
             <HoverUnderLine>
-              <a target="_blank" href="https://github.com/yonela-johannes" className="text-base">
+              <a target="_blank" href="https://github.com/yonela-johannes" className="text-sm lg:text-base">
                 GitHub
               </a>
             </HoverUnderLine>
             <HoverUnderLine>
-              <a target="_blank" href="https://portfolio-beta-red-17.vercel.app/" className="text-base">
+              <a target="_blank" href="https://portfolio-beta-red-17.vercel.app/" className="text-sm lg:text-base">
                 Portfolio
               </a>
             </HoverUnderLine>

@@ -5,12 +5,7 @@ def send_mail(subject: str, body: str, valid_email_format: str, name: str, lastn
 
     # Create the HTML email body
     html_body = f"""
-    <html>
-    <body>
-        <p>Hey {name} {lastname},</p>
-        <p>{body}</p>
-    </body>
-    </html>
+        {body}
     """
     msg = Message(
         subject=subject,

@@ -11,11 +11,13 @@ import countryReducer from '../features/countries/countrySlice';
 import topicReducer from '../features/topic/topicSlice';
 import questionReducer from '../features/question/questionSlice';
 import projectReducer from '../features/project/projectSlice';
+import eventReducer from '../features/event/eventSlice';
 import recommendationReducer from '../features/recommenation/recommendationSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import quoteReducer from '../features/quote/quoteSlice';
 import tasksReducer from '../features/tasks/tasksSlice';
+import feedbackReducer from '../features/feedback/feedbackSlice';
 
 // Create a persist configuration for suggestion reducer only
 const userPersistConfig = {
@@ -43,6 +45,8 @@ const rootReducerWithPersistedSuggestion = combineReducers({
   quotes: quoteReducer,
   github: githubReducer,
   task: tasksReducer,
+  feedback: feedbackReducer,
+  event: eventReducer,
 });
 
 // Configure the store to use the combined reducer

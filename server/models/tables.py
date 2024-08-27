@@ -346,14 +346,33 @@ def create_tables():
         );
         """,
         """
+        DROP TYPE IF EXISTS feedback_request CASCADE;
+        """,
+        """
+        CREATE TYPE feedback_request AS ENUM ('pending', 'accepted');
+        """,
+        """
         CREATE TABLE IF NOT EXISTS feedback (
             id SERIAL PRIMARY KEY,
             name VARCHAR(20) NOT NULL,
             lastname VARCHAR(20) NOT NULL,
+            email VARCHAR(30) NOT NULL,
+            company VARCHAR(50) NOT NULL,
             message Text NOT NULL,
+            image Text NOT NULL,
+            status feedback_request NOT NULL DEFAULT 'pending',
             rating INTEGER NOT NULL
         );
+        """,
         """
+        CREATE TABLE IF NOT EXISTS event (
+            id SERIAL PRIMARY KEY,
+            title VARCHAR(200) NOT NULL,
+            description Text NOT NULL,
+            start_time TIMESTAMP NOT NULL,
+            end_time TIMESTAMP NOT NULL
+        );
+        """,
     )
     
     try:

@@ -1,4 +1,4 @@
-import { PiListDashesDuotone, PiProjectorScreenDuotone, PiUsersDuotone, PiUserSwitchDuotone } from "react-icons/pi";
+import { PiListDashesDuotone, PiProjectorScreenDuotone, PiUsersDuotone, PiUserSwitchDuotone, PiCalendarMinusDuotone } from "react-icons/pi";
 import { AiTwotoneHome, AiTwotoneMail } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
@@ -10,37 +10,43 @@ const menuItems = [
                 icon: <AiTwotoneHome size={20} />,
                 label: "Home",
                 href: "/admin",
-                visible: ["admin", "teacher", "student", "parent"],
+                visible: ["admin", "student", "parent"],
             },
             {
                 icon: <PiUsersDuotone size={20} />,
                 label: "Users",
                 href: "/admin/users",
-                visible: ["admin", "teacher"],
+                visible: ["admin"],
             },
             {
                 icon: <PiUserSwitchDuotone size={20} />,
                 label: "Recommendations",
                 href: "/admin/recommendations",
-                visible: ["admin", "teacher"],
+                visible: ["admin"],
             },
             {
                 icon: <PiProjectorScreenDuotone size={20} />,
                 label: "Projects",
                 href: "/admin/project",
-                visible: ["admin", "teacher"],
+                visible: ["admin"],
             },
             {
                 icon: <PiListDashesDuotone size={20} />,
                 label: "Blogs",
                 href: "/admin/blogs",
-                visible: ["admin", "teacher"],
+                visible: ["admin"],
             },
             {
                 icon: <AiTwotoneMail size={20} />,
                 label: "Feedback",
                 href: "/admin/feedback",
-                visible: ["admin", "teacher"],
+                visible: ["admin"],
+            },
+            {
+                icon: <PiCalendarMinusDuotone size={20} /> ,
+                label: "Events",
+                href: "/admin/events",
+                visible: ["admin"],
             },
         ],
     },

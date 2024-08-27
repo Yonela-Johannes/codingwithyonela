@@ -15,22 +15,28 @@ const NavMenu = () =>
       <div className="md:flex items-center justify-between w-full overflow-x-scroll lg:overflow-x-hidden">
 
         <div className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} flex text-sm lg:text-lg gap-6`}>
-          {navLinks?.map((nav, x) => (
-            <Link key={`${nav?.title}***${x}`}
-              className={`focus:outline-none ${active == nav?.link && theme == "light" ? "text-bg_opp border-b border-b-bg_opp" : active == nav?.link && theme == "dark" ? "text-white" : ""}`}
-              to={nav?.link}
-              onClick={() => setActive(nav?.link)}
-            >
-              <HoverUnderLine>
-                <div className="flex gap-1 items-center cursor-pointer">
-                  <div className="lg:hidden">
-                    {nav?.icon}
+          {navLinks?.map((nav, x) =>
+          {
+            const Icon = nav?.icon
+            return (
+              <Link key={`${nav?.title}***${x}`}
+                className={`focus:outline-none ${active == nav?.link && theme == "light" ? "text-bg_opp border-b border-b-bg_opp" : active == nav?.link && theme == "dark" ? "text-white" : ""}`}
+                to={nav?.link}
+                onClick={() => setActive(nav?.link)}
+              >
+                <HoverUnderLine>
+                  <div className="flex gap-1 items-center cursor-pointer">
+                    <div className="lg:hidden">
+                      <Icon size={20} />
+                    </div>
+                    <span className="hidden lg:block">
+                      {nav?.title}
+                    </span>
                   </div>
-                  {nav?.title}
-                </div>
-              </HoverUnderLine>
-            </Link>
-          ))}
+                </HoverUnderLine>
+              </Link>
+            )
+          })}
         </div>
       </div>
     </nav>
