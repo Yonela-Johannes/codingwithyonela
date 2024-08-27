@@ -1,5 +1,5 @@
 import json
-from flask import request
+from flask import request, jsonify
 from sqlalchemy import JSON
 from email_templates.feedback import feedback_email, site_feedback_email, update_user_feedback_email
 from controllers.feedback_controller import create_feedback, edit_feedback, fetch_feedback, fetch_all_feedback, edit_feedback_status
@@ -20,13 +20,13 @@ def feedback(id, mail):
                         "message": "Fetch successful",
                         "data": response
                     }
-                    return res, 200
+                    return jsonify(res), 200
                 else:
                     res = {"message": "Fetch failed: something went wrong."}
-                    return res, 400
+                    return jsonify(res), 400
             else:
                 res = {"message": "Missing data"}
-                return res, 400 
+                return jsonify(res), 400
         except:
             return {"message": "Fetch failed: something went wrong."}
         
@@ -51,15 +51,15 @@ def feedback(id, mail):
                         res = {"data": response,
                             "message": "Update successful"
                             }
-                        return res, 200
+                        return jsonify(res), 200
                     res = {"message": response}
-                    return res, 400
+                    return jsonify(res), 400
                 res = {"message": "Missing data"}
-                return res, 400
+                return jsonify(res), 400
         except json.decoder.JSONDecodeError as err:
             ic(err)
             res = {"message": "Missing data"}
-        return res, 400
+        return jsonify(res), 400
 
 def all_feedback(mail):
     REQUEST = request.method 
@@ -72,10 +72,10 @@ def all_feedback(mail):
                     "message": "Fetch successful",
                     "data": response
                     }
-                return res, 200
+                return jsonify(res), 200
             else:
                 res = {"data": []}
-                return res, 200
+                return jsonify(res), 200
         except  json.decoder.JSONDecodeError as err:
             print(err)
             return {"message": "Fetch failed: something went wrong."}
@@ -142,12 +142,12 @@ def all_feedback(mail):
                 )
                     
                 res = {"message": response}
-                return res, 200   
+                return jsonify(res), 200   
                             
             else:
                 res = {"message": "Profile already exist"}
-                return res, 400 
+                return jsonify(res), 400
 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 200
+        return jsonify(res), 200

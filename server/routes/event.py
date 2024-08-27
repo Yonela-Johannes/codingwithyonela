@@ -15,13 +15,13 @@ def event(id, mail):
                         "message": "Fetch successful",
                         "data": response
                     }
-                    return res, 200
+                    return jsonify(res), 200
                 else:
                     res = {"message": "Fetch failed: something went wrong."}
-                    return res, 400
+                    return jsonify(res), 400
             else:
                 res = {"message": "Missing data"}
-                return res, 400 
+                return jsonify(res), 400
         except:
             return {"message": "Fetch failed: something went wrong."}
         
@@ -33,11 +33,11 @@ def event(id, mail):
                 account_id = data['user_id']
                 status = data['status']
                 res = {"message": "Missing data"}
-                return res, 400
+                return jsonify(res), 400
         except json.decoder.JSONDecodeError as err:
             ic(err)
             res = {"message": "Missing data"}
-        return res, 400
+        return jsonify(res), 400
 
 def all_events():
     REQUEST = request.method 
@@ -45,7 +45,7 @@ def all_events():
         # Fetch all
         try:
             response = fetch_all_events()
-            ic(response)
+            
             if response:
                 for obj in response:
                         obj["start_time"] = str(obj["start_time"])
@@ -55,10 +55,10 @@ def all_events():
                     "message": "Fetch successful",
                     "data": response
                     }
-                return res, 200
+                return jsonify(res), 200
             else:
                 res = {"data": []}
-                return res, 200
+                return jsonify(res), 200
         except  json.decoder.JSONDecodeError as err:
             print(err)
             return {"message": "Fetch failed: something went wrong."}
@@ -82,15 +82,15 @@ def all_events():
                 )
                 if response and 'id' in response:
                     res = {"message": response}
-                    return res, 200 
+                    return jsonify(res), 200 
                                                 
                 else:
                     res = {"message": "Something went wrong"}
-                    return res, 400 
+                    return jsonify(res), 400
             else:
                 res = {"message": "User data missing"}
-                return res, 400 
+                return jsonify(res), 400
 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 200
+        return jsonify(res), 200

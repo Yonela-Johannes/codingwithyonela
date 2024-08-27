@@ -13,7 +13,7 @@ def project(id):
         try:
             response = fetch_project(id)
             res = {"data": response}
-            return res, 200
+            return jsonify(res), 200
 
         except:
             return {"message": "Fetch failed: something went wrong."}, 400
@@ -66,13 +66,13 @@ def project(id):
                     res = {"data": f"{response}",
                         "message": "Update successful"
                         }
-                    return res, 200
+                    return jsonify(res), 200
             res = {"message": response}
-            return res, 400
+            return jsonify(res), 400
 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400
+        return jsonify(res), 400
     
     elif REQUEST == 'DELETE':
         try:
@@ -85,14 +85,14 @@ def project(id):
                 res = {
                         "message": "Delete successful"
                         }
-                return res, 200
+                return jsonify(res), 200
             else:
                 res = {"message": "Delete failed: something went wrong."}
-                return res, 400
+                return jsonify(res), 400
  
         except json.decoder.JSONDecodeError:
            res = {"message": "Missing data"}
-        return res, 400
+        return jsonify(res), 400
 
 def projects():
     REQUEST = request.method 
@@ -133,20 +133,20 @@ def projects():
                         )
                     if response:
                             res = {"data": "Project created successfull"}
-                            return res, 201
+                            return jsonify(res), 400
                     else:
                         res = {"message": "Error: something went wrong."}
-                        return res, 400 
+                        return jsonify(res), 400 
                     
                 res = {"message": "Missing data"}
-                return res, 400
+                return jsonify(res), 400
             else:
                 res = {"message": "Error: image upload"}
-                return res, 400 
+                return jsonify(res), 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
             print(res)
-        return res, 200 
+        return jsonify(res), 200 
 
 
 def project_chat(id):
@@ -162,16 +162,16 @@ def project_chat(id):
                 response = create_project_chat(account_id, message, project_id)
                 if response:
                         res = {"data": f"{response}"}
-                        return res, 201
+                        return jsonify(res), 400
                 else:
                     res = {"message": "Project already exist"}
-                    return res, 400 
+                    return jsonify(res), 400 
                 
             res = {"message": "Title invalid: (you must enter title)"}
-            return res, 400 
+            return jsonify(res), 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400 
+        return jsonify(res), 400 
     
     REQUEST = request.method 
     if REQUEST == 'GET':
@@ -179,7 +179,7 @@ def project_chat(id):
         try:
             response = fetch_projects_chats(id)
             res = {"data": response}
-            return res, 200
+            return jsonify(res), 200
     
         except:
             return {"message": "Fetch failed: something went wrong."}
@@ -197,13 +197,13 @@ def add_project_like(id):
                 response = project_like(account_id, id)
                 if response:
                         res = {"data": f"{response}"}
-                        return res, 201
+                        return jsonify(res), 400
                 else:
                     res = {"message": "Project already exist"}
-                    return res, 400 
+                    return jsonify(res), 400 
                 
             res = {"message": "Title invalid: (you must enter title)"}
-            return res, 400 
+            return jsonify(res), 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400 
+        return jsonify(res), 400 

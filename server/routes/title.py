@@ -1,5 +1,5 @@
 import json
-from flask import request
+from flask import request, jsonify
 from sqlalchemy import JSON
 from controllers.title import ( create_title, fetch_titles, edit_title, delete_title, fetch_title )
 
@@ -8,12 +8,11 @@ def title():
     if REQUEST == 'GET':
         try:
             response = fetch_titles()
-            result = response
-            res = {"data": result}
-            return res, 200            
+            res = {"data": response}
+            return jsonify(res), 200            
         except json.decoder.JSONDecodeError:   
             res = {"message": "Something went wrong!"}
-        return res, 400 
+        return jsonify(res), 400
     
     # Create title
     elif REQUEST == 'POST':
@@ -23,16 +22,16 @@ def title():
                 response = create_title(data["user_title"], data["description"], data["skill_id"])
                 if response == data["user_title"]:
                     res = {"title": "Title created successfull"}
-                    return res, 201
+                    return jsonify(res), 400
                 else:
                     res = {"message": "Invalid input or already exists"}
-                    return res, 400 
+                    return jsonify(res), 400
                 
             res = {"message": "Title invalid: (you must enter title)"}
-            return res, 400 
+            return jsonify(res), 400
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400 
+        return jsonify(res), 400
             
         # edit/update
     elif REQUEST == 'PUT':
@@ -45,15 +44,15 @@ def title():
                         res = {"title": f"{response}",
                             "message": "Update successful"
                             }
-                        return res, 200
+                        return jsonify(res), 200
                 else:
                     res = {"message": f"{title} already exist"}
-                    return res, 400
+                    return jsonify(res), 400
             res = {"message": "Title or is ID invalid"}
-            return res, 400
+            return jsonify(res), 400
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400
+        return jsonify(res), 400
     
     # delete
     elif REQUEST == 'DELETE':
@@ -63,15 +62,15 @@ def title():
                 response = delete_title(id)
                 if response == id:
                     res = {"message": "Delete failed: something went wrong."}
-                    return res, 400
+                    return jsonify(res), 400
                 else:
                     res = {
                             "message": "Delete successful"
                             }
-                    return res, 200
+                    return jsonify(res), 200
             res = {"message": "Title or is ID invalid"}
-            return res, 400 
+            return jsonify(res), 400
         except json.decoder.JSONDecodeError:
            res = {"message": "Missing data"}
-        return res, 400
+        return jsonify(res), 400
     

@@ -24,13 +24,13 @@ def login_user():
                             "message": "Fetch successful",
                             "data": response
                             }
-                    return res, 200
+                    return jsonify(res), 200
                 else:
                     res = {"message": "Error: something went wrong."}
-                    return res, 400 
+                    return jsonify(res), 400
             else:
                 res = {"message": "Error: missing email or password"}
-                return res, 400 
+                return jsonify(res), 400
         except Exception as error:
             ic(error)
             return {"message": "Fetch failed: something went wrong."}
@@ -42,7 +42,7 @@ def verify_user():
             token = request.args['token']
             if token:
                 response = create_new_user_with_token(token=token)
-                ic(response)
+                
                 if response == None:
                     return {"error": "Something went wrong"}, 400
                 elif  response['message'] == 'User created successfull':
@@ -56,7 +56,7 @@ def verify_user():
                 return {"error": "Error: token"}, 400
         except:
             res = {"message": "Error: something went wrong"},
-            return res, 400
+            return jsonify(res), 400
      
 def user(id):
     REQUEST = request.method 
@@ -69,10 +69,10 @@ def user(id):
                             "message": "Fetch successful",
                             "data": response
                             }
-                    return res, 200
+                    return jsonify(res), 200
                 else:
                     res = {"message": "Fetch failed: something went wrong."}
-                    return res, 400
+                    return jsonify(res), 400
         except:
             return {"message": "Fetch failed: something went wrong."}
             
@@ -141,14 +141,14 @@ def user(id):
                 res = {"data": response,
                     "message": "Update successful"
                     }
-                return res, 200
+                return jsonify(res), 200
             else:
                 res = {"message": "Invalid user"}
-                return res, 400
+                return jsonify(res), 400
 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-            return res, 400
+            return jsonify(res), 400
     
     # delete
     elif REQUEST == 'DELETE':
@@ -159,17 +159,17 @@ def user(id):
                 response = delete_user(id)
                 if response == id:
                     res = {"message": "Delete failed: something went wrong."}
-                    return res, 400
+                    return jsonify(res), 400
                 else:
                     res = {
                             "message": "Delete successful"
                             }
-                    return res, 200
+                    return jsonify(res), 200
             res = {"message": "Title or is ID invalid"}
-            return res, 400 
+            return jsonify(res), 400
         except json.decoder.JSONDecodeError:
            res = {"message": "Missing data"}
-        return res, 400
+        return jsonify(res), 400
     
 def create_user_profile(mail):
     REQUEST = request.method 
@@ -195,7 +195,7 @@ def create_user_profile(mail):
             
             if db_user:
                 res = {"message": f"Error: user {valid_email_format} already exists. Try signin in."}
-                return res, 400 
+                return jsonify(res), 400
             else:
                 res = uploadImage(image=profile)
                 if res:
@@ -225,24 +225,24 @@ def create_user_profile(mail):
                         return {"message": "Error invalid token or token expired"}, 404
                 else:
                     res = {"message": "Error: something went wrong - image upload."}
-                    return res, 400
+                    return jsonify(res), 400
         except Exception as e:
             ic(e)
             res = {"message": "Missing data"}
-            return res, 400
+            return jsonify(res), 400
         
 def users():
     REQUEST = request.method 
     if REQUEST == 'GET':
         try:
             response = fetch_users()
-            ic(response)
+            
             if response:
                 res = {
                     "message": "Fetch successful",
                     "data": response
                     }
-                return res, 200
+                return jsonify(res), 200
             else:
                 res = {"message":  "Fetch successful",
                        "users": []}

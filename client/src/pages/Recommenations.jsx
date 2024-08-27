@@ -19,7 +19,7 @@ const Recommendations = () =>
   const { currentUser, } = useSelector((state) => state?.user);
   const { countries } = useSelector((state) => state.countries);
   const [filterValue, setFilterValue] = useState("")
-  const { recommendations, created, updated } = useSelector((state) => state.recommendation);
+  const { recommendations, created, fetched } = useSelector((state) => state.recommendation);
   const [selectedFile, setSelectedFile] = useState();
   const selectFileRef = useRef(null);
   const [open, setOpen] = useState(false);
@@ -44,11 +44,12 @@ const Recommendations = () =>
 
   useEffect(() =>
   {
-    if (recommendations?.length)
+    if (fetched)
     {
       dispatch(getAllTitles());
+      dispatch(disableRecommendationUpdates())
     }
-  }, [recommendations]);
+  }, [fetched]);
 
   useEffect(() =>
   {
@@ -66,11 +67,8 @@ const Recommendations = () =>
 
   useEffect(() =>
   {
-    if (titles)
-    {
-      fetchRecommendations()
-    }
-  }, [titles]);
+    fetchRecommendations()
+  }, []);
 
   // useEffect(() =>
   // {

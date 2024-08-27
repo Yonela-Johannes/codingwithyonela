@@ -1,5 +1,5 @@
 import json
-from flask import request
+from flask import request, jsonify
 from sqlalchemy import JSON
 from controllers.blog import ( create_blog, create_blog_comment, fetch_blog, edit_blog, delete_blog, fetch_blog_comments, fetch_blogs )
 from slugify import slugify
@@ -18,10 +18,10 @@ def questions(id):
                             "message": "Fetch successful",
                             "data": response
                             }
-                    return res, 200
+                    return jsonify(res), 200
                 else:
                     res = {"message": "Fetch failed: something went wrong."}
-                    return res, 400
+                    return jsonify(res), 400
             
         except:
             return {"message": "Fetch failed: something went wrong."}
@@ -42,12 +42,12 @@ def questions(id):
                         res = {"data": f"{response}",
                             "message": "Update successful"
                             }
-                        return res, 200
+                        return jsonify(res), 200
             res = {"message": "Title or is ID invalid"}
-            return res, 400
+            return jsonify(res), 400
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400
+        return jsonify(res), 400
     
     # delete
     elif REQUEST == 'DELETE':
@@ -58,17 +58,17 @@ def questions(id):
                 response = delete_blog(id)
                 if response == id:
                     res = {"message": "Delete failed: something went wrong."}
-                    return res, 400
+                    return jsonify(res), 400
                 else:
                     res = {
                             "message": "Delete successful"
                             }
-                    return res, 200
+                    return jsonify(res), 200
             res = {"message": "Title or is ID invalid"}
-            return res, 400 
+            return jsonify(res), 400
         except json.decoder.JSONDecodeError:
            res = {"message": "Missing data"}
-        return res, 400
+        return jsonify(res), 400
     
     
 def question():
@@ -84,29 +84,29 @@ def question():
                 response = create_question(account_id=account_id, question=question, topic_id=topic_id)
                 if response:
                         res = {"data": "Question created successful"}
-                        return res, 201
+                        return jsonify(res), 400
                 else:
                     res = {"message": "Question already exist"}
-                    return res, 400 
+                    return jsonify(res), 400
                 
             res = {"message": "Error: Something went wrong"}
-            return res, 400 
+            return jsonify(res), 400
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400 
+        return jsonify(res), 400
     elif REQUEST == 'GET':
         try:
             response = fetch_questions()
            
             if response == None:
                 res = {"data": []}
-                return res, 200
+                return jsonify(res), 200
             elif response:
                 res = {"data": response}
-                return res, 200
+                return jsonify(res), 200
             else:                
                 res = {"data", []}
-                return res, 200
+                return jsonify(res), 200
         except:
             return {"message": "Fetch failed: something went wrong."}
         
@@ -119,10 +119,10 @@ def question_comments(id):
                 response = fetch_question_comments(id)
                 print("RESPONSE: ", response)
                 res = {"data": response}
-                return res, 200
+                return jsonify(res), 200
             else:
                 res = {"data": "Missing data"}
-            return res, 200
+            return jsonify(res), 200
         except:
             return {"message": "Fetch failed: something went wrong."}, 400
         
@@ -139,13 +139,13 @@ def question_comments(id):
                 if response:
                         res = {"data": f"{response}",
                                "message": "Commented successful"}
-                        return res, 201
+                        return jsonify(res), 400
                 else:
                     res = {"message": "Blog already exist"}
-                    return res, 400 
+                    return jsonify(res), 400
                 
             res = {"message": "Title invalid: (you must enter title)"}
-            return res, 400 
+            return jsonify(res), 400
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400 
+        return jsonify(res), 400

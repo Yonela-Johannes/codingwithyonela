@@ -1,5 +1,5 @@
 import json
-from flask import request
+from flask import request, jsonify
 from sqlalchemy import JSON
 from controllers.enum_controller import ( fetch_blog_enum )
 from slugify import slugify
@@ -27,22 +27,21 @@ def blog_enum():
             #     blog_image=blog_image, 
             #     blog_title=blog_title, 
             #     slug=slug)
-            # ic(response)
             # if response:
             #         res = {"message": "Blog created successful"}
-            #         return res, 201
+            #         return jsonify(res), 400
             # else:
             #     res = {"message": "Blog already exist"}
-            #     return res, 400 
+            #     return jsonify(res), 400
 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400 
+        return jsonify(res), 400
     elif REQUEST == 'GET':
         try:
             response = fetch_blog_enum()
             res = {"data": response}
-            return res, 200
+            return jsonify(res), 200
         except:
             return {"message": "Fetch failed: something went wrong."}
        

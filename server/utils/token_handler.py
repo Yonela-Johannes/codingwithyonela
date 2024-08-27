@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from icecream import ic
 from controllers.account import get_current_user
 

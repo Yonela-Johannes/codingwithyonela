@@ -11,6 +11,7 @@ const initialState = {
   deleted: false,
   updated: false,
   created: false,
+  fetched: false,
 }
 
 export const getAllRecommendations = createAsyncThunk('recommendations/fetch all', async () =>
@@ -61,6 +62,7 @@ export const recommendationSlice = createSlice({
       state.updated = false
       state.deleted = false
       state.loading = false
+      state.fetched = false
     }
   },
   extraReducers: (builder) =>
@@ -69,14 +71,17 @@ export const recommendationSlice = createSlice({
       .addCase(getAllRecommendations.pending, (state) =>
       {
         state.loading = true;
+        state.fetched = false
       })
       .addCase(getAllRecommendations.fulfilled, (state, action) =>
       {
         state.loading = false;
         state.recommendations = action.payload.data;
+        state.fetched = true
       })
       .addCase(getAllRecommendations.rejected, (state, action) =>
       {
+        state.fetched = false
         state.loading = false;
         state.error = action.message;
       })

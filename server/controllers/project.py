@@ -155,7 +155,7 @@ def delete_project(project_id, account_id):
     except (Exception, psycopg2.DatabaseError) as error:
         response = error
     finally:
-        ic(response)
+        
         return response
 
 def create_project_chat(account_id, message, project_id):

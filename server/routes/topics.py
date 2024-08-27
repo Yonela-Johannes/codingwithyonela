@@ -1,5 +1,5 @@
 import json
-from flask import request
+from flask import request, jsonify
 from sqlalchemy import JSON
 from controllers.topics import fetch_topics
 
@@ -10,7 +10,7 @@ def topics():
             response = fetch_topics()
             result = response
             res = {"data": result}
-            return res, 200            
+            return jsonify(res), 200            
         except json.decoder.JSONDecodeError:   
             res = {"message": "Something went wrong!"}
-        return res, 400 
+        return jsonify(res), 400

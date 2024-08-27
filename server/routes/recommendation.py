@@ -1,9 +1,8 @@
 import json
-from flask import request
+from flask import request, jsonify
 from sqlalchemy import JSON
 from controllers.recommendation import create_recommendation, delete_recommendation, edit_recommendation, fetch_recommendation, fetch_recommendations, edit_recommendation_status
 from icecream import ic
-from flask import request, jsonify
 from controllers.account import get_user_by_email
 from email_templates.recommendation import recommendation_email_temp, send_to_me, recommendation_email_temp_user, send_to_creator, update_user_mail
 from routes.image_upload import uploadImage
@@ -20,13 +19,13 @@ def recommendation(id, mail):
                         "message": "Fetch successful",
                         "data": response
                     }
-                    return res, 200
+                    return jsonify(res), 200
                 else:
                     res = {"message": "Fetch failed: something went wrong."}
-                    return res, 400
+                    return jsonify(res), 400
             else:
                 res = {"message": "Missing data"}
-                return res, 400 
+                return jsonify(res), 400 
         except:
             return {"message": "Fetch failed: something went wrong."}
         
@@ -42,7 +41,7 @@ def recommendation(id, mail):
                 if id == re_id and account_id and status:
                     response = edit_recommendation_status(status=status, re_id=re_id)
                     if response and 'id' in response:
-                        ic(response)
+                        
                         update_user_mail(
                             email=response['email'],
                             name=response['name'],
@@ -52,11 +51,11 @@ def recommendation(id, mail):
                         res = {"data": f"{response}",
                             "message": "Update successful"
                             }
-                        return res, 200
+                        return jsonify(res), 200
                     res = {"message": response}
-                    return res, 400
+                    return jsonify(res), 400
                 res = {"message": "Missing data"}
-                return res, 400
+                return jsonify(res), 400
             else:
                 account_id = data['account']
                 name = data['name']
@@ -78,16 +77,16 @@ def recommendation(id, mail):
                             res = {"data": f"{response}",
                                 "message": "Update successful"
                                 }
-                            return res, 200
+                            return jsonify(res), 200
                     res = {"message": response}
-                    return res, 400
+                    return jsonify(res), 400
                 res = {"message": "Missing data"}
-                return res, 400
+                return jsonify(res), 400
             
         except json.decoder.JSONDecodeError as err:
             ic(err)
             res = {"message": "Missing data"}
-        return res, 400
+        return jsonify(res), 400
 
 def all_recommendations(mail):
     REQUEST = request.method 
@@ -211,19 +210,19 @@ def all_recommendations(mail):
                                                         time=response['profile_created_time']
                                                         )                            
                             res = {"message": "Profile created successful"}
-                            return res, 201
+                            return jsonify(res), 400
                         else:
                             res = {"message": "Profile already exist"}
-                            return res, 400 
+                            return jsonify(res), 400 
                 else:
                     res = {"message": "Error: Missing required data"}
-                    return res, 400 
+                    return jsonify(res), 400 
             else:
                 res = {"message": "Error: Missing required user data"}
-                return res, 400 
+                return jsonify(res), 400 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 200
+        return jsonify(res), 200
     
     elif REQUEST == 'DELETE':
         try:
@@ -235,14 +234,14 @@ def all_recommendations(mail):
                 response = delete_recommendation(recommendation_id, account_id)
                 if response == id:
                     res = {"message": "Delete failed: something went wrong."}
-                    return res, 400
+                    return jsonify(res), 400
                 else:
                     res = {
                             "message": "Delete successful"
                             }
-                    return res, 200
+                    return jsonify(res), 200
             res = {"message": "Title or is ID invalid"}
             return res, 00 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400
+        return jsonify(res), 400

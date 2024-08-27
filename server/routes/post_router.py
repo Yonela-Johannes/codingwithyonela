@@ -19,10 +19,10 @@ def post(id):
                         "message": "Fetch successful",
                         "data": response
                         }
-                return res, 200
+                return jsonify(res), 200
             else:
                 res = {"message": "Fetch failed: something went wrong."}
-                return res, 400
+                return jsonify(res), 400
             
         except:
             return {"message": "Fetch failed: something went wrong."}
@@ -41,9 +41,9 @@ def post(id):
                         res = {"data": f"{response}",
                             "message": "Status update successful"
                             }
-                        return res, 200
+                        return jsonify(res), 200
                 res = {"message": "Something went wrong"}
-                return res, 400
+                return jsonify(res), 400
             
             elif id and user_id and post_id:
                 response = edit_post(id=post_id, user_id=user_id)
@@ -51,13 +51,13 @@ def post(id):
                         res = {"data": f"{response}",
                             "message": "Update successful"
                             }
-                        return res, 200
+                        return jsonify(res), 200
                 res = {"message": "Something went wrong, could not like"}
-                return res, 400
+                return jsonify(res), 400
         
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-            return res, 400
+            return jsonify(res), 400
     
     # delete
     elif REQUEST == 'DELETE':
@@ -73,21 +73,21 @@ def post(id):
                     res = {
                         "message": "Delete successful"
                         }
-                    return res, 200
+                    return jsonify(res), 200
                 elif response:
                     res = {
                         "message": "Something went wrong"
                         }
-                    return res, 200
+                    return jsonify(res), 200
                 else:
                     res = {"message": "Delete failed: something went wrong."}
-                    return res, 400
+                    return jsonify(res), 400
             res = {"message": "User not authorized to delete"}
-            return res, 400 
+            return jsonify(res), 400
         except json.decoder.JSONDecodeError as err:
             ic(err)
             res = {"message": "Missing data"}
-        return res, 400
+        return jsonify(res), 400
     
     
 def posts():
@@ -135,14 +135,14 @@ def posts():
             response = create_post(account_id=account, text=text, image=image, video=video, post_type=post_type, answers=answers)
             if response:
                 res = {"message": "Post created successful"}
-                return res, 201
+                return jsonify(res), 400
             else:
                 res = {"message": "Error: something went wrong"}
-                return res, 400 
+                return jsonify(res), 400
                 
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400 
+        return jsonify(res), 400
     elif REQUEST == 'GET':
         try:
             response = fetch_posts()
@@ -161,10 +161,10 @@ def post_comment(id):
             if id:
                 response = fetch_post_comment(id)
                 res = {"data": response}
-                return res, 200
+                return jsonify(res), 200
             else:
                 res = {"data": "Missing data"}
-            return res, 200
+            return jsonify(res), 200
         except:
             return {"message": "Fetch failed: something went wrong."}, 400
         
@@ -181,16 +181,16 @@ def post_comment_create():
             if len(response) > 0:
                     res = {"data": f"{response}",
                             "message": "Commented successful"}
-                    return res, 201
+                    return jsonify(res), 400
             else:
                 res = {"message": "Feed already exist"}
-                return res, 400 
+                return jsonify(res), 400
             
             res = {"message": "Title invalid: (you must enter title)"}
-            return res, 400 
+            return jsonify(res), 400
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400 
+        return jsonify(res), 400
         
 def post_vote_create(id):
     REQUEST = request.method
@@ -205,16 +205,16 @@ def post_vote_create(id):
                 if len(response) > 0:
                         res = {"data": f"{response}",
                                 "message": "voted successful"}
-                        return res, 201
+                        return jsonify(res), 400
                 else:
                     res = {"message": "vote already exist"}
-                    return res, 400 
+                    return jsonify(res), 400
                 
                 res = {"message": "Error: something went wrong"}
-                return res, 400 
+                return jsonify(res), 400
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400 
+        return jsonify(res), 400
     
 def post_response_create():
     REQUEST = request.method
@@ -229,16 +229,16 @@ def post_response_create():
             if len(response) > 0:
                     res = {"data": f"{response}",
                             "message": "Responsed successful"}
-                    return res, 201
+                    return jsonify(res), 400
             else:
                 res = {"message": "Response already exist"}
-                return res, 400 
+                return jsonify(res), 400
             
             res = {"message": "Error: somthing went wrong"}
-            return res, 400 
+            return jsonify(res), 400
         except json.decoder.JSONDecodeError:
             res = {"message": "Missing data"}
-        return res, 400 
+        return jsonify(res), 400
         
         
 def post_response(id):
@@ -248,10 +248,10 @@ def post_response(id):
             if id:
                 response = fetch_post_response(id)
                 res = {"data": response}
-                return res, 200
+                return jsonify(res), 200
             else:
                 res = {"data": "Missing data"}
-            return res, 200
+            return jsonify(res), 200
         except:
             return {"message": "Fetch failed: something went wrong."}, 400
         

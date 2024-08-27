@@ -24,17 +24,11 @@ const ProjectsTask = () =>
 
     useEffect(() =>
     {
-        if (updated || success)
+        if (updated || success || deleted)
         {
             dispatch(getAllprojects())
         }
-    }, [updated, success])
-
-    useEffect(() =>
-    {
-
-        dispatch(getAllprojects())
-    }, [deleted])
+    }, [updated, success, deleted])
 
     return (
         <div className={`w-full h-full`}>
