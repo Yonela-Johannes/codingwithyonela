@@ -90,9 +90,11 @@ export const authSlice = createSlice({
             .addCase(login.pending, (state) =>
             {
                 state.loading = true;
+                state.signin_success = false
             })
             .addCase(login.fulfilled, (state, action) =>
             {
+                console.log(action.payload)
                 state.loading = false;
                 state.token = action.payload.token
                 state.currentUser = action.payload.user;
@@ -102,6 +104,7 @@ export const authSlice = createSlice({
             {
                 state.loading = false;
                 state.error = action.message;
+                state.signin_success = false
             })
 
             .addCase(register.pending, (state) =>

@@ -153,8 +153,9 @@ def login(email, password):
                 user_id = db_user["id"]
                 
                 verify_r = verify_password(plain_password=password, hashed_password=user_password)
+
                 if verify_r == False:
-                    return jsonify({"message": "Invalid user details provided"}), 403
+                    return {"message": "Invalid user details provided"}
                 
                 user = fetch_user(id=user_id)
                 if user:
@@ -164,7 +165,7 @@ def login(email, password):
                         "token": token
                     }
                     
-                    return jsonify(result), 200
+                    return result
  
 
     except (Exception, psycopg2.DatabaseError) as error:

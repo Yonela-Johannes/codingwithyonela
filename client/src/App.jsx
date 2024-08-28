@@ -58,6 +58,7 @@ function App()
               <Route path="/verify_account/:token" element={<Verify />} />
               <Route path="/about" element={<About />} />
               <Route path="/project-status" element={<ProjectsTask />} />
+              <Route path="/project/:id/todo" element={<Todopage />} />
               <Route path="events" element={<BigCalendar />} />
               {/* user routes */}
               <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />

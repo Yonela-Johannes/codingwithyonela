@@ -14,9 +14,7 @@ const HeroSection = () =>
       <div className={`flex flex-col h-full lg:flex-row gap-4 lg:gap-8 mt-2 lg:mt-10`}>
         <div>
           <p className={`text-sm lg:text-base ${theme == "light" ? "text-bg_primary" : "text-bg_lightest"} max-w-2xl`}>
-            Empower your creativity and bring your VR app ideas to life with our
-            intuitive development tools. Get started today and turn your imagination
-            into immersive reality!
+            I built this space to collaborate, grow my own community, solve ideas together, and make meaningful connections.
           </p>
           <div className="flex my-10">
             <Link

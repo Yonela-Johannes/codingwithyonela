@@ -14,8 +14,9 @@ const Todopage = () =>
     const { tasks, created, updated, success, deleted } = useSelector((state) => state.task);
     const dispatch = useDispatch();
     const { theme } = useContext(ThemeContext)
+    console.log(id)
 
-    const getTasks = () =>
+    const getTasks = (id) =>
     {
         dispatch(getAllTasks(id))
         dispatch(disableTaskUpdates())
@@ -25,7 +26,7 @@ const Todopage = () =>
     {
         if (id)
         {
-            getTasks()
+            getTasks(id)
         }
     }, [id]);
 
@@ -33,7 +34,7 @@ const Todopage = () =>
     {
         if (created && id)
         {
-            getTasks()
+            getTasks(id)
             toast('New task created')
         }
     }, [created]);
@@ -42,7 +43,7 @@ const Todopage = () =>
     {
         if (success || updated || deleted)
         {
-            getTasks()
+            getTasks(id)
         }
     }, [success, deleted, updated]);
 

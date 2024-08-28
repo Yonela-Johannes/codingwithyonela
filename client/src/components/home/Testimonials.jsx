@@ -11,8 +11,8 @@ const Testimonials = () =>
 {
   const { theme } = useContext(ThemeContext)
   const { feedback, created, loading, updated } = useSelector((state) => state.feedback);
-  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const { currentUser, signin_success, signup_success } = useSelector((state) => state.user)
 
   const fetchFeedback = () =>
   {
@@ -24,6 +24,14 @@ const Testimonials = () =>
   {
     fetchFeedback()
   }, []);
+
+  useEffect(() =>
+  {
+    if (signin_success || signup_success)
+    {
+      fetchFeedback()
+    }
+  }, [signin_success, signup_success]);
 
   useEffect(() =>
   {

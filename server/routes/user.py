@@ -20,7 +20,7 @@ def login_user():
                 return jsonify(response), 200
 
         except Exception as error:
-            return {"message": "Fetch failed: something went wrong."}
+            return jsonify(error), 400
                    
 def verify_user():
     REQUEST = request.method
