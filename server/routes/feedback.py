@@ -15,21 +15,10 @@ def feedback(id, mail):
         try:
             if id:
                 response = fetch_feedback(id)
-                if response:
-                    res = {
-                        "message": "Fetch successful",
-                        "data": response
-                    }
-                    return jsonify(res), 200
-                else:
-                    res = {"message": "Fetch failed: something went wrong."}
-                    return jsonify(res), 400
-            else:
-                res = {"message": "Missing data"}
-                return jsonify(res), 400
-        except:
-            return {"message": "Fetch failed: something went wrong."}
-        
+                return jsonify(res), 200
+        except json.decoder.JSONDecodeError as error:
+                return jsonify(error), 400
+            
         # edit/update
     elif REQUEST == 'PUT':
         try:
@@ -47,19 +36,10 @@ def feedback(id, mail):
                             lastname=response['lastname'],
                             mail=mail
                         )
-                                         
-                        res = {"data": response,
-                            "message": "Update successful"
-                            }
-                        return jsonify(res), 200
-                    res = {"message": response}
-                    return jsonify(res), 400
-                res = {"message": "Missing data"}
-                return jsonify(res), 400
-        except json.decoder.JSONDecodeError as err:
-            ic(err)
-            res = {"message": "Missing data"}
-        return jsonify(res), 400
+                        return jsonify(response), 200
+
+        except json.decoder.JSONDecodeError as error:
+                return jsonify(error), 400
 
 def all_feedback(mail):
     REQUEST = request.method 
@@ -67,18 +47,10 @@ def all_feedback(mail):
         # Fetch all
         try:
             response = fetch_all_feedback()
-            if response:
-                res = {
-                    "message": "Fetch successful",
-                    "data": response
-                    }
-                return jsonify(res), 200
-            else:
-                res = {"data": []}
-                return jsonify(res), 200
-        except  json.decoder.JSONDecodeError as err:
-            print(err)
-            return {"message": "Fetch failed: something went wrong."}
+            return jsonify(response), 200
+
+        except json.decoder.JSONDecodeError as error:
+                return jsonify(error), 400
         
     # Create recommendation
     elif REQUEST == 'POST':
@@ -94,17 +66,16 @@ def all_feedback(mail):
             company = data['company']
             rating = data['rating']
             
-            ic(account_id)
             image = ""
-            if  account_id and account_id != "undefined":
-                image = data['image']
-            else:
+            if 'image' in files:
                 image = files['image']
                 res = uploadImage(image=image)
                 if res:
                     image = res['url']
                 else:
-                    return {'message': 'Error image upload'}, 4000
+                    return jsonify({'message': 'Error image upload'}), 400
+            elif account_id and account_id != "undefined" and 'image' != files:
+                image = data['image']
                        
 
             response = create_feedback(
@@ -140,14 +111,8 @@ def all_feedback(mail):
                     rating=response['rating'],
                     mail=mail,
                 )
-                    
-                res = {"message": response}
-                return jsonify(res), 200   
-                            
-            else:
-                res = {"message": "Profile already exist"}
-                return jsonify(res), 400
-
-        except json.decoder.JSONDecodeError:
-            res = {"message": "Missing data"}
-        return jsonify(res), 200
+    
+                return jsonify(response), 200   
+                        
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400

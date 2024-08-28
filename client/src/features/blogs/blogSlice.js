@@ -17,6 +17,7 @@ const initialState = {
 export const getAllBlogs = createAsyncThunk('blogs/fetch all', async () =>
 {
   const response = await axios.get(`${apiUrl}blogs`);
+  console.log(response)
   return response.data;
 });
 
@@ -79,7 +80,7 @@ export const blogSlice = createSlice({
       .addCase(getAllBlogs.fulfilled, (state, action) =>
       {
         state.loading = false;
-        state.blogs = action.payload.data;
+        state.blogs = action.payload;
       })
       .addCase(getAllBlogs.rejected, (state, action) =>
       {
@@ -93,7 +94,7 @@ export const blogSlice = createSlice({
       .addCase(getBlog.fulfilled, (state, action) =>
       {
         state.loading = false;
-        state.blog = action.payload.data;
+        state.blog = action.payload;
       })
       .addCase(getBlog.rejected, (state, action) =>
       {
@@ -122,7 +123,7 @@ export const blogSlice = createSlice({
       })
       .addCase(fetchBlogComment.fulfilled, (state, action) =>
       {
-        state.comments = action.payload.data;
+        state.comments = action.payload;
         state.loading = false;
       })
       .addCase(fetchBlogComment.rejected, (state, action) =>
@@ -136,7 +137,7 @@ export const blogSlice = createSlice({
       })
       .addCase(fetchBlogEnums.fulfilled, (state, action) =>
       {
-        state.enums = action.payload.data['enum_range'];
+        state.enums = action.payload['enum_range'];
         state.loading = false;
       })
       .addCase(fetchBlogEnums.rejected, (state, action) =>

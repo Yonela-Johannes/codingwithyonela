@@ -58,6 +58,7 @@ const Blogs = () =>
       setJourneyBlogs(response);
     }
   }, [blogs]);
+
   return (
     <div className={`${theme == "light" ? "text-bg_opp" : "text-slate-400"} flex flex-col gap-8 h-full`}>
       {journeyBlogs && journeyBlogs?.length > 0 ? (
@@ -85,11 +86,7 @@ const Blogs = () =>
 
       <div className="mb-10">
         <>
-          {loading ? (
-            <Loader />
-          ) : blogs?.length == 0 ? (
-            ""
-          ) : blogs?.length > 0 ? (
+          {blogs?.length ? (
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full mt-6">
               {filterCat && selectedBlogs?.length > 0
                 ? blogs
@@ -98,7 +95,7 @@ const Blogs = () =>
                 : blogs.map((blog) => <BlogCard blog={blog} key={blog.id} />)}
             </div>
           ) : (
-            <Empty title='No Blogs' description='The CodingWithYonela Team has not created a blog yet.' path='/create-blog' pathMessage="Create Blog" />
+            <Empty title='No Blogs' description='The CodingWithYonela Team has not created a blog yet.' path='/admin/new-blog' pathMessage="Create Blog" />
           )}
         </>
       </div>

@@ -1,34 +1,29 @@
 import Chat from "./Chat";
 import MessageInput from "../../shared/MessageInput";
 import { useEffect, useState } from "react";
-import { MdAdd, MdModeEdit } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { disableMessageUpdate, getProjectMessages, setSelectProject } from "../../features/project/projectSlice";
 import Loader from "../../shared/Loader";
+import { disableTaskUpdates } from "../../features/tasks/tasksSlice";
 
 const Right = () =>
 {
   const [active, setActive] = useState(false);
   const dispatch = useDispatch()
-  const { loading, project, messages, success } = useSelector(state => state.project)
+  const { loading, project, messages, create_project_message } = useSelector(state => state.project)
+  const { fetched } = useSelector(state => state.task)
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() =>
   {
-    if (project)
-    {
-      dispatch(setSelectProject(project))
-    }
-  }, [project])
-
-  useEffect(() =>
-  {
-    if (success)
+    if (fetched || create_project_message)
     {
       dispatch(getProjectMessages(project?.project_id))
       dispatch(disableMessageUpdate())
+      dispatch(disableTaskUpdates())
     }
-  }, [success])
+  }, [fetched, create_project_message])
 
   return (
     loading ? (

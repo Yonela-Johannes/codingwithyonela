@@ -96,7 +96,6 @@ def edit_feedback_status(status, feedback_id):
 
                 # get the generated id back                
                 rows = cur.fetchone()
-                ic(rows)
                 if rows:
                     response = rows
                 # commit the changes to the database

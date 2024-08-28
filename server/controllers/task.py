@@ -12,7 +12,7 @@ def create_task(project_id, account_id, task, description):
 
     try:
         with  connection as conn:
-            with  conn.cursor() as cur:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the INSERT statement
                 cur.execute(sql, (project_id, account_id, task, description))
             
@@ -56,7 +56,6 @@ def fetch_task(project_id):
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute(query, (project_id,))            
                 rows = cur.fetchall()
-                ic(rows)
                 if rows:
                     response = rows
                 conn.commit()

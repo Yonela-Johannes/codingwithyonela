@@ -200,7 +200,7 @@ const CreateProject = () =>
           <select id="topic_id" onChange={handleChange}
             className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-bg_light" : "bg-bg_grey text-white"} rounded-none`}
           >
-            {topics?.map((element) => (
+            {topics?.length ? topics?.map((element) => (
               <>
                 <option value="" disabled selected hidden>Select stack</option>
                 <option
@@ -211,7 +211,7 @@ const CreateProject = () =>
                   {element?.name}
                 </option>
               </>
-            ))}
+            )) : ""}
           </select>
 
           <button
@@ -225,7 +225,7 @@ const CreateProject = () =>
                 <span className='pl-3'>Loading...</span>
               </>
             ) : (
-              'Add Work'
+              'Add Project'
             )}
           </button>
         </form>

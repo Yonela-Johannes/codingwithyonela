@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { ThemeContext } from '../../context/ThemeContext'
-import { FaEdit, FaTrash } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa'
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../../lib/utils';
 import { deleteTask, updateTask } from '../../features/tasks/tasksSlice';
-import { deleteProject, getProjectMessages, setSelectProject, updateProject } from '../../features/project/projectSlice';
+import { deleteProject, setSelectProject, updateProject } from '../../features/project/projectSlice';
 import Loader from '../../shared/Loader';
 
 const TaskCard = ({ elem, project }) =>
@@ -85,7 +85,6 @@ const TaskCard = ({ elem, project }) =>
     {
         if (elem && elem?.project_id)
         {
-            dispatch(getProjectMessages(elem?.project_id))
             dispatch(setSelectProject(elem))
             navigate(`/project/${elem?.project_id}/todo`)
         }

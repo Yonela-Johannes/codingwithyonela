@@ -5,7 +5,6 @@ import Blog from "./pages/Blog";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CreateBlog from "./components/blog/CreateBlog";
 import About from "./pages/About";
-import Collaboration from "./pages/Collaboration";
 import ScrollToTop from './components/ScrollToTop'
 import Recommendations from "./pages/Recommenations";
 import CreateProject from "./components/project/CreateProject";
@@ -17,7 +16,6 @@ import EditAccount from "./pages/EditAccount";
 import Chill from "./components/chill/Chill";
 import PrivateRoute from "./utils/PrivateRoute";
 import AdminPrivateRoute from "./utils/AdminRoute";
-import Search from "./pages/Search";
 import Profile from "./pages/Profile";
 import { Theme } from '@radix-ui/themes';
 import BigCalendar from "./components/dashboard/BigCalender";
@@ -59,10 +57,7 @@ function App()
               <Route path="/recommendation" element={<Recommendations />} />
               <Route path="/verify_account/:token" element={<Verify />} />
               <Route path="/about" element={<About />} />
-              <Route path="/project-descussion" element={<Collaboration />} />
               <Route path="/project-status" element={<ProjectsTask />} />
-              <Route path="/project/:id/todo" element={<Todopage />} />
-              <Route exact path="/search" element={<Search />} />
               <Route path="events" element={<BigCalendar />} />
               {/* user routes */}
               <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />

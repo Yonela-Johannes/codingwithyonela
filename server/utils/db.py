@@ -10,10 +10,23 @@ DATABASE_USER = os.getenv('DATABASE_USER')
 HOST = os.getenv('HOST')
 PASSWORD = os.getenv('PASSWORD')
 PORT = os.getenv('PORT')
+from psycopg2 import pool
 
-connection = psycopg2.connect(
+P_connection = psycopg2.connect(
     database = DATABASE, 
     user = DATABASE_USER, 
     host= HOST,
     password = PASSWORD,
     port = PORT)
+
+
+connection_pool = pool.SimpleConnectionPool(
+    minconn=1,
+    maxconn=10,
+    database = DATABASE, 
+    user = DATABASE_USER, 
+    host= HOST,
+    password = PASSWORD
+)
+
+connection = connection_pool.getconn()

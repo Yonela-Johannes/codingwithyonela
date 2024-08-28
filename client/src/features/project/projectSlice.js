@@ -11,6 +11,7 @@ const initialState = {
   failed: false,
   deleted: false,
   updated: false,
+  create_project_message: false
 }
 
 export const getAllprojects = createAsyncThunk('projects/fetch all', async () =>
@@ -80,6 +81,7 @@ export const projectSlice = createSlice({
       state.failed = false
       state.deleted = false
       state.updated = false
+      state.create_project_message = false
     },
     setSelectProject: (state, action) =>
     {
@@ -100,7 +102,7 @@ export const projectSlice = createSlice({
       .addCase(getAllprojects.fulfilled, (state, action) =>
       {
         state.loading = false;
-        state.projects = action.payload.data;
+        state.projects = action.payload;
       })
       .addCase(getAllprojects.rejected, (state, action) =>
       {
@@ -138,13 +140,16 @@ export const projectSlice = createSlice({
       .addCase(createProjectMessage.pending, (state) =>
       {
         state.success = false
+        state.create_project_message = false
       })
       .addCase(createProjectMessage.fulfilled, (state) =>
       {
         state.success = true
+        state.create_project_message = true
       })
       .addCase(createProjectMessage.rejected, (state, action) =>
       {
+        state.create_project_message = false
         state.error = action.message;
         state.success = false
       })
@@ -166,7 +171,7 @@ export const projectSlice = createSlice({
       })
       .addCase(getProjectMessages.fulfilled, (state, action) =>
       {
-        state.messages = action.payload.data;
+        state.messages = action.payload;
         state.loading = false;
       })
       .addCase(getProjectMessages.rejected, (state, action) =>

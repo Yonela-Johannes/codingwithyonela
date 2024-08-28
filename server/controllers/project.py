@@ -167,7 +167,7 @@ def create_project_chat(account_id, message, project_id):
 
     try:
         with  connection as conn:
-            with  conn.cursor() as cur:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the INSERT statement
                 cur.execute(sql, (account_id, message, project_id))
             
@@ -183,7 +183,7 @@ def create_project_chat(account_id, message, project_id):
     
 # fetch suggestion responses
 def fetch_projects_chats(id):
-    query = """SELECT project_chat.*, project_chat.id AS chat_id, account.email, account.username, account.lastname, account.is_admin, account.is_staff, account.profile, account.user_title_id, user_title.user_title FROM project_chat JOIN account ON account_id = account.id JOIN user_title ON user_title_id = user_title.id WHERE project_id=%s ;"""
+    query = """SELECT project_chat.*, project_chat.id AS chat_id, account.email, account.username, account.lastname, account.is_admin, account.is_staff, account.profile FROM project_chat JOIN account ON account_id = account.id  WHERE project_id=%s ;"""
     
     response = None
 

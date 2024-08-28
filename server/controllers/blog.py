@@ -33,7 +33,7 @@ def create_blog(account, post, blog_image, blog_title, slug, category):
     
 # fetch user
 def fetch_blog(slug):
-    query = """SELECT blog.*, blog.id AS blog_id, account.*, account.id AS account_id, user_title.user_title AS title FROM blog JOIN account on account = account.id JOIN user_title on user_title_id = user_title.id WHERE slug=%s ORDER BY blog.blog_time"""
+    query = """SELECT blog.*, blog.id AS blog_id, account.*, account.id AS account_id FROM blog JOIN account on account = account.id WHERE slug=%s ORDER BY blog.blog_time"""
     
     response = None
 
@@ -57,7 +57,7 @@ def fetch_blog(slug):
     
 # fetch all users
 def fetch_blogs():
-    query = """SELECT blog.*, blog.id AS blog_id, account.*, account.id AS account_id, user_title.user_title AS title FROM blog JOIN account on account = account.id JOIN user_title on user_title_id = user_title.id ORDER BY blog_time;"""
+    query = """SELECT blog.*, blog.id AS blog_id, account.*, account.id AS account_id FROM blog JOIN account on account = account.id ORDER BY blog_time;"""
     
     response = None
 

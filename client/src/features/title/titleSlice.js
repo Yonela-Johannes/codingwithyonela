@@ -29,7 +29,7 @@ export const titleSlice = createSlice({
       .addCase(getAllTitles.fulfilled, (state, action) =>
       {
         state.loading = false;
-        state.titles = action.payload.data;
+        state.titles = action.payload;
       })
       .addCase(getAllTitles.rejected, (state, action) =>
       {

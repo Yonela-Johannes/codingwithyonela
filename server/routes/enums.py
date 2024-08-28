@@ -34,14 +34,12 @@ def blog_enum():
             #     res = {"message": "Blog already exist"}
             #     return jsonify(res), 400
 
-        except json.decoder.JSONDecodeError:
-            res = {"message": "Missing data"}
-        return jsonify(res), 400
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400
     elif REQUEST == 'GET':
         try:
             response = fetch_blog_enum()
-            res = {"data": response}
-            return jsonify(res), 200
-        except:
-            return {"message": "Fetch failed: something went wrong."}
-       
+            return jsonify(response), 200
+        
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400

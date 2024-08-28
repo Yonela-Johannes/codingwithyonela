@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { RiCloseLine, RiSendPlaneFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { createProjectMessage, getProjectMessages } from "../features/project/projectSlice";
+import { createProjectMessage } from "../features/project/projectSlice";
 import toast from "react-hot-toast";
 
 const MessageInput = ({ setActive }) =>
@@ -41,7 +41,7 @@ const MessageInput = ({ setActive }) =>
         />
         {message ? (
           <button type="submit" className="flex items-center rounded-r-md h-11 w-10 cursor-pointer text-white  bg-clr_alt justify-center">
-            <RiSendPlaneFill />
+            <RiSendPlaneFill size={22} />
           </button>
         ) : (
           <div

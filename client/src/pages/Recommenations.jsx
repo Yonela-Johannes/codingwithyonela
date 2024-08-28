@@ -11,6 +11,7 @@ import { ThemeContext } from "../context/ThemeContext";
 import Recommendation from "./Recommendation";
 import { ModalContext } from "../context/ModalContext";
 import { AiTwotoneFileImage } from "react-icons/ai";
+import Loader from "../shared/Loader";
 
 const Recommendations = () =>
 {
@@ -19,7 +20,7 @@ const Recommendations = () =>
   const { currentUser, } = useSelector((state) => state?.user);
   const { countries } = useSelector((state) => state.countries);
   const [filterValue, setFilterValue] = useState("")
-  const { recommendations, created, fetched } = useSelector((state) => state.recommendation);
+  const { recommendations, created, fetched, loading } = useSelector((state) => state.recommendation);
   const [selectedFile, setSelectedFile] = useState();
   const selectFileRef = useRef(null);
   const [open, setOpen] = useState(false);
@@ -70,13 +71,15 @@ const Recommendations = () =>
     fetchRecommendations()
   }, []);
 
-  // useEffect(() =>
-  // {
-  //   if (created || updated)
-  //   {
-  //     fetchRecommendations()
-  //   }
-  // }, [created, updated]);
+  useEffect(() =>
+  {
+    if (created)
+    {
+      setOpen(false)
+      fetchRecommendations()
+      toast('Thank you for your recommendation. Check your email')
+    }
+  }, [created]);
 
 
   const handleChange = (e) =>
@@ -174,7 +177,7 @@ const Recommendations = () =>
               className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-bg_light" : "bg-bg_grey text-white"} rounded-md`}
             >
               <>
-                <option value="" disabled selected hidden>Select profession</option>
+                <option value="" disabled defaultValue hidden>Select profession</option>
                 <option value="all">All professions</option>
                 {titles?.map((element) => (
                   <>
@@ -206,10 +209,10 @@ const Recommendations = () =>
             <RecommendationCard theme={theme} item={item} key={item._id} />
           ) : ''
         )) : (currentUser?.is_admin || currentUser?.is_staff) ? (recommendations?.map((item) => (
-          <RecommendationCard theme={theme} item={item} key={item._id} />
+          <RecommendationCard theme={theme} item={item} key={item?._id} />
         ))) : (recommendations?.map((item) => (
           item?.status !== 'pending' ?
-            (<RecommendationCard theme={theme} item={item} key={item._id} />) : ""
+            (<RecommendationCard theme={theme} item={item} key={item?._id} />) : ""
         )))}
       </div>
       <Modal
@@ -221,141 +224,143 @@ const Recommendations = () =>
         width={1000}
         footer={false}
       >
-        <div className="rounded-md p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full">
-          <div className="rounded-md pb-2 p-2 grid lg:grid-cols-2 items-start gap-2 md:gap-4 justify-center w-full">
-            <div>
-              <p className="lg:text-lg text-bg_primary font-semibold">Developer</p>
-              <div className="flex flex-col gap-2">
-                <div
-                  className="relative flex flex-col justify-between items-center"
-                >
-                  {selectedFile ? (
-                    <>
-                      <img
-                        className="w-full max-h-[200px] object-cover object-center"
-                        src={selectedFile}
-                      />
-                      <div className="absolute flex gap-3 top-1 right-1 bg-clr_alt rounded-full border-bg_grey">
-                        <button
-                          className="p-2 rounded-full text-lg lg:text-xl"
-                          onClick={() => setSelectedFile("")}
-                        >
-                          <MdClose />
-                        </button>
-                      </div>
-                    </>
-                  ) : (
-                    <div
-                      className="flex flex-col w-full rounded-md justify-center items-center cursor-pointer my-4"
-                    >
+        {loading ? (<Loader />) : (
+          <div className="rounded-md p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full">
+            <div className="rounded-md pb-2 p-2 grid lg:grid-cols-2 items-start gap-2 md:gap-4 justify-center w-full">
+              <div>
+                <p className="lg:text-lg text-bg_primary font-semibold">Developer</p>
+                <div className="flex flex-col gap-2">
+                  <div
+                    className="relative flex flex-col justify-between items-center"
+                  >
+                    {selectedFile ? (
+                      <>
+                        <img
+                          className="w-full rounded-full max-h-[100px] max-w-[100px] object-cover object-center"
+                          src={selectedFile}
+                        />
+                        <div className="absolute flex gap-3 top-1 right-1 bg-clr_alt rounded-full border-bg_grey">
+                          <button
+                            className="p-2 rounded-full text-lg lg:text-xl"
+                            onClick={() => setSelectedFile("")}
+                          >
+                            <MdClose />
+                          </button>
+                        </div>
+                      </>
+                    ) : (
                       <div
-                        className={`text-xl lg:text-4xl px-3 py-2 mt-1 ${theme == "light" ? "text-black" : "bg-bg_card"} p-2 lg:px-4 lg:py-2`}
-                        onClick={() => selectFileRef.current?.click()}
+                        className="flex flex-col w-full rounded-md justify-center items-center cursor-pointer my-4"
                       >
-                        <AiTwotoneFileImage />
+                        <div
+                          className={`text-xl lg:text-4xl px-3 py-2 mt-1 ${theme == "light" ? "text-black" : "bg-bg_card"} p-2 lg:px-4 lg:py-2`}
+                          onClick={() => selectFileRef.current?.click()}
+                        >
+                          <AiTwotoneFileImage />
+                        </div>
+                        <input
+                          id="file-upload"
+                          type="file"
+                          accept="image/x-png,image/gif,image/jpeg"
+                          hidden
+                          ref={selectFileRef}
+                          onChange={onSelectImage}
+                          className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                        />
                       </div>
-                      <input
-                        id="file-upload"
-                        type="file"
-                        accept="image/x-png,image/gif,image/jpeg"
-                        hidden
-                        ref={selectFileRef}
-                        onChange={onSelectImage}
-                        className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
-                      />
-                    </div>
-                  )
-                  }
-                </div>
-                <div>
-                  <input className="rounded-none bg-bg_lightest" id='name' value={inputData.name} onChange={handleChange} placeholder="name" />
-                </div>
-                <div>
-                  <input className="rounded-none bg-bg_lightest" id='last_name' value={inputData.last_name} onChange={handleChange} placeholder="last name" />
-                </div>
-                <div>
-                  <input className="rounded-none bg-bg_lightest" id='email' value={inputData.email} onChange={handleChange} placeholder="email" />
-                </div>
-                <div className="flex items-center p-0 m-0 text-base">
-                  <input className="rounded-none bg-bg_lightest" id='github' value={inputData.github} onChange={handleChange} placeholder="github username" />
-                </div>
-                <div className="flex items-center p-0 m-0 text-base">
-                  <input className="rounded-none bg-bg_lightest" id="linkedin" value={inputData.linkedin} onChange={handleChange} placeholder="linkedin username" />
-                </div>
-                <div className="flex items-center p-0 m-0 text-base">
-                  <input className="rounded-none bg-bg_lightest" id='website' value={inputData.website} onChange={handleChange} placeholder="website" />
-                </div>
-                <div>
-                  <select
-                    className="w-full rounded-none bg-bg_lightest"
-                    id='profession'
-                    onChange={(e) => setInputData({ ...inputData, profession: e.target.value })}
-                  >
-                    {titles?.map((elem) => (
-                      <>
-                        <option value="" disabled selected hidden>Select profession</option>
-                        <option value={elem.id} key={elem.id}>{elem?.user_title}</option>
-                      </>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <select
-                    id='country'
-                    className="w-full rounded-none bg-bg_lightest"
-                    onChange={(e) => setInputData({ ...inputData, country: e.target.value })}
-                  >
-                    {countries?.map((elem) => (
-                      <>
-                        <option value="" disabled selected hidden>Select country</option>
-                        <option value={elem.id} key={elem.id}>
-                          {elem?.emoji} {elem?.name}{" "}
-                        </option>
-                      </>
-                    ))}
-                  </select>
+                    )
+                    }
+                  </div>
+                  <div>
+                    <input className="rounded-none bg-bg_lightest" id='name' value={inputData.name} onChange={handleChange} placeholder="name" />
+                  </div>
+                  <div>
+                    <input className="rounded-none bg-bg_lightest" id='last_name' value={inputData.last_name} onChange={handleChange} placeholder="last name" />
+                  </div>
+                  <div>
+                    <input className="rounded-none bg-bg_lightest" id='email' value={inputData.email} onChange={handleChange} placeholder="email" />
+                  </div>
+                  <div className="flex items-center p-0 m-0 text-base">
+                    <input className="rounded-none bg-bg_lightest" id='github' value={inputData.github} onChange={handleChange} placeholder="github username" />
+                  </div>
+                  <div className="flex items-center p-0 m-0 text-base">
+                    <input className="rounded-none bg-bg_lightest" id="linkedin" value={inputData.linkedin} onChange={handleChange} placeholder="linkedin username" />
+                  </div>
+                  <div className="flex items-center p-0 m-0 text-base">
+                    <input className="rounded-none bg-bg_lightest" name="link" id='website' value={inputData.website} onChange={handleChange} placeholder="website" />
+                  </div>
+                  <div>
+                    <select
+                      className="w-full rounded-none bg-bg_lightest"
+                      id='profession'
+                      onChange={(e) => setInputData({ ...inputData, profession: e.target.value })}
+                    >
+                      {titles?.map((elem) => (
+                        <>
+                          <option value="" disabled selected hidden>Select profession</option>
+                          <option value={elem.id} key={elem?.id}>{elem?.user_title}</option>
+                        </>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <select
+                      id='country'
+                      className="w-full rounded-none bg-bg_lightest"
+                      onChange={(e) => setInputData({ ...inputData, country: e.target.value })}
+                    >
+                      {countries?.map((elem) => (
+                        <>
+                          <option value="" disabled selected hidden>Select country</option>
+                          <option value={elem.id} key={elem?.id}>
+                            {elem?.emoji} {elem?.name}{" "}
+                          </option>
+                        </>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="w-full">
-              <p className="lg:text-lg text-bg_primary font-semibold">Your details</p>
-              <div className="flex w-full h-full flex-col space-y-2 pb-4">
-                {currentUser && currentUser?.id ? (
-                  <div className="flex items-center self-end bg-clr_alt w-max text-white rounded-full gap-2">
-                    <div className="space-y-1 py-1 pl-3">
-                      <p className="text-xs">
-                        {currentUser?.username} {currentUser?.lastname}
-                      </p>
-                    </div>
-                    <div>
-                      <img
-                        src={currentUser?.profile}
-                        alt="cover"
-                        className="rounded-full object-cover object-center h-[35px] w-[35px]"
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="w-full">
-                    <div className="flex flex-col gap-2 w-full">
-                      <div className="w-full">
-                        <input className="rounded-none bg-bg_lightest w-full" id='sender_name' value={inputData.sender_name} onChange={handleChange} placeholder="name" />
+              <div className="w-full">
+                <p className="lg:text-lg text-bg_primary font-semibold">Your details</p>
+                <div className="flex w-full h-full flex-col space-y-2 pb-4">
+                  {currentUser && currentUser?.id ? (
+                    <div className="flex items-center self-end bg-clr_alt w-max text-white rounded-full gap-2">
+                      <div className="space-y-1 py-1 pl-3">
+                        <p className="text-xs">
+                          {currentUser?.username}
+                        </p>
                       </div>
-                      <div className="w-full">
-                        <input className="rounded-none bg-bg_lightest w-full" id='sender_lastname' value={inputData.send_lastname} onChange={handleChange} placeholder="last name" />
-                      </div>
-                      <div className="w-full">
-                        <input className="rounded-none bg-bg_lightest w-full" id='sender_email' value={inputData.sender_email} onChange={handleChange} placeholder="last name" />
+                      <div>
+                        <img
+                          src={currentUser?.profile}
+                          alt="cover"
+                          className="rounded-full object-cover object-center h-[35px] w-[35px]"
+                        />
                       </div>
                     </div>
-                  </div>
-                )}
+                  ) : (
+                    <div className="w-full">
+                      <div className="flex flex-col gap-2 w-full">
+                        <div className="w-full">
+                          <input className="rounded-none bg-bg_lightest w-full" id='sender_name' value={inputData.sender_name} onChange={handleChange} placeholder="name" />
+                        </div>
+                        <div className="w-full">
+                          <input className="rounded-none bg-bg_lightest w-full" id='sender_lastname' value={inputData.sender_lastname} onChange={handleChange} placeholder="last name" />
+                        </div>
+                        <div className="w-full">
+                          <input className="rounded-none bg-bg_lightest w-full" id='sender_email' value={inputData.sender_email} onChange={handleChange} placeholder="email" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
+            <button onClick={handleSubmit} className="py-1 px-2 lg:py-2 lg:px-4">Save</button>
           </div>
-          <button onClick={handleSubmit} className="py-1 px-2 lg:py-2 lg:px-4">Save</button>
-        </div>
+        )}
       </Modal>
       <Modal
         title={`${selectedSuggestion.username} ${selectedSuggestion.lastname}`}

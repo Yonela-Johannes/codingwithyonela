@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import Hero from "../components/Hero";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { useSelector } from "react-redux";
@@ -18,7 +17,6 @@ const Header = () =>
           </span>
         </p>
       </div>
-      <Hero />
     </div>
   );
 };

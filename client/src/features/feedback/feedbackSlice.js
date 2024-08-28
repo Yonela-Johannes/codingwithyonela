@@ -67,7 +67,7 @@ export const feedbackSlice = createSlice({
             .addCase(getAllFeedback.fulfilled, (state, action) =>
             {
                 state.loading = false;
-                state.feedback = action.payload.data;
+                state.feedback = action.payload;
             })
             .addCase(getAllFeedback.rejected, (state, action) =>
             {

@@ -6,7 +6,7 @@ const Text = ({ text }) =>
 {
     const { theme } = useContext(ThemeContext)
     return (
-        <div className={`${theme == 'light' ? "text-bg_primary" : "text-bg_lightest"} my-2`}>{ReactHtmlParser(text)}</div>
+        <div className={`${theme == 'light' ? "text-bg_primary" : "text-bg_lightest"}`}>{ReactHtmlParser(text)}</div>
     )
 }
 

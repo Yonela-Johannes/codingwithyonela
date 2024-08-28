@@ -26,7 +26,7 @@ const CreateEvent = () =>
     const handleSubmit = async (e) =>
     {
         e.preventDefault()
-         if (!currentUser?.id || !inputData.title || !inputData.description || !inputData.start_time || !inputData.end_time) return toast("Missing information")
+        if (!currentUser?.id || !inputData.title || !inputData.description || !inputData.start_time || !inputData.end_time) return toast("Missing information")
         const formData = new FormData();
         formData.append('account_id', inputData.account_id);
         formData.append('title', inputData.title);
@@ -129,7 +129,7 @@ const CreateEvent = () =>
                                 <span className='pl-3'>Loading...</span>
                             </>
                         ) : (
-                            'Add Work'
+                            'Add Event'
                         )}
                     </button>
                 </form>

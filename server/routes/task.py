@@ -12,17 +12,10 @@ def project_task(project_id):
         try:
             response = fetch_task(project_id=project_id)
             if response:
-                res = jsonify({"data": response})
-                return jsonify(res), 200
-            elif response == None:
-                res = jsonify({"message" "Error: something went wrong"})
-                return jsonify(res), 400
-            else:
-                res = jsonify({"message": []})
-                return jsonify(res), 200
+                return jsonify(response), 200
                 
-        except:
-            return {"message": "Fetch failed: something went wrong."}, 400
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400
         
     elif REQUEST == 'POST':
         try:
@@ -38,17 +31,9 @@ def project_task(project_id):
                 task=task, 
                 description=description
                 )
-
-            if response:
-                    res = {"data": "Project task created successfull"}
-                    return jsonify(res), 400
-                
-            res = {"message": "Missing data"}
-            return jsonify(res), 400
-        except json.decoder.JSONDecodeError:
-            res = {"message": "Missing data"}
-            print(res)
-        return jsonify(res), 200 
+            return jsonify(response), 200
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400
 
     # edit/update
     elif REQUEST == 'PUT':
@@ -66,16 +51,10 @@ def project_task(project_id):
                 
             response = edit_task(account_id=account_id, task_id=task_id, status=status, priority=priority)
             if response:
-                    res = {"data": response,
-                        "message": "Update successful"
-                        }
-                    return jsonify(res), 200
-            res = {"message": response}
-            return jsonify(res), 400
+                return jsonify(response), 200
 
-        except json.decoder.JSONDecodeError:
-            res = {"message": "Missing data"}
-        return jsonify(res), 400
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400
     elif REQUEST == 'DELETE':
         try:
             data = request.get_json()
@@ -84,19 +63,9 @@ def project_task(project_id):
     
             if task_id and account_id:
                 response = delete_task(task_id=task_id, account_id=account_id)
-                if response == id:
-                    res = {"message": "Delete failed: something went wrong."}
-                    return jsonify(res), 400
-                else:
-                    res = {
-                            "message": "Delete successful"
-                            }
-                    return jsonify(res), 200
-            res = {"message": "Title or is ID invalid"}
-            return jsonify(res), 400
-        except json.decoder.JSONDecodeError:
-           res = {"message": "Missing data"}
-        return jsonify(res), 400
+                return jsonify(response), 400
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400
 
 
 def task():

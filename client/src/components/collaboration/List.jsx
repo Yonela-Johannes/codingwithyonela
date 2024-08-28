@@ -1,26 +1,13 @@
-import moment from "moment";
 import HoverUnderLine from "../HoverUnderLine";
-import { getProjectMessages, setSelectProject } from "../../features/project/projectSlice";
-import { useDispatch } from "react-redux";
 
 const List = ({ project, theme }) =>
 {
-  const dispatch = useDispatch()
-
-  const activeGroupHandler = () =>
-  {
-    if (project && project?.project_id)
-    {
-      dispatch(getProjectMessages(project?.project_id))
-      dispatch(setSelectProject(project))
-    }
-  }
 
   return (
     <div
-      className={`${project?.progress == "done"
-        ? "text-green-900"
-        : project?.progress == "progress"
+      className={`${project?.status == "done"
+        ? "text-green-600"
+        : project?.status == "todo"
           ? "text-orange-500"
           : "text-red-900"
         } w-full h-[180px] mb-1 align-text-top text-start relative font-bold border-b`}
@@ -30,9 +17,6 @@ const List = ({ project, theme }) =>
       px-7 w-full"
       >
         <HoverUnderLine>
-          <div className={`bg-clr_alt w-[${project.progress}%] h-2 rounded-md`}>
-
-          </div>
           <p
             onClick={() => activeGroupHandler()}
             className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} text-xl mb-2 font-normal text-start`}

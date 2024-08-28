@@ -100,9 +100,7 @@ def get_current_user(token: str):
 
 def create_new_user_with_token(token: str):
     try:
-        ic(token)
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        ic(payload)
         if "user" in payload:
             data = payload['user']
             email = data['email']
@@ -156,7 +154,7 @@ def login(email, password):
                 
                 verify_r = verify_password(plain_password=password, hashed_password=user_password)
                 if verify_r == False:
-                    return {"message": "Invalid user details provided"}
+                    return jsonify({"message": "Invalid user details provided"}), 403
                 
                 user = fetch_user(id=user_id)
                 if user:
@@ -166,17 +164,8 @@ def login(email, password):
                         "token": token
                     }
                     
-                    return result
-                    # else:
-                    #     return {"message": "Error: user not found"}
-                else:
-                    return {"message": "Error: invalid data provided"}
-            else:
-                return {"message": "Error: missing data input"}
-        else:
-            return {"message": "Error: user does not exist"}
-            
-        return {"data": result}, 200
+                    return jsonify(result), 200
+ 
 
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)    
@@ -205,7 +194,7 @@ def create_user(email, username, lastname, password, profile, profile_id, user_t
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = {"message": "dup email error"}
+        response = error
     finally:
         return response
 # fetch all users

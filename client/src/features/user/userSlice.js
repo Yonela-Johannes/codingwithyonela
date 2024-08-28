@@ -50,7 +50,7 @@ export const userSlice = createSlice({
       .addCase(getUsers.fulfilled, (state, action) =>
       {
         state.loading = false;
-        state.users = action.payload.data;
+        state.users = action.payload;
       })
       .addCase(getUsers.rejected, (state, action) =>
       {

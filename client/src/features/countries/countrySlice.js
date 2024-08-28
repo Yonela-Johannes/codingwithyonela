@@ -29,7 +29,7 @@ export const countrySlice = createSlice({
       .addCase(getAllCountries.fulfilled, (state, action) =>
       {
         state.loading = false;
-        state.countries = action.payload.data;
+        state.countries = action.payload;
       })
       .addCase(getAllCountries.rejected, (state, action) =>
       {

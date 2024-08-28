@@ -23,7 +23,7 @@ from icecream import ic
 load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-cors = CORS(app)
+CORS(app, supports_credentials=True)
 
 app.config.update(dict(
     MAIL_SERVER = 'smtp.gmail.com',
@@ -40,12 +40,6 @@ mail = Mail(app)
 @app.route('/api/v1/task/<int:project_id>' , methods=['GET', 'PUT', 'DELETE', 'POST'])
 def task_route(project_id):
     return project_task(project_id=project_id)
-
-# # user route
-# @app.route('/api/v1/task' , methods=['POST', 'GET'])
-# def create_user_route():
-#     return create_user_profile(mail)
-# ----------------
 
 # quotes route
 @app.route('/api/v1/quote', methods=['GET', 'POST'])

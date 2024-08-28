@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Input } from "../components/widget/input";
 import { Textarea } from "../components/widget/textarea";
 import { Popover, PopoverContent, PopoverTrigger } from "../components/widget/popover";
@@ -9,14 +9,19 @@ import toast from "react-hot-toast";
 import { AiTwotoneFileImage } from "react-icons/ai";
 import { ThemeContext } from "../context/ThemeContext";
 import { MdClose } from "react-icons/md";
+import Loader from "./Loader";
 
 export const Widget = () =>
 {
   const { theme } = useContext(ThemeContext)
   const { currentUser } = useSelector((state) => state.user);
+  const { created, loading } = useSelector((state) => state.feedback);
   const [selectedFile, setSelectedFile] = useState();
+  const [submitted, setSubmitted] = useState(false);
   const selectFileRef = useRef(null);
   const dispatch = useDispatch()
+
+
   const [formData, setFormData] = useState({
     "account": currentUser ? currentUser?.id : '',
     "image": currentUser ? currentUser?.profile : "",
@@ -28,7 +33,25 @@ export const Widget = () =>
     "rating": 3
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  useEffect(() =>
+  {
+    if (created)
+    {
+      setSubmitted(false)
+      setSelectedFile()
+      setFormData({
+        "account": currentUser?.id ? currentUser?.id : '',
+        "image": currentUser?.id ? currentUser?.profile : "",
+        "name": currentUser?.id ? currentUser?.firstname : "",
+        "lastname": currentUser?.id ? currentUser?.lastname : "",
+        "email": currentUser?.id ? currentUser?.email : "",
+        "company": "",
+        "feedback": "",
+        "rating": 3
+      })
+    }
+  }, [created])
+
 
   const onSelectStar = (index) =>
   {
@@ -53,20 +76,8 @@ export const Widget = () =>
     newFormData.append('image', formData.image);
     newFormData.append('feedback', formData.feedback);
     newFormData.append('rating', formData.rating);
-
-    dispatch(createFeedback(newFormData))
     setSubmitted(true)
-    selectedFile("")
-    setFormData({
-      "account": currentUser ? currentUser?.id : '',
-      "image": currentUser ? currentUser?.profile : "",
-      "name": currentUser ? currentUser?.firstname : "",
-      "lastname": currentUser ? currentUser?.lastname : "",
-      "email": currentUser ? currentUser?.email : "",
-      "company": "",
-      "feedback": "",
-      "rating": 3
-    })
+    dispatch(createFeedback(newFormData))
   };
 
   if (submitted)
@@ -93,6 +104,7 @@ export const Widget = () =>
       }
     };
   };
+  console.log(selectedFile || !formData?.image == '')
   return (
     <>
       <style>{tailwindStyles}</style>
@@ -115,121 +127,124 @@ export const Widget = () =>
                 </p>
               </div>
             ) : (
-              <div>
-                <h3 className="text-lg font-bold">Send us your feedback</h3>
-                <form
-                  className="space-y-2"
-                  onSubmit={submit}
-                >
+              loading ? (<div className="w-[200px] h-[220px]"><Loader /></div>) :
+                (
                   <div>
-                    <div
-                      className="relative flex flex-col justify-between items-center"
+                    <h3 className="text-lg font-bold">Send us your feedback</h3>
+                    <form
+                      className="space-y-2"
+                      onSubmit={submit}
                     >
-                      {(selectedFile || formData?.image) ? (
-                        <>
-                          <img
-                            className="w-full max-h-[200px] object-cover"
-                            src={currentUser?.id ? formData?.image : selectedFile}
-                          />
-                          {!currentUser?.id && (
-                            <div className="absolute flex gap-3 top-1 right-1 bg-clr_alt rounded-full border-bg_grey">
-                              <button
-                                type="button"
-                                className="p-2 rounded-full text-lg lg:text-xl"
-                                onClick={() => setSelectedFile("")}
-                              >
-                                <MdClose />
-                              </button>
-                            </div>
-                          )}
-                        </>
-                      ) : (
+                      <div>
                         <div
-                          className="flex flex-col w-full rounded-md justify-center items-center cursor-pointer my-4"
+                          className="relative flex flex-col justify-between items-center"
                         >
-                          <div
-                            className={`text-xl lg:text-4xl px-3 py-2 mt-1 ${theme == "light" ? "text-black" : "bg-bg_card"} p-2 lg:px-4 lg:py-2`}
-                            onClick={() => selectFileRef.current?.click()}
-                          >
-                            <AiTwotoneFileImage />
-                          </div>
-                          <input
-                            id="file-upload"
-                            type="file"
-                            accept="image/x-png,image/gif,image/jpeg"
-                            hidden
-                            ref={selectFileRef}
-                            onChange={onSelectImage}
-                            className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                          {(selectedFile || !formData?.image == '') ? (
+                            <>
+                              <img
+                                className="w-full rounded-full max-h-[160px] max-w-[160px] object-cover"
+                                src={selectedFile ? selectedFile : currentUser?.id ? formData?.image : selectedFile}
+                              />
+                              {!currentUser?.id && selectedFile ? (
+                                <div className="absolute flex gap-3 top-1 right-1 bg-clr_alt rounded-full border-bg_grey">
+                                  <button
+                                    type="button"
+                                    className="p-2 rounded-full text-lg lg:text-xl"
+                                    onClick={() => setSelectedFile("")}
+                                  >
+                                    <MdClose />
+                                  </button>
+                                </div>
+                              ) : ""}
+                            </>
+                          ) : (
+                            <div
+                              className="flex flex-col w-full rounded-md justify-center items-center cursor-pointer my-4"
+                            >
+                              <div
+                                className={`text-xl lg:text-4xl px-3 py-2 mt-1 ${theme == "light" ? "text-black" : "bg-bg_card"} p-2 lg:px-4 lg:py-2`}
+                                onClick={() => selectFileRef.current?.click()}
+                              >
+                                <AiTwotoneFileImage />
+                              </div>
+                              <input
+                                id="file-upload"
+                                type="file"
+                                accept="image/x-png,image/gif,image/jpeg"
+                                hidden
+                                ref={selectFileRef}
+                                onChange={onSelectImage}
+                                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                              />
+                            </div>
+                          )
+                          }
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label htmlFor="name">Name</label>
+                          <Input
+                            value={formData.name}
+                            id="name"
+                            handleChange={handleChange}
+                            placeholder="Enter your name"
                           />
                         </div>
-                      )
-                      }
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label htmlFor="name">Name</label>
-                      <Input
-                        value={formData.name}
-                        id="name"
-                        handleChange={handleChange}
-                        placeholder="Enter your name"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="name">Last name</label>
-                      <Input
-                        value={formData.lastname}
-                        id="lastname"
-                        handleChange={handleChange}
-                        placeholder="Enter your last name"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="company">Company</label>
-                      <Input
-                        value={formData.company}
-                        id="company"
-                        handleChange={handleChange}
-                        placeholder="Enter your work"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="email">Email</label>
-                      <Input
-                        value={formData.email}
-                        id="email"
-                        handleChange={handleChange}
-                        placeholder="Enter your email"
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="feedback">Feedback</label>
-                    <Textarea
-                      value={formData.feedback}
-                      id="feedback"
-                      handleChange={handleChange}
-                      placeholder="Tell us what you think"
-                      className="min-h-[70px]"
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      {[...Array(5)].map((_, index) => (
-                        <StarIcon
-                          key={index}
-                          className={`h-5 w-5 cursor-pointer ${formData?.rating > index ? "fill-clr_alt text-clr_alt" : "fill-muted stroke-muted-foreground"
-                            }`}
-                          onClick={() => onSelectStar(index)}
+                        <div className="space-y-2">
+                          <label htmlFor="name">Last name</label>
+                          <Input
+                            value={formData.lastname}
+                            id="lastname"
+                            handleChange={handleChange}
+                            placeholder="Enter your last name"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label htmlFor="company">Company</label>
+                          <Input
+                            value={formData.company}
+                            id="company"
+                            handleChange={handleChange}
+                            placeholder="Enter your work"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label htmlFor="email">Email</label>
+                          <Input
+                            value={formData.email}
+                            id="email"
+                            handleChange={handleChange}
+                            placeholder="Enter your email"
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <label htmlFor="feedback">Feedback</label>
+                        <Textarea
+                          value={formData.feedback}
+                          id="feedback"
+                          handleChange={handleChange}
+                          placeholder="Tell us what you think"
+                          className="min-h-[70px]"
                         />
-                      ))}
-                    </div>
-                    <button type="submit">Submit</button>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          {[...Array(5)].map((_, index) => (
+                            <StarIcon
+                              key={index}
+                              className={`h-5 w-5 cursor-pointer ${formData?.rating > index ? "fill-clr_alt text-clr_alt" : "fill-muted stroke-muted-foreground"
+                                }`}
+                              onClick={() => onSelectStar(index)}
+                            />
+                          ))}
+                        </div>
+                        <button type="submit">Submit</button>
+                      </div>
+                    </form>
                   </div>
-                </form>
-              </div>
+                )
             )}
           </PopoverContent>
         </Popover>
@@ -269,10 +284,10 @@ function MessageCircleIcon(props)
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-message-circle"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-message-circle"
     >
       <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
     </svg>

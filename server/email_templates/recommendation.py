@@ -53,7 +53,7 @@ def recommendation_email_temp(email, name, lastname, portfolio, github, linkedin
                     <h2>Your Portfolio is Now Live on CodingWithYonela!</h2>
                 </div>
                 <div class="content">
-                    <img src="cid:{portfolio}" alt="Profile Image" class="profile-image" />
+                    <img src="{portfolio}" alt="Profile Image" class="profile-image" />
                     <p>Dear {name} {lastname},</p>
                     <p>We’re excited to inform you that your portfolio has been successfully added to CodingWithYonela! Below are the details:</p>
                     <ul>
@@ -134,7 +134,7 @@ def send_to_me(email, name, lastname, portfolio, github, linkedin, mail, status,
                     <h2>Hey a new portfolio has been added to CodingWithYonela!</h2>
                 </div>
                 <div class="content">
-                    <img src="cid:{portfolio}" alt="Profile Image" class="profile-image" />
+                    <img src="{portfolio}" alt="Profile Image" class="profile-image" />
                     <ul>
                         <li><strong>Name:</strong> {name} {lastname}</li>
                         <li><strong>GitHub Page:</strong> <a href="https://github.com/{github}" target="_blank">{github}</a></li>
@@ -161,7 +161,7 @@ def send_to_me(email, name, lastname, portfolio, github, linkedin, mail, status,
 
 def recommendation_email_temp_user(email, name, lastname, portfolio, github, linkedin, mail, status, time, sender_name, sender_lastname, sender_email):
     send_mail(
-        subject="Your Portfolio is Now Live on CodingWithYonela",
+        subject="Your Portfolio Will Be Live on CodingWithYonela",
         body=f"""
         <html>
         <head>
@@ -208,13 +208,13 @@ def recommendation_email_temp_user(email, name, lastname, portfolio, github, lin
         <body>
             <div class="container">
                 <div class="header">
-                    <h2>Your Portfolio is Now Live on CodingWithYonela!</h2>
+                    <h2>Your Portfolio will be live on CodingWithYonela in the next 24 minutes!</h2>
                 </div>
                 <div class="content">
-                    <img src="cid:{portfolio}" alt="Profile Image" class="profile-image" />
+                    <img src="{portfolio}" alt="Profile Image" class="profile-image" />
                     <p>Dear {name} {lastname},</p>
                     <p>We’re excited to inform you that your portfolio has been successfully added to CodingWithYonela!</p>
-                    <p>Your portfolio was created by: {sender_name} {sender_lastname} at {time} and the email is: {sender_email} Below are the details:</p>
+                    <p>Your portfolio was created by: {sender_name} {sender_lastname} at {time} and their email is: {sender_email} Below are the details:</p>
                     <ul>
                         <li><strong>Name:</strong> {name} {lastname}</li>
                         <li><strong>GitHub Page:</strong> <a href="https://github.com/{github}" target="_blank">{github}</a></li>
@@ -292,7 +292,7 @@ def send_to_creator(email, name, lastname, portfolio, github, linkedin, mail, st
                     <h2>Hi {sender_name} {sender_lastname} you added a new portfolio to CodingWithYonela!</h2>
                 </div>
                 <div class="content">
-                    <img src="cid:{portfolio}" alt="Profile Image" class="profile-image" />
+                    <img src="{portfolio}" alt="Profile Image" class="profile-image" />
                     <ul>
                         <li><strong>Name:</strong> {name} {lastname}</li>
                         <li><strong>GitHub Page:</strong> <a href="https://github.com/{github}" target="_blank">{github}</a></li>

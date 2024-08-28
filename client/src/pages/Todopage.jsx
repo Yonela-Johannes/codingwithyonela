@@ -1,10 +1,9 @@
 import React, { useContext, useEffect } from 'react'
 import { ThemeContext } from '../context/ThemeContext'
 import Board from '../components/task/Board'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { disableTaskUpdates, getAllTasks } from '../features/tasks/tasksSlice'
-import Loader from '../shared/Loader'
 import Collaboration from './Collaboration'
 import toast from 'react-hot-toast'
 
@@ -14,12 +13,12 @@ const Todopage = () =>
     const { project } = useSelector((state) => state.project);
     const { tasks, created, updated, success, deleted } = useSelector((state) => state.task);
     const dispatch = useDispatch();
-    const navigate = useNavigate()
     const { theme } = useContext(ThemeContext)
 
     const getTasks = () =>
     {
         dispatch(getAllTasks(id))
+        dispatch(disableTaskUpdates())
     }
 
     useEffect(() =>
@@ -32,18 +31,9 @@ const Todopage = () =>
 
     useEffect(() =>
     {
-        if (!project)
-        {
-            navigate('/project-status')
-        }
-    }, [project]);
-
-    useEffect(() =>
-    {
         if (created && id)
         {
             getTasks()
-            dispatch(disableTaskUpdates())
             toast('New task created')
         }
     }, [created]);
@@ -53,7 +43,6 @@ const Todopage = () =>
         if (success || updated || deleted)
         {
             getTasks()
-            dispatch(disableTaskUpdates())
         }
     }, [success, deleted, updated]);
 

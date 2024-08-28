@@ -2,7 +2,7 @@ import List from "./List";
 import { useSelector } from "react-redux";
 import Loader from '../../shared/Loader'
 
-const Center = ({ theme, id }) =>
+const Center = ({ theme }) =>
 {
   const { loading, project } = useSelector((state) => state.project);
 

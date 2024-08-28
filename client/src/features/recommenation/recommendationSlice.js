@@ -76,7 +76,7 @@ export const recommendationSlice = createSlice({
       .addCase(getAllRecommendations.fulfilled, (state, action) =>
       {
         state.loading = false;
-        state.recommendations = action.payload.data;
+        state.recommendations = action.payload;
         state.fetched = true
       })
       .addCase(getAllRecommendations.rejected, (state, action) =>

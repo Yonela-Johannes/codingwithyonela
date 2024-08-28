@@ -24,7 +24,7 @@ function RecommendationCard({ item, theme })
               src={item?.image}
               alt={item?.username}
               className="h-[24px] md:h-[24px]
-                    object-contain"
+                    object-cover rounded-full"
             />
           </div>
           <div className="flex w-full gap-4 mt-3">
@@ -35,7 +35,7 @@ function RecommendationCard({ item, theme })
               <img
                 src={item?.portfolio}
                 alt={item?.username}
-                className="h-[150px] w-full rounded-lg lg:h-[200px]
+                className="h-[150px] w-[150px] rounded-full lg:w-[200px] lg:h-[200px]
                     object-cover mt-3 m-auto"
               />
               <div

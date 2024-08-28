@@ -13,6 +13,7 @@ const Board = ({ project, data }) =>
 {
     const { theme } = useContext(ThemeContext)
     const [grouped, setGrouped] = useState()
+
     const groupData = (filter) =>
     {
         let result;

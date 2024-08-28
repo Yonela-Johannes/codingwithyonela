@@ -81,7 +81,7 @@ export const eventSlice = createSlice({
             .addCase(getAllEvents.fulfilled, (state, action) =>
             {
                 state.loading = false;
-                state.events = action.payload.data;
+                state.events = action.payload;
             })
             .addCase(getAllEvents.rejected, (state, action) =>
             {

@@ -14,21 +14,9 @@ def recommendation(id, mail):
         try:
             if id:
                 response = fetch_recommendation(id)
-                if response:
-                    res = {
-                        "message": "Fetch successful",
-                        "data": response
-                    }
-                    return jsonify(res), 200
-                else:
-                    res = {"message": "Fetch failed: something went wrong."}
-                    return jsonify(res), 400
-            else:
-                res = {"message": "Missing data"}
-                return jsonify(res), 400 
-        except:
-            return {"message": "Fetch failed: something went wrong."}
-        
+                return jsonify(response), 200
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400
         # edit/update
     elif REQUEST == 'PUT':
         try:
@@ -48,14 +36,7 @@ def recommendation(id, mail):
                             lastname=response['lastname'],
                             mail=mail
                         )                    
-                        res = {"data": f"{response}",
-                            "message": "Update successful"
-                            }
-                        return jsonify(res), 200
-                    res = {"message": response}
-                    return jsonify(res), 400
-                res = {"message": "Missing data"}
-                return jsonify(res), 400
+                        return jsonify(response), 200
             else:
                 account_id = data['account']
                 name = data['name']
@@ -73,20 +54,10 @@ def recommendation(id, mail):
 
                 if id and name and quote and title_id and account_id:
                     response = edit_recommendation(account_id, name, second_name, lastname, portfolio, github, linkedin, email, portfolio, quote, status_id, title_id, country_id, id)
-                    if response:
-                            res = {"data": f"{response}",
-                                "message": "Update successful"
-                                }
-                            return jsonify(res), 200
-                    res = {"message": response}
-                    return jsonify(res), 400
-                res = {"message": "Missing data"}
-                return jsonify(res), 400
-            
-        except json.decoder.JSONDecodeError as err:
-            ic(err)
-            res = {"message": "Missing data"}
-        return jsonify(res), 400
+                    return jsonify(response), 200
+   
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400
 
 def all_recommendations(mail):
     REQUEST = request.method 
@@ -94,8 +65,7 @@ def all_recommendations(mail):
         # Fetch all
         try:
             response = fetch_recommendations()
-            res = {"data": response}
-            return jsonify(res), 200
+            return jsonify(response), 200
 
         except json.decoder.JSONDecodeError as error:
             ic(error)
@@ -105,7 +75,7 @@ def all_recommendations(mail):
         try:
             data = request.form
             files = request.files
-   
+
             account_id = ""
             if "account_id" in data:
                 account_id = data['account_id']
@@ -145,20 +115,21 @@ def all_recommendations(mail):
                         account_id = user['id']
 
                     if account_id and name:
-                        response = create_recommendation(account_id=account_id, 
-                                                        name=name, 
-                                                        lastname=lastname, 
-                                                        portfolio=portfolio, 
-                                                        github=github, 
-                                                        linkedin=linkedin, 
-                                                        email=email, 
-                                                        country_id=country_id, 
-                                                        title_id=title_id,
-                                                        sender_email=sender_email,
-                                                        sender_name=sender_name,
-                                                        sender_lastname=sender_lastname,
-                                                        website=website
-                                                        )
+                        response = create_recommendation(
+                            account_id=account_id, 
+                            name=name, 
+                            lastname=lastname, 
+                            portfolio=portfolio, 
+                            github=github, 
+                            linkedin=linkedin, 
+                            email=email, 
+                            country_id=country_id, 
+                            title_id=title_id,
+                            sender_email=sender_email,
+                            sender_name=sender_name,
+                            sender_lastname=sender_lastname,
+                            website=website
+                            )
                         if response and 'id' in response:
                             if sender_details:
                                 recommendation_email_temp_user(email=response['email'],
@@ -174,16 +145,18 @@ def all_recommendations(mail):
                                         sender_lastname=sender_lastname,
                                         sender_email=sender_email
                                         )
+                                
                             elif sender_details == False and account_id:
-                                recommendation_email_temp(email=response['email'],
-                                                          name=response['name'],
-                                                          lastname=response['lastname'],
-                                                          portfolio=response['portfolio'],
-                                                          github=response['github'],
-                                                          linkedin=response['linkedin'],
-                                                          mail=mail,
-                                                          status=response['status']
-                                                        )
+                                recommendation_email_temp(
+                                    email=response['email'],
+                                    name=response['name'],
+                                    lastname=response['lastname'],
+                                    portfolio=response['portfolio'],
+                                    github=response['github'],
+                                    linkedin=response['linkedin'],
+                                    mail=mail,
+                                    status=response['status']
+                                )
                                 
                                 send_to_creator(email=response['email'],
                                         name=response['name'],
@@ -200,30 +173,20 @@ def all_recommendations(mail):
                                         )
                                                          
                             send_to_me(email=response['email'],
-                                                        name=response['name'],
-                                                        lastname=response['lastname'],
-                                                        portfolio=response['portfolio'],
-                                                        github=response['github'],
-                                                        linkedin=response['linkedin'],
-                                                        mail=mail,
-                                                        status=response['status'],
-                                                        time=response['profile_created_time']
-                                                        )                            
-                            res = {"message": "Profile created successful"}
-                            return jsonify(res), 400
-                        else:
-                            res = {"message": "Profile already exist"}
-                            return jsonify(res), 400 
-                else:
-                    res = {"message": "Error: Missing required data"}
-                    return jsonify(res), 400 
-            else:
-                res = {"message": "Error: Missing required user data"}
-                return jsonify(res), 400 
-        except json.decoder.JSONDecodeError:
-            res = {"message": "Missing data"}
-        return jsonify(res), 200
-    
+                                    name=response['name'],
+                                    lastname=response['lastname'],
+                                    portfolio=response['portfolio'],
+                                    github=response['github'],
+                                    linkedin=response['linkedin'],
+                                    mail=mail,
+                                    status=response['status'],
+                                    time=response['profile_created_time']
+                                    ) 
+                                                       
+                    return jsonify(response), 200
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400
+                
     elif REQUEST == 'DELETE':
         try:
             data = request.get_json()
@@ -232,16 +195,7 @@ def all_recommendations(mail):
 
             if recommendation_id and account_id:
                 response = delete_recommendation(recommendation_id, account_id)
-                if response == id:
-                    res = {"message": "Delete failed: something went wrong."}
-                    return jsonify(res), 400
-                else:
-                    res = {
-                            "message": "Delete successful"
-                            }
-                    return jsonify(res), 200
-            res = {"message": "Title or is ID invalid"}
-            return res, 00 
-        except json.decoder.JSONDecodeError:
-            res = {"message": "Missing data"}
-        return jsonify(res), 400
+                return jsonify(response), 400
+            
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400

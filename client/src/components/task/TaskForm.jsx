@@ -7,14 +7,14 @@ import { Spinner } from 'flowbite-react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
-const TaskForm = ({ project = false, filterGrouped }) =>
+const TaskForm = ({ project, filterGrouped }) =>
 {
     const { project: data } = useSelector((state) => state.project);
+    const { loading: load_project, messages, success, fetched } = useSelector(state => state.project)
     const [loading, setLoading] = useState(false)
     const { currentUser } = useSelector((state) => state?.user);
     const { theme } = useContext(ThemeContext)
     const dispatch = useDispatch()
-
     const [inputData, setInputData] = useState({
         account_id: currentUser?.id,
         task: '',
@@ -22,10 +22,13 @@ const TaskForm = ({ project = false, filterGrouped }) =>
         project_id: data?.project_id,
     })
 
-    useEffect(() =>
-    {
-        dispatch(getAllTopics());
-    }, []);
+    // useEffect(() =>
+    // {
+    //     if(fetched){
+
+    //     }
+    //     dispatch(getAllTopics());
+    // }, [fetched]);
 
     const handleSubmit = async (e) =>
     {

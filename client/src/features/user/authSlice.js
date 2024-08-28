@@ -93,16 +93,14 @@ export const authSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action) =>
             {
-                console.log(action.payload)
                 state.loading = false;
-                state.token = action.payload.data.token
-                state.currentUser = action.payload.data.user;
+                state.token = action.payload.token
+                state.currentUser = action.payload.user;
                 state.signin_success = true
             })
             .addCase(login.rejected, (state, action) =>
             {
                 state.loading = false;
-                state.message = 'Invalid data provided'
                 state.error = action.message;
             })
 
@@ -135,13 +133,12 @@ export const authSlice = createSlice({
                 state.loading = false;
                 state.token = action.payload.token
                 state.message = action.payload.message
-                state.currentUser = action.payload.data;
+                state.currentUser = action.payload;
             })
             .addCase(verifyRegistration.rejected, (state, action) =>
             {
                 state.signin_success = false
                 state.loading = false;
-                state.message = action.error.message == 'Request failed with status code 403' ? "Token expired. Try registering again" : ""
             })
             .addCase(updateUser.pending, (state) =>
             {

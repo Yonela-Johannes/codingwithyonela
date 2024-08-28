@@ -29,7 +29,7 @@ export const topicSlice = createSlice({
       .addCase(getAllTopics.fulfilled, (state, action) =>
       {
         state.loading = false;
-        state.topics = action.payload.data;
+        state.topics = action.payload;
       })
       .addCase(getAllTopics.rejected, (state, action) =>
       {

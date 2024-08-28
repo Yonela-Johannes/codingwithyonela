@@ -1,6 +1,4 @@
-import moment from "moment";
 import { useContext } from "react";
-import { useSelector } from "react-redux";
 import { ThemeContext } from "../../context/ThemeContext";
 
 const Chat = ({ message }) =>
@@ -20,7 +18,7 @@ const Chat = ({ message }) =>
             <img className="w-7 h-7 rounded-full" src={message?.profile} />
             <div>
               <p className="text-end text-xs font-semibold">
-                {message?.username} {message?.lastname}
+                {message?.username}
               </p>
               <div className="flex gap-1 items-center text-end justify-end">
                 <p className="text-xs">

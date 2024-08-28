@@ -78,50 +78,38 @@ const Blog = () =>
 
   return (
     <div className="rounded-md w-full min-h-full">
-      <img
-        src={blog?.blog_image}
-        alt="cover"
-        className="rounded-md object-contain object-center h-[300px] lg:h-[600px] w-full"
-      />
       <div className="flex w-full h-full flex-col space-y-4 lg:space-y-8 px-2 py-4">
-        <div className="flex justify-between lg:justify-start">
-          {/* <div>
-            <div className="text-sm flex gap-2">
-              <FaRegEye className="text-lg" />
-              <FaEye />
-              <p className="text-sm">{blog?.likes}</p>
-            </div>
-            <div className="text-sm flex gap-2">
-              <BiHeart className="text-lg" />
-              <BiSolidHeart />
-              <p className="text-sm">{blog?.likes}</p>
-            </div>
-          </div> */}
-          <div className="flex flex-col items-center justify-center">
-            <div className="flex w-full flex-col space-y-2 my-2 items-center justify-center">
-              <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500"} flex w-full items-center md:justify-end gap-2`}>
-                <div className="space-y-1">
-                  <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} text-sm`}>
-                    {blog?.username} {blog?.lastname}
-                  </p>
-                  <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} text-sm`}>
-                    {moment(blog?.blog_time).fromNow()}
-                  </p>
-                </div>
-                <div>
-                  <img
-                    src={blog?.profile}
-                    alt="cover"
-                    className="rounded-full object-cover object-center h-[35px] w-[35px]"
-                  />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-20 lg:flex-row px-2 lg:px-8">
+          <div className="text-sm md:text-base lg:w-full space-y-4 lg:space-y-8">
+            <img
+              src={blog?.blog_image}
+              alt="cover"
+              className="rounded-md object-cover object-center w-full h-[300px] lg:h-[420px]"
+            />
+            <div className="flex justify-between lg:justify-start">
+              <div className="flex flex-col items-center justify-center">
+                <div className="flex w-full flex-col space-y-2 my-2 items-center justify-center">
+                  <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500"} flex items-center md:justify-end gap-2`}>
+                    <div>
+                      <img
+                        src={blog?.profile}
+                        alt="cover"
+                        className="rounded-full object-cover object-center h-[35px] w-[35px]"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} text-sm`}>
+                        {blog?.firstname}{" "}{blog?.username}{" "}{blog?.lastname}
+                      </p>
+                      <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} text-sm`}>
+                        {moment(blog?.blog_time).fromNow()}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-20 lg:flex-row px-2 lg:px-8">
-          <div className="text-sm md:text-base lg:w-full space-y-4 lg:space-y-8">
-            <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_lightest"} text-lg lg:text-2xl my-2`}>{blog?.title}</p>
+            <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_lightest"} text-lg lg:text-2xl my-2`}>{blog?.blog_title}</p>
             <Markdown text={blog?.post} />
           </div>
           <div className="w-full lg:space-y-8">

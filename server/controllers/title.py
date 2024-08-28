@@ -41,7 +41,7 @@ def create_title(user_title, description, skills):
                 # get the generated title back                
                 rows = cur.fetchone()
                 if rows:
-                    response = rows[0]
+                    response = rows
 
                 # commit the changes to the database
                 conn.commit()
@@ -82,14 +82,14 @@ def edit_title(id, title):
 
     try:
         with  connection as conn:
-            with  conn.cursor() as cur:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the UPDATE statement
                 cur.execute(query, (title, int(id)))
 
                 # get the generated id back                
                 rows = cur.fetchone()
                 if rows:
-                    response = rows[0]
+                    response = rows
 
                 # commit the changes to the database
                 conn.commit()
@@ -106,14 +106,14 @@ def delete_title(id):
 
     try:
         with  connection as conn:
-            with  conn.cursor() as cur:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the UPDATE statement
                 cur.execute(query, (int(id), ))
 
                 # get the generated id back                
                 rows = cur.fetchone()
                 if rows:
-                    response = rows[0]
+                    response = rows
 
                 # commit the changes to the database
                 conn.commit()

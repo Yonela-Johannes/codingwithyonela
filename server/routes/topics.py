@@ -8,9 +8,6 @@ def topics():
     if REQUEST == 'GET':
         try:
             response = fetch_topics()
-            result = response
-            res = {"data": result}
-            return jsonify(res), 200            
-        except json.decoder.JSONDecodeError:   
-            res = {"message": "Something went wrong!"}
-        return jsonify(res), 400
+            return jsonify(response), 200            
+        except json.decoder.JSONDecodeError as error:   
+            return jsonify(error), 400

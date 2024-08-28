@@ -103,7 +103,7 @@ const Recommendation = () =>
                                 src={selectedSuggestion?.image}
                                 alt={selectedSuggestion?.username}
                                 className="h-[24px] md:h-[24px]
-                    object-contain"
+                    object-contain rounded-full"
                             />
                         </div>
                         <div className="flex w-full gap-4 mt-3 mx-auto">

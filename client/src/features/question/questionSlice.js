@@ -73,7 +73,7 @@ export const questionSlice = createSlice({
       .addCase(getAllQuestions.fulfilled, (state, action) =>
       {
         state.loading = false;
-        state.questions = action.payload.data;
+        state.questions = action.payload;
       })
       .addCase(getAllQuestions.rejected, (state, action) =>
       {

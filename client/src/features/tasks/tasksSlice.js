@@ -11,6 +11,7 @@ const initialState = {
   deleted: false,
   updated: false,
   created: false,
+  fetched: false,
 }
 
 export const getAllTasks = createAsyncThunk('tasks/fetch all', async (project_id) =>
@@ -42,7 +43,7 @@ export const deleteTask = createAsyncThunk('tasks/delete', async (data) =>
 });
 
 export const tasksSlice = createSlice({
-  name: 'project',
+  name: 'task',
   initialState,
   reducers: {
     setSelecteTask: (state, action) =>
@@ -58,6 +59,7 @@ export const tasksSlice = createSlice({
       state.created = false
       state.updated = false
       state.deleted = false
+      state.fetched = false
     }
   },
   extraReducers: (builder) =>
@@ -66,16 +68,19 @@ export const tasksSlice = createSlice({
       .addCase(getAllTasks.pending, (state) =>
       {
         state.loading = true;
+        state.fetched = false;
       })
       .addCase(getAllTasks.fulfilled, (state, action) =>
       {
         state.loading = false;
-        state.tasks = action.payload.data;
+        state.tasks = action.payload;
+        state.fetched = true;
       })
       .addCase(getAllTasks.rejected, (state, action) =>
       {
         state.loading = false;
         state.error = action.message;
+        state.fetched = false;
       })
       .addCase(createTask.pending, (state) =>
       {

@@ -10,34 +10,17 @@ def event(id, mail):
         try:
             if id:
                 response = fetch_event(id)
-                if response:
-                    res = {
-                        "message": "Fetch successful",
-                        "data": response
-                    }
-                    return jsonify(res), 200
-                else:
-                    res = {"message": "Fetch failed: something went wrong."}
-                    return jsonify(res), 400
-            else:
-                res = {"message": "Missing data"}
-                return jsonify(res), 400
-        except:
-            return {"message": "Fetch failed: something went wrong."}
-        
+                return jsonify(response), 200
+
+        except json.decoder.JSONDecodeError as error:
+                return jsonify(error), 400
         # edit/update
     elif REQUEST == 'PUT':
         try:
             data = request.get_json()
-            if 'status' in data != "undefined":
-                account_id = data['user_id']
-                status = data['status']
-                res = {"message": "Missing data"}
-                return jsonify(res), 400
-        except json.decoder.JSONDecodeError as err:
-            ic(err)
-            res = {"message": "Missing data"}
-        return jsonify(res), 400
+            return jsonify(response), 400
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400
 
 def all_events():
     REQUEST = request.method 
@@ -46,22 +29,14 @@ def all_events():
         try:
             response = fetch_all_events()
             
-            if response:
-                for obj in response:
-                        obj["start_time"] = str(obj["start_time"])
-                        obj["end_time"] = str(obj["end_time"])
-                   
-                res = {
-                    "message": "Fetch successful",
-                    "data": response
-                    }
-                return jsonify(res), 200
-            else:
-                res = {"data": []}
-                return jsonify(res), 200
-        except  json.decoder.JSONDecodeError as err:
-            print(err)
-            return {"message": "Fetch failed: something went wrong."}
+            # for obj in response:
+            #         obj["start_time"] = str(obj["start_time"])
+            #         obj["end_time"] = str(obj["end_time"])
+                
+            return jsonify(response), 200
+
+        except json.decoder.JSONDecodeError as error:
+                return jsonify(error), 400
         
     # Create recommendation
     elif REQUEST == 'POST':
@@ -80,17 +55,7 @@ def all_events():
                     start_time=start_time,
                     end_time=end_time
                 )
-                if response and 'id' in response:
-                    res = {"message": response}
-                    return jsonify(res), 200 
-                                                
-                else:
-                    res = {"message": "Something went wrong"}
-                    return jsonify(res), 400
-            else:
-                res = {"message": "User data missing"}
-                return jsonify(res), 400
+                return jsonify(response), 200 
 
-        except json.decoder.JSONDecodeError:
-            res = {"message": "Missing data"}
-        return jsonify(res), 200
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400

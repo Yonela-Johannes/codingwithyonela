@@ -97,7 +97,6 @@ const Chill = () =>
     setOpenDelete(false)
   }
 
-  console.log(filterValue)
   return (
     loading ? (
       <Loader />
