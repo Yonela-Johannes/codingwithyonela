@@ -1,6 +1,7 @@
 import os
 import psycopg2
 from dotenv import load_dotenv
+from utils.db import connection
 
 load_dotenv()
 
@@ -9,13 +10,6 @@ DATABASE_USER = os.getenv('DATABASE_USER')
 HOST = os.getenv('HOST')
 PASSWORD = os.getenv('PASSWORD')
 PORT = os.getenv('PORT')
-
-connection = psycopg2.connect(
-    database = DATABASE, 
-    user = DATABASE_USER, 
-    host= HOST,
-    password = PASSWORD,
-    port = PORT)
 
 def create_tables():
     """ Create tables in the PostgreSQL database"""
