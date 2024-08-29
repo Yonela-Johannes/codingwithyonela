@@ -18,7 +18,6 @@ connection = psycopg2.connect(
     user=POSTGRES_USER,
     host=POSTGRES_HOST,
     password=POSTGRES_PASSWORD,
-    port = PORT
     )
 
 

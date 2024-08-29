@@ -1,6 +1,7 @@
 import psycopg2
 from utils.db import connection
 from psycopg2.extras import RealDictCursor
+from icecream import ic
 
 # fetch all quotes
 def fetch_quotes():

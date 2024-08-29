@@ -2,6 +2,7 @@ import json
 from sqlalchemy import JSON
 from controllers.quotes import create_quote, fetch_quotes
 from flask import request, jsonify
+from icecream import ic
 
 def quotes():
     REQUEST = request.method 

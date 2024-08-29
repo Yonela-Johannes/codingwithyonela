@@ -13,14 +13,13 @@ POSTGRES_DATABASE = os.getenv('POSTGRES_DATABASE')
 POSTGRES_USER = os.getenv('POSTGRES_USER')
 POSTGRES_HOST = os.getenv('POSTGRES_HOST')
 POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
-PORT = os.getenv('PORT')
+
 
 connection = psycopg2.connect(
     dbname=POSTGRES_DATABASE,
     user=POSTGRES_USER,
     host=POSTGRES_HOST,
     password=POSTGRES_PASSWORD,
-    port = PORT
     )
 
 
