@@ -56,16 +56,16 @@ def fetch_user(id):
 
                 # get the generated id back                
                 rows = cur.fetchone()
-
-                if rows:
-                    response = rows
+                return rows if rows else {}
 
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
+
      
 def get_user_by_email(email):
     response = None
@@ -79,14 +79,15 @@ def get_user_by_email(email):
 
                 # get the generated id back                
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
+
 
 def get_current_user(token: str):
     try:
@@ -169,7 +170,10 @@ def login(email, password):
  
 
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)    
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+    
 
 def create_user(email, username, lastname, password, profile, profile_id, user_title_id, firstname):
     
@@ -190,19 +194,18 @@ def create_user(email, username, lastname, password, profile, profile_id, user_t
 
                 # get the generated id back                
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
+
 # fetch all users
 def fetch_users():
     query = """SELECT * FROM account ORDER BY username;"""
-    
-    response = None
 
     try:
         with  connection as conn:
@@ -212,14 +215,13 @@ def fetch_users():
 
                 # get the generated all data back                
                 rows = cur.fetchall()
-                if rows:
-                    response = rows
+                return rows if rows else []
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
 
 # update user
 def edit_user(id, is_admin, is_staff, user_title_id, username, firstname, lastname, github_username):
@@ -255,31 +257,30 @@ def edit_user(id, is_admin, is_staff, user_title_id, username, firstname, lastna
                 conn.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
 
 # update user
 def delete_user(id, token):
     user = get_current_user(token=token)
     if "id" in user:
         query = """DELETE FROM account WHERE id=%s RETURNING id;"""
-        
-        response = None
+
     try:
         with  connection as conn:
-            with  conn.cursor() as cur:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the UPDATE statement
                 cur.execute(query, (int(id), ))
 
                 # get the generated id back                
                 rows = cur.fetchone()
-                if rows:
-                    response = rows[0]
+                return rows if rows else {}
 
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+

@@ -8,13 +8,13 @@ def quotes():
     if REQUEST == 'GET':
         try:
             response = fetch_quotes()
-            return jsonify(response), 200        
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]        
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
     
     if REQUEST == 'POST':
         try:
             response = create_quote()
-            return jsonify(response), 200    
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]    
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400

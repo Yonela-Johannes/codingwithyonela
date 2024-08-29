@@ -16,15 +16,16 @@ def fetch_title(id):
 
                 # get the generated id back                
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
 
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
+
 # create title
 def create_title(user_title, description, skills):
     query = """INSERT INTO user_title (user_title, description, skills)
@@ -40,15 +41,14 @@ def create_title(user_title, description, skills):
 
                 # get the generated title back                
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
 
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
 
 # fetch all titles
 def fetch_titles():
@@ -64,14 +64,13 @@ def fetch_titles():
 
                 # get the generated all data back                
                 rows = cur.fetchall()
-                if rows:
-                    response = rows
+                return rows if rows else []
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
 
 # update title
 def edit_title(id, title):
@@ -88,16 +87,15 @@ def edit_title(id, title):
 
                 # get the generated id back                
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
 
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
-    
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+ 
 # update title
 def delete_title(id):
     query = """DELETE FROM user_title WHERE id=%s RETURNING id;"""
@@ -112,12 +110,12 @@ def delete_title(id):
 
                 # get the generated id back                
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
 
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+

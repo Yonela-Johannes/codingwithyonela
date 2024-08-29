@@ -29,7 +29,7 @@ def questions(id):
             
             if id and account_id and question_id and category_id and topic_id and question:
                 response = edit_question(account_id, question, category_id, topic_id, question_id)
-                return jsonify(response), 200
+                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
@@ -41,7 +41,7 @@ def questions(id):
             id = json.loads(request.data)['id']
             if id:
                 response = delete_blog(id)
-                return jsonify(response), 200
+                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
             
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
@@ -77,7 +77,7 @@ def question_comments(id):
         try:
             if id:
                 response = fetch_question_comments(id)
-                return jsonify(response), 200
+                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
 

@@ -17,14 +17,13 @@ def add_users(users_id):
                 cur.execute(sql, (users_id))
             
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)    
-    finally:
-        return response
-
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+    
 def create_project( account_id, project_name, image, description, github, link, topic_id):
     response = None
     try:
@@ -37,18 +36,15 @@ def create_project( account_id, project_name, image, description, github, link, 
                 RETURNING id""",(account_id, project_name, image, description, github, link, topic_id))
                 
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
-                else:
-                    response = None
+                return rows if rows else {}
                 conn.commit()
                 
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)    
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
     
-# fetch all users
+# fetch all projects
 def fetch_projects():
     # query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id A FROM project JOIN account on account_id = account.id JOIN status O = status.id ORDER BY project_time;"""
     query = """SELECT project.*, project.id as project_id, topics.name as tag_name, account.* FROM project JOIN topics on topic_id = topics.id JOIN account on account_id = account.id ORDER BY project.id ASC """
@@ -68,10 +64,9 @@ def fetch_projects():
                     response = rows
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        ic(error)
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
 
 def fetch_project(id):
 
@@ -84,15 +79,12 @@ def fetch_project(id):
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute(query, (id,))            
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        ic(error)
-        response = error
-    finally:
-        return response
-    
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
 
 def edit_project(user_id, project_id, project_status, project_name, description, github, link, priority, topic_id):
 
@@ -126,14 +118,12 @@ def edit_project(user_id, project_id, project_status, project_name, description,
                 
                 cur.execute(query, (user_id, project_status, project_name, description, github, link, priority, topic_id, project_id))            
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
-    
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
 
 def delete_project(project_id, account_id):
 
@@ -148,22 +138,17 @@ def delete_project(project_id, account_id):
                 cur.execute(query, (project_id, account_id))
             
                 rows = cur.fetchone()
-                ic(rows)
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
 
 def create_project_chat(account_id, message, project_id):
     """ Create new account_id into  the acount table """
     sql = """INSERT INTO project_chat (account_id, message, project_id)
              VALUES(%s, %s, %s) RETURNING id;"""
-    
-    response = None
 
     try:
         with  connection as conn:
@@ -172,20 +157,16 @@ def create_project_chat(account_id, message, project_id):
                 cur.execute(sql, (account_id, message, project_id))
             
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)    
-    finally:
-        return response
-    
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
     
 # fetch suggestion responses
 def fetch_projects_chats(id):
     query = """SELECT project_chat.*, project_chat.id AS chat_id, account.email, account.username, account.lastname, account.is_admin, account.is_staff, account.profile FROM project_chat JOIN account ON account_id = account.id  WHERE project_id=%s ;"""
-    
-    response = None
 
     try:
         with  connection as conn:
@@ -194,23 +175,19 @@ def fetch_projects_chats(id):
                 cur.execute(query, (int(id), ))
             
                 rows = cur.fetchall()
-                if rows:
-                    response = rows
+                return rows if rows else []
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
-    
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
 
 def project_like(account_id, project_id):
     """ Create new account_id into  the acount table """
 
     sql = """INSERT INTO project_like (account_id)
              VALUES(%s) WHERE id = %s RETURNING id;"""
-    
-    response = None
-
+             
     try:
         with  connection as conn:
             with  conn.cursor() as cur:
@@ -218,10 +195,10 @@ def project_like(account_id, project_id):
                 cur.execute(sql, (account_id, project_id))
             
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)    
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+    

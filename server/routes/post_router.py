@@ -14,7 +14,7 @@ def post(id):
         # Fetch one
         try:
             response = fetch_post(id)
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
@@ -29,10 +29,10 @@ def post(id):
             if 'status' in data and post_id:
                 status = data['status']
                 response = edit_post_status(id=post_id, status=status)
-                return jsonify(response), 200
+                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
             elif id and user_id and post_id:
                 response = edit_post(id=post_id, user_id=user_id)
-                return jsonify(response), 200
+                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
@@ -48,7 +48,7 @@ def post(id):
             if account == post_user:
                 response = delete_post(post_id=post_id, account_id=account)
                 if response == None:
-                    return jsonify(response), 200
+                    return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
@@ -104,7 +104,7 @@ def posts():
     elif REQUEST == 'GET':
         try:
             response = fetch_posts()
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
         
@@ -114,7 +114,7 @@ def post_comment(id):
     if REQUEST == 'GET':
         try:
             response = fetch_post_comment(id)
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
@@ -169,7 +169,7 @@ def post_response(id):
     if REQUEST == 'GET':
         try:
             response = fetch_post_response(id)
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
   
         except json.decoder.JSONDecodeError as error:
                 return jsonify(error), 400

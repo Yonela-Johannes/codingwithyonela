@@ -10,7 +10,7 @@ def event(id, mail):
         try:
             if id:
                 response = fetch_event(id)
-                return jsonify(response), 200
+                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
         except json.decoder.JSONDecodeError as error:
                 return jsonify(error), 400
@@ -33,7 +33,7 @@ def all_events():
             #         obj["start_time"] = str(obj["start_time"])
             #         obj["end_time"] = str(obj["end_time"])
                 
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
         except json.decoder.JSONDecodeError as error:
                 return jsonify(error), 400
@@ -55,7 +55,7 @@ def all_events():
                     start_time=start_time,
                     end_time=end_time
                 )
-                return jsonify(response), 200 
+                return jsonify(response), 200 if not isinstance(response, dict) else response[1] 
 
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400

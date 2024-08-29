@@ -11,8 +11,7 @@ def create_enum(name, value):
         """ Create new account into the acount table """
         sql = """ALTER TYPE enum_name 
             ADD VALUE [IF NOT EXISTS] %s;"""
-        
-        response = None
+
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the INSERT statement
@@ -21,16 +20,17 @@ def create_enum(name, value):
                 # get the generated id back                
                 rows = cur.fetchone()
  
-                if rows:
-                    response = rows
+                return rows if rows else []
 
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        ic(error)
-        print(error)    
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
+  
+
     
 # fetch user
 def fetch_blog_enum():
@@ -47,12 +47,13 @@ def fetch_blog_enum():
                 # get the generated id back                
                 rows = cur.fetchone()
                 ic(rows)
-                if rows:
-                    response = rows
+                return rows if rows else []
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
+
      

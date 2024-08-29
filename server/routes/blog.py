@@ -14,10 +14,11 @@ def blog():
         # Fetch one
         try:
             response = fetch_blog(slug=slug)
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
             
         # edit/update
     elif REQUEST == 'PUT':
@@ -29,10 +30,11 @@ def blog():
             blog_image = data['blog_image']
             
             response = edit_blog(id, post, category_id, blog_image)
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
         
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
     
     # delete
     elif REQUEST == 'DELETE':
@@ -40,10 +42,11 @@ def blog():
             data = request.get_json()
             id = data['id']
             response = delete_blog(id)
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
       
 def blogs():
     REQUEST = request.method
@@ -78,15 +81,17 @@ def blogs():
             return jsonify(response), 201
 
 
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
             
     elif REQUEST == 'GET':
         try:
             response = fetch_blogs()
-            return jsonify(response), 200
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
         
 def blogs_comments():
     REQUEST = request.method
@@ -94,11 +99,12 @@ def blogs_comments():
         try:
             id = request.args.get('id')
             response = fetch_blog_comments(id)
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
 
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
         
 def blogs_comment_create():
     REQUEST = request.method
@@ -112,8 +118,9 @@ def blogs_comment_create():
                 response = create_blog_comment(account_id, comment,blog_id)
                 return jsonify(response), 201
 
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
     
 def blog_enum():
     REQUEST = request.method
@@ -145,12 +152,14 @@ def blog_enum():
             return jsonify(response), 201
 
 
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
         
     elif REQUEST == 'GET':
         try:
             response = fetch_blog_enum()
-            return jsonify(response), 200
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500

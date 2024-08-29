@@ -7,9 +7,7 @@ def create_task(project_id, account_id, task, description):
     """ Create new account_id into the acount table """
     sql = """INSERT INTO tasks (project_id, account_id, task, description)
              VALUES(%s, %s, %s, %s) RETURNING *;"""
-    
-    response = None
-
+             
     try:
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
@@ -17,20 +15,17 @@ def create_task(project_id, account_id, task, description):
                 cur.execute(sql, (project_id, account_id, task, description))
             
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)    
-    finally:
-        return response
-    # 081 670 4797
-# fetch all users
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
+# fetch all projects
 def fetch_projects():
     query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id A, status.status FROM project JOIN account on account_id = account.id JOIN status O = status.id ORDER BY project_time;"""
     
-    response = None
-
     try:
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
@@ -39,13 +34,13 @@ def fetch_projects():
 
                 # get the generated all data back                
                 rows = cur.fetchall()
-                if rows:
-                    response = rows
+                return rows if rows else []
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
 
 def fetch_task(project_id):
     
@@ -56,23 +51,17 @@ def fetch_task(project_id):
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute(query, (project_id,))            
                 rows = cur.fetchall()
-                if rows:
-                    response = rows
+                return rows if rows else []
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        ic(error)
-        response = error
-    finally:
-        return response
-    
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
 
 def edit_task(account_id, task_id, status, priority):
-
     query = """UPDATE tasks SET task_status = %s, priority = %s  WHERE id = %s AND account_id = %s RETURNING *
     ;"""
     
-    response = None
-
     try:
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
@@ -89,14 +78,13 @@ def edit_task(account_id, task_id, status, priority):
                 cur.execute(query, (status, priority, task_id, account_id))            
                 rows = cur.fetchone()
                 
-                if rows:
-                    response = rows
+                return rows if rows else []
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        ic(error)
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
 
 def delete_task(task_id, account_id):
     query = """DELETE FROM tasks WHERE id = %s AND account_id = %s RETURNING id;"""
@@ -108,11 +96,9 @@ def delete_task(task_id, account_id):
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute(query, (task_id, account_id,))
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        ic(error)
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500

@@ -16,6 +16,5 @@ def valid_token():
             return
     except:
         return {"message": "You are not authorized"}
-    finally:
-        return response
+
     return response

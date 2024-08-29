@@ -45,11 +45,13 @@ def create_post(account_id, text, image, video, post_type, answers):
                 conn.commit()
             
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)    
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+    
+
  
-# fetch user
+# fetch post
 def fetch_post(id):
     query = """SELECT * FROM post WHERE id=%s"""
     
@@ -62,18 +64,18 @@ def fetch_post(id):
                 cur.execute(query, (int(id), ))
             
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
+
     
-# fetch all users
+# fetch all posts
 def fetch_posts():
-    # query = """SELECT *, post.id as post_id FROM post JOIN account on account_id = account.id JOIN user_title on user_title_id = user_title.id ORDER BY post_id DESC;"""
-    
+
     query = """SELECT 
     p.id,
     p.id AS post_id,
@@ -153,10 +155,10 @@ def fetch_posts():
                     response = posts
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        ic(error)
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
 
 
 def edit_post(id, user_id):
@@ -177,9 +179,11 @@ def edit_post(id, user_id):
                     response = post_like
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
+
     
 def edit_post_status(id, status):
     ic(status)
@@ -198,13 +202,9 @@ def edit_post_status(id, status):
                     response = row
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        ic(error)
-        response = error
-    finally:
-        return response
-    
-
-
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
 
 def delete_post(post_id, account_id):
     post = """DELETE FROM post WHERE id = %s AND account_id = %s RETURNING id;"""
@@ -222,16 +222,13 @@ def delete_post(post_id, account_id):
                 cur.execute(post_response, (post_id,) )
                 cur.execute(post_like, (post_id,) )
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        ic(error)
-        response = error
-    finally:
-        return response
-    
-    
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
 def create_post_comment(account_id, comment, post_id):
     """ Create comment post """
     sql = """INSERT INTO post_comment (account_id, comment, post_id, post_comment_time)
@@ -246,14 +243,13 @@ def create_post_comment(account_id, comment, post_id):
                 cur.execute(sql, (account_id, comment, post_id, datetime.datetime.now()))
             
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)    
-    finally:
-        return response
-
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+    
 # fetch feed responses
 def fetch_post_comment(id):
     query = """SELECT * FROM post_comment JOIN account ON account_id = account.id WHERE post_id=%s ORDER BY post_comment_time DESC;"""
@@ -267,14 +263,13 @@ def fetch_post_comment(id):
                 cur.execute(query, (int(id), ))
             
                 rows = cur.fetchall()
-                if rows:
-                    response = rows
+                return rows if rows else []
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
- 
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
 def create_poll_vote(account_id, poll_a_id):
     """ Create post vote"""
     sql = """INSERT INTO poll_vote (account_id, poll_answer_id)
@@ -289,15 +284,12 @@ def create_poll_vote(account_id, poll_a_id):
                 cur.execute(sql, (account_id, poll_a_id))
             
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         ic(error)
         print(error)    
-    finally:
-        return response
-    
+
 def create_post_response(account_id, text, post_id):
     """ Create reponse post """
     sql = """INSERT INTO post_response (account_id, text, post_id, post_response_time)
@@ -312,15 +304,14 @@ def create_post_response(account_id, text, post_id):
                 cur.execute(sql, (account_id, text, post_id, datetime.datetime.now()))
             
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)    
-    finally:
-        return response
-
-# fetch feed responses
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+    
+# fetch post responses
 def fetch_post_response(id):
     query = """SELECT post_response.*, post_response.id AS post_id, account.email, account.username, account.lastname, account.is_admin, account.is_staff, account.profile, account.user_title_id, user_title.user_title FROM post_response JOIN account ON account_id = account.id JOIN user_title ON user_title_id = user_title.id WHERE post_id=%s ORDER BY post_response_time DESC;"""
     
@@ -333,12 +324,13 @@ def fetch_post_response(id):
                 cur.execute(query, (int(id), ))
             
                 rows = cur.fetchall()
-                if rows:
-                    response = rows
+                return rows if rows else []
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
+
 
   

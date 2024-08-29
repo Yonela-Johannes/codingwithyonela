@@ -8,6 +8,6 @@ def topics():
     if REQUEST == 'GET':
         try:
             response = fetch_topics()
-            return jsonify(response), 200            
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]            
         except json.decoder.JSONDecodeError as error:   
             return jsonify(error), 400

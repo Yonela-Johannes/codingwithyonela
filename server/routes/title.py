@@ -8,7 +8,7 @@ def title():
     if REQUEST == 'GET':
         try:
             response = fetch_titles()
-            return jsonify(response), 200            
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]            
         except json.decoder.JSONDecodeError as error:   
             return jsonify(response), 400
     
@@ -28,7 +28,7 @@ def title():
             id = json.loads(request.data)['id']
             if title and id:
                 response = edit_title(id, title)
-                return jsonify(response), 200
+                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
     # delete

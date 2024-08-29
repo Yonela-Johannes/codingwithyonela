@@ -17,20 +17,18 @@ def create_feedback(name, lastname, email, company, image, message, rating):
 
                 # get the generated id back                
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 # commit the changes to the database
                 conn.commit()
                     
     except (Exception, psycopg2.DatabaseError) as error:
         ic(error)
         print(error)    
-    finally:
-        return response
+
     
-# fetch user
+# fetch feedback
 def fetch_feedback(id):
-    query = """SELECT * FROM recommendation WHERE id=%s"""
+    query = """SELECT * FROM feedback WHERE id=%s"""
     
     response = None
 
@@ -42,17 +40,18 @@ def fetch_feedback(id):
 
                 # get the generated id back                
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
 
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+
+
     
-# fetch all users
+# fetch all feedback
 def fetch_all_feedback():
     query = """SELECT * FROM feedback;"""
     
@@ -66,22 +65,21 @@ def fetch_all_feedback():
 
                 # get the generated all data back                
                 rows = cur.fetchall()
-                if rows:
-                    response = rows
+                return rows if rows else []
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        ic(error)
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
 
-# update recommendation
+
+# update feedback
 def edit_feedback(account_id, name, second_name, lastname, re_image, github, linkedin, email, portfolio, quote, status_id, title_id, country_id, id):
-    query = """UPDATE recommendation SET (account_id=%s,name=%s,second_name=%s,lastname=%s,re_image=%s, github=%s, linkedin=%s, email=%s, portfolio=%s,quote=%s,status_id=%s, title_id=%s, country_id=%s) WHERE id = %s RETURNING title
+    query = """UPDATE feedback SET (account_id=%s,name=%s,second_name=%s,lastname=%s,re_image=%s, github=%s, linkedin=%s, email=%s, portfolio=%s,quote=%s,status_id=%s, title_id=%s, country_id=%s) WHERE id = %s RETURNING title
     ;"""
 
-# update recommendation status
+# update feedback status
 def edit_feedback_status(status, feedback_id):
     query = """UPDATE feedback SET status=%s WHERE id=%s RETURNING *
     ;"""
@@ -96,12 +94,10 @@ def edit_feedback_status(status, feedback_id):
 
                 # get the generated id back                
                 rows = cur.fetchone()
-                if rows:
-                    response = rows
+                return rows if rows else {}
                 # commit the changes to the database
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        ic(error)
-        response = error
-    finally:
-        return response
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500

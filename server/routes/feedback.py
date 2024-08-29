@@ -36,7 +36,7 @@ def feedback(id, mail):
                             lastname=response['lastname'],
                             mail=mail
                         )
-                        return jsonify(response), 200
+                        return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
         except json.decoder.JSONDecodeError as error:
                 return jsonify(error), 400
@@ -47,7 +47,7 @@ def all_feedback(mail):
         # Fetch all
         try:
             response = fetch_all_feedback()
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
         except json.decoder.JSONDecodeError as error:
                 return jsonify(error), 400
@@ -112,7 +112,7 @@ def all_feedback(mail):
                     mail=mail,
                 )
     
-                return jsonify(response), 200   
+                return jsonify(response), 200 if not isinstance(response, dict) else response[1]   
                         
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400

@@ -17,7 +17,7 @@ def login_user():
             
             if email and password:
                 response = login(email=email, password=password)
-                return jsonify(response), 200
+                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
         except Exception as error:
             return jsonify(error), 400
@@ -32,8 +32,9 @@ def verify_user():
                 if  response['message'] == 'User created successfull':
                     response["token"] = token
                     return response, 200
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
                 
                 
 def user(id):
@@ -41,10 +42,11 @@ def user(id):
     if REQUEST == 'GET':
         try:
             response = fetch_user(id)
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
 
         # edit/update
     elif REQUEST == 'PUT':
@@ -108,10 +110,11 @@ def user(id):
                 lastname=lastname,
                 github_username=github_username
                 )
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
     
     # delete
     elif REQUEST == 'DELETE':
@@ -120,10 +123,11 @@ def user(id):
             id = data['id']
 
             response = delete_user(id)
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
     
 def create_user_profile(mail):
     REQUEST = request.method 
@@ -183,7 +187,8 @@ def users():
     if REQUEST == 'GET':
         try:
             response = fetch_users()
-            return jsonify(response), 200
+            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
