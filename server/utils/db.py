@@ -1,6 +1,6 @@
 
 import os
-from psycopg2.pool import SimpleConnectionPool
+import psycopg2
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -19,16 +19,16 @@ POSTGRES_DATABASE = os.getenv('POSTGRES_DATABASE')
 POSTGRES_USER = os.getenv('POSTGRES_USER')
 POSTGRES_HOST = os.getenv('POSTGRES_HOST')
 POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
+PORT = os.getenv('PORT')
 
 # Initialize the connection pool
 try:
-    connection_pool = SimpleConnectionPool(
-        minconn=1,
-        maxconn=10,
-        dbname=POSTGRES_DATABASE,
-        user=POSTGRES_USER,
-        host=POSTGRES_HOST,
-        password=POSTGRES_PASSWORD
+    connection_pool = psycopg2.connect(
+    dbname=POSTGRES_DATABASE,
+    user=POSTGRES_USER,
+    host=POSTGRES_HOST,
+    password=POSTGRES_PASSWORD,
+    port = PORT
     )
     print("Connection pool created successfully")
 
