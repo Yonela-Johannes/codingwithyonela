@@ -57,7 +57,7 @@ const TaskForm = ({ project, filterGrouped }) =>
     return (
         <header className="pb-4 border-b hidden lg:block w-full">
             <div className="flex justify-between">
-                {currentUser ? (
+                {currentUser?.id ? (
                     <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
                         <div className="px-2 hidden lg:block">
                             {project ? '' : (
