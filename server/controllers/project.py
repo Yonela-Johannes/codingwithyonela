@@ -48,8 +48,6 @@ def create_project( account_id, project_name, image, description, github, link, 
 def fetch_projects():
     # query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id A FROM project JOIN account on account_id = account.id JOIN status O = status.id ORDER BY project_time;"""
     query = """SELECT project.*, project.id as project_id, topics.name as tag_name, account.* FROM project JOIN topics on topic_id = topics.id JOIN account on account_id = account.id ORDER BY project.id ASC """
-    
-    response = None
 
     try:
         with  connection as conn:
@@ -59,9 +57,7 @@ def fetch_projects():
 
                 # get the generated all data back                
                 rows = cur.fetchall()
-
-                if rows:  
-                    response = rows
+                return rows if rows else []
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         # Log the error for debugging purposes (you may implement logging)
@@ -71,8 +67,6 @@ def fetch_projects():
 def fetch_project(id):
 
     query = """SELECT project.*, project.id as project_id, account.*, account.id as account_id FROM project JOIN account on account_id = account.id WHERE project.id=%s"""
-
-    response = None
 
     try:
         with  connection as conn:
@@ -89,8 +83,6 @@ def fetch_project(id):
 def edit_project(user_id, project_id, project_status, project_name, description, github, link, priority, topic_id):
 
     query = """UPDATE project SET account_id = %s, project_status = %s, project_name = %s, description = %s, github = %s, link = %s, priority = %s, topic_id = %s WHERE id = %s RETURNING project.*;"""
-    
-    response = None
     
     try:
         with  connection as conn:
@@ -128,8 +120,6 @@ def edit_project(user_id, project_id, project_status, project_name, description,
 def delete_project(project_id, account_id):
 
     query = """DELETE FROM project WHERE id = %s AND account_id = %s RETURNING id;"""
-    
-    response = None
 
     try:
         with  connection as conn:
@@ -140,6 +130,7 @@ def delete_project(project_id, account_id):
                 rows = cur.fetchone()
                 return rows if rows else {}
                 conn.commit()
+                
     except (Exception, psycopg2.DatabaseError) as error:
         # Log the error for debugging purposes (you may implement logging)
         ic(f"Database error: {error}")
@@ -159,6 +150,7 @@ def create_project_chat(account_id, message, project_id):
                 rows = cur.fetchone()
                 return rows if rows else {}
                 conn.commit()
+                
     except (Exception, psycopg2.DatabaseError) as error:
         # Log the error for debugging purposes (you may implement logging)
         ic(f"Database error: {error}")
@@ -177,6 +169,7 @@ def fetch_projects_chats(id):
                 rows = cur.fetchall()
                 return rows if rows else []
                 conn.commit()
+                
     except (Exception, psycopg2.DatabaseError) as error:
         # Log the error for debugging purposes (you may implement logging)
         ic(f"Database error: {error}")
@@ -197,6 +190,7 @@ def project_like(account_id, project_id):
                 rows = cur.fetchone()
                 return rows if rows else {}
                 conn.commit()
+                
     except (Exception, psycopg2.DatabaseError) as error:
         # Log the error for debugging purposes (you may implement logging)
         ic(f"Database error: {error}")
