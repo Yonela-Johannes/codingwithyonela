@@ -5,28 +5,22 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE = os.getenv('DATABASE')
-DATABASE_USER = os.getenv('DATABASE_USER')
-HOST = os.getenv('HOST')
-PASSWORD = os.getenv('PASSWORD')
+POSTGRES_DATABASE = os.getenv('POSTGRES_DATABASE')
+POSTGRES_USER = os.getenv('POSTGRES_USER')
+POSTGRES_HOST = os.getenv('POSTGRES_HOST')
+POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
+POSTGRES_URL = os.getenv('POSTGRES_URL')
 PORT = os.getenv('PORT')
 from psycopg2 import pool
-
-P_connection = psycopg2.connect(
-    database = DATABASE, 
-    user = DATABASE_USER, 
-    host= HOST,
-    password = PASSWORD,
-    port = PORT)
-
 
 connection_pool = pool.SimpleConnectionPool(
     minconn=1,
     maxconn=10,
-    database = DATABASE, 
-    user = DATABASE_USER, 
-    host= HOST,
-    password = PASSWORD
+    database = POSTGRES_DATABASE, 
+    user = POSTGRES_USER, 
+    host= POSTGRES_HOST,
+    password = POSTGRES_PASSWORD,
+    url=POSTGRES_URL
 )
 
 connection = connection_pool.getconn()
