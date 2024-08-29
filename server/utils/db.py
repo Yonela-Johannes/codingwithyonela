@@ -19,8 +19,7 @@ connection_pool = pool.SimpleConnectionPool(
     database = POSTGRES_DATABASE, 
     user = POSTGRES_USER, 
     host= POSTGRES_HOST,
-    password = POSTGRES_PASSWORD,
-    url=POSTGRES_URL
+    password = POSTGRES_PASSWORD
 )
 
 connection = connection_pool.getconn()
