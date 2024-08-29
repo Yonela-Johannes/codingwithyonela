@@ -20,7 +20,8 @@ def login_user():
                 return jsonify(response), 200 if not isinstance(response, dict) else response[1]
 
         except Exception as error:
-            return jsonify(error), 400
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
                    
 def verify_user():
     REQUEST = request.method

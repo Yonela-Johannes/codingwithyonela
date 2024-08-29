@@ -1,6 +1,7 @@
 
 import psycopg2
 from utils.db import connection
+from icecream import ic
 from psycopg2.extras import RealDictCursor
 
 # fetch all countries

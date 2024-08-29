@@ -9,5 +9,6 @@ def countries():
         try:
             response = fetch_countries()
             return jsonify(response), 200 if not isinstance(response, dict) else response[1]            
-        except json.decoder.JSONDecodeError as error:   
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500

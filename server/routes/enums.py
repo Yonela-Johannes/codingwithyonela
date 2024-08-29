@@ -34,12 +34,14 @@ def blog_enum():
             #     res = {"message": "Blog already exist"}
             #     return jsonify(res), 400
 
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500
     elif REQUEST == 'GET':
         try:
             response = fetch_blog_enum()
             return jsonify(response), 200 if not isinstance(response, dict) else response[1]
         
-        except json.decoder.JSONDecodeError as error:
-            return jsonify(error), 400
+        except Exception as error:
+            # Generic exception handling
+            return jsonify({"error": str(error)}), 500

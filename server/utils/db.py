@@ -25,7 +25,7 @@ try:
     connection_pool = SimpleConnectionPool(
         minconn=1,
         maxconn=10,
-        dbname=POSTGRES_DATABASE,  # Changed 'database' to 'dbname' for psycopg
+        dbname=POSTGRES_DATABASE,
         user=POSTGRES_USER,
         host=POSTGRES_HOST,
         password=POSTGRES_PASSWORD
