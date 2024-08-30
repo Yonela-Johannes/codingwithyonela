@@ -40,6 +40,7 @@ def fetch_blog(slug):
 
                 # get the generated id back                
                 rows = cur.fetchone()
+                ic(rows)
                 return rows if rows else {}
 
                 # commit the changes to the database

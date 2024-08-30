@@ -37,8 +37,8 @@ export const createBlog = createAsyncThunk('blog/create blog', async (data) =>
     {
       if (response.status == 401)
       {
-        localStorage.removeItem("persist:user")
-        window.location.reload()
+        // localStorage.removeItem("persist:user")
+        // window.location.reload()
       }
     })
 });
@@ -65,7 +65,7 @@ export const fetchBlogComment = createAsyncThunk('blog comment/fetch blog', asyn
   return response.data;
 });
 
-export const fetchBlogEnums = createAsyncThunk('blog enums/fetch blog enums', async (id) =>
+export const fetchBlogEnums = createAsyncThunk('blog enums/fetch blog enums', async () =>
 {
   const response = await axios.get(`${apiUrl}blog-enums`,);
   return response.data;

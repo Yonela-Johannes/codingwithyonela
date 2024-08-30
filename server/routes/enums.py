@@ -40,7 +40,8 @@ def blog_enum():
     elif REQUEST == 'GET':
         try:
             response = fetch_blog_enum()
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            ic(response)
+            return jsonify(response), 200 if not isinstance(response, dict) else response
         
         except Exception as error:
             # Generic exception handling

@@ -12,15 +12,13 @@ def project(id):
         # Fetch project
         try:
             response = fetch_project(id)   
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
         
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
     # edit/update
     elif REQUEST == 'PUT':
         user =  valid_token() 
-        if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401
         if user == False: 
             return jsonify({'message': 'You are not authorized'}), 401
         try:
@@ -72,9 +70,8 @@ def project(id):
     elif REQUEST == 'DELETE':
         user =  valid_token() 
         if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401
-        if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401
+            return jsonify({'message': 'You are not authorized'}), 401 
+     
         try:
             data = request.get_json()
             account_id = data['user_id']
@@ -134,9 +131,8 @@ def project_chat(id):
     if REQUEST == 'POST':
         user =  valid_token() 
         if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401
-        if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401
+            return jsonify({'message': 'You are not authorized'}), 401 
+     
         try:            
             data = request.get_json()
             account_id = data['account_id']
@@ -164,9 +160,8 @@ def add_project_like(id):
     if REQUEST == 'POST':
         user =  valid_token() 
         if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401
-        if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401
+            return jsonify({'message': 'You are not authorized'}), 401 
+     
         try:            
             data = request.get_json()
             account_id = data['account_id']
