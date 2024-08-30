@@ -38,8 +38,8 @@ export const createPost = createAsyncThunk('post/create post', async (data) =>
     {
       if (response.status == 401)
       {
-        localStorage.removeItem("persist:user")
-        window.location.reload()
+        // localStorage.removeItem("persist:user")
+        // window.location.reload()
       }
     })
 });
@@ -139,6 +139,7 @@ export const postSlice = createSlice({
       })
       .addCase(getAllPosts.fulfilled, (state, action) =>
       {
+        console.log(action.payload)
         state.loading = false;
         state.posts = action.payload;
       })

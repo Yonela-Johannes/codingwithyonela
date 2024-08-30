@@ -4,15 +4,13 @@ from icecream import ic
 from controllers.account import get_current_user
 
 def valid_token():
-    token = request.headers.get('token')
+    get_token = request.headers.get('Autherization')
+    token = get_token.split(" ")[1]
     res = get_current_user(token=token)
-    
-    response = None
+
     try: 
-        if res['message'] == 'You are not authorized':
+        if 'id' not in res:
             return False
-        return True
+        return res
     except json.decoder.JSONDecodeError as error:
         return jsonify(error), 400
-
-    return response

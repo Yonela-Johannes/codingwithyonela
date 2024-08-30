@@ -1,31 +1,37 @@
 import psycopg2                                                                                                                                                                       
 from utils.db import connection
 from psycopg2.extras import RealDictCursor
-from slugify import slugify
 from icecream import ic
 from controllers.account import get_current_user
 import datetime
 
 def create_post(account_id, text, image, video, post_type, answers):
-    response = None
+    print("_" * 50)
     try: 
         sliced_text = slice(0, 99)
-        slug = text[sliced_text]  
-        """ Create post"""
-        post = """INSERT INTO post (account_id, text, image, video, slug, type, post_time)
-                VALUES(%s, %s, %s, %s, %s, %s, %s) RETURNING id;"""
-                
-        """ Create post"""
+        slug = text[sliced_text].replace(" ", "-")
+        ic(account_id)
+        ic(text)
+        ic(image)
+        ic(video)
+        ic(answers)
+        ic(slug)
         
+        post_query = """INSERT INTO post (account_id, text, image, video, slug, type)
+                VALUES(%s, %s, %s, %s, %s, %s) RETURNING id;"""
+                
+
         query = """INSERT INTO poll_answer (text)
                 VALUES(%s) RETURNING id;"""
 
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 # execute the INSERT statement
-                cur.execute(post, (account_id, text, image, video, slugify(slug), post_type, datetime.datetime.now()))        
+                cur.execute(post_query, (account_id, text, image, video, slug, post_type))
 
                 post = cur.fetchone()
+                ic(post)
+                
                 if post:
                     if post_type == 'poll' and post:
                         if answers['answer_one']:
@@ -41,12 +47,12 @@ def create_post(account_id, text, image, video, post_type, answers):
                             three = cur.fetchone()
                             cur.execute("""UPDATE post SET answer_three_id = %s WHERE id = %s RETURNING id;""", (three['id'], post['id'])) 
                     
-                    response = post
+                return post
                 conn.commit()
             
     except (Exception, psycopg2.DatabaseError) as error:
         # Log the error for debugging purposes (you may implement logging)
-        ic(f"Database error: {error}")
+        ic(error)
         return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
     
 
@@ -153,6 +159,8 @@ def fetch_posts():
                 posts = cur.fetchall()
                 if posts:
                     response = posts
+                    
+                return response
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         # Log the error for debugging purposes (you may implement logging)

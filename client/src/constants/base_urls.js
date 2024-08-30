@@ -1,7 +1,7 @@
 let apiUrl;
 let siteUrl;
 
-const token = localStorage.getItem('persist:user') ? JSON.parse(localStorage.getItem('persist:user'))['token'] : '';
+const getToken = () => localStorage.getItem('persist:user') ? JSON.parse(localStorage.getItem('persist:user'))['token'] : '';
 
 if (process.env.NODE_ENV === 'production')
 {
@@ -23,13 +23,11 @@ export
 export const headers = {
   headers: {
     'Content-Type': 'application/json',
-    'Autherization': "Bearer " + token
+    'Autherization': `Bearer ${getToken() ? getToken().replaceAll('"', "") : ""}`
   }
 }
 
 export const formHeaders = {
-  headers: {
-    'Content-Type': 'multipart/form-data',
-    'Autherization': "Bearer " + token
-  }
+  'Content-Type': 'multipart/form-data',
+  'Autherization': `Bearer ${getToken() ? getToken().replaceAll('"', "") : ""}`
 } 

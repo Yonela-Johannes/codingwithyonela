@@ -92,8 +92,8 @@ def get_user_by_email(email):
 def get_current_user(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        if "email" in payload:
-            user = get_user_by_email(payload["email"])
+        if "user" in payload:
+            user = get_user_by_email(payload.get("user"))
             return user
         return None
     except:
@@ -161,10 +161,10 @@ def login(email, password):
                 verify_r = verify_password(plain_password=password, hashed_password=user_password)
                 if verify_r == False:
                     return {"message": "Invalid user details provided"}
-                
-                token =  create_access_token(data=db_user["email"], expires_delta=ACCESS_TOKEN_EXPIRE)
                 exclude_keys = {"password"}
                 user = {key: value for key, value in db_user.items() if key not in exclude_keys}
+                
+                token =  create_access_token(data=user, expires_delta=ACCESS_TOKEN_EXPIRE)
 
                 result = {
                     "user": user,
@@ -188,8 +188,6 @@ def create_user(email, username, lastname, password, profile, profile_id, user_t
 
     sql = """INSERT INTO account(email, username, lastname, password, profile, profile_id, user_title_id, firstname)
             VALUES(%s, %s, %s, %s, %s, %s, %s, %s) RETURNING *;"""
-    
-    response = None
 
     try:
         with  connection as conn:

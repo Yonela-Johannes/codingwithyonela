@@ -66,14 +66,15 @@ def post(id):
 def posts():
     REQUEST = request.method
     if REQUEST == 'POST':
-            
-        if valid_token() == False: 
+        
+        user =  valid_token() 
+        if user == False: 
             return jsonify({'message': 'You are not authorized'}), 401
+        
         
         try:
             data = request.form
             get_files = request.files
-            account = data['account']
 
             image = ''
             text = ''
@@ -107,9 +108,10 @@ def posts():
             if 'video' in get_files:
                 new_video = uploadImage(get_files['video'])
                 video = new_video['url']
+                
     
-            response = create_post(account_id=account, text=text, image=image, video=video, post_type=post_type, answers=answers)
-            return jsonify(response), 400
+            response = create_post(account_id=user.get('id'), text=text, image=image, video=video, post_type=post_type, answers=answers)
+            return jsonify(response), 200
     
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
