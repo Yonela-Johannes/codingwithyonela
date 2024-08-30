@@ -37,6 +37,11 @@ app.config.update(dict(
 mail = Mail(app)
 
 # task route
+@app.route('/' , methods=['GET', 'PUT', 'DELETE', 'POST'])
+def test_route():
+    return quotes()
+
+# task route
 @app.route('/api/v1/task/<int:project_id>' , methods=['GET', 'PUT', 'DELETE', 'POST'])
 def task_route(project_id):
     return project_task(project_id=project_id)
