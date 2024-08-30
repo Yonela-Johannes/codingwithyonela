@@ -6,6 +6,7 @@ from slugify import slugify
 from controllers.enum_controller import fetch_blog_enum
 from icecream import ic
 from routes.image_upload import uploadImage
+from utils.token_handler import valid_token
 
 def blog():
     REQUEST = request.method 
@@ -22,6 +23,7 @@ def blog():
             
         # edit/update
     elif REQUEST == 'PUT':
+        valid_token()
         try:
             data = request.get_json()
             id = data['id']
@@ -38,6 +40,7 @@ def blog():
     
     # delete
     elif REQUEST == 'DELETE':
+        valid_token()
         try:
             data = request.get_json()
             id = data['id']
@@ -51,6 +54,7 @@ def blog():
 def blogs():
     REQUEST = request.method
     if REQUEST == 'POST':
+        valid_token()
         try:
             files = request.files
             data = request.form
@@ -94,6 +98,7 @@ def blogs():
             return jsonify({"error": str(error)}), 500
         
 def blogs_comments():
+    valid_token()
     REQUEST = request.method
     if REQUEST == 'GET':
         try:
@@ -107,6 +112,7 @@ def blogs_comments():
             return jsonify({"error": str(error)}), 500
         
 def blogs_comment_create():
+    valid_token()
     REQUEST = request.method
     if REQUEST == 'POST':
         try:
@@ -123,6 +129,7 @@ def blogs_comment_create():
             return jsonify({"error": str(error)}), 500
     
 def blog_enum():
+    valid_token()
     REQUEST = request.method
     if REQUEST == 'POST':
         try:

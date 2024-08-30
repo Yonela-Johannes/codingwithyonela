@@ -28,8 +28,16 @@ export const updateTask = createAsyncThunk('tasks/edit', async (data) =>
 
 export const createTask = createAsyncThunk('tasks/create', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}task/${data?.project_id}`, data);
-  return response.data;
+  const response = await axios.post(`${apiUrl}task/${data?.project_id}`, data)
+    .then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
 });
 
 export const deleteTask = createAsyncThunk('tasks/delete', async (data) =>

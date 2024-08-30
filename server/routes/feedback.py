@@ -7,6 +7,7 @@ from icecream import ic
 from controllers.account import get_user_by_email
 from email_templates.recommendation import recommendation_email_temp, send_to_me, recommendation_email_temp_user, send_to_creator, update_user_mail
 from routes.image_upload import uploadImage
+from utils.token_handler import valid_token
 
 def feedback(id, mail):
     REQUEST = request.method 
@@ -21,6 +22,7 @@ def feedback(id, mail):
             
         # edit/update
     elif REQUEST == 'PUT':
+        valid_token()
         try:
             data = request.get_json()
             if 'status' in data != "undefined":
@@ -75,8 +77,8 @@ def all_feedback(mail):
                 else:
                     return jsonify({'message': 'Error image upload'}), 400
             elif account_id and account_id != "undefined" and 'image' != files:
+                valid_token()
                 image = data['image']
-                       
 
             response = create_feedback(
                 name=name, 

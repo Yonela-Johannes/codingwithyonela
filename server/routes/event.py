@@ -2,6 +2,7 @@ import json
 from flask import request, jsonify
 from controllers.event_controller import create_event, fetch_all_events, fetch_event, edit_event
 from icecream import ic
+from utils.token_handler import valid_token
 
 def event(id, mail):
     REQUEST = request.method 
@@ -40,6 +41,7 @@ def all_events():
         
     # Create recommendation
     elif REQUEST == 'POST':
+        valid_token()
         try:
             data = request.form
             account_id = data['account_id']

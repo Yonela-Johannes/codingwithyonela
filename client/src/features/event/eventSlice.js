@@ -26,12 +26,20 @@ export const getEvent = createAsyncThunk('events/fetch One', async (id) =>
 
 export const createEvent = createAsyncThunk('events/create', async (data) =>
 {
-    const response = await axios.post(`${apiUrl}event`, data,
+    await axios.post(`${apiUrl}event`, data,
         {
             headers: formHeaders
         }
     )
-    return response.data;
+        .then((response) => response.data)
+        .catch(({ response }) =>
+        {
+            if (response.status == 401)
+            {
+                localStorage.removeItem("persist:user")
+                window.location.reload()
+            }
+        })
 });
 
 export const deleteEvent = createAsyncThunk('events/delete', async (data) =>

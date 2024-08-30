@@ -48,6 +48,7 @@ const rootReducerWithPersistedSuggestion = combineReducers({
 // Configure the store to use the combined reducer
 export const store = configureStore({
   reducer: rootReducerWithPersistedSuggestion,
+  devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,

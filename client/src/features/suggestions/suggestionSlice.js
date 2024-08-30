@@ -40,8 +40,16 @@ export const updateSuggestion = createAsyncThunk('suggestions/update', async (da
 
 export const createSuggestion = createAsyncThunk('suggestions/create', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}suggestion`, data);
-  return response.data;
+  await axios.post(`${apiUrl}suggestion`, data)
+    .then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
 });
 
 export const deleteSuggestion = createAsyncThunk('suggestions/delete', async (data) =>
@@ -57,8 +65,16 @@ export const deleteSuggestion = createAsyncThunk('suggestions/delete', async (da
 
 export const commentSuggestion = createAsyncThunk('suggestions/comment', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}comment-suggestion`, data);
-  return response.data;
+  axios.post(`${apiUrl}comment-suggestion`, data)
+    .then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
 });
 
 export const getSuggestionComments = createAsyncThunk('suggestion comments/fetch One', async (id) =>
@@ -69,8 +85,16 @@ export const getSuggestionComments = createAsyncThunk('suggestion comments/fetch
 
 export const createSuggestionResponse = createAsyncThunk('suggestions/response', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}suggestion-response`, data);
-  return response.data;
+  await axios.post(`${apiUrl}suggestion-response`, data)
+    .then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
 });
 
 export const suggestionSlice = createSlice({

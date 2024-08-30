@@ -45,10 +45,18 @@ export const deleteRecommendation = createAsyncThunk('recommendations/delete', a
 
 export const createRecommendation = createAsyncThunk('recommendations/create', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}recommendation`, data, {
+  await axios.post(`${apiUrl}recommendation`, data, {
     headers: formHeaders
-  });
-  return response.data;
+  })
+    .then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
 });
 
 export const recommendationSlice = createSlice({

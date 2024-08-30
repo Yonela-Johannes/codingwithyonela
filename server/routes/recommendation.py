@@ -6,6 +6,7 @@ from icecream import ic
 from controllers.account import get_user_by_email
 from email_templates.recommendation import recommendation_email_temp, send_to_me, recommendation_email_temp_user, send_to_creator, update_user_mail
 from routes.image_upload import uploadImage
+from utils.token_handler import valid_token
 
 def recommendation(id, mail):
     REQUEST = request.method 
@@ -20,6 +21,10 @@ def recommendation(id, mail):
         # edit/update
     elif REQUEST == 'PUT':
         try:
+                    
+            if valid_token() == False: 
+                return jsonify({'message': 'You are not authorized'}), 401
+        
             data = request.get_json()
 
             if 'status' in data:
@@ -72,6 +77,10 @@ def all_recommendations(mail):
             return {"message": "Fetch failed: something went wrong."}, 400
     # Create recommendation
     elif REQUEST == 'POST':
+                
+        if valid_token() == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
+        
         try:
             data = request.form
             files = request.files
@@ -188,6 +197,10 @@ def all_recommendations(mail):
             return jsonify(error), 400
                 
     elif REQUEST == 'DELETE':
+                
+        if valid_token() == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
+        
         try:
             data = request.get_json()
             account_id = data['account_id']

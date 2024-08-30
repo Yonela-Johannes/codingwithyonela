@@ -17,7 +17,6 @@ const initialState = {
 export const getAllBlogs = createAsyncThunk('blogs/fetch all', async () =>
 {
   const response = await axios.get(`${apiUrl}blogs`);
-  console.log(response)
   return response.data;
 });
 
@@ -31,17 +30,32 @@ export const getBlog = createAsyncThunk('blog/fetch blog', async (slug) =>
 
 export const createBlog = createAsyncThunk('blog/create blog', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}blogs`, data, {
+  await axios.post(`${apiUrl}blogs`, data, {
     headers: formHeaders
-  });
-  return response.data;
+  }).then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
 });
 
 export const createBlogComment = createAsyncThunk('blog comment/create blog', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}blog-comment`, data);
-  return response.data;
-});
+  await axios.post(`${apiUrl}blog-comment`, data)
+    .then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
+})
 
 export const fetchBlogComment = createAsyncThunk('blog comment/fetch blog', async (id) =>
 {

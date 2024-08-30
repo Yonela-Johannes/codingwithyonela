@@ -33,7 +33,15 @@ export const createProject = createAsyncThunk('projects/create', async (data) =>
       headers: formHeaders
     }
   )
-  return response.data;
+    .then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
 });
 
 export const deleteProject = createAsyncThunk('projects/delete', async (data) =>
@@ -54,14 +62,30 @@ export const getProjectMessages = createAsyncThunk('project comments/fetch One',
 
 export const createProjectMessage = createAsyncThunk('projects/chat', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}project-chat/${data?.project_id}`, data);
-  return response.data;
+  await axios.post(`${apiUrl}project-chat/${data?.project_id}`, data)
+    .then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
 });
 
 export const likeProject = createAsyncThunk('projects/like', async (id) =>
 {
-  const response = await axios.post(`${apiUrl}project-like/${id}`);
-  return response.data;
+  await axios.post(`${apiUrl}project-like/${id}`)
+    .then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
 });
 
 export const updateProject = createAsyncThunk('project/edit', async (data) =>

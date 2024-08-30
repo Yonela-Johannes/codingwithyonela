@@ -17,25 +17,42 @@ def login_user():
             
             if email and password:
                 response = login(email=email, password=password)
-                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+                if "user" in response:
+                    return jsonify(response), 200
+                
+                return jsonify(response), 200 if not isinstance(response, dict) else jsonify(response)
 
         except Exception as error:
             # Generic exception handling
+            ic(error)
             return jsonify({"error": str(error)}), 500
                    
 def verify_user():
     REQUEST = request.method
     if REQUEST == 'POST':
         try:
-            token = request.args['token']
-            if token:
-                response = create_new_user_with_token(token=token)
-                if  response['message'] == 'User created successfull':
-                    response["token"] = token
-                    return response, 200
+            token = request.args.get('token')
+            ic(token)
+            
+            if not token:
+                return jsonify({"error": "No token provided"}), 400
+            
+            response = create_new_user_with_token(token=token)
+            ic(response)
+            
+            if response.get('error'):
+                return jsonify(response), 400
+            
+            if response['message'] == 'User created successfully':
+                response["token"] = token
+                return jsonify(response), 200
+            else:
+                return jsonify(response), 201
+    
         except Exception as error:
             # Generic exception handling
-            return jsonify({"error": str(error)}), 500
+            ic(str(error))
+            return jsonify({"error": "An unexpected error occurred", "details": str(error)}), 500
                 
                 
 def user(id):

@@ -1,14 +1,14 @@
 import json
 from flask import request, jsonify
 from sqlalchemy import JSON
-from controllers.project import create_project, create_project_chat, delete_project, edit_project, fetch_projects, fetch_projects_chats, project_like, fetch_project
 from controllers.task import fetch_task, create_task, edit_task, delete_task
 from icecream import ic
+from utils.token_handler import valid_token
 
 def project_task(project_id):
     REQUEST = request.method
     if REQUEST == 'GET':
-        # Fetch project
+        # Fetch tasks
         try:
             response = fetch_task(project_id=project_id)
             if response:
@@ -18,6 +18,7 @@ def project_task(project_id):
             return jsonify(error), 400
         
     elif REQUEST == 'POST':
+        valid_token()
         try:
             data = request.get_json()
             account_id = data['account_id']
@@ -37,6 +38,7 @@ def project_task(project_id):
 
     # edit/update
     elif REQUEST == 'PUT':
+        valid_token()
         try:
             
             data = request.get_json()
@@ -55,7 +57,9 @@ def project_task(project_id):
 
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
+        
     elif REQUEST == 'DELETE':
+        valid_token()
         try:
             data = request.get_json()
             account_id = data['user_id']
@@ -71,12 +75,11 @@ def project_task(project_id):
 def task():
     REQUEST = request.method 
     if REQUEST == 'GET':
-        # Fetch projects
+        # Fetch tasks
         try:
-            response = fetch_projects()
-            res = {"data": response}
-            return jsonify(res), 200
+            response = fetch_task()
+            return jsonify(response), 200
 
         except:
-            return {"message": "Fetch failed: something went wrong."}, 400
-    # Create title
+            return jsoninify({"message": "Fetch failed: something went wrong."}), 400
+

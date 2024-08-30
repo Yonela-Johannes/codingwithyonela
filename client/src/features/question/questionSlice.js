@@ -25,8 +25,16 @@ export const getQuestion = createAsyncThunk('question/fetch question', async (qu
 
 export const createQuestion = createAsyncThunk('question/create question', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}enquiry`, data);
-  return response.data;
+  const response = await axios.post(`${apiUrl}enquiry`, data)
+    .then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
 });
 
 export const updateQuestion = createAsyncThunk('question/update', async (data) =>
@@ -37,8 +45,16 @@ export const updateQuestion = createAsyncThunk('question/update', async (data) =
 
 export const createQuestionComment = createAsyncThunk('question comment/create question', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}question-comment/${data?.question_id}`, data);
-  return response.data;
+  await axios.post(`${apiUrl}question-comment/${data?.question_id}`, data)
+    .then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
 });
 
 export const getResponses = createAsyncThunk('question comment/fetch question', async (id) =>

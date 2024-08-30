@@ -69,7 +69,7 @@ def fetch_user(id):
      
 def get_user_by_email(email):
     response = None
-    query = """SELECT email, password, id FROM account WHERE email=%s"""
+    query = """SELECT * FROM account WHERE email=%s"""
 
     try:
         with  connection as conn:
@@ -99,54 +99,59 @@ def get_current_user(token: str):
     except:
         return {"message": "You are not authorized"}
 
+
 def create_new_user_with_token(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        if "user" in payload:
-            data = payload['user']
-            email = data['email']
-            username = data['username']
-            firstname = data['firstname']
-            lastname = data['lastname']
-            password = data['password'] 
-            profile = data['profile']
-            profile_id = data['profile_id']
-            
-            user_title_id = None
-            if 'user_title_id' in data:
-                user_title_id = data['user_title_id']
-                
-            exist_user = get_user_by_email(email=email)
-            if exist_user:
-                response = {"message": "Error: User already exist. Try login in."}
-                return response
+        
+        if "user" not in payload:
+            return {"error": "Invalid token", "message": "User information is missing from the token"}
+        
+        data = payload['user']
+        email = data.get('email')
+        username = data.get('username')
+        firstname = data.get('firstname')
+        lastname = data.get('lastname')
+        password = data.get('password')
+        profile = data.get('profile')
+        profile_id = data.get('profile_id')
+        user_title_id = data.get('user_title_id', None)
+        
+        exist_user = get_user_by_email(email=email)
+        
+        if exist_user:
+            return {"message": "Error: User already exists. Try logging in."}
+        
+        response = create_user(email=email, username=username, lastname=lastname, password=password,
+                               profile=profile, profile_id=profile_id, user_title_id=user_title_id, firstname=firstname)
+        
+        if response and ('email' in response or 'id' in response):
+            token = create_access_token(data=response["email"], expires_delta=ACCESS_TOKEN_EXPIRE)
+            if token:
+                response["token"] = token
+                return {"message": "User created successfully", "user": response}
             else:
-                response = create_user(email=email, username=username, lastname=lastname, password=password, profile=profile, profile_id=profile_id, user_title_id=user_title_id, firstname=firstname)
-                if response and 'id' in response:
-                    return  {"message": "User created successfull",
-                            "data": response
-                            }
-                elif 'message' in response and response['message'] == "dup email error":
-                    return response
-                elif response and 'email' in response or 'id' in response:
-                    token = create_access_token(data=response["email"], expires_delta=ACCESS_TOKEN_EXPIRE)
-                    if token:
-                        response["token"] = token
-                        return response
-                    else:
-                        response = {"message": "Error: creating login token"}
-                        return response
-        else:
-            res = {"message": "Data missing: register again"}
-            return res
+                return {"message": "Error: creating login token"}
+        
+        return {"message": "Error: creating user account"}
+    
+    except jwt.ExpiredSignatureError:
+        ic("Signature has expired")
+        return {"error": "Signature has expired", "message": "The token provided has expired"}
+    
+    except jwt.InvalidTokenError:
+        ic("Invalid token")
+        return {"error": "Invalid token", "message": "The token provided is invalid"}
+    
     except Exception as error:
         ic(error)
-        return {"message": "You are not authorized"}
+        return {"error": "An error occurred during user creation", "details": str(error)} 
 
 def login(email, password):
     try:
         result = None
         db_user = get_user_by_email(email=email)
+        ic(db_user)
         if db_user:
             if "email" in db_user and "password" in db_user and "id" in db_user:
                 user_password = db_user["password"]
@@ -154,19 +159,19 @@ def login(email, password):
                 user_id = db_user["id"]
                 
                 verify_r = verify_password(plain_password=password, hashed_password=user_password)
-
                 if verify_r == False:
                     return {"message": "Invalid user details provided"}
                 
-                user = fetch_user(id=user_id)
-                if user:
-                    token =  create_access_token(data=user["email"], expires_delta=ACCESS_TOKEN_EXPIRE)
-                    result = {
-                        "user": user,
-                        "token": token
-                    }
-                    
-                    return result
+                token =  create_access_token(data=db_user["email"], expires_delta=ACCESS_TOKEN_EXPIRE)
+                exclude_keys = {"password"}
+                user = {key: value for key, value in db_user.items() if key not in exclude_keys}
+
+                result = {
+                    "user": user,
+                    "token": token
+                }
+                
+                return result
  
 
     except (Exception, psycopg2.DatabaseError) as error:

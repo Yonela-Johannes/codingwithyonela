@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
 import { apiUrl, formHeaders, headers } from '../../constants/base_urls';
+import { logout } from '../user/authSlice';
 
 const initialState = {
   posts: [],
@@ -30,20 +31,35 @@ export const getPost = createAsyncThunk('post/fetch post', async (slug) =>
 
 export const createPost = createAsyncThunk('post/create post', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}posts`, data, {
+  await axios.post(`${apiUrl}posts`, data, {
     headers: formHeaders
-  });
-  return response.data;
+  }).then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
 });
 
 export const createPostComment = createAsyncThunk('post comment/create post', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}posts-comment`, data,
+  await axios.post(`${apiUrl}posts-comment`, data,
     {
       headers: headers
-    }
-  );
-  return response.data;
+    }).then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        console.log("We are inside")
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    });
+
 });
 
 export const fetchPostComment = createAsyncThunk('post comment/fetch post', async (id) =>
@@ -54,12 +70,19 @@ export const fetchPostComment = createAsyncThunk('post comment/fetch post', asyn
 
 export const createPostResponse = createAsyncThunk('post response/create response', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}posts-response`, data,
+  await axios.post(`${apiUrl}posts-response`, data,
     {
       headers: headers
-    }
-  );
-  return response.data;
+    })
+    .then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        localStorage.removeItem("persist:user")
+        window.location.reload()
+      }
+    })
 });
 
 export const getPostResponses = createAsyncThunk('post response/fetch responses', async (id) =>
@@ -145,7 +168,7 @@ export const postSlice = createSlice({
       })
       .addCase(createPost.fulfilled, (state, action) =>
       {
-        state.posts = action.payload.data;
+        state.posts = action.payload;
         state.loading = false;
         state.created = true;
       })

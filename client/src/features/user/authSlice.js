@@ -122,7 +122,7 @@ export const authSlice = createSlice({
             {
                 state.loading = false;
                 state.signup_success = false
-                state.message = 'Something went wrong'
+                state.message = action.payload.message
                 state.error = action.message;
             })
             .addCase(verifyRegistration.pending, (state) =>

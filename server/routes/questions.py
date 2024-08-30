@@ -3,6 +3,7 @@ from flask import request, jsonify
 from sqlalchemy import JSON
 from controllers.blog import ( create_blog, create_blog_comment, fetch_blog, edit_blog, delete_blog, fetch_blog_comments, fetch_blogs )
 from slugify import slugify
+from utils.token_handler import valid_token
 
 from controllers.question import create_question, create_question_comment, edit_question, fetch_question, fetch_question_comments, fetch_questions
 
@@ -19,6 +20,8 @@ def questions(id):
         
         # edit/update
     elif REQUEST == 'PUT':
+        valid_token()
+        vali
         try:
             data = request.get_json()
             account_id = data['account_id']
@@ -36,6 +39,7 @@ def questions(id):
     
     # delete
     elif REQUEST == 'DELETE':
+        valid_token()
         try:
             response = json.loads(response)
             id = json.loads(request.data)['id']
@@ -49,6 +53,7 @@ def questions(id):
 def question():
     REQUEST = request.method
     if REQUEST == 'POST':
+        valid_token()
         try:
             data = request.get_json()
             account_id = data['account_id']
@@ -74,6 +79,7 @@ def question():
 def question_comments(id):
     REQUEST = request.method
     if REQUEST == 'GET':
+        valid_token()
         try:
             if id:
                 response = fetch_question_comments(id)
