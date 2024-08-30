@@ -53,7 +53,7 @@ const Blogs = () =>
     if (blogs && blogs?.length > 0)
     {
       const response = blogs.filter(
-        (elem) => elem?.category.toLowerCase() == "My quest".toLowerCase()
+        (elem) => elem?.category?.toLowerCase() == "My quest"?.toLowerCase()
       );
       setJourneyBlogs(response);
     }

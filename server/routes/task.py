@@ -18,7 +18,9 @@ def project_task(project_id):
             return jsonify(error), 400
         
     elif REQUEST == 'POST':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             data = request.get_json()
             account_id = data['account_id']
@@ -38,7 +40,9 @@ def project_task(project_id):
 
     # edit/update
     elif REQUEST == 'PUT':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             
             data = request.get_json()
@@ -59,7 +63,9 @@ def project_task(project_id):
             return jsonify(error), 400
         
     elif REQUEST == 'DELETE':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             data = request.get_json()
             account_id = data['user_id']

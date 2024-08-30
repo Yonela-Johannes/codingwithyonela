@@ -28,7 +28,7 @@ export const getProject = createAsyncThunk('projects/fetch One', async (id) =>
 
 export const createProject = createAsyncThunk('projects/create', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}project`, data,
+  await axios.post(`${apiUrl}project`, data,
     {
       headers: formHeaders
     }
@@ -125,6 +125,7 @@ export const projectSlice = createSlice({
       })
       .addCase(getAllprojects.fulfilled, (state, action) =>
       {
+        console.log(action.payload)
         state.loading = false;
         state.projects = action.payload;
       })

@@ -22,7 +22,9 @@ def feedback(id, mail):
             
         # edit/update
     elif REQUEST == 'PUT':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             data = request.get_json()
             if 'status' in data != "undefined":
@@ -77,7 +79,6 @@ def all_feedback(mail):
                 else:
                     return jsonify({'message': 'Error image upload'}), 400
             elif account_id and account_id != "undefined" and 'image' != files:
-                valid_token()
                 image = data['image']
 
             response = create_feedback(

@@ -23,7 +23,9 @@ def blog():
             
         # edit/update
     elif REQUEST == 'PUT':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             data = request.get_json()
             id = data['id']
@@ -40,7 +42,9 @@ def blog():
     
     # delete
     elif REQUEST == 'DELETE':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             data = request.get_json()
             id = data['id']
@@ -54,7 +58,9 @@ def blog():
 def blogs():
     REQUEST = request.method
     if REQUEST == 'POST':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             files = request.files
             data = request.form

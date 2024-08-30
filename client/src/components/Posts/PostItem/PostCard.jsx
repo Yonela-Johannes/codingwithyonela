@@ -41,20 +41,20 @@ const PostCard = ({
                 <div className="flex flex-col items-center justify-center">
                     <div className="flex w-full flex-col space-y-2 my-2 items-center justify-center">
                         <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500"} flex w-full items-center md:justify-end gap-2`}>
-                            <div className="space-y-1">
-                                <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} text-sm`}>
-                                    {post?.username} {post?.lastname}
-                                </p>
-                                <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} text-sm`}>
-                                    {moment(post?.post_time).fromNow()}
-                                </p>
-                            </div>
                             <div>
                                 <img
                                     src={post?.profile}
                                     alt="cover"
                                     className="rounded-full object-cover object-center h-[35px] w-[35px]"
                                 />
+                            </div>
+                            <div className="space-y-1">
+                                <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} text-sm`}>
+                                    {post?.username == "CodingWithContent" ? post?.username : post.firstname} {post?.username == "CodingWithContent" ? "" : post?.lastname}
+                                </p>
+                                <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} text-sm`}>
+                                    {moment(post?.post_time).fromNow()}
+                                </p>
                             </div>
                         </div>
                     </div>

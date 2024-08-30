@@ -18,7 +18,11 @@ def project(id):
             return jsonify(error), 400
     # edit/update
     elif REQUEST == 'PUT':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             data = request.get_json()
             account_id = data['user_id']
@@ -66,7 +70,11 @@ def project(id):
             return jsonify(error), 400
     
     elif REQUEST == 'DELETE':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             data = request.get_json()
             account_id = data['user_id']
@@ -90,7 +98,9 @@ def projects():
         
     # Create title
     elif REQUEST == 'POST':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             image = request.files['image']
             account_id = request.form['account_id']
@@ -122,7 +132,11 @@ def projects():
 def project_chat(id):
     REQUEST = request.method 
     if REQUEST == 'POST':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:            
             data = request.get_json()
             account_id = data['account_id']
@@ -148,7 +162,11 @@ def project_chat(id):
 def add_project_like(id):
     REQUEST = request.method 
     if REQUEST == 'POST':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:            
             data = request.get_json()
             account_id = data['account_id']

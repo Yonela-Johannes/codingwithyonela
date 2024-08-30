@@ -22,7 +22,8 @@ def recommendation(id, mail):
     elif REQUEST == 'PUT':
         try:
                     
-            if valid_token() == False: 
+            user =  valid_token() 
+            if user == False: 
                 return jsonify({'message': 'You are not authorized'}), 401
         
             data = request.get_json()
@@ -78,7 +79,8 @@ def all_recommendations(mail):
     # Create recommendation
     elif REQUEST == 'POST':
                 
-        if valid_token() == False: 
+        user =  valid_token() 
+        if user == False: 
             return jsonify({'message': 'You are not authorized'}), 401
         
         try:
@@ -198,7 +200,8 @@ def all_recommendations(mail):
                 
     elif REQUEST == 'DELETE':
                 
-        if valid_token() == False: 
+        user =  valid_token() 
+        if user == False: 
             return jsonify({'message': 'You are not authorized'}), 401
         
         try:

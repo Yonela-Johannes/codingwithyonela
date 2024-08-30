@@ -159,7 +159,6 @@ def fetch_posts():
                 posts = cur.fetchall()
                 if posts:
                     response = posts
-                    
                 return response
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:

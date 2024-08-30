@@ -41,7 +41,9 @@ def all_events():
         
     # Create recommendation
     elif REQUEST == 'POST':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             data = request.form
             account_id = data['account_id']

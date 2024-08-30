@@ -20,7 +20,9 @@ def questions(id):
         
         # edit/update
     elif REQUEST == 'PUT':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         vali
         try:
             data = request.get_json()
@@ -39,7 +41,9 @@ def questions(id):
     
     # delete
     elif REQUEST == 'DELETE':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             response = json.loads(response)
             id = json.loads(request.data)['id']
@@ -53,7 +57,9 @@ def questions(id):
 def question():
     REQUEST = request.method
     if REQUEST == 'POST':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             data = request.get_json()
             account_id = data['account_id']
@@ -79,7 +85,9 @@ def question():
 def question_comments(id):
     REQUEST = request.method
     if REQUEST == 'GET':
-        valid_token()
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         try:
             if id:
                 response = fetch_question_comments(id)

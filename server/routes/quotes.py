@@ -16,7 +16,10 @@ def quotes():
     
     if REQUEST == 'POST':
         try:
-            valid_token()
+            user =  valid_token() 
+            if user == False: 
+                return jsonify({'message': 'You are not authorized'}), 401
+            
             response = create_quote()
             return jsonify(response), 200 if not isinstance(response, dict) else response[1]    
         except json.decoder.JSONDecodeError as error:

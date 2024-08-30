@@ -23,7 +23,9 @@ def post(id):
         # edit/update
     elif REQUEST == 'PUT':
         
-        user =  valid_token()
+        user =          user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401
         if user == False: 
             return jsonify({'message': 'You are not authorized'}), 401
         
@@ -45,7 +47,9 @@ def post(id):
     # delete
     elif REQUEST == 'DELETE':
                 
-        user =  valid_token() 
+        user =          user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401 
         if user == False: 
             return jsonify({'message': 'You are not authorized'}), 401
         
@@ -138,7 +142,9 @@ def post_comment_create():
     REQUEST = request.method
     if REQUEST == 'POST':
                 
-        user =  valid_token() 
+        user =          user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401 
         if user == False: 
             return jsonify({'message': 'You are not authorized'}), 401
         
@@ -158,7 +164,9 @@ def post_vote_create(id):
     REQUEST = request.method
     if REQUEST == 'POST':
                 
-        user =  valid_token() 
+        user =          user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401 
         if user == False: 
             return jsonify({'message': 'You are not authorized'}), 401
         
@@ -177,7 +185,9 @@ def post_response_create():
     REQUEST = request.method
     if REQUEST == 'POST':
                 
-        user =  valid_token() 
+        user =          user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401 
         if user == False: 
             return jsonify({'message': 'You are not authorized'}), 401
         

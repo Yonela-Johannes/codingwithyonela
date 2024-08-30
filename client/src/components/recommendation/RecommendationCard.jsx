@@ -19,7 +19,7 @@ function RecommendationCard({ item, theme })
       <div className={`relative ${theme == "light" ? "text-cl_alt bg-bg_lightest" : "text-white bg-bg_core"} relative`}>
         <div onClick={() => (setSelectedSuggestion(item), setOpenSuggestion(true))} className="rounded-md">
           <div className="flex gap-1 items-center px-2 font-bold justify-end">
-            <p className={`${theme == "light" ? "text-bg_primary" : "text-bg_lightest"} md:block text-xs rounded-md px-2 py-1`}>{item?.country_name.slice(0, 15)} - {item?.country_code}</p>
+            <p className={`${theme == "light" ? "text-bg_primary" : "text-bg_lightest"} md:block text-xs rounded-md px-2 py-1`}>{item?.country_name?.slice(0, 15)} - {item?.country_code}</p>
             <img
               src={item?.image}
               alt={item?.username}
