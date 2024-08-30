@@ -3,7 +3,7 @@ let siteUrl;
 
 if (process.env.NODE_ENV === 'production')
 {
-  apiUrl = 'https://codingwithyonela.onrender.com/api/v1/';
+  apiUrl = 'https://server-codingwithyonela.vercel.app/';
   siteUrl = 'https://codingwithyonela.vercel.app/'
 } else
 {
