@@ -7,8 +7,6 @@ import json
  
 f = open('roles.json')
  
-
-
 POSTGRES_DATABASE = os.getenv('POSTGRES_DATABASE')
 POSTGRES_USER = os.getenv('POSTGRES_USER')
 POSTGRES_HOST = os.getenv('POSTGRES_HOST')
