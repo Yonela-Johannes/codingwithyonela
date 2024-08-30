@@ -80,7 +80,6 @@ export const createPostResponse = createAsyncThunk('post response/create respons
       if (response.status == 401)
       {
         localStorage.removeItem("persist:user")
-        window.location.reload()
       }
     })
 });
@@ -102,7 +101,10 @@ export const deletePost = createAsyncThunk('post/delete', async (data) =>
 
 export const updatePost = createAsyncThunk('post/update', async (data) =>
 {
-  const response = await axios.put(`${apiUrl}post/${data?.post}`, data);
+  const response = await axios.put(`${apiUrl}post/${data?.post}`, data,
+    {
+      headers: headers
+    });
   return response.data;
 });
 

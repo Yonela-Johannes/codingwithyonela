@@ -185,6 +185,7 @@ def edit_post(id, user_id):
                 post_like = cur.fetchone()
                 if post_like and 'id' in post_like:          
                     response = post_like
+                return response
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         # Log the error for debugging purposes (you may implement logging)

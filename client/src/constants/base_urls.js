@@ -21,10 +21,8 @@ export
 }
 
 export const headers = {
-  headers: {
-    'Content-Type': 'application/json',
-    'Autherization': `Bearer ${getToken() ? getToken().replaceAll('"', "") : ""}`
-  }
+  'Content-Type': 'application/json',
+  'Autherization': `Bearer ${getToken() ? getToken().replaceAll('"', "") : ""}`
 }
 
 export const formHeaders = {

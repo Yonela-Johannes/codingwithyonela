@@ -7,7 +7,6 @@ def valid_token():
     get_token = request.headers.get('Autherization')
     token = get_token.split(" ")[1]
     res = get_current_user(token=token)
-
     try: 
         if 'id' not in res:
             return False

@@ -92,9 +92,12 @@ def get_user_by_email(email):
 def get_current_user(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        if "user" in payload:
+       
+        if "email" in payload:
             user = get_user_by_email(payload.get("user"))
             return user
+        elif "user" in payload:
+            return payload.get("user")
         return None
     except:
         return {"message": "You are not authorized"}
