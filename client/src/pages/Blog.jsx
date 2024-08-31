@@ -65,7 +65,7 @@ const Blog = () =>
 
   const sendMessageHander = async (params) =>
   {
-    if (params && blog && blog?.id && currentUser && currentUser?.account_id)
+    if (params && blog?.blog_id && currentUser?.id)
     {
       const data = {
         comment: params,
@@ -73,6 +73,9 @@ const Blog = () =>
         account_id: currentUser?.account_id,
       };
       dispatch(createBlogComment(data));
+    } else
+    {
+      toast("Try login out and in again")
     }
   };
 
@@ -80,40 +83,43 @@ const Blog = () =>
     <div className="rounded-md w-full min-h-full">
       <div className="flex w-full h-full flex-col space-y-4 lg:space-y-8 px-2 py-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-20 lg:flex-row px-2 lg:px-8">
-          <div className="text-sm md:text-base lg:w-full space-y-4 lg:space-y-8">
-            <img
-              src={blog?.blog_image}
-              alt="cover"
-              className="rounded-md object-cover object-center w-full h-[300px] lg:h-[420px]"
-            />
-            <div className="flex justify-between lg:justify-start">
-              <div className="flex flex-col items-center justify-center">
-                <div className="flex w-full flex-col space-y-2 my-2 items-center justify-center">
-                  <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500"} flex items-center md:justify-end gap-2`}>
-                    <div>
-                      <img
-                        src={blog?.profile}
-                        alt="cover"
-                        className="rounded-full object-cover object-center h-[35px] w-[35px]"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} text-sm`}>
-                        {blog?.firstname}{" "}{blog?.username}{" "}{blog?.lastname}
-                      </p>
-                      <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} text-sm`}>
-                        {moment(blog?.blog_time).fromNow()}
-                      </p>
+          {loading ? <Loader /> :
+            (
+              <div className="text-sm md:text-base lg:w-full space-y-4 lg:space-y-8">
+                <img
+                  src={blog?.blog_image}
+                  alt="cover"
+                  className="rounded-md object-cover object-center w-full h-[300px] lg:h-[420px]"
+                />
+                <div className="flex justify-between lg:justify-start">
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="flex w-full flex-col space-y-2 my-2 items-center justify-center">
+                      <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500"} flex items-center md:justify-end gap-2`}>
+                        <div>
+                          <img
+                            src={blog?.profile}
+                            alt="cover"
+                            className="rounded-full object-cover object-center h-[35px] w-[35px]"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} text-sm`}>
+                            {blog?.firstname}{" "}{blog?.username}{" "}{blog?.lastname}
+                          </p>
+                          <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} text-sm`}>
+                            {moment(blog?.blog_time).fromNow()}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_lightest"} text-lg lg:text-2xl my-2`}>{blog?.blog_title}</p>
+                <Markdown text={blog?.post} />
               </div>
-            </div>
-            <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_lightest"} text-lg lg:text-2xl my-2`}>{blog?.blog_title}</p>
-            <Markdown text={blog?.post} />
-          </div>
+            )}
           <div className="w-full lg:space-y-8">
-            {currentUser && currentUser?.account_id ? (
+            {currentUser && currentUser?.id ? (
               <div className="w-full">
                 <GlobalComment
                   object={blog}
@@ -128,18 +134,23 @@ const Blog = () =>
             <div>
               {loading ? (
                 <Loader />
-              ) : comments?.length == 0 ? (
-                ""
-              ) : comments?.length >= 1 ? (
+              ) : comments?.length ? (
                 <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500"} flex-col flex items-start gap-2 md:gap-4 justify-between w-full duration-200 cursor-pointer`}>
                   {comments?.map((res) => (
                     <div
                       key={res?.id}
                       className={`${theme == "light" ? "border-bg_light" : "border-bg_primary"} p-2 flex-col flex md:flex-row items-start gap-2 md:gap-4 justify-between w-full border-b  h-full duration-200 cursor-pointer`}
                     >
-                      <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_lightest"} text-base lg:text-lg my-2`}>{res?.comment}</p>
-                      <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500  bg-bg_core"} rounded-full pl-4 full flex flex-col space-y-2 my-2 items-center justify-center`}>
-                        <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500"} flex w-full items-center md:justify-end gap-2`}>
+
+                      <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500  bg-bg_core"} rounded-full w-max flex space-y-2 my-2 items-start justify-start`}>
+                        <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500"} flex w-full items-start md:justify-start gap-2 max-w-[220px]`}>
+                          <div>
+                            <img
+                              src={res?.profile}
+                              alt="cover"
+                              className="rounded-full object-cover object-center h-[30px] w-[30px]"
+                            />
+                          </div>
                           <div className="space-y-1">
                             <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_light"} text-sm`}>
                               {res?.username} {res?.lastname}
@@ -148,15 +159,9 @@ const Blog = () =>
                               {moment(res?.comment_time).fromNow()}
                             </p>
                           </div>
-                          <div>
-                            <img
-                              src={res?.profile}
-                              alt="cover"
-                              className="rounded-full object-cover object-center h-[35px] w-[35px]"
-                            />
-                          </div>
                         </div>
                       </div>
+                      <p className={`${theme == 'light' ? "text-bg_primary" : "text-bg_lightest"} text-base lg:text-lg my-2 w-full`}>{res?.comment}</p>
                     </div>
                   ))}
                 </div>

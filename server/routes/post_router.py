@@ -45,15 +45,10 @@ def post(id):
     # delete
     elif REQUEST == 'DELETE':
                 
-                user =  valid_token() 
+        user =  valid_token() 
         if user == False: 
             return jsonify({'message': 'You are not authorized'}), 401 
-     
-        if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401 
-        if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401
-        
+
         try:
             data = request.get_json(force=True, silent=False, cache=True)
             account = data['account']
@@ -162,13 +157,7 @@ def post_comment_create():
 def post_vote_create(id):
     REQUEST = request.method
     if REQUEST == 'POST':
-                
-                user =  valid_token() 
-        if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401 
-     
-        if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401 
+  
         if user == False: 
             return jsonify({'message': 'You are not authorized'}), 401
         
@@ -187,12 +176,7 @@ def post_response_create():
     REQUEST = request.method
     if REQUEST == 'POST':
                 
-                user =  valid_token() 
-        if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401 
-     
-        if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401 
+
         if user == False: 
             return jsonify({'message': 'You are not authorized'}), 401
         

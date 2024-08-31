@@ -28,8 +28,18 @@ export const getRecommendation = createAsyncThunk('recommendations/fetch One', a
 
 export const updateRecommendation = createAsyncThunk('recommendations/update', async (data) =>
 {
-  const response = await axios.put(`${apiUrl}recommendation/${data?.re_id}`, data);
-  return response.data;
+  await axios.put(`${apiUrl}recommendation/${data?.re_id}`, data,
+    {
+      headers: headers
+    })
+    .then((response) => response.data)
+    .catch(({ response }) =>
+    {
+      if (response.status == 401)
+      {
+        // localStorage.removeItem("persist:user")
+      }
+    });
 });
 
 export const deleteRecommendation = createAsyncThunk('recommendations/delete', async (data) =>

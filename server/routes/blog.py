@@ -116,19 +116,21 @@ def blogs_comments():
             return jsonify({"error": str(error)}), 500
         
 def blogs_comment_create():
-    user =  valid_token() 
-    if user == False: 
-        return jsonify({'message': 'You are not authorized'}), 401 
-    
     REQUEST = request.method
     if REQUEST == 'POST':
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401 
+        
         try:
             data = request.get_json()
-            account_id = data['account_id']
+
             comment = data['comment']
             blog_id = data['blog_id']
-            if account_id and comment and blog_id:
-                response = create_blog_comment(account_id, comment,blog_id)
+            
+            ic(data)
+            if user.get('id') and comment and blog_id:
+                response = create_blog_comment(account_id=user.get('id'), comment=comment,blog_id=blog_id)
                 return jsonify(response), 201
 
         except Exception as error:

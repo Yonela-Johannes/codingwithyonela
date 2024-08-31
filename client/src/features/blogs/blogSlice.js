@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
-import { apiUrl, formHeaders } from '../../constants/base_urls';
+import { apiUrl, formHeaders, headers } from '../../constants/base_urls';
 
 const initialState = {
   blogs: [],
@@ -45,14 +45,17 @@ export const createBlog = createAsyncThunk('blog/create blog', async (data) =>
 
 export const createBlogComment = createAsyncThunk('blog comment/create blog', async (data) =>
 {
-  await axios.post(`${apiUrl}blog-comment`, data)
+  await axios.post(`${apiUrl}blog-comment`, data,
+    {
+      headers: headers
+    })
     .then((response) => response.data)
     .catch(({ response }) =>
     {
       if (response.status == 401)
       {
-        localStorage.removeItem("persist:user")
-        window.location.reload()
+        // localStorage.removeItem("persist:user")
+        // window.location.reload()
       }
     })
 })

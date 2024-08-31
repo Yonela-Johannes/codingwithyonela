@@ -36,8 +36,8 @@ export const createEvent = createAsyncThunk('events/create', async (data) =>
         {
             if (response.status == 401)
             {
-                localStorage.removeItem("persist:user")
-                window.location.reload()
+                // localStorage.removeItem("persist:user")
+                // window.location.reload()
             }
         })
 });

@@ -15,7 +15,7 @@ def recommendation(id, mail):
         try:
             if id:
                 response = fetch_recommendation(id)
-                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+                return jsonify(response), 200 if not isinstance(response, dict) else response
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
         # edit/update
@@ -42,7 +42,7 @@ def recommendation(id, mail):
                             lastname=response['lastname'],
                             mail=mail
                         )                    
-                        return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+                        return jsonify(response), 200 if not isinstance(response, dict) else response
             else:
                 account_id = data['account']
                 name = data['name']
@@ -60,7 +60,7 @@ def recommendation(id, mail):
 
                 if id and name and quote and title_id and account_id:
                     response = edit_recommendation(account_id, name, second_name, lastname, portfolio, github, linkedin, email, portfolio, quote, status_id, title_id, country_id, id)
-                    return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+                    return jsonify(response), 200 if not isinstance(response, dict) else response
    
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
@@ -71,7 +71,7 @@ def all_recommendations(mail):
         # Fetch all
         try:
             response = fetch_recommendations()
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
 
         except json.decoder.JSONDecodeError as error:
             ic(error)
@@ -194,7 +194,7 @@ def all_recommendations(mail):
                                     time=response['profile_created_time']
                                     ) 
                                                        
-                    return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+                    return jsonify(response), 200 if not isinstance(response, dict) else response
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
                 
