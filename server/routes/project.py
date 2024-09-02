@@ -62,7 +62,7 @@ def project(id):
                                     priority=priority, 
                                     topic_id=topic_id,
                                     )
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
    
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
@@ -78,7 +78,7 @@ def project(id):
             project_id = data['project_id']
  
             response = delete_project(project_id=project_id, account_id=account_id)
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
  
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
@@ -89,7 +89,7 @@ def projects():
         # Fetch projects
         try:
             response = fetch_projects()
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
         
@@ -120,7 +120,7 @@ def projects():
                         link=link, 
                         topic_id=topic_id
                         )
-                    return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+                    return jsonify(response), 200 if not isinstance(response, dict) else response
 
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
@@ -141,7 +141,7 @@ def project_chat(id):
             
             if account_id and message and project_id:
                 response = create_project_chat(account_id, message, project_id)
-                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+                return jsonify(response), 200 if not isinstance(response, dict) else response
                 
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
@@ -150,7 +150,7 @@ def project_chat(id):
     if REQUEST == 'GET':
         try:
             response = fetch_projects_chats(id)
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
     
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
@@ -168,7 +168,7 @@ def add_project_like(id):
             
             if account_id and res and id:
                 response = project_like(account_id, id)
-                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+                return jsonify(response), 200 if not isinstance(response, dict) else response
  
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
