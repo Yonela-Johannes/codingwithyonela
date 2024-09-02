@@ -45,12 +45,12 @@ def fetch_projects():
 def fetch_task(project_id):
     
     query = """SELECT *, id as task_id FROM tasks WHERE project_id=%s"""
-    response = None
     try:
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute(query, (project_id,))            
                 rows = cur.fetchall()
+                ic(rows)
                 return rows if rows else []
                 conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:

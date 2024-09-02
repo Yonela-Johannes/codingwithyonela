@@ -20,7 +20,7 @@ def login_user():
                 if "user" in response:
                     return jsonify(response), 200
                 
-                return jsonify(response), 200 if not isinstance(response, dict) else jsonify(response)
+                return jsonify(response), 200 if not isinstance(response, dict) else response
 
         except Exception as error:
             # Generic exception handling

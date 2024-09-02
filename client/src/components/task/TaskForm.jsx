@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ThemeContext } from '../../context/ThemeContext'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllTopics } from '../../features/topic/topicSlice';
 import { createTask } from '../../features/tasks/tasksSlice';
 import { Spinner } from 'flowbite-react';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { apiUrl, formHeaders, headers } from '../../constants/base_urls';
 
 const TaskForm = ({ project, filterGrouped }) =>
 {
@@ -22,19 +21,12 @@ const TaskForm = ({ project, filterGrouped }) =>
         project_id: data?.project_id,
     })
 
-    // useEffect(() =>
-    // {
-    //     if(fetched){
-
-    //     }
-    //     dispatch(getAllTopics());
-    // }, [fetched]);
-
     const handleSubmit = async (e) =>
     {
         setLoading(true)
         e.preventDefault()
         if (!currentUser?.id && !inputData.description && !inputData.task && !inputData?.project_id) return toast("Missing information")
+        console.log(res)
         const res = {
             "task": inputData?.task,
             "description": inputData?.description,

@@ -37,7 +37,7 @@ app.config.update(dict(
 
 mail = Mail(app)
 
-# task route
+# test route
 @app.route('/' , methods=['GET'])
 def test_route():
     return quotes()

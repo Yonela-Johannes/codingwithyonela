@@ -153,7 +153,6 @@ def login(email, password):
     try:
         result = None
         db_user = get_user_by_email(email=email)
-        ic(db_user)
         if db_user:
             if "email" in db_user and "password" in db_user and "id" in db_user:
                 user_password = db_user["password"]

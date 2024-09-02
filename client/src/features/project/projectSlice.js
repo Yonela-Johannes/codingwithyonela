@@ -90,7 +90,10 @@ export const likeProject = createAsyncThunk('projects/like', async (id) =>
 
 export const updateProject = createAsyncThunk('project/edit', async (data) =>
 {
-  const response = await axios.put(`${apiUrl}project/${data?.project_id}`, { ...data });
+  const response = await axios.put(`${apiUrl}project/${data?.project_id}`, { ...data },
+    {
+      headers: formHeaders
+    });
   return response.data;
 });
 

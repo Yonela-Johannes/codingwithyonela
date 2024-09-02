@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
-import { apiUrl } from '../../constants/base_urls';
+import { apiUrl, formHeaders, headers } from '../../constants/base_urls';
 
 const initialState = {
   tasks: [],
@@ -22,20 +22,26 @@ export const getAllTasks = createAsyncThunk('tasks/fetch all', async (project_id
 
 export const updateTask = createAsyncThunk('tasks/edit', async (data) =>
 {
-  const response = await axios.put(`${apiUrl}task/${data?.task_id}`, { ...data });
+  const response = await axios.put(`${apiUrl}task/${data?.task_id}`, { ...data },
+    {
+      headers: headers
+    });
   return response.data;
 });
 
 export const createTask = createAsyncThunk('tasks/create', async (data) =>
 {
-  const response = await axios.post(`${apiUrl}task/${data?.project_id}`, data)
+  await axios.post(`${apiUrl}task/${data?.project_id}`, data,
+    {
+      headers: headers
+    })
     .then((response) => response.data)
     .catch(({ response }) =>
     {
       if (response.status == 401)
       {
-        localStorage.removeItem("persist:user")
-        window.location.reload()
+        // localStorage.removeItem("persist:user")
+        // window.location.reload()
       }
     })
 });

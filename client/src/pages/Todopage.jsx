@@ -14,7 +14,6 @@ const Todopage = () =>
     const { tasks, created, updated, success, deleted } = useSelector((state) => state.task);
     const dispatch = useDispatch();
     const { theme } = useContext(ThemeContext)
-    console.log(id)
 
     const getTasks = (id) =>
     {
@@ -46,6 +45,7 @@ const Todopage = () =>
             getTasks(id)
         }
     }, [success, deleted, updated]);
+    console.log(tasks)
 
     return (
         <>

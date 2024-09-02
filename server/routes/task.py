@@ -11,8 +11,8 @@ def project_task(project_id):
         # Fetch tasks
         try:
             response = fetch_task(project_id=project_id)
-            if response:
-                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            ic(response)
+            return jsonify(response), 200 if not isinstance(response, dict) else response
                 
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
@@ -34,7 +34,7 @@ def project_task(project_id):
                 task=task, 
                 description=description
                 )
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
 
@@ -57,7 +57,7 @@ def project_task(project_id):
                 
             response = edit_task(account_id=account_id, task_id=task_id, status=status, priority=priority)
             if response:
-                return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+                return jsonify(response), 200 if not isinstance(response, dict) else response
 
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
