@@ -27,6 +27,7 @@ const HeroSection = () =>
       <div className={`flex flex-col h-full lg:flex-row gap-4 lg:gap-8`}>
         <div>
           <p className={`text-sm lg:text-base ${theme == "light" ? "text-bg_primary" : "text-bg_lightest"} max-w-2xl`}>
+            Simple Collaboration app for developers..
             I built this space to collaborate, grow my own community, solve ideas together, and make meaningful connections.
           </p>
           <div className="flex my-10">

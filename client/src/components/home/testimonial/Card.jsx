@@ -23,9 +23,9 @@ const Card = ({ element, theme }) =>
 
     return (
         <div key={element?.id} className="w-full h-full 2 lg:w-1/4 px-4 py-2 pt-12">
-            <div className={`flex flex-col ${theme == "light" ? "bg-bg_lightest" : "bg-bg_grey"} h-full min-h-[140px] max-h-[140px] rounded-md p-6 text-md border border-neutral-800 font-thin`}>
+            <div className={`flex flex-col ${theme == "light" ? "bg-bg_lightest" : "bg-bg_grey"} h-full min-h-[180px] max-h-[180px] rounded-md text-md border border-neutral-800 font-thin`}>
                 <p className="flex-1 text-sm lg:text-base">{element.message?.slice(0, 130)}...</p>
-                <div className="lg:flex mt-8 items-start justify-between">
+                <div className="lg:flex items-start justify-between">
                     <div>
                         <h6 className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} text-sm lg:text-base font-semibold`}>{element?.name}{" "}{element?.lastname}</h6>
                         <span className={`w-full block ${theme == "light" ? "text-bg_primary" : "text-bg_lightest"} text-xs font-normal italic lg:text-sm`}>
