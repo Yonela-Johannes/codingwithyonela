@@ -85,6 +85,11 @@ const Blog = () =>
     <Helmet>
       <title>{blog?.title}</title>
       <meta name="description" content={blog?.post} />
+      <meta property="og:image" content={blog?.blog_image} />
+      <meta name="author" content={blog?.username} />
+      <meta name="creator" content={blog?.firstname + " " + blog?.lastname} />
+      <meta property="og:image:alt" content="blog image" />
+      <meta property="og:url" content={"https://codingwithyonela.vercel.app/" + slug} />
 
       <div className="rounded-md w-full min-h-full">
         <div className="flex w-full h-full flex-col space-y-4 lg:space-y-8 px-2 py-4">
