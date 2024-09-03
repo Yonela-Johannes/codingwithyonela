@@ -44,45 +44,43 @@ function App()
   }, [update_success])
 
   return (
-    <div>
-      <Theme>
-        <BrowserRouter>
-          <ScrollToTop />
-          <Layout>
-            <Routes>
-              <Route exact path="/" element={<Home />} />
-              <Route path="/blog" element={<Blogs />} />
-              <Route path="/blog/:id" element={<Blog />} />
-              <Route path="/chill" element={<Chill />} />
-              <Route path="/recommendation" element={<Recommendations />} />
-              <Route path="/verify_account/:token" element={<Verify />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/project-status" element={<ProjectsTask />} />
-              <Route path="/project/:id/todo" element={<Todopage />} />
-              <Route path="events" element={<BigCalendar />} />
-              {/* user routes */}
-              <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-              <Route path="/edit-account" element={<PrivateRoute><EditAccount /></PrivateRoute>} />
-              {/* admin routes */}
-              <Route path="/admin">
-                <Route path="/admin" element={<AdminPrivateRoute><Users /></AdminPrivateRoute>} />
-                <Route path="users" element={<AdminPrivateRoute><Users /></AdminPrivateRoute>} />
-                <Route path="recommendations" element={<AdminPrivateRoute><AdminRecommendations /></AdminPrivateRoute>} />
-                <Route path="feedback" element={<AdminPrivateRoute><AdminFeedback /></AdminPrivateRoute>} />
-                <Route path="project" element={<AdminPrivateRoute><AdminProjects /></AdminPrivateRoute>} />
-                <Route path="blogs" element={<AdminPrivateRoute><AdminBlogs /></AdminPrivateRoute>} />
-                <Route path="events" element={<AdminPrivateRoute><AdminEvents /></AdminPrivateRoute>} />
-                <Route path="feedback" element={<AdminPrivateRoute><AdminFeedback /></AdminPrivateRoute>} />
-                <Route path="new-blog" element={<AdminPrivateRoute><CreateBlog /></AdminPrivateRoute>} />
-                <Route path="new-project" element={<AdminPrivateRoute><CreateProject /></AdminPrivateRoute>} />
-                <Route path="new-event" element={<AdminPrivateRoute><CreateEvent /></AdminPrivateRoute>} />
-              </Route>
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </Layout>
-        </BrowserRouter>
-      </Theme>
-    </div>
+    <Theme>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Layout>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route path="/blog" element={<Blogs />} />
+            <Route path="/blog/:id" element={<Blog />} />
+            <Route path="/chill" element={<Chill />} />
+            <Route path="/recommendation" element={<Recommendations />} />
+            <Route path="/verify_account/:token" element={<Verify />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/project-status" element={<ProjectsTask />} />
+            <Route path="/project/:id/todo" element={<Todopage />} />
+            <Route path="events" element={<BigCalendar />} />
+            {/* user routes */}
+            <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+            <Route path="/edit-account" element={<PrivateRoute><EditAccount /></PrivateRoute>} />
+            {/* admin routes */}
+            <Route path="/admin">
+              <Route path="/admin" element={<AdminPrivateRoute><Users /></AdminPrivateRoute>} />
+              <Route path="users" element={<AdminPrivateRoute><Users /></AdminPrivateRoute>} />
+              <Route path="recommendations" element={<AdminPrivateRoute><AdminRecommendations /></AdminPrivateRoute>} />
+              <Route path="feedback" element={<AdminPrivateRoute><AdminFeedback /></AdminPrivateRoute>} />
+              <Route path="project" element={<AdminPrivateRoute><AdminProjects /></AdminPrivateRoute>} />
+              <Route path="blogs" element={<AdminPrivateRoute><AdminBlogs /></AdminPrivateRoute>} />
+              <Route path="events" element={<AdminPrivateRoute><AdminEvents /></AdminPrivateRoute>} />
+              <Route path="feedback" element={<AdminPrivateRoute><AdminFeedback /></AdminPrivateRoute>} />
+              <Route path="new-blog" element={<AdminPrivateRoute><CreateBlog /></AdminPrivateRoute>} />
+              <Route path="new-project" element={<AdminPrivateRoute><CreateProject /></AdminPrivateRoute>} />
+              <Route path="new-event" element={<AdminPrivateRoute><CreateEvent /></AdminPrivateRoute>} />
+            </Route>
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </Theme>
   );
 }
 

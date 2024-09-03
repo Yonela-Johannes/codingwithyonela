@@ -1,17 +1,30 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import peer from '../../data/peer.png'
 import { ThemeContext } from '../../context/ThemeContext';
 import { Link } from 'react-router-dom';
 
 const HeroSection = () =>
 {
+  const [showLine, setShowLine] = useState(false);
+  useEffect(() =>
+  {
+    setShowLine(true);
+  }, []);
   const { theme } = useContext(ThemeContext)
   return (
-    <div className="flex flex-col mt-6 lg:mt-20">
-      <h1 className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} text-2xl sm:text-6xl lg:text-7xl tracking-wide`}>
+    <div className="flex flex-col mt-6">
+      <p className={`${theme == "light" ? "bg-bg_lightest text-clr_alt" : "bg-bg_grey text-cl_primary"}  text-cl_primary rounded-full text-sm font-medium px-2 py-1 w-max tracking-wide`}>
         CodingWithYonela
+      </p>
+      <h1 className="text-5xl font-bold mb-6 leading-tight">
+        Collaboration{' '}
+        <span className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"}`}>
+          made simple
+        </span>
+        <br />
+        for us
       </h1>
-      <div className={`flex flex-col h-full lg:flex-row gap-4 lg:gap-8 mt-2 lg:mt-10`}>
+      <div className={`flex flex-col h-full lg:flex-row gap-4 lg:gap-8`}>
         <div>
           <p className={`text-sm lg:text-base ${theme == "light" ? "text-bg_primary" : "text-bg_lightest"} max-w-2xl`}>
             I built this space to collaborate, grow my own community, solve ideas together, and make meaningful connections.
@@ -19,12 +32,12 @@ const HeroSection = () =>
           <div className="flex my-10">
             <Link
               to="/recommendation"
-              className={`${theme !== "light" ? "bg-clr_alt" : "bg-cl_primary"} lg:py-3 lg:px-4 py-1 px-2 mx-2 lg:mx-3 rounded-md`}
+              className={`${theme !== "light" ? "bg-clr_alt" : "bg-cl_primary"} rounded-full lg:py-2 lg:px-4 py-1 px-2 mx-2 lg:mx-3`}
             >
-              Portfolio's
+              Get started
             </Link>
-            <a href="https://yonela-johannes.vercel.app/" target="_blank" className={`${theme == "light" ? "border-clr_alt" : "border-cl_primary"} lg:py-3 lg:px-4 py-1 px-2 mx-2 lg:mx-3 rounded-md border`}>
-              Portfolio
+            <a href="https://yonela-johannes.vercel.app/" target="_blank" className={`${theme == "light" ? "border-clr_alt" : "border-cl_primary"} lg:py-2 lg:px-4 py-1 px-2 mx-2 lg:mx-3 border`}>
+              My portfolio
             </a>
           </div>
         </div>

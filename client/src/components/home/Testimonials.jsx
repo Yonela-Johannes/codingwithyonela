@@ -1,6 +1,5 @@
 import { useContext, useEffect } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
-import { testimonials } from "../../data/data";
 
 import { useDispatch, useSelector } from "react-redux";
 import { disableFeedbackUpdates, getAllFeedback } from "../../features/feedback/feedbackSlice";

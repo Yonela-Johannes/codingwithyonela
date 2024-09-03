@@ -10,6 +10,7 @@ const initialState = {
     deleted: false,
     updated: false,
     created: false,
+    feedback_fetched: false,
 }
 
 export const getAllFeedback = createAsyncThunk('feedback/fetch all', async () =>
@@ -55,6 +56,7 @@ export const feedbackSlice = createSlice({
             state.updated = false
             state.deleted = false
             state.loading = false
+            state.feedback_fetched = false
         }
     },
     extraReducers: (builder) =>
@@ -63,16 +65,19 @@ export const feedbackSlice = createSlice({
             .addCase(getAllFeedback.pending, (state) =>
             {
                 state.loading = true;
+                state.feedback_fetched = false
             })
             .addCase(getAllFeedback.fulfilled, (state, action) =>
             {
                 state.loading = false;
                 state.feedback = action.payload;
+                state.feedback_fetched = true
             })
             .addCase(getAllFeedback.rejected, (state, action) =>
             {
                 state.loading = false;
                 state.error = action.message;
+                state.feedback_fetched = false
             })
             .addCase(updateFeedback.pending, (state) =>
             {

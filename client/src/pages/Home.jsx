@@ -1,10 +1,11 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import HeroSection from '../components/home/HeroSection'
 import FeatureSection from '../components/home/FeatureSection'
 import Workflow from "../components/home/Workflow";
 import Testimonials from "../components/home/Testimonials";
 import About from "./About";
+import BookingOverview from "./overview";
 
 const Home = () =>
 {
@@ -16,6 +17,7 @@ const Home = () =>
       <FeatureSection />
       <Workflow />
       <Testimonials />
+      <BookingOverview />
     </div>
   );
 };

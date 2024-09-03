@@ -50,7 +50,7 @@ def fetch_event(id):
     
 # fetch all events
 def fetch_all_events():
-    query = """SELECT * FROM event;"""
+    query = """SELECT * FROM event ORDER BY start_time ASC ;"""
     
     try:
         with  connection as conn:

@@ -35,6 +35,21 @@
   select {
     @apply focus:border-transparent focus:ring-0 py-2 px-5 rounded-md flex items-center border-none outline-none;
   }
+
+  form input[type="text"],
+  form input[type="email"],
+  form input[type="number"],
+  form select,
+  form textarea {
+    @apply border rounded-md;
+  }
+
+  form input[type="text"],
+  form input[type="email"],
+  form input[type="number"],
+  form textarea {
+    @apply w-full block p-2;
+  }
 }
 
 html {
@@ -211,8 +226,6 @@ body {
 .rbc-event {
   border: none !important;
   color: black !important;
-  padding: 10px !important;
-  margin: 10px !important;
   width: 99% !important;
 }
 

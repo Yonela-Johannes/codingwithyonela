@@ -29,11 +29,7 @@ def all_events():
         # Fetch all
         try:
             response = fetch_all_events()
-            
-            # for obj in response:
-            #         obj["start_time"] = str(obj["start_time"])
-            #         obj["end_time"] = str(obj["end_time"])
-                
+                            
             return jsonify(response), 200 if not isinstance(response, dict) else response
 
         except json.decoder.JSONDecodeError as error:
