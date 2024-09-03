@@ -11,7 +11,6 @@ def project_task(project_id):
         # Fetch tasks
         try:
             response = fetch_task(project_id=project_id)
-            ic(response)
             return jsonify(response), 200 if not isinstance(response, dict) else response
                 
         except json.decoder.JSONDecodeError as error:
@@ -23,14 +22,13 @@ def project_task(project_id):
             return jsonify({'message': 'You are not authorized'}), 401
         try:
             data = request.get_json()
-            account_id = data['account_id']
             task = data['task']              
             description = data['description']  
             project_id = data['project_id']  
 
             response = create_task(
                 project_id=project_id,
-                account_id=account_id,
+                account_id=user['id'],
                 task=task, 
                 description=description
                 )

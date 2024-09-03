@@ -92,7 +92,7 @@ export const updateProject = createAsyncThunk('project/edit', async (data) =>
 {
   const response = await axios.put(`${apiUrl}project/${data?.project_id}`, { ...data },
     {
-      headers: formHeaders
+      headers: headers
     });
   return response.data;
 });

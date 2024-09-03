@@ -23,7 +23,6 @@ def project(id):
             return jsonify({'message': 'You are not authorized'}), 401
         try:
             data = request.get_json()
-            account_id = data['user_id']
             project_id = data['project_id']
             project_name = None
             description = None
@@ -52,7 +51,7 @@ def project(id):
                 topic_id = data['topic_id']
 
             
-            response = edit_project(user_id=account_id, 
+            response = edit_project(user_id=user['id'], 
                                     project_id=project_id, 
                                     project_status=status, 
                                     project_name=project_name, 

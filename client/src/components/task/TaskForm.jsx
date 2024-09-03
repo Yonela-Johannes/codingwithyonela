@@ -26,7 +26,6 @@ const TaskForm = ({ project, filterGrouped }) =>
         setLoading(true)
         e.preventDefault()
         if (!currentUser?.id && !inputData.description && !inputData.task && !inputData?.project_id) return toast("Missing information")
-        console.log(res)
         const res = {
             "task": inputData?.task,
             "description": inputData?.description,
