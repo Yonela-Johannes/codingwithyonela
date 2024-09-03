@@ -27,11 +27,13 @@ def feedback(id, mail):
             return jsonify({'message': 'You are not authorized'}), 401
         try:
             data = request.get_json()
+            ic(data)
             if 'status' in data != "undefined":
-                account_id = data['user_id']
                 status = data['status']
                 feedback_id = data['feedback_id']
-                if id == feedback_id and account_id and status:
+                ic(id)
+                if id == feedback_id and status:
+                    ic(status)
                     response = edit_feedback_status(status=status, feedback_id=feedback_id)
                     if response and 'id' in response:
                         update_user_feedback_email(
@@ -40,7 +42,7 @@ def feedback(id, mail):
                             lastname=response['lastname'],
                             mail=mail
                         )
-                        return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+                        return jsonify(response), 200 if not isinstance(response, dict) else response
 
         except json.decoder.JSONDecodeError as error:
                 return jsonify(error), 400
@@ -51,7 +53,7 @@ def all_feedback(mail):
         # Fetch all
         try:
             response = fetch_all_feedback()
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
 
         except json.decoder.JSONDecodeError as error:
                 return jsonify(error), 400
@@ -115,7 +117,7 @@ def all_feedback(mail):
                     mail=mail,
                 )
     
-                return jsonify(response), 200 if not isinstance(response, dict) else response[1]   
+                return jsonify(response), 200 if not isinstance(response, dict) else response   
                         
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400

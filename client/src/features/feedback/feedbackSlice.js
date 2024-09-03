@@ -21,16 +21,16 @@ export const getAllFeedback = createAsyncThunk('feedback/fetch all', async () =>
 
 export const updateFeedback = createAsyncThunk('feedback/update', async (data) =>
 {
-    const response = await axios.put(`${apiUrl}feedback/${data?.feedback_id}`, data);
+    const response = await axios.put(`${apiUrl}feedback/${data?.feedback_id}`, data, {
+        headers: headers
+    });
     return response.data;
 });
 
 export const deleteFeedback = createAsyncThunk('feedback/delete', async (data) =>
 {
     const response = await axios.delete(`${apiUrl}feedback/${data?.account_id}`, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: headers,
         data: JSON.stringify(data)
     });
     return response.data;
