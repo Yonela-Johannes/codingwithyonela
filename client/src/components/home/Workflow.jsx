@@ -25,7 +25,7 @@ const Workflow = () =>
             muted
             loop
             autoPlay
-            className="w-[280px] lg:max-w-[500px] mx-auto rounded-md bg-clip-text"
+            className="w-[280px] lg:w-[500px] mx-auto rounded-md bg-clip-text"
           >
             <source src={landing} type="video/mp4"></source>
           </video>

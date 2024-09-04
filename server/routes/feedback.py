@@ -22,16 +22,16 @@ def feedback(id, mail):
             
         # edit/update
     elif REQUEST == 'PUT':
-        user =  valid_token() 
-        if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401
         try:
+            user =  valid_token() 
+            if user == False: 
+                return jsonify({'message': 'You are not authorized'}), 401
             data = request.get_json()
-            ic(data)
+
             if 'status' in data != "undefined":
                 status = data['status']
                 feedback_id = data['feedback_id']
-                ic(id)
+0
                 if id == feedback_id and status:
                     ic(status)
                     response = edit_feedback_status(status=status, feedback_id=feedback_id)
