@@ -7,10 +7,12 @@ import { useEffect } from "react";
 import { MdClose } from "react-icons/md";
 import { ThemeContext } from "../context/ThemeContext";
 import toast from "react-hot-toast";
+import { PiEyeDuotone } from 'react-icons/pi';
 
 const Signin = () =>
 {
   const { theme } = useContext(ThemeContext)
+  const [passwordType, setPasswordType] = useState('password')
   const [formData, setFormData] = useState({
     "email": "",
     "password": ""
@@ -82,15 +84,20 @@ const Signin = () =>
 
             <div>
               <label value='Your password' className={`${theme == "light" ? "text-black" : "bg-bg_card text-white"}`}>Password</label>
-              <input
-                className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
-                value={formData.password}
-                type='password'
-                placeholder='Password'
-                name="password"
-                id='password'
-                onChange={handleChange}
-              />
+              <div className={`flex items-center h-full w-full border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}>
+                <input
+                  className={`w-full border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                  value={formData.password}
+                  type={passwordType}
+                  placeholder='Password'
+                  name="password"
+                  id='password'
+                  onChange={handleChange}
+                />
+                <div onClick={() => setPasswordType(currenState => currenState == 'password' ? 'text' : 'password')} className="px-1 lg:px-2 cursor-pointer h-full">
+                  <PiEyeDuotone size={22} />
+                </div>
+              </div>
             </div>
             <button
               className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold text-white ${theme == "light" ? "bg-clr_alt" : "bg-clr_alt"}`}

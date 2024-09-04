@@ -22,8 +22,8 @@ const Card = ({ element, theme }) =>
     }
 
     return (
-        <div key={element?.id} className="h-full w-[300px] px-4 py-2 pt-12">
-            <div className={`flex flex-col ${theme == "light" ? "bg-bg_lightest shadow-md" : "bg-bg_grey"} h-full min-h-[165px] gap-4 rounded-md p-2 lg:p-4 text-md font-thin`}>
+        <div key={element?.id} className="relative h-full w-[300px] px-4 py-2 pt-12">
+            <div className={`flex flex-col ${theme == "light" ? "bg-bg_lightest shadow-md" : "bg-bg_grey"} h-[200px] gap-4 rounded-md p-2 lg:p-4 text-md font-thin`}>
                 <p className="flex-1 text-sm lg:text-base">{element.message?.slice(0, 130)}...</p>
                 <div className="flex items-center gap-2 mt-3">
                     {[...Array(5)]?.map((_, index) => (
@@ -49,14 +49,14 @@ const Card = ({ element, theme }) =>
                         </div>
                     </div>
                 </div>
-                {currentUser && (currentUser.is_staff || currentUser?.is_admin) ? (
-                    <select value={element.status} onChange={e => handleStatusChange(e, element?.id)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"} mt-5`}>
-                        <option value="" disabled selected hidden>Select status</option>
-                        <option value="pending">Pending</option>
-                        <option value="accepted">Accept</option>
-                    </select>
-                ) : ""}
             </div>
+            {currentUser && (currentUser.is_staff || currentUser?.is_admin) ? (
+                <select value={element.status} onChange={e => handleStatusChange(e, element?.id)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"} absolute -bottom-10 mt-5`}>
+                    <option value="" disabled selected hidden>Select status</option>
+                    <option value="pending">Pending</option>
+                    <option value="accepted">Accept</option>
+                </select>
+            ) : ""}
         </div>
     )
 }
