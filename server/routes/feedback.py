@@ -31,7 +31,6 @@ def feedback(id, mail):
             if 'status' in data != "undefined":
                 status = data['status']
                 feedback_id = data['feedback_id']
-0
                 if id == feedback_id and status:
                     ic(status)
                     response = edit_feedback_status(status=status, feedback_id=feedback_id)
