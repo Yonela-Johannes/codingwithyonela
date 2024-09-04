@@ -22,8 +22,8 @@ const Card = ({ element, theme }) =>
     }
 
     return (
-        <div key={element?.id} className="w-full h-full 2 lg:w-1/4 px-4 py-2 pt-12">
-            <div className={`flex flex-col ${theme == "light" ? "bg-bg_lightest" : "bg-bg_grey"} h-full min-h-[165px] gap-4 rounded-md p-2 lg:p-4 text-md border border-neutral-800 font-thin`}>
+        <div key={element?.id} className="h-full w-[300px] px-4 py-2 pt-12">
+            <div className={`flex flex-col ${theme == "light" ? "bg-bg_lightest shadow-md" : "bg-bg_grey"} h-full min-h-[165px] gap-4 rounded-md p-2 lg:p-4 text-md font-thin`}>
                 <p className="flex-1 text-sm lg:text-base">{element.message?.slice(0, 130)}...</p>
                 <div className="flex items-center gap-2 mt-3">
                     {[...Array(5)]?.map((_, index) => (
@@ -38,7 +38,7 @@ const Card = ({ element, theme }) =>
                     <img
                         src={element?.image}
                         alt="cover"
-                        className="rounded-full object-cover object-center h-[80px] w-[80px]"
+                        className="rounded-full object-cover object-center h-[40px] w-[40px]"
                     />
                     <div className="lg:flex flex-col items-start justify-between">
                         <div>
