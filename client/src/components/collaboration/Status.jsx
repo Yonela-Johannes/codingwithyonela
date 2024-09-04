@@ -29,7 +29,7 @@ const Status = ({ post }) =>
                 <select value={post?.status} onChange={handleChange} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"}`}>
                     <option value="" disabled selected hidden>Select status</option>
                     <option value="pending">Pending</option>
-                    <option value="accepted">Accepted</option>
+                    <option value="accepted">Accept</option>
                 </select>
             </div>
         </div>

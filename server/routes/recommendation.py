@@ -20,12 +20,7 @@ def recommendation(id, mail):
             return jsonify(error), 400
         # edit/update
     elif REQUEST == 'PUT':
-        try:
-                    
-            user =  valid_token() 
-            if user == False: 
-                return jsonify({'message': 'You are not authorized'}), 401
-        
+        try:        
             data = request.get_json()
 
             if 'status' in data:
@@ -78,10 +73,6 @@ def all_recommendations(mail):
             return {"message": "Fetch failed: something went wrong."}, 400
     # Create recommendation
     elif REQUEST == 'POST':
-                
-        user =  valid_token() 
-        if user == False: 
-            return jsonify({'message': 'You are not authorized'}), 401
         
         try:
             data = request.form
