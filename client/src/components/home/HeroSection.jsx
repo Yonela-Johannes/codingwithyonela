@@ -13,10 +13,10 @@ const HeroSection = () =>
   const { theme } = useContext(ThemeContext)
   return (
     <div className="flex flex-col mt-6">
-      <p className={`${theme == "light" ? "bg-bg_lightest text-clr_alt" : "bg-bg_grey text-cl_primary"}  text-cl_primary rounded-full text-sm font-medium px-2 py-1 w-max tracking-wide`}>
+      <p className={`${theme == "light" ? "bg-bg_lightest text-clr_alt" : "bg-bg_grey text-cl_primary"}  text-cl_primary rounded-full text-sm font-medium lg:px-2 py-1 w-max tracking-wide`}>
         CodingWithYonela
       </p>
-      <h1 className="text-5xl font-bold mb-6 leading-tight">
+      <h1 className="text-xl lg:text-5xl font-bold mb-2 lg:mb-6 leading-tight">
         Collaboration{' '}
         <span className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"}`}>
           made simple
