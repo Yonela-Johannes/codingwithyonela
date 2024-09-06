@@ -3,10 +3,10 @@ import Post from "../components/blog/Post";
 import { useDispatch, useSelector } from "react-redux";
 import { disableBlogUpdates, getAllBlogs } from "../features/blogs/blogSlice";
 import { useContext, useEffect, useState } from "react";
-import Loader from "../shared/Loader";
 import { ThemeContext } from "../context/ThemeContext";
 import toast from "react-hot-toast";
 import Empty from "./Empty";
+import { motion } from "framer-motion";
 
 const Blogs = () =>
 {
@@ -60,7 +60,11 @@ const Blogs = () =>
   }, [blogs]);
 
   return (
-    <div className={`${theme == "light" ? "text-bg_opp" : "text-slate-400"} flex flex-col gap-8 h-full`}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className={`${theme == "light" ? "text-bg_opp" : "text-slate-400"} flex flex-col gap-8 h-full`}>
       {journeyBlogs && journeyBlogs?.length > 0 ? (
         <section className="max-w-4xl py-2 lg:py-4 flex flex-col space-y-6 mt-4">
           <h2 className="text-lg md:text-xl lg:text-3xl">
@@ -99,7 +103,7 @@ const Blogs = () =>
           )}
         </>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

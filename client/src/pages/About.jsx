@@ -1,12 +1,16 @@
 import { useContext } from "react";
 import AboutMe from "../components/AboutMe";
 import { ThemeContext } from "../context/ThemeContext";
+import { motion } from "framer-motion";
 
 const About = () =>
 {
   const { theme } = useContext(ThemeContext)
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}>
       <div className="text-start mt-4">
         <span className="bg-bg_grey text-cl_primary rounded-full h-6 text-sm font-medium px-2 py-1">
           Focus
@@ -29,7 +33,7 @@ const About = () =>
         <hr className="m4-8" />
         <AboutMe theme={theme} />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -20,6 +20,7 @@ import Markdown from "../shared/Markdown.jsx";
 import Loader from "../shared/Loader.jsx";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 import { useContext } from "react";
+import { motion } from "framer-motion";
 
 const Blog = () =>
 {
@@ -91,7 +92,11 @@ const Blog = () =>
       <meta property="og:image:alt" content="blog image" />
       <meta property="og:url" content={"https://codingwithyonela.vercel.app/" + slug} />
 
-      <div className="rounded-md w-full min-h-full">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="rounded-md w-full min-h-full">
         <div className="flex w-full h-full flex-col space-y-4 lg:space-y-8 px-2 py-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-20 lg:flex-row px-2 lg:px-8">
             {loading ? <Loader /> :
@@ -183,7 +188,7 @@ const Blog = () =>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </Helmet>
   );
 };

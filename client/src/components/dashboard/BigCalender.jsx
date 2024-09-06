@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { disableEventUpdate, getAllEvents } from "../../features/event/eventSlice";
 import Loader from "../../shared/Loader";
+import { motion } from "framer-motion";
 
 const localizer = momentLocalizer(moment);
 
@@ -46,15 +47,15 @@ const BigCalendar = () =>
       let data = [];
       events?.forEach((element) =>
       {
-          let event = {
-            ...element,
-            start: moment(element.start_time).toDate(),
-            end: moment(element.end_time).toDate()
+        let event = {
+          ...element,
+          start: moment(element.start_time).toDate(),
+          end: moment(element.end_time).toDate()
 
-          }
-          data.push(event)
-        })
-        setFormatedEvents(data)
+        }
+        data.push(event)
+      })
+      setFormatedEvents(data)
     }
   }, [events])
 
@@ -63,18 +64,23 @@ const BigCalendar = () =>
       <Loader />
     ) :
       (
-        <Calendar
-          localizer={localizer}
-          events={formatedEvents}
-          startAccessor="start"
-          endAccessor="end"
-          views={["work_week", "week", "day"]}
-          view={view}
-          style={{ height: "98%" }}
-          onView={handleOnChangeView}
-          min={new Date(2024, 1, 0, 6, 0, 0)}
-          max={new Date(2030, 1, 0, 18, 0, 0)}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}>
+          <Calendar
+            localizer={localizer}
+            events={formatedEvents}
+            startAccessor="start"
+            endAccessor="end"
+            views={["work_week", "week", "day"]}
+            view={view}
+            style={{ height: "98%" }}
+            onView={handleOnChangeView}
+            min={new Date(2024, 1, 0, 6, 0, 0)}
+            max={new Date(2030, 1, 0, 18, 0, 0)}
+          />
+        </motion.div>
       )
   );
 };
