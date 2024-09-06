@@ -7,6 +7,7 @@ import { formatDate } from '../../lib/utils';
 import { deleteTask, updateTask } from '../../features/tasks/tasksSlice';
 import { deleteProject, setSelectProject, updateProject } from '../../features/project/projectSlice';
 import Loader from '../../shared/Loader';
+import { motion } from "framer-motion";
 
 const TaskCard = ({ elem, project }) =>
 {
