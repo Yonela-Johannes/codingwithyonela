@@ -45,7 +45,7 @@ const Signin = () =>
     if (currentUser && token)
     {
       dispatch(disableAuthModals())
-      navigate(-1);
+      navigate(0);
     }
   }, [currentUser, token])
 
