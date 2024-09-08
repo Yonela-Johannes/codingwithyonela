@@ -224,7 +224,7 @@ const Recommendations = () =>
         open={open}
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
-        width={1000}
+        width={800}
         footer={false}
       >
         {loading ? (<Loader />) : (
@@ -299,10 +299,10 @@ const Recommendations = () =>
                       onChange={(e) => setInputData({ ...inputData, profession: e.target.value })}
                     >
                       {titles?.map((elem) => (
-                        <span key={elem?.id}>
-                          <option value="" disabled selected hidden>Select profession</option>
-                          <option value={elem.id} key={elem?.id}>{elem?.user_title}</option>
-                        </span>
+                        <>
+                          <option  key={elem?.id} value="" disabled selected hidden>Select profession</option>
+                          <option value={elem.id}>{elem?.user_title}</option>
+                        </>
                       ))}
                     </select>
                   </div>
@@ -371,7 +371,7 @@ const Recommendations = () =>
         open={openSuggestion}
         onOk={() => setOpenSuggestion(false)}
         onCancel={() => setOpenSuggestion(false)}
-        width={1000}
+        width={800}
         footer={false}
       >
         <Recommendation />
