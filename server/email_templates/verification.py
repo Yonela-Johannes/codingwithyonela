@@ -54,7 +54,7 @@ def verification_email(username, lastname, email, token, mail):
                 <div class="content">
                     <p>Dear {username} {lastname},</p>
                     <p>Welcome to CodingWithYonela! We're thrilled to have you join our community.To get started, please verify your email address using the verification link below:</p>
-                     <p><a href="http://codingwithyonela/verify_account/{token}" target="_blank">Follow this link</a>
+                     <p><a href="https://codingwithyonela.vercel.app/verify_account/{token}" target="_blank">Follow this link</a>
                     </p>
                     <p>If there are any updates or corrections you'd like to make, please don’t hesitate to reach out to us.</p>
                     <p>Thank you for being part of our growing community. We look forward to showcasing your incredible work and helping you connect with others in the industry.</p>
