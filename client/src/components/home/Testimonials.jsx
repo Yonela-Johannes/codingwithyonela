@@ -19,10 +19,10 @@ const Testimonials = () =>
     dispatch(disableFeedbackUpdates());
   }
 
-  useEffect(() =>
-  {
-    fetchFeedback()
-  }, []);
+  // useEffect(() =>
+  // {
+  //   fetchFeedback()
+  // }, []);
 
   useEffect(() =>
   {

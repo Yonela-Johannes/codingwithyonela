@@ -56,7 +56,6 @@ const Signin = () =>
     {
       toast("Sign in successfull")
       dispatch(disableAuthModals())
-      navigate('/')
     }
   }, [message, signin_success])
 

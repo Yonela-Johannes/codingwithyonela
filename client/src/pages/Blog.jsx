@@ -83,6 +83,7 @@ const Blog = () =>
 
 
   return (
+    <>
     <Helmet>
       <title>{blog?.title}</title>
       <meta name="description" content={blog?.post} />
@@ -91,7 +92,7 @@ const Blog = () =>
       <meta name="creator" content={blog?.firstname + " " + blog?.lastname} />
       <meta property="og:image:alt" content="blog image" />
       <meta property="og:url" content={"https://codingwithyonela.vercel.app/" + slug} />
-
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -189,7 +190,8 @@ const Blog = () =>
           </div>
         </div>
       </motion.div>
-    </Helmet>
+    </>
+    
   );
 };
 
