@@ -30,7 +30,7 @@ export const Widget = () =>
     "email": currentUser ? currentUser?.email : "",
     "company": "",
     "feedback": "",
-    "rating": 3
+    "rating": 0
   });
 
   useEffect(() =>
