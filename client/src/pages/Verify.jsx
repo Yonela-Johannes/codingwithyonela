@@ -3,7 +3,7 @@ import { ThemeContext } from "../context/ThemeContext";
 import { useNavigate, useParams } from "react-router-dom";
 import logo from '../assets/logo.png'
 import { useDispatch, useSelector } from "react-redux";
-import { verifyRegistration } from "../features/user/authSlice";
+import { activeSignin, verifyRegistration } from "../features/user/authSlice";
 import Loader from "../shared/Loader";
 import toast from "react-hot-toast";
 
@@ -25,10 +25,14 @@ const Verify = () =>
   {
     if (message)
     {
-      toast(message)
-      navigate('/edit-account')
+      if(message == 'Error: User already exists. Try logging in.'){
+        toast('You acount was verified. Login')
+      }
+      else {
+        toast(message)
+      }
+      dispatch(activeSignin())
     }
-
   }, [message])
 
 

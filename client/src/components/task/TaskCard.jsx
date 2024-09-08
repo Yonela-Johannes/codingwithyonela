@@ -123,7 +123,7 @@ const TaskCard = ({ elem, project }) =>
                 <div className='flex items-center gap-1'>
                     <div className={`text-white ${elem?.priority == "low" ? "bg-blue-400 border-blue-400" : elem?.priority == "medium" ? "bg-orange-400 border-orange-400" : elem.priority == "high" ? "bg-red-700 border border-red-700" : ""} text-xs lg:text-sm rounded-md px-[1px]`}>{elem?.priority}</div>
                 </div>
-                {(currentUser && currentUser.is_staff || currentUser?.is_admin || currentUser?.account_id == elem?.account_id) ? (
+                {(currentUser && currentUser?.is_staff || currentUser?.is_admin || currentUser?.account_id == elem?.account_id) ? (
                     <>
                         {project ? (
                             <select value={project ? elem?.project_status : elem?.task_status} onChange={e => handleStatusChange(e, project ? elem?.project_id : elem?.task_id)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"}`}>

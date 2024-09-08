@@ -50,7 +50,7 @@ const Card = ({ element, theme }) =>
                     </div>
                 </div>
             </div>
-            {currentUser && (currentUser.is_staff || currentUser?.is_admin) ? (
+            {currentUser && (currentUser?.is_staff || currentUser?.is_admin) ? (
                 <select value={element.status} onChange={e => handleStatusChange(e, element?.id)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"} absolute -bottom-10 mt-5`}>
                     <option value="" disabled selected hidden>Select status</option>
                     <option value="pending">Pending</option>

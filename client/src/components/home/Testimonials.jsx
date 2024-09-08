@@ -80,7 +80,7 @@ const Testimonials = () =>
               What People <span className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"}`}> are saying</span>
             </h2>
             <div className="flex flex-wrap h-full">
-              {(currentUser.is_staff || currentUser?.is_admin) ? (
+              {(currentUser?.is_staff || currentUser?.is_admin) ? (
                 feedback?.map((element) => (
                   <Card key={element?.id} element={element} theme={theme} />
                 ))
