@@ -185,14 +185,12 @@ const Recommendations = () =>
                 <option value="" disabled defaultValue hidden>Select profession</option>
                 <option value="all">All professions</option>
                 {titles?.map((element) => (
-                  <>
                     <option
                       key={element?.id}
                       value={element?.user_title}
                     >
                       {element?.user_title}
                     </option>
-                  </>
                 ))}
               </>
             </select>
@@ -209,15 +207,15 @@ const Recommendations = () =>
         </button>
       </div>
       <div className="grid grid-cols-1 w-full lg:grid-cols-2 xl:grid-cols-4  gap-2 lg:grid-gap-4 xl:gap-6 h-full">
-        {filterValue && filterValue !== 'all' ? recommendations?.filter((element) => element.user_title == filterValue)?.map((item) => (
+        {filterValue && filterValue !== 'all' ? recommendations?.filter((element) => element.user_title == filterValue)?.map((item, x) => (
           item?.status !== 'pending' ? (
-            <RecommendationCard theme={theme} item={item} key={item._id} />
+            <RecommendationCard key={x} theme={theme} item={item} />
           ) : ''
         )) : (currentUser?.is_admin || currentUser?.is_staff) ? (recommendations?.map((item) => (
           <RecommendationCard theme={theme} item={item} key={item?._id} />
-        ))) : (recommendations?.map((item) => (
+        ))) : (recommendations?.map((item, x) => (
           item?.status !== 'pending' ?
-            (<RecommendationCard theme={theme} item={item} key={item?._id} />) : ""
+            (<RecommendationCard theme={theme} item={item} key={x} />) : ""
         )))}
       </div>
       <Modal
@@ -301,10 +299,10 @@ const Recommendations = () =>
                       onChange={(e) => setInputData({ ...inputData, profession: e.target.value })}
                     >
                       {titles?.map((elem) => (
-                        <>
+                        <span key={elem?.id}>
                           <option value="" disabled selected hidden>Select profession</option>
                           <option value={elem.id} key={elem?.id}>{elem?.user_title}</option>
-                        </>
+                        </span>
                       ))}
                     </select>
                   </div>

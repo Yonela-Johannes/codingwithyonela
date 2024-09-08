@@ -128,7 +128,6 @@ export const projectSlice = createSlice({
       })
       .addCase(getAllprojects.fulfilled, (state, action) =>
       {
-        console.log(action.payload)
         state.loading = false;
         state.projects = action.payload;
       })

@@ -104,14 +104,14 @@ export const Widget = () =>
       }
     };
   };
-  console.log(selectedFile || !formData?.image == '')
+
   return (
     <>
       <style>{tailwindStyles}</style>
       <div className="widget fixed bottom-4 right-4 z-50">
         <Popover>
           <PopoverTrigger asChild>
-            <button className="rounded-full shadow-lg hover:scale-105">
+            <button className={`rounded-full  ${theme == 'light' ? "bg-bg_lightest" : "bg-bg_primary text-bg_lightest border-bg_grey"} shadow-lg hover:scale-105`}>
               <MessageCircleIcon className="mr-2 h-5 w-5" />
               Feedback
             </button>

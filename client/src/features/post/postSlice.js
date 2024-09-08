@@ -54,9 +54,9 @@ export const createPostComment = createAsyncThunk('post comment/create post', as
     {
       if (response.status == 401)
       {
-        console.log("We are inside")
-        localStorage.removeItem("persist:user")
-        window.location.reload()
+        // console.log("We are inside")
+        // localStorage.removeItem("persist:user")
+        // window.location.reload()
       }
     });
 
@@ -141,7 +141,6 @@ export const postSlice = createSlice({
       })
       .addCase(getAllPosts.fulfilled, (state, action) =>
       {
-        console.log(action.payload)
         state.loading = false;
         state.posts = action.payload;
       })

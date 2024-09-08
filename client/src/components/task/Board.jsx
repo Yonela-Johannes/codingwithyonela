@@ -55,13 +55,13 @@ const Board = ({ project, data }) =>
                     <section className="w-full lg:w-[35%] lg:m-5">
                         <TaskColumn title="To do" image={todo} />
                         {grouped?.todo?.map((elem) => (
-                            <TaskCard elem={elem} project={project} />
+                            <TaskCard key={elem?.id} elem={elem} project={project} />
                         ))}
                     </section>
                     <section className="w-full lg:w-[35%] lg:m-5">
                         <TaskColumn title="In progress" image={doing} />
                         {grouped?.progress?.map((elem) => (
-                            <TaskCard project={project} elem={elem} />
+                            <TaskCard key={elem?.id} project={project} elem={elem} />
                         ))}
                     </section>
                     {project ? (
@@ -69,13 +69,13 @@ const Board = ({ project, data }) =>
                             <section className="w-full lg:w-[35%] lg:m-5">
                                 <TaskColumn title="On hold" image={postponed} />
                                 {grouped?.on_hold?.map((elem) => (
-                                    <TaskCard project={project} elem={elem} />
+                                    <TaskCard key={elem?.id} project={project} elem={elem} />
                                 ))}
                             </section>
                             <section className="w-full lg:w-[35%] lg:m-5">
                                 <TaskColumn title="Testing" image={testing} />
                                 {grouped?.testing?.map((elem) => (
-                                    <TaskCard project={project} elem={elem} />
+                                    <TaskCard key={elem?.id} project={project} elem={elem} />
                                 ))}
                             </section>
                         </>
@@ -83,7 +83,7 @@ const Board = ({ project, data }) =>
                         <section className="w-full lg:w-[35%] lg:m-5">
                             <TaskColumn title="Testing" image={testing} />
                             {grouped?.testing?.map((elem) => (
-                                <TaskCard project={project} elem={elem} />
+                                <TaskCard key={elem?.id} project={project} elem={elem} />
                             ))}
                         </section>
 
@@ -91,7 +91,7 @@ const Board = ({ project, data }) =>
                     <section className="w-full lg:w-[35%] lg:m-5">
                         <TaskColumn title="Done" image={done} />
                         {grouped?.done?.map((elem) => (
-                            <TaskCard project={project} elem={elem} />
+                            <TaskCard key={elem?.id} project={project} elem={elem} />
                         ))}
                     </section>
                 </div>

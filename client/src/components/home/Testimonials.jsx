@@ -19,10 +19,10 @@ const Testimonials = () =>
     dispatch(disableFeedbackUpdates());
   }
 
-  // useEffect(() =>
-  // {
-  //   fetchFeedback()
-  // }, []);
+  useEffect(() =>
+  {
+    fetchFeedback()
+  }, []);
 
   useEffect(() =>
   {
@@ -82,13 +82,13 @@ const Testimonials = () =>
             <div className="flex flex-wrap h-full">
               {(currentUser.is_staff || currentUser?.is_admin) ? (
                 feedback?.map((element) => (
-                  <Card element={element} theme={theme} />
+                  <Card key={element?.id} element={element} theme={theme} />
                 ))
               ) :
                 (
                   feedback?.map((element) => (
                     element.status == 'accepted' ? (
-                      <Card element={element} theme={theme} />
+                      <Card key={element?.id} element={element} theme={theme} />
                     ) : ""
                   ))
                 )}

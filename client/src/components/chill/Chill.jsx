@@ -102,10 +102,7 @@ const Chill = () =>
     loading ? (
       <Loader />
     ) : (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+      <div
         className="relative overflow-x-hidden flex-1 flex-grow">
         <div className="hidden lg:block absolute top-2 right-1 mb-8 lg:pt-4">
           {(currentUser && currentUser?.id) ? (
@@ -125,8 +122,8 @@ const Chill = () =>
             <div className="flex flex-col gap-8 h-full w-full overflow-x-hidden">
               <div className="flex flex-col overflow-hidden py-4 gap-8 h-full">
                 <div className="flex gap-1 lg:gap-4 flex-wrap w-full">
-                  {['all', 'post', 'question', 'suggestion', 'image/video', 'poll']?.map((elem) => (
-                    <button onClick={() => setFilterValue(elem)} className={`${filterValue == elem ? 'text-white bg-clr_alt' : ''} ${theme == 'light' ? 'text-bg_primary bg-bg_light' : ' border-none bg-bg_grey'} rounded-full text-bg_lightest`}>
+                  {['all', 'post', 'question', 'suggestion', 'image/video', 'poll']?.map((elem, x) => (
+                    <button key={x} onClick={() => setFilterValue(elem)} className={`${filterValue == elem ? 'text-white bg-clr_alt' : ''} ${theme == 'light' ? 'text-bg_primary bg-bg_light' : ' border-none bg-bg_grey'} rounded-full text-bg_lightest`}>
                       {elem?.toUpperCase()}
                     </button>
                   ))}
@@ -418,7 +415,7 @@ const Chill = () =>
             <p className={`text-base lg:text-xl my-2`}>"{selectedPost?.text?.slice(0, 30)}...", with all its data will be removed</p>
           </Modal>
         </div>
-      </motion.div>
+      </div>
     )
   );
 };
