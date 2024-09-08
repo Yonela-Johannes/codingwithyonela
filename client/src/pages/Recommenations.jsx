@@ -12,6 +12,7 @@ import Recommendation from "./Recommendation";
 import { ModalContext } from "../context/ModalContext";
 import { AiTwotoneFileImage } from "react-icons/ai";
 import Loader from "../shared/Loader";
+import { motion } from "framer-motion";
 
 const Recommendations = () =>
 {
@@ -169,7 +170,11 @@ const Recommendations = () =>
   }
 
   return (
-    <div className="h-full my-5">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className="h-full my-5">
       <div className="hidden lg:flex gap-2 items-start w-full mb-8 justify-between">
         {titles && titles?.length > 0 ? (
           <div className="grid grid-cols-1 w-max gap-2">
@@ -373,7 +378,7 @@ const Recommendations = () =>
       >
         <Recommendation />
       </Modal>
-    </div>
+    </motion.div>
   )
 };
 

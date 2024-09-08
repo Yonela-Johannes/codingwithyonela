@@ -29,6 +29,7 @@ import CommentsModal from "./CommentsModal";
 import { AiTwotoneExclamationCircle } from "react-icons/ai";
 import ResponseModal from "./ResponseModal";
 import Empty from "../../pages/Empty";
+import { motion } from "framer-motion";
 
 const Chill = () =>
 {
@@ -97,12 +98,15 @@ const Chill = () =>
     setOpenDelete(false)
   }
 
-  console.log(posts)
   return (
     loading ? (
       <Loader />
     ) : (
-      <div className="relative overflow-x-hidden flex-1 flex-grow">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="relative overflow-x-hidden flex-1 flex-grow">
         <div className="hidden lg:block absolute top-2 right-1 mb-8 lg:pt-4">
           {(currentUser && currentUser?.id) ? (
             <button
@@ -414,7 +418,7 @@ const Chill = () =>
             <p className={`text-base lg:text-xl my-2`}>"{selectedPost?.text?.slice(0, 30)}...", with all its data will be removed</p>
           </Modal>
         </div>
-      </div>
+      </motion.div>
     )
   );
 };

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { disableTaskUpdates, getAllTasks } from '../features/tasks/tasksSlice'
 import Collaboration from './Collaboration'
 import toast from 'react-hot-toast'
+import { motion } from "framer-motion";
 
 const Todopage = () =>
 {
@@ -48,7 +49,10 @@ const Todopage = () =>
     console.log(tasks)
 
     return (
-        <>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}>
             <div className={`${theme == "light" ? "text-bg_primary" : "text-white"} w-full h-full grid lg:grid-rows-[150px auto] gap-8`}>
                 <p className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} text-xl mb-2 font-normal text-start`}>
                     {project?.project_name}
@@ -56,7 +60,7 @@ const Todopage = () =>
                 <Board project={false} data={tasks} />
             </div>
             <Collaboration id={id} />
-        </>
+        </motion.div>
     )
 }
 

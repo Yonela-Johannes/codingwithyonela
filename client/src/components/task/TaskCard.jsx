@@ -7,6 +7,7 @@ import { formatDate } from '../../lib/utils';
 import { deleteTask, updateTask } from '../../features/tasks/tasksSlice';
 import { deleteProject, setSelectProject, updateProject } from '../../features/project/projectSlice';
 import Loader from '../../shared/Loader';
+import { motion } from "framer-motion";
 
 const TaskCard = ({ elem, project }) =>
 {
@@ -92,7 +93,10 @@ const TaskCard = ({ elem, project }) =>
 
     return (
         loading ? (<Loader disable={true} />) : (
-            <section className={`${theme == "light" ? "bg-white text-bg_primary" : "bg-bg_core border-bg_core text-slate-300"} flex flex-col gap-2 border rounded-md p-2 lg:p-4 mb-3`}>
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }} className={`${theme == "light" ? "bg-white text-bg_primary" : "bg-bg_core border-bg_core text-slate-300"} flex flex-col gap-2 border rounded-md p-2 lg:p-4 mb-3`}>
                 <div className='flex flex-col items-start justify-between'>
                     {elem?.project_name ? (
                         <div onClick={activeGroupHandler} className='text-[13px] lg:text-xl cursor-pointer text-clr_alt'>{elem?.project_name}</div>
@@ -148,7 +152,7 @@ const TaskCard = ({ elem, project }) =>
                         </select>
                     </>
                 ) : ""}
-            </section>
+            </motion.div>
         )
     )
 }

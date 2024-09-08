@@ -3,12 +3,10 @@ import { useDispatch } from 'react-redux';
 import { useContext, useState } from 'react';
 import HoverUnderLine from "./HoverUnderLine";
 import logo from '../assets/logo.png'
-import { Search } from "lucide-react";
+import { LucideLogIn, LucideUser, Search } from "lucide-react";
 import ThemeToggle from './themeToggle/ThemeToggle';
 import { ThemeContext } from '../context/ThemeContext';
 import { activeSignin, activeSignup, disableAuthModals, logout } from '../features/user/authSlice';
-import { AiOutlineSearch } from 'react-icons/ai';
-
 
 export default function ({ currentUser })
 {
@@ -52,12 +50,16 @@ export default function ({ currentUser })
             ) : (
               <>
                 <HoverUnderLine>
-                  <div onClick={() => (dispatch(disableAuthModals()), dispatch(activeSignin()))} className="flex gap-2 items-center cursor-pointer p-2">
+                  <div onClick={() => (dispatch(disableAuthModals()), dispatch(activeSignin()))} className={`bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 
+									rounded-md flex items-center transition duration-300 ease-in-out`}>
+                    <LucideLogIn className='mr-2' size={18} />
                     Login
                   </div>
                 </HoverUnderLine>
                 <HoverUnderLine>
-                  <div onClick={() => dispatch(activeSignup())} className="flex gap-2 items-center cursor-pointer p-2">
+                  <div onClick={() => dispatch(activeSignup())} className="bg-bg_primary hover:bg-gray-600 text-white py-2 px-4 
+									rounded-md flex items-center transition duration-300 ease-in-out">
+                    <LucideUser className='mr-2' size={18} />
                     Signup
                   </div>
                 </HoverUnderLine>

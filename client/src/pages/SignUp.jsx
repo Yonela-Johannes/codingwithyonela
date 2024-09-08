@@ -9,6 +9,7 @@ import { MdClose } from "react-icons/md";
 import { ThemeContext } from "../context/ThemeContext";
 import { AiTwotoneFileImage } from 'react-icons/ai';
 import { useRef } from 'react';
+import { motion } from "framer-motion";
 
 export default function SignUp()
 {
@@ -84,7 +85,11 @@ export default function SignUp()
   };
 
   return (
-    <div className={`${theme == 'light' ? '' : 'border-none'} flex flex-col lg:flex-row items-center justify-center lg:items-center lg:absolute h-screen lg:h-sceen w-full lg:z-50 backdrop-blur-xl overflow-auto top-0 left-0 right-0 bottom-0`}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className={`${theme == 'light' ? '' : 'border-none'} flex flex-col lg:flex-row items-center justify-center lg:items-center lg:absolute h-screen lg:h-sceen w-full lg:z-50 backdrop-blur-xl overflow-auto top-0 left-0 right-0 bottom-0`}>
       <div className={`${theme == "light" ? "bg-white" : "bg-bg_card border-none"} w-full lg:relative flex lg:px-16 mx-auto flex-col md:flex-row md:items-center gap-5 lg:border lg:h-[80%] overflow-auto py-10 lg:rounded-lg lg:w-[700px]`}>
         <div className={`${theme == "light" ? "bg-white" : "bg-slate-800 text-white"} rounded-full hidden lg:block lg:absolute top-2 lg:right-2 text-xl lg:text-2xl cursor-pointer`} onClick={() => dispatch(disableAuthModals())}>
           <MdClose />
@@ -221,6 +226,6 @@ export default function SignUp()
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
