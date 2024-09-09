@@ -1,6 +1,5 @@
 import { useContext, useEffect, useRef } from 'react';
 import { useState } from 'react'
-import { AiTwotoneFileImage } from "react-icons/ai";
 import { ThemeContext } from '../../context/ThemeContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProject } from '../../features/project/projectSlice';
@@ -9,6 +8,7 @@ import { getAllTopics } from '../../features/topic/topicSlice';
 import { Spinner } from 'flowbite-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { BsCardImage } from "react-icons/bs";
 
 const CreateProject = () =>
 {
@@ -126,7 +126,7 @@ const CreateProject = () =>
                   className={`text-xl lg:text-4xl px-3 py-2 mt-1 ${theme == "light" ? "text-black" : "bg-bg_card"} p-2 lg:px-4 lg:py-2`}
                   onClick={() => selectFileRef.current?.click()}
                 >
-                  <AiTwotoneFileImage />
+                  <BsCardImage />
                 </div>
                 <input
                   id="file-upload"

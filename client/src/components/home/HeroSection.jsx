@@ -12,7 +12,7 @@ const HeroSection = () =>
   }, []);
   const { theme } = useContext(ThemeContext)
   return (
-    <div className="flex flex-col mt-6">
+    <div className="flex flex-col mt-6 min-h-[calc(100vh-200px)]">
       <p className={`${theme == "light" ? "bg-bg_lightest text-clr_alt" : "bg-bg_grey text-cl_primary"}  text-cl_primary rounded-full text-sm font-medium lg:px-2 py-1 w-max tracking-wide`}>
         CodingWithYonela
       </p>
@@ -37,7 +37,7 @@ const HeroSection = () =>
             >
               Get started
             </Link>
-            <a href="https://yonela-johannes.vercel.app/" target="_blank" className={`${theme == "light" ? "border-clr_alt" : "border-cl_primary"} lg:py-2 lg:px-4 py-1 px-2 mx-2 lg:mx-3 border`}>
+            <a href="https://yonela-johannes.vercel.app/" target="_blank" className={`${theme == "light" ? "border-clr_alt" : "border-cl_primary"} rounded-full lg:py-2 lg:px-4 py-1 px-2 mx-2 lg:mx-3 border`}>
               My portfolio
             </a>
           </div>

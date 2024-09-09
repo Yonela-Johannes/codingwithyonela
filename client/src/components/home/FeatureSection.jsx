@@ -8,9 +8,6 @@ const FeatureSection = () =>
   return (
     <div className="relative mt-20 border-b border-neutral-800 min-h-[800px]">
       <div className="text-start">
-        <span className="bg-bg_grey text-cl_primary rounded-full h-6 text-sm font-medium px-2 py-1">
-          Feature
-        </span>
         <h2 className="text-xl sm:text-3xl lg:text-4xl mt-10 lg:mt-20 tracking-wide">
           Easily track{" "}
           <span className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} bg-clip-text`}>

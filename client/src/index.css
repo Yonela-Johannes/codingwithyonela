@@ -41,7 +41,7 @@
   form input[type="number"],
   form select,
   form textarea {
-    @apply border rounded-md;
+    @apply flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0;
   }
 
   form input[type="text"],

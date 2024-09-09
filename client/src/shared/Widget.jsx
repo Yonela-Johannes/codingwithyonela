@@ -10,6 +10,7 @@ import { AiTwotoneFileImage } from "react-icons/ai";
 import { ThemeContext } from "../context/ThemeContext";
 import { MdClose } from "react-icons/md";
 import Loader from "./Loader";
+import { BsCardImage } from "react-icons/bs";
 
 export const Widget = () =>
 {
@@ -165,7 +166,7 @@ export const Widget = () =>
                                 className={`text-xl lg:text-4xl px-3 py-2 mt-1 ${theme == "light" ? "text-black" : "bg-bg_card"} p-2 lg:px-4 lg:py-2`}
                                 onClick={() => selectFileRef.current?.click()}
                               >
-                                <AiTwotoneFileImage />
+                                <BsCardImage />
                               </div>
                               <input
                                 id="file-upload"

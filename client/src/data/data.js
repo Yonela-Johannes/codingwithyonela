@@ -4,7 +4,7 @@ import { BsCalendar3EventFill, BsQuestionDiamondFill } from "react-icons/bs";
 import { HiUsers } from "react-icons/hi2";
 import { FaUsers } from "react-icons/fa";
 import { ImBlogger } from "react-icons/im";
-import { PiCalendarMinusDuotone, PiChatDuotone, PiListDashesDuotone, PiProjectorScreenDuotone, PiUserCheckDuotone, PiUsersDuotone } from "react-icons/pi";
+import { PiCalendarMinusDuotone, PiChatDuotone, PiListDashesDuotone, PiProjectorScreenDuotone, PiRadio, PiUserCheckDuotone, PiUsersDuotone } from "react-icons/pi";
 import { AiTwotoneEdit, AiTwotoneQuestionCircle, AiTwotoneMessage, AiTwotoneHome, AiTwotoneInteraction, } from "react-icons/ai";
 
 export const navLinks = [
@@ -77,6 +77,18 @@ export const features = [
         description:
             "Engage with content through the ability to create, read, update, and delete comments on suggestions, questions, blogs, and posts.",
     },
+    {
+        text: "Q&A",
+        icon: PiChatDuotone,
+        description:
+          "Allow your audience to ask questions during your presentations and let them upvote the most requested ones.",
+      },
+      {
+        text: "Real-time Polls",
+        icon: PiRadio,
+        description:
+          "Get instant feedback from your audience with real-time polls.",
+      },
 ];
 
 export const checklistItems = [

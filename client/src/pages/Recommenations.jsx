@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import { ThemeContext } from "../context/ThemeContext";
 import Recommendation from "./Recommendation";
 import { ModalContext } from "../context/ModalContext";
-import { AiTwotoneFileImage } from "react-icons/ai";
+import { BsCardImage } from "react-icons/bs";
 import Loader from "../shared/Loader";
 import { motion } from "framer-motion";
 
@@ -259,7 +259,7 @@ const Recommendations = () =>
                           className={`text-xl lg:text-4xl px-3 py-2 mt-1 ${theme == "light" ? "text-black" : "bg-bg_card"} p-2 lg:px-4 lg:py-2`}
                           onClick={() => selectFileRef.current?.click()}
                         >
-                          <AiTwotoneFileImage />
+                          <BsCardImage />
                         </div>
                         <input
                           id="file-upload"
