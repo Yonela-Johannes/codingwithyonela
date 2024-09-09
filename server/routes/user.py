@@ -161,6 +161,7 @@ def create_user_profile(mail):
             
             valid_email_format: str = ''
         
+            return {}, 200
             if email:
                 if re.match(email_validate_pattern, email):
                     valid_email_format = email

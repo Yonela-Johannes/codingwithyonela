@@ -46,7 +46,6 @@ const Todopage = () =>
             getTasks(id)
         }
     }, [success, deleted, updated]);
-    console.log(tasks)
 
     return (
         <motion.div

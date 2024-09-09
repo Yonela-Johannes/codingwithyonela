@@ -53,7 +53,6 @@ export const deleteProject = createAsyncThunk('projects/delete', async (data) =>
   return response.data;
 });
 
-
 export const getProjectMessages = createAsyncThunk('project comments/fetch One', async (id) =>
 {
   const response = await axios.get(`${apiUrl}project-chat/${id}`);
@@ -62,7 +61,9 @@ export const getProjectMessages = createAsyncThunk('project comments/fetch One',
 
 export const createProjectMessage = createAsyncThunk('projects/chat', async (data) =>
 {
-  await axios.post(`${apiUrl}project-chat/${data?.project_id}`, data)
+  await axios.post(`${apiUrl}project-chat/${data?.project_id}`, data,{
+    headers: headers
+  })
     .then((response) => response.data)
     .catch(({ response }) =>
     {

@@ -46,7 +46,7 @@ const Signin = () =>
     if (currentUser && token)
     {
       dispatch(disableAuthModals())
-      navigate(0);
+      navigate('recommendations');
     }
   }, [currentUser, token])
 
@@ -57,7 +57,7 @@ const Signin = () =>
       toast("Sign in successfull")
       dispatch(disableAuthModals())
     }
-    navigate('/')
+    navigate('/project-status')
   }, [message, signin_success])
 
   return (

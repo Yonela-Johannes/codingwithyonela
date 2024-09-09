@@ -110,6 +110,14 @@ const TaskCard = ({ elem, project }) =>
                 <div className='flex justify-between items-center'>
                     <div className='flex items-center gap-1'>
                         <div className={`${theme == "light" ? "bg-slate-200" : "bg-bg_card text-slate-400"} text-xs lg:text-sm rounded-md px-[3px]`}>{elem?.name}</div>
+                        <div className="flex items-center gap-2 justify-end">
+            <img className="w-7 h-7 rounded-full" src={elem?.profile} />
+            <div>
+              <p className="text-end text-xs font-semibold">
+                {elem?.username}
+              </p>
+            </div>
+          </div>
                     </div>
                     {currentUser && currentUser?.account_id == elem?.account_id ? (
                         project ? "" : (

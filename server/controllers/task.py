@@ -44,7 +44,7 @@ def fetch_projects():
 
 def fetch_task(project_id):
     
-    query = """SELECT *, id as task_id FROM tasks WHERE project_id=%s"""
+    query = """SELECT task, description, task_status, priority, project_id, created, tasks.id AS task_id, account.*, account.id as account_id, username, profile FROM tasks JOIN account on account_id = account.id WHERE project_id=%s"""
     try:
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
