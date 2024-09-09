@@ -50,15 +50,15 @@ export default function ({ currentUser })
             ) : (
               <>
                 <HoverUnderLine>
-                  <div onClick={() => (dispatch(disableAuthModals()), dispatch(activeSignin()))} className={`bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 
-									rounded-md flex items-center transition duration-300 ease-in-out`}>
+                  <div onClick={() => (dispatch(disableAuthModals()), dispatch(activeSignin()))} className={`${theme == 'light' ? 'text-clr_alt' : 'text-cl_primary'} underline font-semibold py-2 px-4 
+									 flex items-center transition duration-300 ease-in-out`}>
                     <LucideLogIn className='mr-2' size={18} />
                     Login
                   </div>
                 </HoverUnderLine>
                 <HoverUnderLine>
-                  <div onClick={() => dispatch(activeSignup())} className="bg-bg_primary hover:bg-gray-600 text-white py-2 px-4 
-									rounded-md flex items-center transition duration-300 ease-in-out">
+                  <div onClick={() => dispatch(activeSignup())} className={`${theme == 'light' ? 'text-bg_grey' : 'dark:text-white'}   py-2 px-4 
+									 flex items-center transition duration-300 ease-in-out`}>
                     <LucideUser className='mr-2' size={18} />
                     Signup
                   </div>

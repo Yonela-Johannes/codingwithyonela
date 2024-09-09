@@ -11,13 +11,10 @@ import tailwindStyles from "../index.css?inline";
 import { createFeedback } from "../features/feedback/feedbackSlice";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { AiTwotoneFileImage } from "react-icons/ai";
 import { ThemeContext } from "../context/ThemeContext";
-import { MdClose } from "react-icons/md";
 import Loader from "./Loader";
-import { BsCardImage } from "react-icons/bs";
-import { RiDeleteBin2Line } from "react-icons/ri";
 import { PiUserCircleDuotone } from "react-icons/pi";
+import { AiTwotoneMessage } from "react-icons/ai";
 
 export const Widget = () => {
   const { theme } = useContext(ThemeContext);
@@ -114,13 +111,13 @@ export const Widget = () => {
         <Popover>
           <PopoverTrigger asChild>
             <button
-              className={`rounded-full  ${
+              className={`  ${
                 theme == "light"
                   ? "bg-bg_lightest"
                   : "bg-bg_primary text-bg_lightest border-bg_grey"
               } shadow-lg hover:scale-105`}
             >
-              <MessageCircleIcon className="mr-2 h-5 w-5" />
+              <AiTwotoneMessage size={24} className="mr-2" />
               Feedback
             </button>
           </PopoverTrigger>
