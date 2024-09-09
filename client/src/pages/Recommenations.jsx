@@ -4,24 +4,41 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { getAllTitles } from "../features/title/titleSlice";
 import { MdClose, MdOutlineAdd } from "react-icons/md";
 import { Modal } from "antd";
-import { createRecommendation, disableRecommendationUpdates, getAllRecommendations } from "../features/recommenation/recommendationSlice";
+import { Spinner } from "flowbite-react";
+import {
+  createRecommendation,
+  disableRecommendationUpdates,
+  getAllRecommendations,
+} from "../features/recommenation/recommendationSlice";
 import { getAllCountries } from "../features/countries/countrySlice";
 import toast from "react-hot-toast";
 import { ThemeContext } from "../context/ThemeContext";
 import Recommendation from "./Recommendation";
 import { ModalContext } from "../context/ModalContext";
-import { BsCardImage } from "react-icons/bs";
+import { RiDeleteBin2Line } from "react-icons/ri";
 import Loader from "../shared/Loader";
 import { motion } from "framer-motion";
+import {
+  PiBuildingApartmentDuotone,
+  PiFlagDuotone,
+  PiGithubLogoDuotone,
+  PiLinkedinLogoDuotone,
+  PiShareDuotone,
+  PiUserCircleDashedDuotone,
+  PiUserCircleDuotone,
+} from "react-icons/pi";
+import { AiTwotoneMail } from "react-icons/ai";
 
-const Recommendations = () =>
-{
-  const { openSuggestion, setOpenSuggestion, selectedSuggestion } = useContext(ModalContext)
-  const { theme } = useContext(ThemeContext)
-  const { currentUser, } = useSelector((state) => state?.user);
+const Recommendations = () => {
+  const { openSuggestion, setOpenSuggestion, selectedSuggestion } =
+    useContext(ModalContext);
+  const { theme } = useContext(ThemeContext);
+  const { currentUser } = useSelector((state) => state?.user);
   const { countries } = useSelector((state) => state.countries);
-  const [filterValue, setFilterValue] = useState("")
-  const { recommendations, created, fetched, loading } = useSelector((state) => state.recommendation);
+  const [filterValue, setFilterValue] = useState("");
+  const { recommendations, created, fetched, loading } = useSelector(
+    (state) => state.recommendation
+  );
   const [selectedFile, setSelectedFile] = useState();
   const selectFileRef = useRef(null);
   const [open, setOpen] = useState(false);
@@ -44,72 +61,73 @@ const Recommendations = () =>
     sender_lastname: "",
   });
 
-  useEffect(() =>
-  {
-    if (fetched)
-    {
+  useEffect(() => {
+    if (fetched) {
       dispatch(getAllTitles());
-      dispatch(disableRecommendationUpdates())
+      dispatch(disableRecommendationUpdates());
     }
   }, [fetched]);
 
-  useEffect(() =>
-  {
-    if (open)
-    {
+  useEffect(() => {
+    if (open) {
       dispatch(getAllCountries());
     }
   }, [open]);
 
-  const fetchRecommendations = () =>
-  {
+  const fetchRecommendations = () => {
     dispatch(getAllRecommendations());
-    dispatch(disableRecommendationUpdates())
-  }
+    dispatch(disableRecommendationUpdates());
+  };
 
-  useEffect(() =>
-  {
-    fetchRecommendations()
+  useEffect(() => {
+    fetchRecommendations();
   }, []);
 
-  useEffect(() =>
-  {
-    if (created)
-    {
-      setOpen(false)
-      fetchRecommendations()
-      toast('Thank you for your recommendation. Check your email')
+  useEffect(() => {
+    if (created) {
+      setOpen(false);
+      fetchRecommendations();
+      toast("Thank you for your recommendation. Check your email");
     }
   }, [created]);
 
-
-  const handleChange = (e) =>
-  {
+  const handleChange = (e) => {
     setInputData({ ...inputData, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = () =>
-  {
-    if (currentUser || inputData.sender_email !== '' && inputData.sender_name !== '' && inputData.sender_lastname !== '')
-    {
-      if (inputData?.name && inputData?.last_name && inputData?.email && inputData?.portfolio && inputData?.github && inputData?.linkedin && inputData?.profession && inputData?.country)
-      {
+  const handleSubmit = () => {
+    if (
+      currentUser ||
+      (inputData.sender_email !== "" &&
+        inputData.sender_name !== "" &&
+        inputData.sender_lastname !== "")
+    ) {
+      if (
+        inputData?.name &&
+        inputData?.last_name &&
+        inputData?.email &&
+        inputData?.portfolio &&
+        inputData?.github &&
+        inputData?.linkedin &&
+        inputData?.profession &&
+        inputData?.country
+      ) {
         const formData = new FormData();
-        formData.append('account_id', currentUser?.id);
-        formData.append('name', inputData.name);
-        formData.append('lastname', inputData.last_name);
-        formData.append('github', inputData.github);
-        formData.append('linkedin', inputData.linkedin);
-        formData.append('email', inputData.email);
-        formData.append('portfolio', inputData.portfolio);
-        formData.append('website', inputData.website);
-        formData.append('profession', inputData.profession);
-        formData.append('country_id', inputData.country);
-        formData.append('sender_email', inputData.sender_email);
-        formData.append('sender_name', inputData.sender_name);
-        formData.append('sender_lastname', inputData.sender_lastname);
+        formData.append("account_id", currentUser?.id);
+        formData.append("name", inputData.name);
+        formData.append("lastname", inputData.last_name);
+        formData.append("github", inputData.github);
+        formData.append("linkedin", inputData.linkedin);
+        formData.append("email", inputData.email);
+        formData.append("portfolio", inputData.portfolio);
+        formData.append("website", inputData.website);
+        formData.append("profession", inputData.profession);
+        formData.append("country_id", inputData.country);
+        formData.append("sender_email", inputData.sender_email);
+        formData.append("sender_name", inputData.sender_name);
+        formData.append("sender_lastname", inputData.sender_lastname);
 
-        dispatch(createRecommendation(formData))
+        dispatch(createRecommendation(formData));
         setInputData({
           account_id: "",
           name: "",
@@ -125,72 +143,68 @@ const Recommendations = () =>
           sender_email: "",
           sender_name: "",
           sender_lastname: "",
-        })
-        setSelectedFile('')
-      } else
-      {
-        toast("Missing data. Provide all information")
+        });
+        setSelectedFile("");
+      } else {
+        toast("Missing data. Provide all information");
       }
-    } else
-    {
-      toast("Signin or enter you details")
+    } else {
+      toast("Signin or enter you details");
     }
-  }
+  };
 
-  useEffect(() =>
-  {
-    if (created)
-    {
-      setOpen(false)
-      dispatch(disableRecommendationUpdates())
+  useEffect(() => {
+    if (created) {
+      setOpen(false);
+      dispatch(disableRecommendationUpdates());
     }
-  }, [created])
+  }, [created]);
 
-  const onSelectImage = (event) =>
-  {
+  const onSelectImage = (event) => {
     setInputData({ ...inputData, portfolio: event.target.files[0] });
     const reader = new FileReader();
-    if (event.target.files?.[0])
-    {
+    if (event.target.files?.[0]) {
       reader.readAsDataURL(event.target.files[0]);
     }
 
-    reader.onload = (readerEvent) =>
-    {
-      if (readerEvent.target?.result)
-      {
+    reader.onload = (readerEvent) => {
+      if (readerEvent.target?.result) {
         setSelectedFile(readerEvent.target?.result);
       }
     };
   };
 
-  const handleFilter = (e) =>
-  {
-    setFilterValue(e.target.value)
-  }
+  const handleFilter = (e) => {
+    setFilterValue(e.target.value);
+  };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="h-full my-5">
+      className="h-full my-5"
+    >
       <div className="hidden lg:flex gap-2 items-start w-full mb-8 justify-between">
         {titles && titles?.length > 0 ? (
           <div className="grid grid-cols-1 w-max gap-2">
-            <select onChange={handleFilter}
-              className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-bg_light" : "bg-bg_grey text-white"} rounded-md`}
+            <select
+              onChange={handleFilter}
+              className={`w-full px-3 py-2 mt-1 border ${
+                theme == "light"
+                  ? "text-black bg-bg_light"
+                  : "bg-bg_grey text-white"
+              } rounded-md`}
             >
               <>
-                <option value="" disabled defaultValue hidden>Select profession</option>
+                <option value="" disabled defaultValue hidden>
+                  Select profession
+                </option>
                 <option value="all">All professions</option>
                 {titles?.map((element) => (
-                    <option
-                      key={element?.id}
-                      value={element?.user_title}
-                    >
-                      {element?.user_title}
-                    </option>
+                  <option key={element?.id} value={element?.user_title}>
+                    {element?.user_title}
+                  </option>
                 ))}
               </>
             </select>
@@ -207,19 +221,30 @@ const Recommendations = () =>
         </button>
       </div>
       <div className="grid grid-cols-1 w-full lg:grid-cols-2 xl:grid-cols-4  gap-2 lg:grid-gap-4 xl:gap-6 h-full">
-        {filterValue && filterValue !== 'all' ? recommendations?.filter((element) => element.user_title == filterValue)?.map((item, x) => (
-          item?.status !== 'pending' ? (
-            <RecommendationCard key={x} theme={theme} item={item} />
-          ) : ''
-        )) : (currentUser?.is_admin || currentUser?.is_staff) ? (recommendations?.map((item) => (
-          <RecommendationCard theme={theme} item={item} key={item?._id} />
-        ))) : (recommendations?.map((item, x) => (
-          item?.status !== 'pending' ?
-            (<RecommendationCard theme={theme} item={item} key={x} />) : ""
-        )))}
+        {filterValue && filterValue !== "all"
+          ? recommendations
+              ?.filter((element) => element.user_title == filterValue)
+              ?.map((item, x) =>
+                item?.status !== "pending" ? (
+                  <RecommendationCard key={x} theme={theme} item={item} />
+                ) : (
+                  ""
+                )
+              )
+          : currentUser?.is_admin || currentUser?.is_staff
+          ? recommendations?.map((item) => (
+              <RecommendationCard theme={theme} item={item} key={item?._id} />
+            ))
+          : recommendations?.map((item, x) =>
+              item?.status !== "pending" ? (
+                <RecommendationCard theme={theme} item={item} key={x} />
+              ) : (
+                ""
+              )
+            )}
       </div>
       <Modal
-        title="Recommend person"
+        title="Recommended developer details"
         centered
         open={open}
         onOk={() => setOpen(false)}
@@ -227,94 +252,248 @@ const Recommendations = () =>
         width={800}
         footer={false}
       >
-        {loading ? (<Loader />) : (
+        {loading ? (
+          <Loader />
+        ) : (
           <div className="rounded-md p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full">
             <div className="rounded-md pb-2 p-2 grid lg:grid-cols-2 items-start gap-2 md:gap-4 justify-center w-full">
-              <div>
-                <p className="lg:text-lg text-bg_primary font-semibold">Developer</p>
+              <form onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-2">
-                  <div
-                    className="relative flex flex-col justify-between items-center"
-                  >
+                  <div className="relative flex flex-col justify-between items-center  h-[100px]">
                     {selectedFile ? (
                       <>
                         <img
                           className="w-full rounded-full max-h-[100px] max-w-[100px] object-cover object-center"
                           src={selectedFile}
                         />
-                        <div className="absolute flex gap-3 top-1 right-1 bg-clr_alt rounded-full border-bg_grey">
+                        <div className="absolute flex gap-3 top-1 right-1 border-bg_grey">
                           <button
                             className="p-2 rounded-full text-lg lg:text-xl"
                             onClick={() => setSelectedFile("")}
                           >
-                            <MdClose />
+                            <RiDeleteBin2Line size={24} />
                           </button>
                         </div>
                       </>
                     ) : (
-                      <div
-                        className="flex flex-col w-full rounded-md justify-center items-center cursor-pointer my-4"
-                      >
+                      <div className="flex flex-col w-full rounded-md justify-center items-center cursor-pointer my-4">
                         <div
-                          className={`text-xl lg:text-4xl px-3 py-2 mt-1 ${theme == "light" ? "text-black" : "bg-bg_card"} p-2 lg:px-4 lg:py-2`}
+                          className={`text-xl lg:text-4xl  ${
+                            theme == "light" ? "text-black" : "bg-bg_card"
+                          }`}
                           onClick={() => selectFileRef.current?.click()}
                         >
-                          <BsCardImage />
+                          <p
+                            value="email"
+                            className={`text-base ${
+                              theme == "light"
+                                ? "text-black"
+                                : "bg-bg_card text-white"
+                            }`}
+                          >
+                            Avatar
+                          </p>
+                          <PiUserCircleDuotone />
                         </div>
                         <input
                           id="file-upload"
                           type="file"
-                          accept="image/x-png,image/gif,image/jpeg"
+                          accept="image/x-png,image/jpeg"
                           hidden
                           ref={selectFileRef}
                           onChange={onSelectImage}
-                          className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+                          className={`w-full px-3 border ${
+                            theme == "light"
+                              ? "text-black bg-gray-200"
+                              : "bg-bg_card text-white"
+                          }`}
                         />
                       </div>
-                    )
-                    }
+                    )}
                   </div>
-                  <div>
-                    <input className="rounded-none bg-bg_lightest" id='name' value={inputData.name} onChange={handleChange} placeholder="name" />
+                  <div
+                    className={`flex items-center w-full border ${
+                      theme == "light"
+                        ? "text-black bg-gray-200"
+                        : "bg-bg_card text-white"
+                    }`}
+                  >
+                    <PiUserCircleDuotone size={24} />
+                    <input
+                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-white"
+                      }`}
+                      id="name"
+                      value={inputData.name}
+                      onChange={handleChange}
+                      placeholder="First name"
+                    />
                   </div>
-                  <div>
-                    <input className="rounded-none bg-bg_lightest" id='last_name' value={inputData.last_name} onChange={handleChange} placeholder="last name" />
+                  <div
+                    className={`flex items-center w-full border ${
+                      theme == "light"
+                        ? "text-black bg-gray-200"
+                        : "bg-bg_card text-white"
+                    }`}
+                  >
+                    <PiUserCircleDuotone size={24} />
+                    <input
+                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-white"
+                      }`}
+                      id="last_name"
+                      value={inputData.last_name}
+                      onChange={handleChange}
+                      placeholder="last name"
+                    />
                   </div>
-                  <div>
-                    <input className="rounded-none bg-bg_lightest" id='email' value={inputData.email} onChange={handleChange} placeholder="email" />
+                  <div
+                    className={`flex items-center w-full border ${
+                      theme == "light"
+                        ? "text-black bg-gray-200"
+                        : "bg-bg_card text-white"
+                    }`}
+                  >
+                    <AiTwotoneMail size={24} />
+                    <input
+                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-white"
+                      }`}
+                      id="email"
+                      value={inputData.email}
+                      onChange={handleChange}
+                      placeholder="Email"
+                    />
                   </div>
-                  <div className="flex items-center p-0 m-0 text-base">
-                    <input className="rounded-none bg-bg_lightest" id='github' value={inputData.github} onChange={handleChange} placeholder="github username" />
+                  <div
+                    className={`flex items-center w-full border ${
+                      theme == "light"
+                        ? "text-black bg-gray-200"
+                        : "bg-bg_card text-white"
+                    }`}
+                  >
+                    <PiGithubLogoDuotone size={24} />
+                    <input
+                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-white"
+                      }`}
+                      id="github"
+                      value={inputData.github}
+                      onChange={handleChange}
+                      placeholder="Github username"
+                    />
                   </div>
-                  <div className="flex items-center p-0 m-0 text-base">
-                    <input className="rounded-none bg-bg_lightest" id="linkedin" value={inputData.linkedin} onChange={handleChange} placeholder="linkedin username" />
+                  <div
+                    className={`flex items-center w-full border ${
+                      theme == "light"
+                        ? "text-black bg-gray-200"
+                        : "bg-bg_card text-white"
+                    }`}
+                  >
+                    <PiLinkedinLogoDuotone size={24} />
+                    <input
+                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-white"
+                      }`}
+                      id="linkedin"
+                      value={inputData.linkedin}
+                      onChange={handleChange}
+                      placeholder="LinkedIn username"
+                    />
                   </div>
-                  <div className="flex items-center p-0 m-0 text-base">
-                    <input className="rounded-none bg-bg_lightest" name="link" id='website' value={inputData.website} onChange={handleChange} placeholder="website" />
+                  <div
+                    className={`flex items-center w-full border ${
+                      theme == "light"
+                        ? "text-black bg-gray-200"
+                        : "bg-bg_card text-white"
+                    }`}
+                  >
+                    <PiShareDuotone size={24} />
+                    <input
+                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-white"
+                      }`}
+                      name="link"
+                      id="website"
+                      value={inputData.website}
+                      onChange={handleChange}
+                      placeholder="Website/Blog"
+                    />
                   </div>
-                  <div>
+                  <div
+                    className={`flex items-center w-full border ${
+                      theme == "light"
+                        ? "text-black bg-gray-200"
+                        : "bg-bg_card text-white"
+                    }`}
+                  >
+                    <PiBuildingApartmentDuotone size={24} />
                     <select
-                      className="w-full rounded-none bg-bg_lightest"
-                      id='profession'
-                      onChange={(e) => setInputData({ ...inputData, profession: e.target.value })}
+                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-white"
+                      }`}
+                      id="profession"
+                      onChange={(e) =>
+                        setInputData({
+                          ...inputData,
+                          profession: e.target.value,
+                        })
+                      }
                     >
                       {titles?.map((elem) => (
                         <>
-                          <option  key={elem?.id} value="" disabled selected hidden>Select profession</option>
+                          <option
+                            key={elem?.id}
+                            value=""
+                            disabled
+                            selected
+                            hidden
+                          >
+                            Select profession
+                          </option>
                           <option value={elem.id}>{elem?.user_title}</option>
                         </>
                       ))}
                     </select>
                   </div>
-                  <div>
+                  <div
+                    className={`flex items-center w-full border ${
+                      theme == "light"
+                        ? "text-black bg-gray-200"
+                        : "bg-bg_card text-white"
+                    }`}
+                  >
+                    <PiFlagDuotone size={24} />
                     <select
-                      id='country'
-                      className="w-full rounded-none bg-bg_lightest"
-                      onChange={(e) => setInputData({ ...inputData, country: e.target.value })}
+                      id="country"
+                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-white"
+                      }`}
+                      onChange={(e) =>
+                        setInputData({ ...inputData, country: e.target.value })
+                      }
                     >
                       {countries?.map((elem) => (
                         <>
-                          <option value="" disabled selected hidden>Select country</option>
+                          <option value="" disabled selected hidden>
+                            Select country
+                          </option>
                           <option value={elem.id} key={elem?.id}>
                             {elem?.emoji} {elem?.name}{" "}
                           </option>
@@ -323,17 +502,22 @@ const Recommendations = () =>
                     </select>
                   </div>
                 </div>
-              </div>
-
-              <div className="w-full">
-                <p className="lg:text-lg text-bg_primary font-semibold">Your details</p>
-                <div className="flex w-full h-full flex-col space-y-2 pb-4">
+              </form>
+              <div className="flex flex-col justify-start w-full">
+                <div className="h-[100px] mb-2">
+                  <p className="text-base text-bg_primary font-semibold">
+                    Your details
+                  </p>
+                  <p className="my-1 lg:my-2 text-[#646464] text-sm">
+                    If you are a developer and you are recommending yourself. We
+                    suggest that you sign up.
+                  </p>
+                </div>
+                <div className="flex w-full flex-col space-y-2">
                   {currentUser && currentUser?.id ? (
                     <div className="flex items-center self-end bg-clr_alt w-max text-white rounded-full gap-2">
                       <div className="space-y-1 py-1 pl-3">
-                        <p className="text-xs">
-                          {currentUser?.username}
-                        </p>
+                        <p className="text-xs">{currentUser?.username}</p>
                       </div>
                       <div>
                         <img
@@ -346,14 +530,65 @@ const Recommendations = () =>
                   ) : (
                     <div className="w-full">
                       <div className="flex flex-col gap-2 w-full">
-                        <div className="w-full">
-                          <input className="rounded-none bg-bg_lightest w-full" id='sender_name' value={inputData.sender_name} onChange={handleChange} placeholder="name" />
+                        <div
+                          className={`flex items-center w-full border ${
+                            theme == "light"
+                              ? "text-black bg-gray-200"
+                              : "bg-bg_card text-white"
+                          }`}
+                        >
+                          <PiUserCircleDashedDuotone size={24} />
+                          <input
+                            className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                              theme == "light"
+                                ? "text-black bg-gray-200"
+                                : "bg-bg_card text-white"
+                            }`}
+                            id="sender_name"
+                            value={inputData.sender_name}
+                            onChange={handleChange}
+                            placeholder="First name"
+                          />
                         </div>
-                        <div className="w-full">
-                          <input className="rounded-none bg-bg_lightest w-full" id='sender_lastname' value={inputData.sender_lastname} onChange={handleChange} placeholder="last name" />
+                        <div
+                          className={`flex items-center w-full border ${
+                            theme == "light"
+                              ? "text-black bg-gray-200"
+                              : "bg-bg_card text-white"
+                          }`}
+                        >
+                          <PiUserCircleDuotone size={24} />
+                          <input
+                            className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                              theme == "light"
+                                ? "text-black bg-gray-200"
+                                : "bg-bg_card text-white"
+                            }`}
+                            id="sender_lastname"
+                            value={inputData.sender_lastname}
+                            onChange={handleChange}
+                            placeholder="Last name"
+                          />
                         </div>
-                        <div className="w-full">
-                          <input className="rounded-none bg-bg_lightest w-full" id='sender_email' value={inputData.sender_email} onChange={handleChange} placeholder="email" />
+                        <div
+                          className={`flex items-center w-full border ${
+                            theme == "light"
+                              ? "text-black bg-gray-200"
+                              : "bg-bg_card text-white"
+                          }`}
+                        >
+                          <AiTwotoneMail size={24} />
+                          <input
+                            className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                              theme == "light"
+                                ? "text-black bg-gray-200"
+                                : "bg-bg_card text-white"
+                            }`}
+                            id="sender_email"
+                            value={inputData.sender_email}
+                            onChange={handleChange}
+                            placeholder="Email"
+                          />
                         </div>
                       </div>
                     </div>
@@ -361,7 +596,22 @@ const Recommendations = () =>
                 </div>
               </div>
             </div>
-            <button onClick={handleSubmit} className="py-1 px-2 lg:py-2 lg:px-4">Save</button>
+            <button
+              className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold text-white ${
+                theme == "light" ? "bg-clr_alt" : "bg-clr_alt"
+              }`}
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Spinner size="sm" />
+                  <span className="pl-3">Loading...</span>
+                </>
+              ) : (
+                "Send"
+              )}
+            </button>
           </div>
         )}
       </Modal>
@@ -377,7 +627,7 @@ const Recommendations = () =>
         <Recommendation />
       </Modal>
     </motion.div>
-  )
+  );
 };
 
 export default Recommendations;

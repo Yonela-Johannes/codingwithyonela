@@ -1,18 +1,20 @@
 import * as React from "react"
-
-import { cn } from "../../lib/utils";
+import { ThemeContext } from "../../context/ThemeContext";
+import { useContext } from "react";
 
 const Input = React.forwardRef(({ id, className, type, handleChange, ...props }, ref) =>
 {
+  const { theme } = useContext(ThemeContext);
   return (
     (<input
       id={id}
       type={type}
+      className={`w-full px-3 border ${
+        theme == "light"
+          ? "text-black bg-gray-200"
+          : "bg-bg_card text-white"
+      }`}
       onChange={handleChange}
-      className={cn(
-        "flex h-10 w-full rounded-md border border-bg_lighter bg-bg_lightest px-3 py-2 text-sm ring-offset-bg_lighter file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-        className
-      )}
       ref={ref}
       {...props} />)
   );

@@ -97,7 +97,7 @@ export default function SignUp() {
       transition={{ duration: 0.5, delay: 0.2 }}
       className={`${
         theme == "light" ? "" : "border-none"
-      } flex flex-col lg:flex-row items-center justify-center lg:items-center lg:absolute h-screen lg:h-sceen w-full lg:z-50 backdrop-blur-xl overflow-auto top-0 left-0 right-0 bottom-0`}
+      } flex flex-col lg:flex-row items-center justify-center lg:items-center lg:absolute h-screen lg:h-sceen w-full lg:z-50 backdrop-blur-md overflow-auto top-0 left-0 right-0 bottom-0`}
     >
       <div
         className={`${
