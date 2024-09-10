@@ -219,7 +219,7 @@ const Recommendations = () => {
             theme == "light"
               ? "text-black bg-bg_light"
               : "bg-bg_grey text-bg_lightest"
-          } flex p-0 items-center justify-center text-base rounded-full`}
+          } flex p-0 items-center justify-center text-base rounded-full border-none`}
         >
           <p className="pl-2">Recommend</p>
           <div
@@ -227,7 +227,7 @@ const Recommendations = () => {
               theme == "light"
                 ? "text-black bg-bg_light"
                 : "bg-bg_grey text-bg_lightest"
-            } flex p-0 items-center justify-center text-lg rounded-full w-11 h-11`}
+            } flex p-0 items-center justify-center text-lg rounded-full w-10 h-10`}
           >
             <MdOutlineAdd size={20} />
           </div>
@@ -536,18 +536,28 @@ const Recommendations = () => {
                     </>
                   )}
                 </div>
-                <div className="flex w-full flex-col space-y-2">
+                <div className="flex w-full flex-col space-y-2 items-end">
                   {currentUser && currentUser?.id ? (
-                    <div className="flex items-center self-end bg-clr_alt w-max text-bg_grey rounded-full gap-2">
-                      <div className="space-y-1 py-1 pl-3">
-                        <p className="text-xs">{currentUser?.username}</p>
-                      </div>
-                      <div>
-                        <img
-                          src={currentUser?.profile}
-                          alt="cover"
-                          className="rounded-full object-cover object-center h-[35px] w-[35px]"
-                        />
+                    <div className="flex w-full items-center md:w-max h-full space-y-2">
+                      <div
+                        className={` ${
+                          theme == "light"
+                            ? "text-black bg-bg_light"
+                            : "bg-bg_grey text-bg_lightest"
+                        } flex p-0 items-center justify-center text-base rounded-full md:justify-between gap-2`}
+                      >
+                        <div className="space-y-1py-1 pl-3">
+                          <p className="text-sm lg:text-base">
+                            {currentUser?.firstname} {currentUser?.lastname}
+                          </p>
+                        </div>
+                        <div>
+                          <img
+                            src={currentUser?.profile}
+                            alt="cover"
+                            className="rounded-full object-cover object-center h-[40px] w-[40px]"
+                          />
+                        </div>
                       </div>
                     </div>
                   ) : (

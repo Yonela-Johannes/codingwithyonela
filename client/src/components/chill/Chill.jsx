@@ -106,13 +106,26 @@ const Chill = () =>
         className="relative overflow-x-hidden flex-1 flex-grow">
         <div className="hidden lg:block absolute top-2 right-1 mb-8 lg:pt-4">
           {(currentUser && currentUser?.id) ? (
-            <button
-              onClick={() => setOpen(true)}
-              title="Add post"
-              className="flex p-0 items-center justify-center text-lg bg-clr_alt text-white rounded-full w-11 h-11"
-            >
-              <MdOutlineAdd size={20} />
-            </button>
+        <button
+        onClick={() => setOpen(true)}
+        title="Add recommendation"
+        className={` ${
+          theme == "light"
+            ? "text-black bg-bg_light"
+            : "bg-bg_grey text-bg_lightest"
+        } flex p-0 items-center justify-center text-base rounded-full border-none`}
+      >
+        <p className="pl-2">Post</p>
+        <div
+          className={` ${
+            theme == "light"
+              ? "text-black bg-bg_light"
+              : "bg-bg_grey text-bg_lightest"
+          } flex p-0 items-center justify-center text-lg rounded-full w-10 h-10`}
+        >
+          <MdOutlineAdd size={20} />
+        </div>
+      </button>
           ) : ""}
         </div>
         <div className="h-full my-5 max-w-[800px] mx-auto overflow-hidden">

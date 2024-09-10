@@ -28,11 +28,11 @@ export const navLinks = [
         icon: PiUsersDuotone,
         link: "/recommendation",
     },
-    // {
-    //     title: "Chill",
-    //     icon: AiTwotoneInteraction,
-    //     link: "/chill",
-    // },
+    {
+        title: "Chill",
+        icon: AiTwotoneInteraction,
+        link: "/chill",
+    },
     {
         title: "Events",
         icon: PiCalendarMinusDuotone,
