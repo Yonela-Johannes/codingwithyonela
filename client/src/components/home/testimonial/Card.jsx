@@ -31,7 +31,7 @@ const Card = ({ element, theme }) => {
         <div
           className={`flex flex-col ${
             theme == "light" ? "bg-bg_lightest shadow-md" : "bg-bg_grey"
-          } h-[200px] gap-4 rounded-md p-2 lg:p-4 text-md font-thin`}
+          } h-[220px] gap-4 rounded-md p-2 lg:p-4 text-md font-thin`}
         >
           <p className="flex-1 text-sm lg:text-base">
             {element.message?.slice(0, 60)}...
@@ -79,19 +79,19 @@ const Card = ({ element, theme }) => {
             </div>
           </div>
         </div>
-        {currentUser?.is_staff || currentUser?.is_admin ? (
-          <p
-            className={`${
-              theme == "light"
-                ? "text-bg_opp bg-white"
-                : "bg-bg_core rounded-md"
-            } text-sm`}
-          >
-            {element.status}
-          </p>
-        ) : (
-          ""
-        )}
+              {currentUser?.is_staff || currentUser?.is_admin ? (
+                <p
+                  className={`${
+                    theme == "light"
+                      ? "text-bg_opp bg-bg_lighter"
+                      : "bg-bg_core rounded-full"
+                  } text-sm w-max rounded-full`}
+                >
+                  {element.status}
+                </p>
+              ) : (
+                ""
+              )}
       </div>
       <Modal
         title=""
