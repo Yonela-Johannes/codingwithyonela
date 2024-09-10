@@ -12,11 +12,13 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { AiTwotoneRightCircle } from "react-icons/ai";
 import globalize from 'globalize'
-
+import { ThemeContext } from "../../context/ThemeContext";
+import { useContext } from "react";
 
 const localizer = globalizeLocalizer(globalize)
 
 const BigCalendar = () => {
+  const { theme } = useContext(ThemeContext);
   const { currentUser } = useSelector((state) => state.user)
   const { loading, events, created, updated } = useSelector(
     (state) => state.event
@@ -70,7 +72,7 @@ const BigCalendar = () => {
       className="flex flex-col"
     >
       {currentUser?.isAdmin || currentUser?.is_staff ? (
-      <Link className="flex w-full justify-end" to={`/admin/new-event`}>
+      <Link className={`${theme == 'light' ? 'text-primary' : 'text-bg_lightest'} flex w-full justify-end`} to={`/admin/new-event`}>
         <button className="flex items-center justify-center mb-2 lg:mb-4 self-end">
           New Event
         </button>
