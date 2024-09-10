@@ -27,7 +27,7 @@ export default function ({ currentUser })
           <div className={`${theme == "light" ? "text-black" : "text-white"} flex gap-6 text-base text-black`}>
             {currentUser && currentUser?.id ? (
               <>
-                <div onClick={() => dispatch(logout())}>
+                <div onClick={() => (dispatch(logout()), location.reload())}>
                   <HoverUnderLine>
                     <div className="flex gap-2 items-center cursor-pointer p-2">
                       Logout

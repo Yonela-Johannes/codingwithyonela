@@ -237,7 +237,7 @@ export const Widget = () => {
                       <Input
                         value={formData.lastname}
                         id="lastname"
-                        type='text'
+                        type="text"
                         handleChange={handleChange}
                         placeholder="Enter your last name"
                       />
@@ -254,7 +254,7 @@ export const Widget = () => {
                         Company
                       </label>
                       <Input
-                      type="text"
+                        type="text"
                         value={formData.company}
                         id="company"
                         handleChange={handleChange}

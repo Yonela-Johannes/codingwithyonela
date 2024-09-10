@@ -178,6 +178,8 @@ body {
 }
 
 .rbc-toolbar-label {
+  color: rgb(41, 41, 41);
+  background-color: #b3b3b3;
   text-align: right !important;
   padding: 0px 20px !important;
 }

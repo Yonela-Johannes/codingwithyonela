@@ -193,7 +193,7 @@ const Recommendations = () => {
               className={`w-full px-3 py-2 mt-1 border ${
                 theme == "light"
                   ? "text-black bg-bg_light"
-                  : "bg-bg_grey text-white"
+                  : "bg-bg_grey text-bg_grey"
               } rounded-md`}
             >
               <>
@@ -215,7 +215,7 @@ const Recommendations = () => {
         <button
           onClick={() => setOpen(true)}
           title="Add recommendation"
-          className="flex p-0 items-center justify-center text-lg bg-clr_alt text-white rounded-full w-11 h-11"
+          className="flex p-0 items-center justify-center text-lg bg-clr_alt text-bg_grey rounded-full w-11 h-11"
         >
           <MdOutlineAdd size={20} />
         </button>
@@ -257,7 +257,7 @@ const Recommendations = () => {
         ) : (
           <div className="rounded-md p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full">
             <div className="rounded-md pb-2 p-2 grid lg:grid-cols-2 items-start gap-2 md:gap-4 justify-center w-full">
-              <form onSubmit={handleSubmit}>
+              <div>
                 <div className="flex flex-col gap-2">
                   <div className="relative flex flex-col justify-between items-center  h-[100px]">
                     {selectedFile ? (
@@ -288,7 +288,7 @@ const Recommendations = () => {
                             className={`text-base ${
                               theme == "light"
                                 ? "text-black"
-                                : "bg-bg_card text-white"
+                                : "bg-bg_card text-bg_grey"
                             }`}
                           >
                             Avatar
@@ -305,7 +305,7 @@ const Recommendations = () => {
                           className={`w-full px-3 border ${
                             theme == "light"
                               ? "text-black bg-gray-200"
-                              : "bg-bg_card text-white"
+                              : "bg-bg_card text-bg_grey"
                           }`}
                         />
                       </div>
@@ -315,7 +315,7 @@ const Recommendations = () => {
                     className={`flex items-center w-full border ${
                       theme == "light"
                         ? "text-black bg-gray-200"
-                        : "bg-bg_card text-white"
+                        : "bg-bg_card text-bg_grey"
                     }`}
                   >
                     <PiUserCircleDuotone size={24} />
@@ -323,7 +323,7 @@ const Recommendations = () => {
                       className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
-                          : "bg-bg_card text-white"
+                          : "bg-bg_card text-bg_grey"
                       }`}
                       id="name"
                       value={inputData.name}
@@ -335,7 +335,7 @@ const Recommendations = () => {
                     className={`flex items-center w-full border ${
                       theme == "light"
                         ? "text-black bg-gray-200"
-                        : "bg-bg_card text-white"
+                        : "bg-bg_card text-bg_grey"
                     }`}
                   >
                     <PiUserCircleDuotone size={24} />
@@ -343,7 +343,7 @@ const Recommendations = () => {
                       className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
-                          : "bg-bg_card text-white"
+                          : "bg-bg_card text-bg_grey"
                       }`}
                       id="last_name"
                       value={inputData.last_name}
@@ -355,7 +355,7 @@ const Recommendations = () => {
                     className={`flex items-center w-full border ${
                       theme == "light"
                         ? "text-black bg-gray-200"
-                        : "bg-bg_card text-white"
+                        : "bg-bg_card text-bg_grey"
                     }`}
                   >
                     <AiTwotoneMail size={24} />
@@ -363,7 +363,7 @@ const Recommendations = () => {
                       className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
-                          : "bg-bg_card text-white"
+                          : "bg-bg_card text-bg_grey"
                       }`}
                       id="email"
                       value={inputData.email}
@@ -375,7 +375,7 @@ const Recommendations = () => {
                     className={`flex items-center w-full border ${
                       theme == "light"
                         ? "text-black bg-gray-200"
-                        : "bg-bg_card text-white"
+                        : "bg-bg_card text-bg_grey"
                     }`}
                   >
                     <PiGithubLogoDuotone size={24} />
@@ -383,7 +383,7 @@ const Recommendations = () => {
                       className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
-                          : "bg-bg_card text-white"
+                          : "bg-bg_card text-bg_grey"
                       }`}
                       id="github"
                       value={inputData.github}
@@ -395,7 +395,7 @@ const Recommendations = () => {
                     className={`flex items-center w-full border ${
                       theme == "light"
                         ? "text-black bg-gray-200"
-                        : "bg-bg_card text-white"
+                        : "bg-bg_card text-bg_grey"
                     }`}
                   >
                     <PiLinkedinLogoDuotone size={24} />
@@ -403,7 +403,7 @@ const Recommendations = () => {
                       className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
-                          : "bg-bg_card text-white"
+                          : "bg-bg_card text-bg_grey"
                       }`}
                       id="linkedin"
                       value={inputData.linkedin}
@@ -415,7 +415,7 @@ const Recommendations = () => {
                     className={`flex items-center w-full border ${
                       theme == "light"
                         ? "text-black bg-gray-200"
-                        : "bg-bg_card text-white"
+                        : "bg-bg_card text-bg_grey"
                     }`}
                   >
                     <PiShareDuotone size={24} />
@@ -423,7 +423,7 @@ const Recommendations = () => {
                       className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
-                          : "bg-bg_card text-white"
+                          : "bg-bg_card text-bg_grey"
                       }`}
                       name="link"
                       id="website"
@@ -436,7 +436,7 @@ const Recommendations = () => {
                     className={`flex items-center w-full border ${
                       theme == "light"
                         ? "text-black bg-gray-200"
-                        : "bg-bg_card text-white"
+                        : "bg-bg_card text-bg_grey"
                     }`}
                   >
                     <PiBuildingApartmentDuotone size={24} />
@@ -444,7 +444,7 @@ const Recommendations = () => {
                       className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
-                          : "bg-bg_card text-white"
+                          : "bg-bg_card text-bg_grey"
                       }`}
                       id="profession"
                       onChange={(e) =>
@@ -474,7 +474,7 @@ const Recommendations = () => {
                     className={`flex items-center w-full border ${
                       theme == "light"
                         ? "text-black bg-gray-200"
-                        : "bg-bg_card text-white"
+                        : "bg-bg_card text-bg_grey"
                     }`}
                   >
                     <PiFlagDuotone size={24} />
@@ -483,7 +483,7 @@ const Recommendations = () => {
                       className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
-                          : "bg-bg_card text-white"
+                          : "bg-bg_card text-bg_grey"
                       }`}
                       onChange={(e) =>
                         setInputData({ ...inputData, country: e.target.value })
@@ -502,7 +502,7 @@ const Recommendations = () => {
                     </select>
                   </div>
                 </div>
-              </form>
+              </div>
               <div className="flex flex-col justify-start w-full">
                 <div className="lg:h-[100px] mb-2">
                 {currentUser && currentUser?.id ? ('') : (
@@ -519,7 +519,7 @@ const Recommendations = () => {
                 </div>
                 <div className="flex w-full flex-col space-y-2">
                   {currentUser && currentUser?.id ? (
-                    <div className="flex items-center self-end bg-clr_alt w-max text-white rounded-full gap-2">
+                    <div className="flex items-center self-end bg-clr_alt w-max text-bg_grey rounded-full gap-2">
                       <div className="space-y-1 py-1 pl-3">
                         <p className="text-xs">{currentUser?.username}</p>
                       </div>
@@ -538,7 +538,7 @@ const Recommendations = () => {
                           className={`flex items-center w-full border ${
                             theme == "light"
                               ? "text-black bg-gray-200"
-                              : "bg-bg_card text-white"
+                              : "bg-bg_card text-bg_grey"
                           }`}
                         >
                           <PiUserCircleDashedDuotone size={24} />
@@ -546,7 +546,7 @@ const Recommendations = () => {
                             className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
                               theme == "light"
                                 ? "text-black bg-gray-200"
-                                : "bg-bg_card text-white"
+                                : "bg-bg_card text-bg_grey"
                             }`}
                             id="sender_name"
                             value={inputData.sender_name}
@@ -558,7 +558,7 @@ const Recommendations = () => {
                           className={`flex items-center w-full border ${
                             theme == "light"
                               ? "text-black bg-gray-200"
-                              : "bg-bg_card text-white"
+                              : "bg-bg_card text-bg_grey"
                           }`}
                         >
                           <PiUserCircleDuotone size={24} />
@@ -566,7 +566,7 @@ const Recommendations = () => {
                             className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
                               theme == "light"
                                 ? "text-black bg-gray-200"
-                                : "bg-bg_card text-white"
+                                : "bg-bg_card text-bg_grey"
                             }`}
                             id="sender_lastname"
                             value={inputData.sender_lastname}
@@ -578,7 +578,7 @@ const Recommendations = () => {
                           className={`flex items-center w-full border ${
                             theme == "light"
                               ? "text-black bg-gray-200"
-                              : "bg-bg_card text-white"
+                              : "bg-bg_card text-bg_grey"
                           }`}
                         >
                           <AiTwotoneMail size={24} />
@@ -586,7 +586,7 @@ const Recommendations = () => {
                             className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
                               theme == "light"
                                 ? "text-black bg-gray-200"
-                                : "bg-bg_card text-white"
+                                : "bg-bg_card text-bg_grey"
                             }`}
                             id="sender_email"
                             value={inputData.sender_email}
@@ -601,10 +601,10 @@ const Recommendations = () => {
               </div>
             </div>
             <button
-              className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold text-white ${
+              className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold text-bg_grey ${
                 theme == "light" ? "bg-clr_alt" : "bg-clr_alt"
               }`}
-              type="submit"
+              onClick={handleSubmit}
               disabled={loading}
             >
               {loading ? (
