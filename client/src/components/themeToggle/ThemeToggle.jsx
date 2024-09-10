@@ -11,7 +11,7 @@ const ThemeToggle = () =>
   return (
     <div
       onClick={toggle}
-      className="cursor-pointer text-2xl lg:text-4xl"
+      className="cursor-pointer text-2xl lg:text-3xl"
     >
       {
         theme === "dark" ? <p className="">🌞</p> : <p className="">🌚</p>

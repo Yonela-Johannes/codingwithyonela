@@ -193,7 +193,7 @@ const Recommendations = () => {
               className={`w-full px-3 py-2 mt-1 border ${
                 theme == "light"
                   ? "text-black bg-bg_light"
-                  : "bg-bg_grey text-bg_grey"
+                  : "bg-bg_grey text-bg_lightest"
               } rounded-md`}
             >
               <>
@@ -215,9 +215,22 @@ const Recommendations = () => {
         <button
           onClick={() => setOpen(true)}
           title="Add recommendation"
-          className="flex p-0 items-center justify-center text-lg bg-clr_alt text-bg_grey rounded-full w-11 h-11"
+          className={` ${
+            theme == "light"
+              ? "text-black bg-bg_light"
+              : "bg-bg_grey text-bg_lightest"
+          } flex p-0 items-center justify-center text-base rounded-full`}
         >
-          <MdOutlineAdd size={20} />
+          <p className="pl-2">Recommend</p>
+          <div
+            className={` ${
+              theme == "light"
+                ? "text-black bg-bg_light"
+                : "bg-bg_grey text-bg_lightest"
+            } flex p-0 items-center justify-center text-lg rounded-full w-11 h-11`}
+          >
+            <MdOutlineAdd size={20} />
+          </div>
         </button>
       </div>
       <div className="grid grid-cols-1 w-full lg:grid-cols-2 xl:grid-cols-4  gap-2 lg:grid-gap-4 xl:gap-6 h-full">
@@ -266,7 +279,11 @@ const Recommendations = () => {
                           className="w-full rounded-full max-h-[100px] max-w-[100px] object-cover object-center"
                           src={selectedFile}
                         />
-                        <div className={`${theme == 'light' ? '' : 'text-white border-bg_grey'} absolute flex gap-3 top-1 right-1 `}>
+                        <div
+                          className={`${
+                            theme == "light" ? "" : "text-white border-bg_grey"
+                          } absolute flex gap-3 top-1 right-1 `}
+                        >
                           <button
                             className="p-2 rounded-full text-lg lg:text-xl"
                             onClick={() => setSelectedFile("")}
@@ -505,15 +522,17 @@ const Recommendations = () => {
               </div>
               <div className="flex flex-col justify-start w-full">
                 <div className="lg:h-[100px] mb-2">
-                {currentUser && currentUser?.id ? ('') : (
+                  {currentUser && currentUser?.id ? (
+                    ""
+                  ) : (
                     <>
-                    <p className="text-base text-bg_primary font-semibold">
-                      Your details
-                    </p>
-                    <p className="my-1 lg:my-2 text-[#646464] text-sm">
-                      If you are a developer and you are recommending yourself. We
-                      suggest that you sign up.
-                    </p>
+                      <p className="text-base text-bg_primary font-semibold">
+                        Your details
+                      </p>
+                      <p className="my-1 lg:my-2 text-[#646464] text-sm">
+                        If you are a developer and you are recommending
+                        yourself. We suggest that you sign up.
+                      </p>
                     </>
                   )}
                 </div>
@@ -602,8 +621,10 @@ const Recommendations = () => {
             </div>
             <button
               className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold ${
-                theme == "light" ? "bg-cl_primary text-bg_core" : "bg-clr_alt text-bg_lightest"
-                }`}
+                theme == "light"
+                  ? "bg-cl_primary text-bg_core"
+                  : "bg-clr_alt text-bg_lightest"
+              }`}
               onClick={handleSubmit}
               disabled={loading}
             >

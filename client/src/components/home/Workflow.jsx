@@ -16,18 +16,18 @@ const Workflow = () =>
           project tracking.
         </span>
       </h2>
-      <div className="flex flex-wrap justify-center items-center">
-        <div className="p-2 w-full lg:w-1/2">
+      <div className="mt-3 lg:mt-6 grid lg:grid-cols-2 justify-center items-center">
+        <div className="p-2 w-full h-[300px]">
           <video
             muted
             loop
             autoPlay
-            className="w-[280px] lg:w-[500px] mx-auto rounded-md bg-clip-text"
+            className=" h-[300px] mx-auto rounded-md bg-clip-text"
           >
             <source src={landing} type="video/mp4"></source>
           </video>
         </div>
-        <div className="pt-6 lg:pt-12 w-full lg:w-1/2">
+        <div className="grid lg:grid-cols-2 w-full">
           {checklistItems.map((item, index) => (
             <div key={index} className="lg:flex items-center mb-12">
               <div className={`lg:mx-6 ${theme !== "light" ? "bg-clr_alt" : "bg-cl_primary"} p-1 lg:p-2 justify-center items-center rounded-full w-min h-min`}>
@@ -35,7 +35,7 @@ const Workflow = () =>
               </div>
               <div>
                 <h5 className={`${theme !== "light" ? "text-clr_alt" : "text-cl_primary"} lg:text-xl font-normal`}>{item.title}</h5>
-                <p className={`text-sm lg:text-base ${theme == "light" ? "text-bg_primary" : "text-bg_lightest"} max-w-2xl`}>{item.description}</p>
+                <p className={`text-sm lg:text-base ${theme == "light" ? "text-bg_primary" : "text-bg_lightest"} max-w-xl`}>{item.description}</p>
               </div>
             </div>
           ))}
