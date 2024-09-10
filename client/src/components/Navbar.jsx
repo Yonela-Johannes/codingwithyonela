@@ -12,7 +12,7 @@ export default function ({ currentUser, auth })
 {
   const { theme } = useContext(ThemeContext)
   const dispatch = useDispatch();
-
+  const navigate = useNavigate()
   return (
     <nav className={`${auth ? 'bg-transparent' : ''} flex flex-col z-50 md:flex-row py-3 w-full items-center justify-between gap-4 md:gap-0`}>
       <div className="hidden md:flex items-center justify-between w-full">
@@ -27,7 +27,7 @@ export default function ({ currentUser, auth })
           <div className={`${theme == "light" ? "text-black" : "text-white"} flex gap-6 text-base text-black`}>
             {currentUser && currentUser?.id ? (
               <>
-                <div onClick={() => (dispatch(logout()), location.reload())}>
+                <div onClick={() => (dispatch(logout()), navigate('recommendation'))}>
                   <HoverUnderLine>
                     <div className="flex gap-2 items-center cursor-pointer p-2">
                       Logout

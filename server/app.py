@@ -130,22 +130,22 @@ def recommendation_route(id):
 
 # feedback route
 @app.route('/api/v1/event', methods=['GET', 'POST', 'DELETE'])
-def feedbacks_route():
+def eventss_route():
     return all_events()
 
 @app.route('/api/v1/event/<int:id>', methods=['GET', 'PUT'])
-def feedback_route(id):
+def event_route(id):
     return event(id)
 
 # ---------------------
 
 # events route
 @app.route('/api/v1/feedback', methods=['GET', 'POST', 'DELETE'])
-def event_route():
+def feedback_route():
     return all_feedback(mail=mail)
 
 @app.route('/api/v1/feedback/<int:id>', methods=['GET', 'PUT'])
-def events_route(id):
+def feedbacks_route(id):
     return feedback(id, mail)
 
 # ---------------------

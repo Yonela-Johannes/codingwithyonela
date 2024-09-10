@@ -152,14 +152,18 @@ export default function SignUp() {
                         className="w-full max-h-[100px] max-w-[100px] object-cover rounded-full"
                         src={selectedFile}
                       />
-                        <div className={`${theme == 'light' ? '' : 'text-white border-bg_grey'} absolute flex gap-3 top-1 right-1 `}>
-                          <button
-                            className="p-2 rounded-full text-lg lg:text-xl"
-                            onClick={() => setSelectedFile("")}
-                          >
-                            <RiDeleteBin2Line size={24} />
-                          </button>
-                        </div>
+                      <div
+                        className={`${
+                          theme == "light" ? "" : "text-white border-bg_grey"
+                        } absolute flex gap-3 top-1 right-1 `}
+                      >
+                        <button
+                          className="p-2 rounded-full text-lg lg:text-xl"
+                          onClick={() => setSelectedFile("")}
+                        >
+                          <RiDeleteBin2Line size={24} />
+                        </button>
+                      </div>
                     </>
                   ) : (
                     <div className="flex flex-col w-full rounded-md items-center justify-center cursor-pointer">
@@ -172,9 +176,7 @@ export default function SignUp() {
                         <p
                           value="email"
                           className={`text-base ${
-                            theme == "light"
-                              ? "text-black"
-                              : "text-bg_lightest"
+                            theme == "light" ? "text-black" : "text-bg_lightest"
                           }`}
                         >
                           Avatar
@@ -196,39 +198,6 @@ export default function SignUp() {
                       />
                     </div>
                   )}
-                </div>
-              </div>
-              <div className="bg-transparent">
-                <label
-                  value="email"
-                  className={`${
-                    theme == "light" ? "text-black" : " text-bg_lightest"
-                  }`}
-                >
-                  Email
-                </label>
-
-                <div
-                  className={`flex items-center w-full border ${
-                    theme == "light"
-                      ? "text-black bg-gray-200"
-                      : "bg-bg_lightest text-bg_core"
-                  }`}
-                >
-                  <AiTwotoneMail size={24} />
-                  <input
-                    className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_lightest text-bg_core"
-                    }`}
-                    value={formData?.email}
-                    type="email"
-                    name="email"
-                    placeholder="your.name@example.com"
-                    id="email"
-                    onChange={handleChange}
-                  />
                 </div>
               </div>
               <div className="bg-transparent">
@@ -328,6 +297,39 @@ export default function SignUp() {
               </div>
               <div className="bg-transparent">
                 <label
+                  value="email"
+                  className={`${
+                    theme == "light" ? "text-black" : " text-bg_lightest"
+                  }`}
+                >
+                  Email
+                </label>
+
+                <div
+                  className={`flex items-center w-full border ${
+                    theme == "light"
+                      ? "text-black bg-gray-200"
+                      : "bg-bg_lightest text-bg_core"
+                  }`}
+                >
+                  <AiTwotoneMail size={24} />
+                  <input
+                    className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                      theme == "light"
+                        ? "text-black bg-gray-200"
+                        : "bg-bg_lightest text-bg_core"
+                    }`}
+                    value={formData?.email}
+                    type="email"
+                    name="email"
+                    placeholder="your.name@example.com"
+                    id="email"
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+              <div className="bg-transparent">
+                <label
                   value="Your password"
                   className={`${
                     theme == "light" ? "text-black" : " text-bg_lightest"
@@ -382,7 +384,9 @@ export default function SignUp() {
               </p>
               <button
                 className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-boldbg-bg_lightest text-bg_core ${
-                  theme == "light" ? "bg-cl_primary text-bg_core" : "bg-clr_alt text-bg_lightest"
+                  theme == "light"
+                    ? "bg-cl_primary text-bg_core"
+                    : "bg-clr_alt text-bg_lightest"
                 } font-bold`}
                 type="submit"
                 disabled={loading}

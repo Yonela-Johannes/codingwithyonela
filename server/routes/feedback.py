@@ -16,16 +16,13 @@ def feedback(id, mail):
         try:
             if id:
                 response = fetch_feedback(id)
-                return jsonify(res), 200
+                return jsonify(response), 200
         except json.decoder.JSONDecodeError as error:
                 return jsonify(error), 400
             
         # edit/update
     elif REQUEST == 'PUT':
         try:
-            user =  valid_token() 
-            if user == False: 
-                return jsonify({'message': 'You are not authorized'}), 401
             data = request.get_json()
 
             if 'status' in data != "undefined":
