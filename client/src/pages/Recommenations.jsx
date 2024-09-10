@@ -504,14 +504,18 @@ const Recommendations = () => {
                 </div>
               </form>
               <div className="flex flex-col justify-start w-full">
-                <div className="h-[100px] mb-2">
-                  <p className="text-base text-bg_primary font-semibold">
-                    Your details
-                  </p>
-                  <p className="my-1 lg:my-2 text-[#646464] text-sm">
-                    If you are a developer and you are recommending yourself. We
-                    suggest that you sign up.
-                  </p>
+                <div className="lg:h-[100px] mb-2">
+                {currentUser && currentUser?.id ? ('') : (
+                    <>
+                    <p className="text-base text-bg_primary font-semibold">
+                      Your details
+                    </p>
+                    <p className="my-1 lg:my-2 text-[#646464] text-sm">
+                      If you are a developer and you are recommending yourself. We
+                      suggest that you sign up.
+                    </p>
+                    </>
+                  )}
                 </div>
                 <div className="flex w-full flex-col space-y-2">
                   {currentUser && currentUser?.id ? (

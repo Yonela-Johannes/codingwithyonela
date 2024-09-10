@@ -15,13 +15,13 @@ const FeatureSection = () =>
           </span>
         </h2>
       </div>
-      <div className="flex flex-wrap mt-10 lg:mt-20">
+      <div className="flex flex-wrap mt-10 lg:mt-20 gap-2">
         {features.map((feature, index) =>
         {
           const Icon = feature?.icon
           return (
-            <div key={index} className="w-full sm:w-1/2 lg:w-1/3">
-              <div className="lg:flex mb-10">
+            <div key={index} className={`flex items-start justify-center rounded-md ${theme == 'light' ? 'bg-bg_lightest' : 'bg-bg_primary'} w-[300px] p-2`}>
+              <div className="lg:flex flex-col">
                 <div className="flex text-xl lg:mx-6 h-10 w-10 p-1 lg:p-2 bg-bg_grey text-cl_primary justify-center items-center rounded-full">
                   <Icon size={20} />
                 </div>
