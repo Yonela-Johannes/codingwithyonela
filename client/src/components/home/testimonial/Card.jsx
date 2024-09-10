@@ -79,13 +79,19 @@ const Card = ({ element, theme }) => {
             </div>
           </div>
         </div>
-        <p
-          className={`${
-            theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"
-          } text-sm`}
-        >
-          {element.status}
-        </p>
+        {currentUser?.is_staff || currentUser?.is_admin ? (
+          <p
+            className={`${
+              theme == "light"
+                ? "text-bg_opp bg-white"
+                : "bg-bg_core rounded-md"
+            } text-sm`}
+          >
+            {element.status}
+          </p>
+        ) : (
+          ""
+        )}
       </div>
       <Modal
         title=""
