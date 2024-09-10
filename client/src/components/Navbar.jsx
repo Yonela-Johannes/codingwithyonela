@@ -8,13 +8,13 @@ import ThemeToggle from './themeToggle/ThemeToggle';
 import { ThemeContext } from '../context/ThemeContext';
 import { activeSignin, activeSignup, disableAuthModals, logout } from '../features/user/authSlice';
 
-export default function ({ currentUser })
+export default function ({ currentUser, auth })
 {
   const { theme } = useContext(ThemeContext)
   const dispatch = useDispatch();
 
   return (
-    <nav className={`flex flex-col z-50 md:flex-row py-3 w-full items-center justify-between gap-4 md:gap-0`}>
+    <nav className={`${auth ? 'bg-transparent' : ''} flex flex-col z-50 md:flex-row py-3 w-full items-center justify-between gap-4 md:gap-0`}>
       <div className="hidden md:flex items-center justify-between w-full">
         <div className="">
           <Link to="/">

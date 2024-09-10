@@ -266,7 +266,7 @@ const Recommendations = () => {
                           className="w-full rounded-full max-h-[100px] max-w-[100px] object-cover object-center"
                           src={selectedFile}
                         />
-                        <div className="absolute flex gap-3 top-1 right-1 border-bg_grey">
+                        <div className={`${theme == 'light' ? '' : 'text-white border-bg_grey'} absolute flex gap-3 top-1 right-1 `}>
                           <button
                             className="p-2 rounded-full text-lg lg:text-xl"
                             onClick={() => setSelectedFile("")}
@@ -601,9 +601,9 @@ const Recommendations = () => {
               </div>
             </div>
             <button
-              className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold text-bg_grey ${
-                theme == "light" ? "bg-clr_alt" : "bg-clr_alt"
-              }`}
+              className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold ${
+                theme == "light" ? "bg-cl_primary text-bg_core" : "bg-clr_alt text-bg_lightest"
+                }`}
               onClick={handleSubmit}
               disabled={loading}
             >
