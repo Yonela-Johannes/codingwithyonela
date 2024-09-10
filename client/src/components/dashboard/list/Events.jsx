@@ -70,7 +70,7 @@ const AdminEvents = () =>
                         </button>
                     </Link>
                     {currentUser.is_admin && (
-                        <FormModal table="student" type="delete" id={item.id} />
+                        <FormModal id={item.id} />
                     )}
                 </div>
             </td>

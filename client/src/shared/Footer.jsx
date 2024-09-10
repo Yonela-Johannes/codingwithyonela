@@ -63,7 +63,6 @@ const Footer = () =>
           </div>
           <div>
             <p className="text-sm lg:text-base font-semibold">My Services</p>
-            <p className="text-sm lg:text-base">Web Development</p>
             <HoverUnderLine>
               <a target="_blank" href="https://github.com/yonela-johannes" className="text-sm lg:text-base">
                 GitHub
