@@ -45,7 +45,7 @@
   form input[type="number"],
   form select,
   form textarea {
-    @apply placeholder:text-bg_lighter placeholder:text-sm md:placeholder:text-base border-transparent focus:border-transparent focus:ring-0 w-full md:py-2 border-none outline-none md:px-4 border flex items-center hover:shadow-none hover:border hover:border-bg_light;
+    @apply placeholder:text-bg_lighter placeholder:text-sm md:placeholder:text-base border-transparent focus:border-transparent focus:ring-0 w-full md:py-2 border-none outline-none md:px-4 flex items-center hover:shadow-none;
     @apply px-3 p-2;
   }
 }

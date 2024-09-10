@@ -107,7 +107,7 @@ export const Widget = () => {
   return (
     <>
       <style>{tailwindStyles}</style>
-      <div className="widget fixed bottom-4 right-4 z-50">
+      <div className={`widget fixed bottom-4 right-4 z-50`}>
         <Popover>
           <PopoverTrigger asChild>
             <button
@@ -138,8 +138,18 @@ export const Widget = () => {
                 <Loader />
               </div>
             ) : (
-              <div>
-                <h3 className="text-lg font-bold">Send us your feedback</h3>
+              <div
+                className={`${
+                  theme == "light" ? "bg-bg_lightest" : "bg-bg_core"
+                } p-2`}
+              >
+                <h3
+                  className={`${
+                    theme !== "light" ? "text-bg_lightest" : "text-bg_core"
+                  } text-lg`}
+                >
+                  Send us your feedback
+                </h3>
                 <form className="space-y-2" onSubmit={submit}>
                   <div>
                     <div className="relative flex flex-col justify-between items-center">
@@ -160,7 +170,7 @@ export const Widget = () => {
                         <div className="flex flex-col w-full rounded-md justify-center items-center cursor-pointer my-4">
                           <div
                             className={`text-xl lg:text-4xl  ${
-                              theme == "light" ? "text-black" : "bg-bg_card"
+                              theme == "light" ? "text-black" : "bg-bg_core"
                             }`}
                             onClick={() => selectFileRef.current?.click()}
                           >
@@ -169,7 +179,7 @@ export const Widget = () => {
                               className={`text-base ${
                                 theme == "light"
                                   ? "text-black"
-                                  : "bg-bg_card text-white"
+                                  : "bg-bg_core text-bg_core placeholder-slate-300"
                               }`}
                             >
                               Avatar
@@ -186,7 +196,7 @@ export const Widget = () => {
                             className={`w-full px-3 border ${
                               theme == "light"
                                 ? "text-black bg-gray-200"
-                                : "bg-bg_card text-white"
+                                : "bg-bg_core text-bg_core placeholder-slate-300"
                             }`}
                           />
                         </div>
@@ -195,26 +205,56 @@ export const Widget = () => {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label htmlFor="name">Name</label>
+                      <label
+                        className={`${
+                          theme !== "light"
+                            ? "text-bg_lightest"
+                            : "text-bg_core"
+                        }`}
+                        htmlFor="name"
+                      >
+                        Name
+                      </label>
                       <Input
                         value={formData.name}
                         id="name"
+                        type="text"
                         handleChange={handleChange}
                         placeholder="Enter your name"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="name">Last name</label>
+                      <label
+                        className={`${
+                          theme !== "light"
+                            ? "text-bg_lightest"
+                            : "text-bg_core"
+                        }`}
+                        htmlFor="name"
+                      >
+                        Last name
+                      </label>
                       <Input
                         value={formData.lastname}
                         id="lastname"
+                        type='text'
                         handleChange={handleChange}
                         placeholder="Enter your last name"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="company">Company</label>
+                      <label
+                        className={`${
+                          theme !== "light"
+                            ? "text-bg_lightest"
+                            : "text-bg_core"
+                        }`}
+                        htmlFor="company"
+                      >
+                        Company
+                      </label>
                       <Input
+                      type="text"
                         value={formData.company}
                         id="company"
                         handleChange={handleChange}
@@ -222,17 +262,34 @@ export const Widget = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="email">Email</label>
+                      <label
+                        className={`${
+                          theme !== "light"
+                            ? "text-bg_lightest"
+                            : "text-bg_core"
+                        }`}
+                        htmlFor="email"
+                      >
+                        Email
+                      </label>
                       <Input
                         value={formData.email}
                         id="email"
+                        type="email"
                         handleChange={handleChange}
                         placeholder="Enter your email"
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="feedback">Feedback</label>
+                    <label
+                      className={`${
+                        theme !== "light" ? "text-bg_lightest" : "text-bg_core"
+                      }`}
+                      htmlFor="feedback"
+                    >
+                      Feedback
+                    </label>
                     <Textarea
                       value={formData.feedback}
                       id="feedback"
@@ -256,7 +313,7 @@ export const Widget = () => {
                       ))}
                     </div>
                     <button
-                      className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold text-white ${
+                      className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold text-bg_core placeholder-slate-300 ${
                         theme == "light" ? "bg-clr_alt" : "bg-clr_alt"
                       }`}
                       type="submit"

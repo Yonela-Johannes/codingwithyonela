@@ -12,7 +12,7 @@ const Textarea = React.forwardRef(({ className, handleChange, ...props }, ref) =
       className={`w-full px-3 border ${
         theme == "light"
           ? "text-black bg-gray-200"
-          : "bg-bg_card text-white"
+          : "bg-bg_core text-white"
       }`}
       ref={ref}
       {...props} />)

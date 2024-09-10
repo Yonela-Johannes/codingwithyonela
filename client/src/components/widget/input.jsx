@@ -9,10 +9,10 @@ const Input = React.forwardRef(({ id, className, type, handleChange, ...props },
     (<input
       id={id}
       type={type}
-      className={`w-full px-3 border ${
+      className={`w-full px-3 ${
         theme == "light"
           ? "text-black bg-gray-200"
-          : "bg-bg_card text-white"
+          : "bg-bg_core text-white"
       }`}
       onChange={handleChange}
       ref={ref}
