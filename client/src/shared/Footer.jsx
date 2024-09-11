@@ -108,7 +108,7 @@ const Footer = () => {
         whileInView="animate"
         className="text-center text-sm font-[500px]"
       >
-        With Love ❤️ by Yonela & Okuhle
+        With Love ❤️ by Yonela
       </motion.p>
     </motion.div>
   );
