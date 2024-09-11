@@ -10,7 +10,7 @@ const BlogCard = ({ blog }) =>
   const { loading } = useSelector((state) => state.blogs);
 
   return (
-    <div className={`${theme == "light" ? 'bg-bg_lightest border border-bg_light' : 'border-bg_primary bg-bg_primary'} group relative overflow-hidden rounded-md h-full duration-200 cursor-pointer`}>
+    <div className={`${theme == "light" ? 'bg-bg_lightest border border-bg_light' : 'border-bg_primary bg-bg_primary'} group relative overflow-hidden h-full duration-200 cursor-pointer`}>
       {loading ? (
         <Loader />
       ) : (
@@ -28,7 +28,7 @@ const BlogCard = ({ blog }) =>
                   <img
                     src={blog?.profile}
                     alt="cover"
-                    className="rounded-md object-cover object-center h-[40px] w-[40px]"
+                    className="object-cover object-center h-[40px] w-[40px]"
                   />
                 </div>
               </div>
@@ -36,7 +36,7 @@ const BlogCard = ({ blog }) =>
                 <img
                   src={blog?.blog_image}
                   alt="cover"
-                  className="rounded-md object-cover object-center h-full"
+                  className="object-cover object-center h-full"
                 />
               </div>
               <h4 className="text-lg">{blog?.blog_title?.slice(0, 28)}...</h4>
@@ -44,7 +44,7 @@ const BlogCard = ({ blog }) =>
           </Link>
           <Link
             to={`/blog/${blog.slug}`}
-            className='z-10 group-hover:bottom-0 absolute bottom-[-50px] left-0 right-0 text-bg_lightest bg-bg_primary hover:bg-clr_alt transition-all duration-300 text-center py-2 rounded-md m-2'
+            className='z-10 group-hover:bottom-0 absolute bottom-[-50px] left-0 right-0 text-bg_lightest bg-bg_primary hover:bg-clr_alt transition-all duration-300 text-center py-2 m-2'
           >
             Read article
           </Link>

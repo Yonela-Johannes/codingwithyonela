@@ -48,7 +48,7 @@ const Layout = ({ children }) =>
         {(!active_signin_modal) && (!active_signup_modal) ? (
           <>
             <div
-              className={`${theme == "light" ? "border-bg_light" : "border-gray-900"} my-5 lg:py-12 border-b-[1px] h-[calc(100vh-160px)] pt-[150px] lg:pt-[270px] overflow-hidden flex-1 flex-grow w-[80%] mx-auto md:flex flex-col`}
+              className={`${theme == "light" ? "border-bg_light" : "border-gray-900"} my-5 lg:py-12 border-b-[1px] h-[calc(100vh-160px)] pt-[50px] lg:pt-[150px] overflow-hidden flex-1 flex-grow w-[80%] mx-auto md:flex flex-col`}
             >
               {children}
             </div>

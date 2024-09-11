@@ -28,6 +28,7 @@ import {
   PiUserCircleDuotone,
 } from "react-icons/pi";
 import { AiTwotoneMail } from "react-icons/ai";
+import { SlideLeft, SlideUp } from "../animation/animate";
 
 const Recommendations = () => {
   const { openSuggestion, setOpenSuggestion, selectedSuggestion } =
@@ -185,6 +186,25 @@ const Recommendations = () => {
       transition={{ duration: 0.5, delay: 0.2 }}
       className="h-full my-5"
     >
+      <div className="space-y-4 max-w-[550px] mb-8">
+        <motion.h1
+          variants={SlideLeft(0.2)}
+          initial="initial"
+          whileInView="animate"
+          className="text-xl lg:text-4xl font-bold"
+        >
+          Recommenations
+        </motion.h1>
+        <motion.p
+          variants={SlideUp(0.4)}
+          initial="initial"
+          whileInView="animate"
+          className="text-gray-500 text-sm max-w-[350px]"
+        >
+          Bring your dream home to life with one-on-one design help & hand
+          picked products
+        </motion.p>
+      </div>
       <div className="hidden lg:flex gap-2 items-start w-full mb-8 justify-between">
         {titles && titles?.length > 0 ? (
           <div className="grid grid-cols-1 w-max gap-2">
@@ -194,7 +214,7 @@ const Recommendations = () => {
                 theme == "light"
                   ? "text-black bg-bg_light"
                   : "bg-bg_grey text-bg_lightest"
-              } rounded-md`}
+              } `}
             >
               <>
                 <option value="" disabled defaultValue hidden>
@@ -219,7 +239,7 @@ const Recommendations = () => {
             theme == "light"
               ? "text-black bg-bg_light"
               : "bg-bg_grey text-bg_lightest"
-          } flex p-0 items-center justify-center text-base rounded-full border-none`}
+          } flex p-0 items-center justify-center text-base  border-none`}
         >
           <p className="pl-2">Recommend</p>
           <div
@@ -227,13 +247,13 @@ const Recommendations = () => {
               theme == "light"
                 ? "text-black bg-bg_light"
                 : "bg-bg_grey text-bg_lightest"
-            } flex p-0 items-center justify-center text-lg rounded-full w-10 h-10`}
+            } flex p-0 items-center justify-center text-lg  w-10 h-10`}
           >
             <MdOutlineAdd size={20} />
           </div>
         </button>
       </div>
-      <div className="grid grid-cols-1 w-full lg:grid-cols-2 xl:grid-cols-4  gap-2 lg:grid-gap-4 xl:gap-6 h-full">
+      <div className="grid grid-cols-1 w-full lg:grid-cols-2 xl:grid-cols-4 gap-2 lg:grid-gap-4 xl:gap-6 h-full">
         {filterValue && filterValue !== "all"
           ? recommendations
               ?.filter((element) => element.user_title == filterValue)
@@ -268,15 +288,15 @@ const Recommendations = () => {
         {loading ? (
           <Loader />
         ) : (
-          <div className="rounded-md p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full">
-            <div className="rounded-md pb-2 p-2 grid lg:grid-cols-2 items-start gap-2 md:gap-4 justify-center w-full">
+          <div className="p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full">
+            <div className=" pb-2 p-2 grid lg:grid-cols-2 items-start gap-2 md:gap-4 justify-center w-full">
               <div>
                 <div className="flex flex-col gap-2">
                   <div className="relative flex flex-col justify-between items-center  h-[100px]">
                     {selectedFile ? (
                       <>
                         <img
-                          className="w-full rounded-full max-h-[100px] max-w-[100px] object-cover object-center"
+                          className="w-full  max-h-[100px] max-w-[100px] object-cover object-center"
                           src={selectedFile}
                         />
                         <div
@@ -285,7 +305,7 @@ const Recommendations = () => {
                           } absolute flex gap-3 top-1 right-1 `}
                         >
                           <button
-                            className="p-2 rounded-full text-lg lg:text-xl"
+                            className="p-2  text-lg lg:text-xl"
                             onClick={() => setSelectedFile("")}
                           >
                             <RiDeleteBin2Line size={24} />
@@ -293,7 +313,7 @@ const Recommendations = () => {
                         </div>
                       </>
                     ) : (
-                      <div className="flex flex-col w-full rounded-md justify-center items-center cursor-pointer my-4">
+                      <div className="flex flex-col w-full  justify-center items-center cursor-pointer my-4">
                         <div
                           className={`text-xl lg:text-4xl  ${
                             theme == "light" ? "text-black" : "bg-bg_card"
@@ -544,7 +564,7 @@ const Recommendations = () => {
                           theme == "light"
                             ? "text-black bg-bg_light"
                             : "bg-bg_grey text-bg_lightest"
-                        } flex p-0 items-center justify-center text-base rounded-full md:justify-between gap-2`}
+                        } flex p-0 items-center justify-center text-base  md:justify-between gap-2`}
                       >
                         <div className="space-y-1py-1 pl-3">
                           <p className="text-sm lg:text-base">
@@ -555,7 +575,7 @@ const Recommendations = () => {
                           <img
                             src={currentUser?.profile}
                             alt="cover"
-                            className="rounded-full object-cover object-center h-[40px] w-[40px]"
+                            className=" object-cover object-center h-[40px] w-[40px]"
                           />
                         </div>
                       </div>

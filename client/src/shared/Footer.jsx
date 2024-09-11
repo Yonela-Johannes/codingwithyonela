@@ -9,10 +9,12 @@ const Footer = () => {
   const date = new Date().getFullYear()
   
   return (
-    <div className="pb-2 lg:pb-6">
+    <div className={`${
+      theme == "light" ? "text-black" : "text-bg_lighter"
+    } pb-2 lg:pb-6`}>
       <div
         className={`${
-          theme == "light" ? "text-black" : "text-gray-500"
+          theme == "light" ? "text-black" : "text-bg_lighter"
         } flex items-start gap-3 mt-2 flex-col lg:flex-row justify-between py-2 overflow-x-hidden`}
       >
         <div className="flex flex-col gap-10  w-full">

@@ -14,6 +14,7 @@ import { AiTwotoneRightCircle } from "react-icons/ai";
 import globalize from 'globalize'
 import { ThemeContext } from "../../context/ThemeContext";
 import { useContext } from "react";
+import { SlideLeft, SlideUp } from "../../animation/animate";
 
 const localizer = globalizeLocalizer(globalize)
 
@@ -71,6 +72,25 @@ const BigCalendar = () => {
       transition={{ duration: 0.5, delay: 0.2 }}
       className="flex flex-col"
     >
+      <div className="space-y-4 max-w-[550px] mb-8">
+        <motion.h1
+          variants={SlideLeft(0.2)}
+          initial="initial"
+          whileInView="animate"
+          className="text-xl lg:text-4xl font-bold"
+        >
+          Events
+        </motion.h1>
+        <motion.p
+          variants={SlideUp(0.4)}
+          initial="initial"
+          whileInView="animate"
+          className="text-gray-500 text-sm max-w-[350px]"
+        >
+          Bring your dream home to life with one-on-one design help & hand
+          picked products
+        </motion.p>
+      </div>
       {currentUser?.isAdmin || currentUser?.is_staff ? (
       <Link className={`${theme == 'light' ? 'text-primary' : 'text-bg_lightest'} flex w-full justify-end`} to={`/admin/new-event`}>
         <button className="flex items-center justify-center mb-2 lg:mb-4 self-end">

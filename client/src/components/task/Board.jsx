@@ -50,7 +50,7 @@ const Board = ({ project, data }) =>
                 <TaskForm project={project} filterGrouped={filterGrouped} />
             ) : ""}
             {data?.length ? (
-                <div className={`${theme == "light" ? "bg-slate-100 text-white" : "bg-bg_card text-slate-400"} flex flex-col lg:flex-row gap-4 lg:gap-0 lg:flex justify-evenly py-2 lg:py-5 rounded-md  ${data?.length ? "min-h-[600px]" : 'h-min'}`}>
+                <div className={`${theme == "light" ? "" : ""} flex flex-col lg:flex-row gap-4 lg:gap-0 lg:flex justify-evenly py-2 lg:py-5 ${data?.length ? "min-h-[600px]" : 'h-min'}`}>
                     {/* task column */}
                     <section className="w-full lg:w-[35%] lg:m-5">
                         <TaskColumn title="To do" image={todo} />
