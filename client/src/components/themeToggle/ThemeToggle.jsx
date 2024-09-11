@@ -1,9 +1,5 @@
-import styles from "./themeToggle.module.css";
 import { useContext } from "react";
-import sun from '../../assets/sun.png';
-import moon from '../../assets/moon.png';
 import { ThemeContext } from "../../context/ThemeContext";
-import { FaMoon, FaSun } from "react-icons/fa";
 
 const ThemeToggle = () =>
 {

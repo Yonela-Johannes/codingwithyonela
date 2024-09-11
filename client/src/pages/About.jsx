@@ -2,24 +2,34 @@ import { useContext } from "react";
 import AboutMe from "../components/AboutMe";
 import { ThemeContext } from "../context/ThemeContext";
 import { motion } from "framer-motion";
+import { SlideUp } from "../animation/animate";
 
 const About = () =>
 {
   const { theme } = useContext(ThemeContext)
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      className=""
+    <div
       >
       <div className="text-start">
-        <h2 className="text-xl sm:text-3xl lg:text-4xl tracking-wide">
-          Here passion {" "}
-          <span className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} bg-clip-text`}>
-            meets patience
-          </span>
-        </h2>
+      <div className="space-y-4 max-w-[550px] mb-8">
+        <motion.h1
+          variants={SlideUp(0.2)}
+          initial="initial"
+          whileInView="animate"
+          className="text-xl lg:text-4xl font-bold"
+        >
+          About
+        </motion.h1>
+        <motion.p
+          variants={SlideUp(0.4)}
+          initial="initial"
+          whileInView="animate"
+          className="text-gray-500 text-sm max-w-[350px]"
+        >
+          Bring your dream home to life with one-on-one design help & hand
+          picked products
+        </motion.p>
+      </div>
       </div>
       <div className={`lg:flex ${theme == "light" ? "text-cl_alt" : "text-bg_light"} h-full gap-8 items-start justify-start`}>
         <p className={`text-sm lg:text-base ${theme == "light" ? "text-bg_primary" : "text-bg_lightest"} max-w-2xl`}>
@@ -31,7 +41,7 @@ const About = () =>
         </p>
         <AboutMe theme={theme} />
       </div>
-    </motion.div>
+    </div>
   );
 };
 

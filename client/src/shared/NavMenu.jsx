@@ -11,7 +11,7 @@ const NavMenu = () =>
   const [active, setActive] = useState(pathname)
   return (
 
-    <nav className={`${theme == "light" ? "" : "bg-bg_core rounded-md"} flex flex-col md:flex-row w-full items-center justify-between lg:px-2 gap-4 md:gap-0`}>
+    <nav className={`${theme == "light" ? "bg-bg_lightest" : "bg-bg_core"} flex flex-col md:flex-row w-full items-center justify-between lg:px-2 gap-4 md:gap-0`}>
       <div className="md:flex items-center justify-between w-full overflow-x-scroll lg:overflow-x-hidden">
 
         <div className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} flex text-sm lg:text-lg gap-6`}>

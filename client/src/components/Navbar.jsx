@@ -6,6 +6,7 @@ import logo from "../assets/logo.png";
 import { LucideLogIn, LucideLogOut, LucideUser, Search } from "lucide-react";
 import ThemeToggle from "./themeToggle/ThemeToggle";
 import { ThemeContext } from "../context/ThemeContext";
+import { motion } from "framer-motion";
 import {
   activeSignin,
   activeSignup,
@@ -24,7 +25,11 @@ export default function ({ currentUser, auth }) {
         auth ? "bg-transparent" : ""
       } flex flex-col z-50 md:flex-row py-3 w-full items-center justify-between gap-4 md:gap-0`}
     >
-      <div className="hidden md:flex items-center justify-between w-full">
+      <motion.div
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5 }} 
+        className="hidden md:flex items-center justify-between w-full">
         <div
           className={`${
             theme !== "light" ? "text-clr_alt" : "text-cl_primary"
@@ -99,7 +104,7 @@ export default function ({ currentUser, auth }) {
                     className={`${
                       theme == "light" ? "text-clr_alt" : "text-cl_primary"
                     } underline font-semibold py-2 px-4 
-									 flex items-center transition duration-300 ease-in-out`}
+									 flex items-center transition duration-300 ease-in-out primary-btn`}
                   >
                     <LucideLogIn className="mr-2" size={18} />
                     Login
@@ -152,7 +157,7 @@ export default function ({ currentUser, auth }) {
           )}
           <ThemeToggle />
         </div>
-      </div>
+      </motion.div>
     </nav>
   );
 }

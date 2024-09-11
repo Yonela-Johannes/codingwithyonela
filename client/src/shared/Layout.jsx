@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
 import Footer from "./Footer";
-import Header from "./Header";
 import NavMenu from "./NavMenu";
 import Wrapper from "./Wrapper";
 import { Toaster } from "react-hot-toast";
@@ -43,7 +42,6 @@ const Layout = ({ children }) =>
         <div className={`${theme == "light" ? "bg-white border-bg_light" : "bg-slate-800 border-gray-900"} border-y-[1px] fixed top-0 left-0 right-0 z-50 overflow-hidden`}>
           <Wrapper>
             <Navbar currentUser={currentUser} />
-            <Header />
             <NavMenu />
           </Wrapper>
         </div>

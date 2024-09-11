@@ -48,12 +48,6 @@ export const features = [
             "Create, read, update, and delete project and project tasks, with form validations and the ability to mark project and tasks as complete and move tasks between columns",
     },
     {
-        icon: AiTwotoneQuestionCircle,
-        text: "Suggestions and Questions Management",
-        description:
-            "Create, read, update, and delete suggestions and questions, allowing for organized feedback and inquiry handling",
-    },
-    {
         icon: AiTwotoneMessage,
         text: "Blog and Post Management",
         description:
@@ -70,12 +64,6 @@ export const features = [
         text: "Project Chat",
         description:
             "Facilitate project-specific communication by creating, reading, updating, and deleting chats for each project.",
-    },
-    {
-        icon: PiChatDuotone,
-        text: "Comments Management",
-        description:
-            "Engage with content through the ability to create, read, update, and delete comments on suggestions, questions, blogs, and posts.",
     },
     {
         text: "Q&A",

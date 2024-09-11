@@ -1,32 +1,45 @@
 import { useContext } from "react";
 import { features } from "../../data/data";
 import { ThemeContext } from "../../context/ThemeContext";
+import { SlideUp } from "../../animation/animate";
+import { motion } from "framer-motion";
 
 const FeatureSection = () =>
 {
   const { theme } = useContext(ThemeContext)
   return (
-    <div className="relative mt-20 border-b border-neutral-800 min-h-[800px]">
-      <div className="text-start">
-        <h2 className="text-xl sm:text-3xl lg:text-4xl mt-10 lg:mt-20 tracking-wide">
-          Easily track{" "}
-          <span className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} bg-clip-text`}>
-            project progress
-          </span>
-        </h2>
+    <div className="relative mt-10 lg:mt-20">
+      <div className="space-y-4 max-w-[550px] mb-8">
+        <motion.h1
+          variants={SlideUp(0.2)}
+          initial="initial"
+          whileInView="animate"
+          className="text-xl lg:text-4xl font-bold"
+        >
+          Project Progress
+        </motion.h1>
+        <motion.p
+          variants={SlideUp(0.4)}
+          initial="initial"
+          whileInView="animate"
+          className="text-gray-500 text-sm max-w-[350px]"
+        >
+          Bring your dream home to life with one-on-one design help & hand
+          picked products
+        </motion.p>
       </div>
-      <div className="flex flex-wrap mt-10 lg:mt-20 gap-2">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {features.map((feature, index) =>
         {
           const Icon = feature?.icon
           return (
-            <div key={index} className={`flex items-start justify-center rounded-md ${theme == 'light' ? 'bg-bg_lightest' : 'bg-bg_primary'} w-[300px] p-2`}>
+            <div key={index} className={`flex items-start justify-center ${theme == 'light' ? 'bg-bg_lightest' : 'bg-bg_primary'} border border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c] w-full p-2`}>
               <div className="lg:flex flex-col">
                 <div className="flex text-xl lg:mx-6 h-10 w-10 p-1 lg:p-2 bg-bg_grey text-cl_primary justify-center items-center rounded-full">
                   <Icon size={20} />
                 </div>
                 <div>
-                  <h5 className={`${theme !== "light" ? "text-clr_alt" : "text-cl_primary"} mt-1 mb-2 lg:mb-6 lg-text-xl font-normal`}>{feature.text}</h5>
+                  <h5 className={`${theme !== "light" ? "text-clr_alt" : "text-clr_alt"} mt-1 mb-2 lg:mb-6 lg-text-xl font-normal`}>{feature.text}</h5>
                   <p className={`text-sm lg:text-base ${theme == "light" ? "text-bg_primary" : "text-bg_lightest"} max-w-2xl`}>
                     {feature.description}
                   </p>

@@ -7,12 +7,9 @@ const EventCalendar = ({ events }) =>
 {
   const { theme } = useContext(ThemeContext);
   return (
-    <div className="p-4 max-w-6xl">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold my-4">Events</h1>
-      </div>
+    <div className="max-w-6xl">
       <div className="flex flex-col gap-4">
-        {events?.length && events?.map((event) => (
+        {events?.length ? events?.map((event) => (
           <div
             className={`p-2 lg:p-4 ${theme == 'light' ? 'bg-bg_lightest' : 'bg-bg_primary'}`}
             key={event.id}
@@ -23,7 +20,7 @@ const EventCalendar = ({ events }) =>
             </div>
             <p className="mt-2 text-gray-400 text-sm max-w-4xl">{event?.description}</p>
           </div>
-        ))}
+        )).slice(0, 5) : ""}
       </div>
     </div>
   );
