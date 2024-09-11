@@ -9,22 +9,24 @@ const TestimonialData = [
   {
     id: 1,
     name: "Okuhle Tapuko",
-    designation: "Designer",
+    designation: "Quality Assurance Engineer",
     img: okuhle,
-    text: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    text: "You should never feel afraid to become a piece of art. It's exhilarating.",
+    author: "Miguel de Cervantes",
     delay: 0.2,
   },
   {
     id: 2,
     name: "Yonela Johannes",
-    designation: "Developer",
+    designation: "Full Stack Developer",
     img: yonela,
-    text: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    text: "It's up to brave hearts, sir, to be patient when things are going badly, as well as being happy when they're going well.",
+    author: "Nicki Minaj",
     delay: 0.4,
   },
 ];
 const Testimonial = () => {
-  const { theme } = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext);
   return (
     <div className="mt-10 lg:mt-20">
       {/* heading title */}
@@ -91,6 +93,9 @@ const Testimonial = () => {
                 <div className="mt-5 border-t-2 border-gray-500/40 pt-5">
                   <p className="text-sm group-hover:text-black duration-300">
                     {card.text}
+                  </p>
+                  <p className="text-xs italic group-hover:text-black duration-300 mt-1">
+                    - {card.author}
                   </p>
                 </div>
               </motion.div>

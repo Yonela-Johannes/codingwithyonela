@@ -89,9 +89,10 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <p className="text-center text-sm font-semibold border-t-2 pt-5 mt-5">
+      <p className="text-center text-sm font-semibold border-t-2 pt-5 mt-5 mb-2">
         &copy; {date} TCJ. All rights reserved
       </p>
+      <p className="text-center text-sm font-[500px]">With Love ❤️ by Yonela & Okuhle</p>
     </div>
   );
 };
