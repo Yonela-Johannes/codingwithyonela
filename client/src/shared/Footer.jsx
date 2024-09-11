@@ -3,22 +3,31 @@ import HoverUnderLine from "../components/HoverUnderLine";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import logo from "../assets/logo.png";
+import { motion } from "framer-motion";
+import { SlideLeft, SlideUp } from "../animation/animate";
 
 const Footer = () => {
   const { theme } = useContext(ThemeContext);
-  const date = new Date().getFullYear()
-  
+  const date = new Date().getFullYear();
+
   return (
-    <div className={`${
-      theme == "light" ? "text-black" : "text-bg_lighter"
-    } pb-2 lg:pb-6`}>
+    <motion.div
+      variants={SlideLeft(0.6)}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+      whileInView="animate"
+      className={`${
+        theme == "light" ? "text-black" : "text-bg_lighter"
+      } pb-2 lg:pb-6`}
+    >
       <div
         className={`${
           theme == "light" ? "text-black" : "text-bg_lighter"
         } flex items-start gap-3 mt-2 flex-col lg:flex-row justify-between py-2 overflow-x-hidden`}
       >
         <div className="flex flex-col gap-10  w-full">
-        <div className="space-y-4 text-base font-semibold">
+          <div className="space-y-4 text-base font-semibold">
             <div className="flex items-center space-x-3">
               <img src={logo} alt="" className="w-6" />
               <p className="font-semibold">CodingWithYonela</p>
@@ -92,8 +101,16 @@ const Footer = () => {
       <p className="text-center text-sm font-semibold border-t-2 pt-5 mt-5 mb-2">
         &copy; {date} TCJ. All rights reserved
       </p>
-      <p className="text-center text-sm font-[500px]">With Love ❤️ by Yonela & Okuhle</p>
-    </div>
+      <motion.p
+        variants={SlideUp(0.6)}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        whileInView="animate"
+        className="text-center text-sm font-[500px]"
+      >
+        With Love ❤️ by Yonela & Okuhle
+      </motion.p>
+    </motion.div>
   );
 };
 

@@ -6,7 +6,6 @@ import Workflow from "../components/home/Workflow";
 import Testimonials from "../components/home/Testimonials";
 import About from "./About";
 import BookingOverview from "./overview";
-import { motion } from "framer-motion";
 import Testimonial from "../components/Testimonial/Testimonial";
 import Newsletter from "../components/Newsletter/Newsletter";
 

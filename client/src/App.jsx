@@ -29,7 +29,6 @@ import AdminFeedback from "./components/dashboard/list/Feedback";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { disableAuthModals } from "./features/user/authSlice";
-import Polls from "./pages/Polls";
 
 function App()
 {
@@ -59,8 +58,7 @@ function App()
             <Route path="/about" element={<About />} />
             <Route path="/project-status" element={<ProjectsTask />} />
             <Route path="/project/:id/todo" element={<Todopage />} />
-            <Route path="events" element={<BigCalendar />} />
-            <Route path="polls" element={<Polls  polls={[]} />} />
+            <Route path="/events" element={<BigCalendar />} />
             {/* user routes */}
             <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/edit-account" element={<PrivateRoute><EditAccount /></PrivateRoute>} />

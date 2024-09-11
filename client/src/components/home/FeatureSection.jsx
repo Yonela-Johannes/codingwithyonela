@@ -1,8 +1,7 @@
 import { useContext } from "react";
 import { features } from "../../data/data";
 import { ThemeContext } from "../../context/ThemeContext";
-import { SlideUp } from "../../animation/animate";
-import { motion } from "framer-motion";
+import { Head } from "../../shared/Head";
 
 const FeatureSection = () =>
 {
@@ -10,23 +9,7 @@ const FeatureSection = () =>
   return (
     <div className="relative mt-10 lg:mt-20">
       <div className="space-y-4 max-w-[550px] mb-8">
-        <motion.h1
-          variants={SlideUp(0.2)}
-          initial="initial"
-          whileInView="animate"
-          className="text-xl lg:text-4xl font-bold"
-        >
-          Project Progress
-        </motion.h1>
-        <motion.p
-          variants={SlideUp(0.4)}
-          initial="initial"
-          whileInView="animate"
-          className="text-gray-500 text-sm max-w-[350px]"
-        >
-          Bring your dream home to life with one-on-one design help & hand
-          picked products
-        </motion.p>
+        <Head title='Project Progress' desc='Stay updated on the latest advancements and milestones in our ongoing projects.' theme={theme} />
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {features.map((feature, index) =>

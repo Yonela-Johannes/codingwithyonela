@@ -29,6 +29,7 @@ import {
 } from "react-icons/pi";
 import { AiTwotoneMail } from "react-icons/ai";
 import { SlideLeft, SlideUp } from "../animation/animate";
+import { Head } from "../shared/Head";
 
 const Recommendations = () => {
   const { openSuggestion, setOpenSuggestion, selectedSuggestion } =
@@ -187,23 +188,11 @@ const Recommendations = () => {
       className="h-full my-5"
     >
       <div className="space-y-4 max-w-[550px] mb-8">
-        <motion.h1
-          variants={SlideLeft(0.2)}
-          initial="initial"
-          whileInView="animate"
-          className="text-xl lg:text-4xl font-bold"
-        >
-          Recommenations
-        </motion.h1>
-        <motion.p
-          variants={SlideUp(0.4)}
-          initial="initial"
-          whileInView="animate"
-          className="text-gray-500 text-sm max-w-[350px]"
-        >
-          Bring your dream home to life with one-on-one design help & hand
-          picked products
-        </motion.p>
+      <Head
+          title="Recommendations"
+          desc="Check out valuable recommendations from the community, offering tools, insights, and advice to enhance your work."
+          theme={theme}
+        />
       </div>
       <div className="hidden lg:flex gap-2 items-start w-full mb-8 justify-between">
         {titles && titles?.length > 0 ? (

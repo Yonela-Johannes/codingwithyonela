@@ -1,10 +1,9 @@
-import { motion } from "framer-motion";
 import { useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import { checklistItems } from "../../data/data";
 import { AiTwotoneCheckCircle } from "react-icons/ai";
 import landing from '../../assets/landing.mp4'
-import { SlideUp } from "../../animation/animate";
+import { Head } from "../../shared/Head";
 
 const Workflow = () =>
 {
@@ -12,23 +11,7 @@ const Workflow = () =>
   return (
     <div className="mt-10 lg:mt-20">
       <div className="space-y-4 max-w-[550px] mb-8">
-        <motion.h1
-          variants={SlideUp(0.2)}
-          initial="initial"
-          whileInView="animate"
-          className="text-xl lg:text-4xl font-bold"
-        >
-          Project Tracking
-        </motion.h1>
-        <motion.p
-          variants={SlideUp(0.4)}
-          initial="initial"
-          whileInView="animate"
-          className="text-gray-500 text-sm max-w-[350px]"
-        >
-          Bring your dream home to life with one-on-one design help & hand
-          picked products
-        </motion.p>
+        <Head title='Project Tracking' desc='Easily monitor the status of your projects with real-time tracking and detailed updates' theme={theme} />
       </div>
       <div className="mt-3 lg:mt-6 grid lg:grid-cols-2 justify-center items-center">
         <div className="p-2 w-full h-[300px] ">

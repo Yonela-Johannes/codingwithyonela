@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import { motion } from "framer-motion";
-import { SlideLeft, SlideUp } from "../../animation/animate";
+import { SlideLeft } from "../../animation/animate";
 import okuhle from "../../assets/okuhle.png";
 import yonela from "../../assets/yonela.png";
 import { ThemeContext } from "../../context/ThemeContext";
+import { Head } from "../../shared/Head";
 
 const TestimonialData = [
   {
@@ -31,23 +32,7 @@ const Testimonial = () => {
     <div className="mt-10 lg:mt-20">
       {/* heading title */}
       <div className="space-y-4 max-w-[550px] mb-8">
-        <motion.h1
-          variants={SlideUp(0.2)}
-          initial="initial"
-          whileInView="animate"
-          className="text-xl lg:text-4xl font-bold"
-        >
-          Our Team
-        </motion.h1>
-        <motion.p
-          variants={SlideUp(0.4)}
-          initial="initial"
-          whileInView="animate"
-          className="text-gray-500 text-sm max-w-[350px]"
-        >
-          Bring your dream home to life with one-on-one design help & hand
-          picked products
-        </motion.p>
+      <Head title='Our Team' desc='Meet the passionate team and collaborators behind the success of this platform.' theme={theme} />
       </div>
       {/* tesitomonial cards */}
       <div className="">

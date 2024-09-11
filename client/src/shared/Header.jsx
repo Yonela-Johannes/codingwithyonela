@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
-import { SlideLeft } from "../animation/animate";
+import {  SlideUp } from "../animation/animate";
 import { motion } from "framer-motion";
 
 const Header = () => {
@@ -9,7 +9,7 @@ const Header = () => {
     <div className="flex flex-col md:flex-row md:gap-20 items-center overflow-x-hidden mb-2">
       <div className="flex items-start gap-3 flex-col w-full">
         <motion.h1
-          variants={SlideLeft(0.2)}
+          variants={SlideUp(0.2)}
           initial="initial"
           whileInView="animate"
           className={`${

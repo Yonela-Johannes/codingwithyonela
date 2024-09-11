@@ -1,11 +1,10 @@
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { disableEventUpdate, getAllEvents } from "../features/event/eventSlice";
 import { ThemeContext } from "../context/ThemeContext";
 import EventCalendar from "../components/dashboard/EventCalendar";
-import { SlideUp } from "../animation/animate";
+import { Head } from "../shared/Head";
 
 export default function BookingOverview() {
   const { loading, events, created, updated } = useSelector(
@@ -53,23 +52,7 @@ export default function BookingOverview() {
   ) : (
     <div>
       <div className="space-y-4 max-w-[550px] mb-8">
-        <motion.h1
-          variants={SlideUp(0.2)}
-          initial="initial"
-          whileInView="animate"
-          className="text-xl lg:text-4xl font-bold"
-        >
-          Events
-        </motion.h1>
-        <motion.p
-          variants={SlideUp(0.4)}
-          initial="initial"
-          whileInView="animate"
-          className="text-gray-500 text-sm max-w-[350px]"
-        >
-          Bring your dream home to life with one-on-one design help & hand
-          picked products
-        </motion.p>
+      <Head title='Events' desc='Join us for upcoming events, workshops, and collaborative sessions that inspire learning and growth.' theme={theme} />
       </div>
       <EventCalendar events={formatedEvents} />
     </div>

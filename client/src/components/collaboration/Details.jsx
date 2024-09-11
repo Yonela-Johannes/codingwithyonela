@@ -47,7 +47,7 @@ const Details = ({ theme }) =>
                 {project?.github}
               </a>
             </p>
-            <img src={project?.image} className="w-full h-full object-contain object-center" />
+            <img src={project?.image} className="mt-2 h-[100px] w-[100px] object-contain object-center" />
           </div>
         ) : (
           ""

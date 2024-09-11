@@ -1,4 +1,9 @@
-import { Calendar, momentLocalizer, globalizeLocalizer, Views } from "react-big-calendar";
+import {
+  Calendar,
+  momentLocalizer,
+  globalizeLocalizer,
+  Views,
+} from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useEffect, useState } from "react";
@@ -11,16 +16,17 @@ import Loader from "../../shared/Loader";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { AiTwotoneRightCircle } from "react-icons/ai";
-import globalize from 'globalize'
+import globalize from "globalize";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useContext } from "react";
 import { SlideLeft, SlideUp } from "../../animation/animate";
+import { Head } from "../../shared/Head";
 
-const localizer = globalizeLocalizer(globalize)
+const localizer = globalizeLocalizer(globalize);
 
 const BigCalendar = () => {
   const { theme } = useContext(ThemeContext);
-  const { currentUser } = useSelector((state) => state.user)
+  const { currentUser } = useSelector((state) => state.user);
   const { loading, events, created, updated } = useSelector(
     (state) => state.event
   );
@@ -62,7 +68,7 @@ const BigCalendar = () => {
     }
   }, [events]);
 
-  console.log(formatedEvents)
+  console.log(formatedEvents);
   return loading ? (
     <Loader />
   ) : (
@@ -73,32 +79,26 @@ const BigCalendar = () => {
       className="flex flex-col"
     >
       <div className="space-y-4 max-w-[550px] mb-8">
-        <motion.h1
-          variants={SlideLeft(0.2)}
-          initial="initial"
-          whileInView="animate"
-          className="text-xl lg:text-4xl font-bold"
-        >
-          Events
-        </motion.h1>
-        <motion.p
-          variants={SlideUp(0.4)}
-          initial="initial"
-          whileInView="animate"
-          className="text-gray-500 text-sm max-w-[350px]"
-        >
-          Bring your dream home to life with one-on-one design help & hand
-          picked products
-        </motion.p>
+        <Head
+          title="Events"
+          desc="Join us for upcoming events, workshops, and collaborative sessions that inspire learning and growth."
+          theme={theme}
+        />
       </div>
       {currentUser?.isAdmin || currentUser?.is_staff ? (
-      <Link className={`${theme == 'light' ? 'text-primary' : 'text-bg_lightest'} flex w-full justify-end`} to={`/admin/new-event`}>
-        <button className="flex items-center justify-center mb-2 lg:mb-4 self-end">
-          New Event
-        </button>
-      </Link>
-
-      ) : ""}
+        <Link
+          className={`${
+            theme == "light" ? "text-primary" : "text-bg_lightest"
+          } flex w-full justify-end`}
+          to={`/admin/new-event`}
+        >
+          <button className="flex items-center justify-center mb-2 lg:mb-4 self-end">
+            New Event
+          </button>
+        </Link>
+      ) : (
+        ""
+      )}
       <Calendar
         localizer={localizer}
         events={formatedEvents}

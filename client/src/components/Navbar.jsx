@@ -14,6 +14,7 @@ import {
   logout,
 } from "../features/user/authSlice";
 import { AiTwotoneDashboard } from "react-icons/ai";
+import { SlideLeft } from "../animation/animate";
 
 export default function ({ currentUser, auth }) {
   const { theme } = useContext(ThemeContext);
@@ -26,25 +27,28 @@ export default function ({ currentUser, auth }) {
       } flex flex-col z-50 md:flex-row py-3 w-full items-center justify-between gap-4 md:gap-0`}
     >
       <motion.div
+        variants={SlideLeft(0.6)}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.5 }} 
-        className="hidden md:flex items-center justify-between w-full">
+        transition={{ duration: 0.5 }}
+        whileInView="animate"
+        className="hidden md:flex items-center justify-between w-full"
+      >
         <div
           className={`${
             theme !== "light" ? "text-clr_alt" : "text-cl_primary"
           } font-semibold py-2 px-4 
 									 flex items-center text-center transition duration-300 ease-in-out`}
         >
-            <HoverUnderLine>
-          <Link className="flex text-center items-center gap-2" to="/">
+          <HoverUnderLine>
+            <Link className="flex text-center items-center gap-2" to="/">
               <img
                 src={logo}
                 className="w-9 h-9 object-center object-contain"
               />
               <p className="hidden lg:block">CodingWithYonela</p>
-          </Link>
-            </HoverUnderLine>
+            </Link>
+          </HoverUnderLine>
         </div>
         <div className="flex items-center justify-center gap-4">
           <div

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import Empty from "./Empty";
 import { motion } from "framer-motion";
 import { SlideLeft, SlideUp } from "../animation/animate";
+import { Head } from "../shared/Head";
 
 const Blogs = () => {
   const { theme } = useContext(ThemeContext);
@@ -55,28 +56,13 @@ const Blogs = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className={`${
-        theme == "light" ? "text-bg_opp" : "text-slate-400"
-      } flex flex-col gap-8 h-full`}
     >
       <div className="space-y-4 max-w-[550px] mb-8">
-        <motion.h1
-          variants={SlideLeft(0.2)}
-          initial="initial"
-          whileInView="animate"
-          className="text-xl lg:text-4xl font-bold"
-        >
-          Articles
-        </motion.h1>
-        <motion.p
-          variants={SlideUp(0.4)}
-          initial="initial"
-          whileInView="animate"
-          className="text-gray-500 text-sm max-w-[350px]"
-        >
-          Bring your dream home to life with one-on-one design help & hand
-          picked products
-        </motion.p>
+        <Head
+          title="Articles"
+          desc="Dive into insightful articles, tutorials, and resources to help you on your development journey."
+          theme={theme}
+        />
       </div>
       {journeyBlogs && journeyBlogs?.length ? (
         <section className="max-w-4xl py-2 lg:py-4 flex flex-col space-y-6 mt-4">

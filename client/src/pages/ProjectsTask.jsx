@@ -9,6 +9,7 @@ import { ThemeContext } from "../context/ThemeContext";
 import { motion } from "framer-motion";
 import Empty from "./Empty";
 import { SlideLeft, SlideUp } from "../animation/animate";
+import { Head } from "../shared/Head";
 
 const ProjectsTask = () => {
   const { theme } = useContext(ThemeContext);
@@ -43,23 +44,11 @@ const ProjectsTask = () => {
       {projects?.length > 0 ? (
         <>
           <div className="space-y-4 max-w-[550px] mb-8">
-            <motion.h1
-              variants={SlideLeft(0.2)}
-              initial="initial"
-              whileInView="animate"
-              className="text-xl lg:text-4xl font-bold"
-            >
-              Projects
-            </motion.h1>
-            <motion.p
-              variants={SlideUp(0.4)}
-              initial="initial"
-              whileInView="animate"
-              className="text-gray-500 text-sm max-w-[350px]"
-            >
-              Bring your dream home to life with one-on-one design help & hand
-              picked products
-            </motion.p>
+            <Head
+              title="Projects"
+              desc="Explore a wide range of projects created by our community, and get inspired to start your own."
+              theme={theme}
+            />
           </div>
           <Board project={true} data={projects} />
         </>
