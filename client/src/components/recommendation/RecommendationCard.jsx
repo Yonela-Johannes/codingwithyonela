@@ -43,7 +43,7 @@ function RecommendationCard({ item, theme })
                 className="flex flex-col 
                       items-baseline p-3 gap-1 border-t-[1px] border-bg_primary mt-2"
               >
-                <h2 className={`${theme == "light" ? "text-bg_primary" : "text-bg_lighter"} font-bold text-base lg:text-lg`}>{item?.username} {item?.re_lastname}</h2>
+                <h2 className={`${theme == "light" ? "text-bg_primary" : "text-bg_lighter"} font-bold text-base lg:text-lg`}>{item?.username}{" "}{item?.re_lastname}</h2>
                 <p className="text-base w-max">{item?.user_title}</p>
                 <div className="flex items-center text-primary gap-4 my-2 text-bg_opp text-lg">
                   {item?.website ? (

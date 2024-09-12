@@ -29,10 +29,13 @@ import {
 } from "react-icons/pi";
 import { AiTwotoneMail } from "react-icons/ai";
 import { Head } from "../shared/Head";
+import { LayoutContext } from "../context/LayoutContext";
+import ListCard from "../components/recommendation/ListCard";
 
 const Recommendations = () => {
   const { openSuggestion, setOpenSuggestion, selectedSuggestion } =
     useContext(ModalContext);
+  const { layout } = useContext(LayoutContext);
   const { theme } = useContext(ThemeContext);
   const { currentUser } = useSelector((state) => state?.user);
   const { countries } = useSelector((state) => state.countries);
@@ -187,7 +190,7 @@ const Recommendations = () => {
       className="h-full my-5"
     >
       <div className="space-y-4 max-w-[550px] mb-8">
-      <Head
+        <Head
           title="Recommendations"
           desc="Check out valuable recommendations from the community, offering tools, insights, and advice to enhance your work."
           theme={theme}
@@ -241,29 +244,43 @@ const Recommendations = () => {
           </div>
         </button>
       </div>
-      <div className="grid grid-cols-1 w-full lg:grid-cols-2 xl:grid-cols-4 gap-2 lg:grid-gap-4 xl:gap-6 h-full">
-        {filterValue && filterValue !== "all"
-          ? recommendations
-              ?.filter((element) => element.user_title == filterValue)
-              ?.map((item, x) =>
+      {layout == "grid" ? (
+        <div className="grid grid-cols-1 w-full lg:grid-cols-2 xl:grid-cols-4 gap-2 lg:grid-gap-4 xl:gap-6 h-full">
+          {filterValue && filterValue !== "all"
+            ? recommendations
+                ?.filter((element) => element.user_title == filterValue)
+                ?.map((item, x) =>
+                  item?.status !== "pending" ? (
+                    <RecommendationCard key={x} theme={theme} item={item} />
+                  ) : (
+                    ""
+                  )
+                )
+            : currentUser?.is_admin || currentUser?.is_staff
+            ? recommendations?.map((item) => (
+                <RecommendationCard theme={theme} item={item} key={item?._id} />
+              ))
+            : recommendations?.map((item, x) =>
                 item?.status !== "pending" ? (
-                  <RecommendationCard key={x} theme={theme} item={item} />
+                  <RecommendationCard theme={theme} item={item} key={x} />
                 ) : (
                   ""
                 )
-              )
-          : currentUser?.is_admin || currentUser?.is_staff
-          ? recommendations?.map((item) => (
-              <RecommendationCard theme={theme} item={item} key={item?._id} />
-            ))
-          : recommendations?.map((item, x) =>
-              item?.status !== "pending" ? (
-                <RecommendationCard theme={theme} item={item} key={x} />
-              ) : (
-                ""
-              )
-            )}
-      </div>
+              )}
+        </div>
+      ) : (
+        <div className="flex flex-col gap-1">
+          {filterValue && filterValue !== "all"
+            ? recommendations
+                ?.filter((element) => element.user_title == filterValue)
+                ?.map((item) => (
+                  item?.status !== "pending" ? (<ListCard key={item?.id} item={item} />) : ""))
+            : recommendations?.map((item) => (
+              item?.status !== "pending" ? (<ListCard key={item?.id} item={item} />) : ""
+              ))}
+        </div>
+      )}
+
       <Modal
         title="Recommended developer details"
         centered

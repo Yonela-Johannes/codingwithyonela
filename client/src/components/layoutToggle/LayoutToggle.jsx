@@ -14,7 +14,7 @@ const LayoutToggle = () =>
       className="cursor-pointer text-2xl lg:text-3xl"
     >
       {
-        layout === "list" ? <p className={`${theme == 'light' ? 'text-bg_primary' : 'text-bg_lightest'}`}><MdOutlineFormatListBulleted /></p> : <p className={`${theme == 'light' ? 'text-bg_primary' : 'text-bg_lightest'}`}><MdGridView  /></p>
+        layout === "grid" ? <p className={`${theme == 'light' ? 'text-bg_primary' : 'text-bg_lightest'}`}><MdOutlineFormatListBulleted /></p> : <p className={`${theme == 'light' ? 'text-bg_primary' : 'text-bg_lightest'}`}><MdGridView  /></p>
       }
     </div>
   );
