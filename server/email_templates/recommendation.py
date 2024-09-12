@@ -388,3 +388,4 @@ def update_user_mail(email, name, lastname, mail):
         confirmation_message="Portfolio added successfully, email sent!",
         mail=mail
     )
+ 

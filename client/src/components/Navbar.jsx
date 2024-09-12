@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useContext, useState } from "react";
 import HoverUnderLine from "./HoverUnderLine";
+import { RiContactsLine } from "react-icons/ri";
 import logo from "../assets/logo.png";
 import { LucideLogIn, LucideLogOut, LucideUser, Search } from "lucide-react";
 import ThemeToggle from "./themeToggle/ThemeToggle";
@@ -159,6 +160,19 @@ export default function ({ currentUser, auth }) {
           ) : (
             ""
           )}
+          <Link to="/contact">
+            <HoverUnderLine>
+              <div
+                className={`${
+                  theme == "light" ? "text-bg_grey" : "dark:text-white"
+                }   py-2 px-4 
+									 flex items-center transition duration-300 ease-in-out`}
+              >
+                <RiContactsLine className="mr-2" size={16} />
+                Contact
+              </div>
+            </HoverUnderLine>
+          </Link>
           <ThemeToggle />
         </div>
       </motion.div>

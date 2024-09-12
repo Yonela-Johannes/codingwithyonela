@@ -372,6 +372,24 @@ def create_tables():
             end_time TIMESTAMP NOT NULL
         );
         """,
+        """
+        CREATE TABLE IF NOT EXISTS contact (
+            id SERIAL PRIMARY KEY,
+            email VARCHAR(200) NOT NULL,
+            name VARCHAR(200) NOT NULL,
+            lastname VARCHAR(200) NOT NULL,
+            message TEXT NOT NULL,
+            time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            image VARCHAR(200) NOT NULL
+        );
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS newsletter (
+            id SERIAL PRIMARY KEY,
+            email VARCHAR(200) NOT NULL,
+            time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        """,
     )
     
     try:

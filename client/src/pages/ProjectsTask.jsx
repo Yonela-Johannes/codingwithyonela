@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import Empty from "./Empty";
 import { SlideLeft, SlideUp } from "../animation/animate";
 import { Head } from "../shared/Head";
+import ProjectList from "../components/project/Projects";
 
 const ProjectsTask = () => {
   const { theme } = useContext(ThemeContext);
@@ -50,7 +51,8 @@ const ProjectsTask = () => {
               theme={theme}
             />
           </div>
-          <Board project={true} data={projects} />
+          {/* <Board project={true} data={projects} /> */}
+          <ProjectList projects={projects} />
         </>
       ) : (
         <Empty

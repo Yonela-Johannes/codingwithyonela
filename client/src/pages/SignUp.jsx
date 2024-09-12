@@ -125,7 +125,7 @@ export default function SignUp() {
         <div
           className={`${
             theme == "light" ? "bg-white" : "bg-bg_primary border-none"
-          } w-full lg:relative flex lg:px-16 mx-auto flex-col md:flex-row md:items-center gap-5 lg:border lg:h-[80%] overflow-auto py-10 lg:rounded-lg lg:w-[600px]`}
+          } w-full lg:relative flex lg:px-16 mx-auto flex-col md:flex-row md:items-center gap-5 lg:border lg:h-[80%] overflow-auto py-10 lg:w-[600px]`}
         >
           <div className="flex-1">
             <form

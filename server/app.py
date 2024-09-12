@@ -11,6 +11,7 @@ from routes.event import all_events, event
 from routes.topics import topics
 from routes.user import create_user_profile, user, login_user, verify_user, users
 from routes.title import title
+from routes.contact import contact, contact_us, newsletter
 from routes.blog import blog, blogs, blogs_comment_create, blogs_comments
 from routes.post_router import post, posts, post_comment_create, post_comment, post_vote_create, post_response_create, post_response
 from routes.task import task, project_task
@@ -201,6 +202,17 @@ def response_route():
 @app.route('/api/v1/posts-vote/<int:id>', methods=['GET', 'POST'])
 def vote_route(id):
     return post_vote_create(id)
+
+# email us route
+@app.route('/api/v1/contact-us', methods=['POST'])
+def contact_route():
+    return contact_us(mail=mail)
+
+# newsleteter route
+@app.route('/api/v1/newsletter', methods=['GET', 'POST', 'DELETE'])
+def newsletter_route():
+    return newsletter(mail=mail)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
