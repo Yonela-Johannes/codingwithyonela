@@ -116,7 +116,6 @@ def newsletter(mail):
             data = request.form
             if  "email" in data:
                 email = data['email']
-                ic(email)
                 if email:
                     response = create_newsletter( 
                         email=email

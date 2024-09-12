@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import HoverUnderLine from "./HoverUnderLine";
 import { RiContactsLine } from "react-icons/ri";
 import logo from "../assets/logo.png";
-import { LucideLogIn, LucideLogOut, LucideUser, Search } from "lucide-react";
+import { LucideLogIn, LucideLogOut, LucideUser } from "lucide-react";
 import ThemeToggle from "./themeToggle/ThemeToggle";
 import { ThemeContext } from "../context/ThemeContext";
 import { motion } from "framer-motion";
@@ -16,6 +16,7 @@ import {
 } from "../features/user/authSlice";
 import { AiTwotoneDashboard } from "react-icons/ai";
 import { SlideLeft } from "../animation/animate";
+import LayoutToggle from "./layoutToggle/LayoutToggle";
 
 export default function ({ currentUser, auth }) {
   const { theme } = useContext(ThemeContext);
@@ -67,7 +68,7 @@ export default function ({ currentUser, auth }) {
                   <HoverUnderLine>
                     <div
                       className={`${
-                        theme == "light" ? "text-bg_grey" : "dark:text-white"
+                        theme == "light" ? "text-bg_grey" : "text-white"
                       }   py-2 px-4 
 									 flex items-center transition duration-300 ease-in-out`}
                     >
@@ -119,7 +120,7 @@ export default function ({ currentUser, auth }) {
                   <div
                     onClick={() => dispatch(activeSignup())}
                     className={`${
-                      theme == "light" ? "text-bg_grey" : "dark:text-white"
+                      theme == "light" ? "text-bg_grey" : "text-white"
                     }   py-2 px-4 
 									 flex items-center transition duration-300 ease-in-out`}
                   >
@@ -164,7 +165,7 @@ export default function ({ currentUser, auth }) {
             <HoverUnderLine>
               <div
                 className={`${
-                  theme == "light" ? "text-bg_grey" : "dark:text-white"
+                  theme == "light" ? "text-bg_grey" : "text-white"
                 }   py-2 px-4 
 									 flex items-center transition duration-300 ease-in-out`}
               >
@@ -174,6 +175,7 @@ export default function ({ currentUser, auth }) {
             </HoverUnderLine>
           </Link>
           <ThemeToggle />
+          <LayoutToggle />
         </div>
       </motion.div>
     </nav>

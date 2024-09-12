@@ -5,13 +5,13 @@ import todo from '../../assets/task/direct-hit.png'
 import doing from '../../assets/task/glowing-star.png'
 import testing from '../../assets/task/fire.png'
 import done from '../../assets/task/check-mark-button.png'
-import TaskCard from '../../components/task/TaskCard'
 import postponed from '../../assets/task/postponed.png'
 import TaskForm from '../../components/task/TaskForm'
 import { useSelector } from 'react-redux'
 import { LayoutContext } from '../../context/LayoutContext'
+import ListCard from './ListCard'
 
-const Board = ({ project, data }) =>
+const List = ({ project, data }) =>
 {
     const { layout } = useContext(LayoutContext);
     const { currentUser } = useSelector((state) => state.user);
@@ -47,53 +47,53 @@ const Board = ({ project, data }) =>
     }
 
     return (
-        <main className={`${theme == "light" ? "text-bg_primary" : "text-white"} w-full grid lg:grid-rows-[150px auto] gap-8`}>
+        <main className={`${theme == "light" ? "text-bg_primary" : "text-white"} w-full gap-8`}>
             {(currentUser?.is_staff || currentUser?.is_admin) ? (
                 <TaskForm project={project} filterGrouped={filterGrouped} />
             ) : ""}
             {data?.length ? (
-                <div className={`${theme == "light" ? "" : ""} flex flex-col lg:flex-row gap-4 lg:gap-0 lg:flex justify-evenly py-2 lg:py-5 ${data?.length ? "min-h-[600px]" : 'h-min'}`}>
+                <div className={`${theme == "light" ? "" : ""} flex flex-col gap-4 lg:gap-0 lg:flex justify-evenly py-2 lg:py-5 ${data?.length ? "min-h-[600px]" : 'h-min'}`}>
                     {/* task column */}
-                    <section className="w-full lg:w-[35%] lg:m-5">
+                    <section className="w-full lg:m-5">
                         <TaskColumn title="To do" image={todo} />
                         {grouped?.todo?.map((elem) => (
-                            <TaskCard key={elem?.id} elem={elem} project={project} />
+                            <ListCard key={elem?.id} elem={elem} project={project} />
                         ))}
                     </section>
-                    <section className="w-full lg:w-[35%] lg:m-5">
+                    <section className="w-full lg:m-5">
                         <TaskColumn title="In progress" image={doing} />
                         {grouped?.progress?.map((elem) => (
-                            <TaskCard key={elem?.id} project={project} elem={elem} />
+                            <ListCard key={elem?.id} project={project} elem={elem} />
                         ))}
                     </section>
                     {project ? (
                         <>
-                            <section className="w-full lg:w-[35%] lg:m-5">
+                            <section className="w-full lg:m-5">
                                 <TaskColumn title="On hold" image={postponed} />
                                 {grouped?.on_hold?.map((elem) => (
-                                    <TaskCard key={elem?.id} project={project} elem={elem} />
+                                    <ListCard key={elem?.id} project={project} elem={elem} />
                                 ))}
                             </section>
-                            <section className="w-full lg:w-[35%] lg:m-5">
+                            <section className="w-full lg:m-5">
                                 <TaskColumn title="Testing" image={testing} />
                                 {grouped?.testing?.map((elem) => (
-                                    <TaskCard key={elem?.id} project={project} elem={elem} />
+                                    <ListCard key={elem?.id} project={project} elem={elem} />
                                 ))}
                             </section>
                         </>
                     ) : (
-                        <section className="w-full lg:w-[35%] lg:m-5">
+                        <section className="w-full lg:m-5">
                             <TaskColumn title="Testing" image={testing} />
                             {grouped?.testing?.map((elem) => (
-                                <TaskCard key={elem?.id} project={project} elem={elem} />
+                                <ListCard key={elem?.id} project={project} elem={elem} />
                             ))}
                         </section>
 
                     )}
-                    <section className="w-full lg:w-[35%] lg:m-5">
+                    <section className="w-full lg:m-5">
                         <TaskColumn title="Done" image={done} />
                         {grouped?.done?.map((elem) => (
-                            <TaskCard key={elem?.id} project={project} elem={elem} />
+                            <ListCard key={elem?.id} project={project} elem={elem} />
                         ))}
                     </section>
                 </div>
@@ -102,4 +102,4 @@ const Board = ({ project, data }) =>
     )
 }
 
-export default Board
+export default List

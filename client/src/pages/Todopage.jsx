@@ -9,9 +9,12 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { Head } from "../shared/Head";
 import { SlideLeft } from "../animation/animate";
+import { LayoutContext } from "../context/LayoutContext";
+import List from "../components/task/List";
 
 const Todopage = () => {
   const { id } = useParams();
+  const { layout } = useContext(LayoutContext);
   const { project } = useSelector((state) => state.project);
   const { tasks, created, updated, success, deleted } = useSelector(
     (state) => state.task
@@ -77,7 +80,7 @@ const Todopage = () => {
             />
           </motion.div>
         </div>
-        <Board project={false} data={tasks} />
+        {layout == "grid" ? <Board project={false} data={tasks} /> : <List project={false} data={tasks} />}
       </div>
       <Collaboration id={id} />
     </motion.div>

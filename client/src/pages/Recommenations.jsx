@@ -28,7 +28,6 @@ import {
   PiUserCircleDuotone,
 } from "react-icons/pi";
 import { AiTwotoneMail } from "react-icons/ai";
-import { SlideLeft, SlideUp } from "../animation/animate";
 import { Head } from "../shared/Head";
 
 const Recommendations = () => {
