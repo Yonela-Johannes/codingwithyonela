@@ -25,7 +25,7 @@ function BusinessList() {
                 rounded-lg hover:shadow-lg cursor-pointer
                  hover:shadow-primary
                  hover:scale-105 transition-all ease-in-out'>
-                    <img src={business?.images[0].url}
+                    <img src={business?.images?.url}
                     alt={business.name}
                     width={500}
                     height={200}

@@ -39,9 +39,9 @@ const Footer = () => {
         <div className="flex flex-col gap-4 w-full">
           <div className="flex flex-col md:flex-row justify-between">
             <div>
-              <p className="text-sm lg:text-base font-semibold">Information</p>
-              <p className="text-sm lg:text-base">Cape Town</p>
-              <p className="text-sm lg:text-base">South Africa</p>
+              <p className="text-sm font-medium">INFORMATION</p>
+              <p className="text-sm">Cape Town</p>
+              <p className="text-sm">South Africa</p>
               <div className="flex gap-1 mt-2">
                 <p className="text-sm font-semibold">Phone:</p>
                 <p className="text-sm">069 356 4159</p>
@@ -52,35 +52,45 @@ const Footer = () => {
               </div>
             </div>
             <div>
-              <p className="text-sm lg:text-base font-semibold">About</p>
+              <p className="text-sm font-medium">ABOUT</p>
               <HoverUnderLine>
-                <Link to="/about" className="text-sm lg:text-base">
+                <Link to="/about" className="text-sm">
                   About me
                 </Link>
               </HoverUnderLine>
               <HoverUnderLine>
-                <Link to="/blog" className="text-sm lg:text-base">
+                <Link to="/blog" className="text-sm">
                   Blogs
                 </Link>
               </HoverUnderLine>
               <HoverUnderLine>
-                <Link to="/project-status" className="text-sm lg:text-base">
+                <Link to="/project-status" className="text-sm">
                   Projects
                 </Link>
               </HoverUnderLine>
               <HoverUnderLine>
-                <Link to="/recommendation" className="text-sm lg:text-base">
+                <Link to="/recommendation" className="text-sm">
                   Recommendation
                 </Link>
               </HoverUnderLine>
             </div>
+            <div className="flex-col flex ">
+              <div className="text-sm font-medium">FOR PROJECTS</div>
+              <div className="flex flex-col gap-1 font-light  text-sm">
+                <div>Project Management</div>
+                <div>Goal Management</div>
+                <div>Increase Productivity</div>
+                <div>Work Management</div>
+                <div>Project Planning</div>
+              </div>
+            </div>
             <div>
-              <p className="text-sm lg:text-base font-semibold">My Services</p>
+              <p className="text-sm font-semibold">MY SERVICE</p>
               <HoverUnderLine>
                 <a
                   target="_blank"
                   href="https://github.com/yonela-johannes"
-                  className="text-sm lg:text-base"
+                  className="text-sm"
                 >
                   GitHub
                 </a>
@@ -89,7 +99,7 @@ const Footer = () => {
                 <a
                   target="_blank"
                   href="https://portfolio-beta-red-17.vercel.app/"
-                  className="text-sm lg:text-base"
+                  className="text-sm"
                 >
                   Portfolio
                 </a>

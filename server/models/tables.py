@@ -390,6 +390,21 @@ def create_tables():
             time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
         """,
+        """
+        CREATE TABLE IF NOT EXISTS note (
+            id SERIAL PRIMARY KEY,
+            title VARCHAR(200) NOT NULL,
+            account_id INTEGER NOT NULL,
+            slug TEXT NOT NULL,
+            content TEXT NOT NULL,
+            tags TEXT NOT NULL,
+            is_pinned BOOLEAN NOT NULL DEFAULT false,
+            date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE
+        );
+        """,
     )
     
     try:

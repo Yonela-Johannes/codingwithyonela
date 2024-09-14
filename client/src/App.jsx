@@ -30,6 +30,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { disableAuthModals } from "./features/user/authSlice";
 import Contact from "./pages/Contact";
+import BusinessList from "./components/BusinessList";
+import Notes from "./pages/notes/Notes";
 
 function App()
 {
@@ -61,6 +63,8 @@ function App()
             <Route path="/project/:id/todo" element={<Todopage />} />
             <Route path="/events" element={<BigCalendar />} />
             <Route path="/contact" element={<Contact/>} />
+            <Route path="/bus" element={<BusinessList/>} />
+            <Route path="/notes" element={<Notes />} />
             {/* user routes */}
             <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/edit-account" element={<PrivateRoute><EditAccount /></PrivateRoute>} />

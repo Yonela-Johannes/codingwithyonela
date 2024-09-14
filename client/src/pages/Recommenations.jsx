@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RecommendationCard from "../components/recommendation/RecommendationCard";
 import { useContext, useEffect, useRef, useState } from "react";
 import { getAllTitles } from "../features/title/titleSlice";
-import { MdClose, MdOutlineAdd } from "react-icons/md";
+import { MdOutlineAdd } from "react-icons/md";
 import { Modal } from "antd";
 import { Spinner } from "flowbite-react";
 import {

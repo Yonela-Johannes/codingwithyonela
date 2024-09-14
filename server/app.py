@@ -13,6 +13,7 @@ from routes.user import create_user_profile, user, login_user, verify_user, user
 from routes.title import title
 from routes.contact import contact, contact_us, newsletter
 from routes.blog import blog, blogs, blogs_comment_create, blogs_comments
+from routes.note import note, notes
 from routes.post_router import post, posts, post_comment_create, post_comment, post_vote_create, post_response_create, post_response
 from routes.task import task, project_task
 from utils.token_handler import valid_token
@@ -213,6 +214,14 @@ def contact_route():
 def newsletter_route():
     return newsletter(mail=mail)
 
+# blog route
+@app.route('/api/v1/note', methods=['GET', 'PUT', 'DELETE'])
+def note_route():
+    return note()
+
+@app.route('/api/v1/notes', methods=['GET', 'POST'])
+def all_notes_route():
+    return notes()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -38,6 +38,11 @@ export const navLinks = [
         icon: PiCalendarMinusDuotone,
         link: "/events",
     },
+    {
+        title: "Notes",
+        icon: PiCalendarMinusDuotone,
+        link: "/notes",
+    },
 ]
 
 export const features = [
