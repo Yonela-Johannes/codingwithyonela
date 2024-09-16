@@ -44,6 +44,15 @@ mail = Mail(app)
 def test_route():
     return quotes()
 
+# notes route
+@app.route('/api/v1/note', methods=['GET', 'PUT', 'DELETE'])
+def note_route():
+    return note()
+
+@app.route('/api/v1/notes', methods=['GET', 'POST'])
+def all_notes_route():
+    return notes()
+
 # task route
 @app.route('/api/v1/task/<int:project_id>' , methods=['GET', 'PUT', 'DELETE', 'POST'])
 def task_route(project_id):
@@ -213,15 +222,6 @@ def contact_route():
 @app.route('/api/v1/newsletter', methods=['GET', 'POST', 'DELETE'])
 def newsletter_route():
     return newsletter(mail=mail)
-
-# blog route
-@app.route('/api/v1/note', methods=['GET', 'PUT', 'DELETE'])
-def note_route():
-    return note()
-
-@app.route('/api/v1/notes', methods=['GET', 'POST'])
-def all_notes_route():
-    return notes()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
