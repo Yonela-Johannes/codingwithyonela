@@ -20,6 +20,7 @@ const NoteCard = ({
   username,
 }) => {
   const { loading } = useSelector((state) => state.note);
+  const { currentUser } = useSelector((state) => state.user);
   return loading ? (
     <Loader />
   ) : (
@@ -62,7 +63,7 @@ const NoteCard = ({
               className={`cursor-pointer ${
                 isPinned ? "text-cl_primary " : "text-slate-300"
               }`}
-              onClick={onPinNote}
+              onClick={(currentUser?.is_admin || currentUser?.is_staff) ? onPinNote : ""}
             />
           ) : (
             <MdOutlinePushPin
@@ -83,6 +84,7 @@ const NoteCard = ({
               className="rounded-md object-contain h-[25px] w-[25px]"
             />
           </div>
+          {currentUser?.is_admin || currentUser?.is_staff ? (
           <div className="flex items-center gap-2 cursor-pointer">
             <MdCreate
               className="hover:text-bg_core duration-300"
@@ -91,6 +93,7 @@ const NoteCard = ({
 
             <MdDelete className="hover:text-bg_core duration-300" onClick={onDelete} />
           </div>
+          ) : ""}
         </div>
       </div>
     </div>

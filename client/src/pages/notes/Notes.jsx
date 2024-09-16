@@ -35,7 +35,7 @@ const Notes = () => {
       ...note,
       tags: note.tags ? JSON.parse(note.tags) : [],
     }));
-  
+
     setNewNotes(updatedNotes);
   }, [notes]);
 
@@ -82,7 +82,7 @@ const Notes = () => {
   // Delete Note
   const deleteNote = async (data) => {
     const id = data.note_id;
-    dispatch(removeNote(id))
+    dispatch(removeNote(id));
   };
 
   const onSearchNote = async (query) => {
@@ -111,8 +111,8 @@ const Notes = () => {
 
   const updateIsPinned = async (noteData) => {
     const id = noteData.note_id;
-    const pin = noteData.is_pinned
-    dispatch(pinNote({id, pin}))
+    const pin = noteData.is_pinned;
+    dispatch(pinNote({ id, pin }));
   };
 
   return (
@@ -130,28 +130,32 @@ const Notes = () => {
             theme={theme}
           />
         </div>
-        <button
-          onClick={() => {
-            setOpenAddEditModal({ isShown: true, type: "add", data: null });
-          }}
-          title="Add/Edit Note"
-          className={` ${
-            theme == "light"
-              ? "text-black bg-bg_light"
-              : "bg-bg_grey text-bg_lightest"
-          } flex p-0 items-center justify-center text-base border-none`}
-        >
-          <p className="pl-2">Note</p>
-          <div
+        {currentUser?.is_admin || currentUser?.is_staff ? (
+          <button
+            onClick={() => {
+              setOpenAddEditModal({ isShown: true, type: "add", data: null });
+            }}
+            title="Add/Edit Note"
             className={` ${
               theme == "light"
                 ? "text-black bg-bg_light"
                 : "bg-bg_grey text-bg_lightest"
-            } flex p-0 items-center justify-center text-lg  w-10 h-10`}
+            } flex p-0 items-center justify-center text-base border-none`}
           >
-            <MdOutlineAdd size={20} />
-          </div>
-        </button>
+            <p className="pl-2">Note</p>
+            <div
+              className={` ${
+                theme == "light"
+                  ? "text-black bg-bg_light"
+                  : "bg-bg_grey text-bg_lightest"
+              } flex p-0 items-center justify-center text-lg  w-10 h-10`}
+            >
+              <MdOutlineAdd size={20} />
+            </div>
+          </button>
+        ) : (
+          ""
+        )}
       </div>
       <div className="container mx-auto">
         {newNotes?.length ? (
