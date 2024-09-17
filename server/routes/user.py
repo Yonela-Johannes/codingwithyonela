@@ -73,6 +73,7 @@ def user(id):
             
             response = fetch_user(id)
             
+            ic(data)
             return {}, 200
         
             is_admin: bool = False

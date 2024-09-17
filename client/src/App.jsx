@@ -16,7 +16,6 @@ import EditAccount from "./pages/EditAccount";
 import Chill from "./components/chill/Chill";
 import PrivateRoute from "./utils/PrivateRoute";
 import AdminPrivateRoute from "./utils/AdminRoute";
-import Profile from "./pages/Profile";
 import { Theme } from '@radix-ui/themes';
 import BigCalendar from "./components/dashboard/BigCalender";
 import Users from "./components/dashboard/list/Users";
@@ -66,8 +65,7 @@ function App()
             <Route path="/bus" element={<BusinessList/>} />
             <Route path="/notes" element={<Notes />} />
             {/* user routes */}
-            <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-            <Route path="/edit-account" element={<PrivateRoute><EditAccount /></PrivateRoute>} />
+            <Route path="/profile" element={<PrivateRoute><EditAccount /></PrivateRoute>} />
             {/* admin routes */}
             <Route path="/admin">
               <Route path="/admin" element={<AdminPrivateRoute><Users /></AdminPrivateRoute>} />
