@@ -4,7 +4,7 @@ import { BsCalendar3EventFill, BsQuestionDiamondFill } from "react-icons/bs";
 import { HiUsers } from "react-icons/hi2";
 import { FaUsers } from "react-icons/fa";
 import { ImBlogger } from "react-icons/im";
-import { PiCalendarMinusDuotone, PiChatDuotone, PiListDashesDuotone, PiProjectorScreenDuotone, PiRadio, PiUserCheckDuotone, PiUsersDuotone } from "react-icons/pi";
+import { PiCalendarMinusDuotone, PiChatDuotone, PiListBulletsDuotone, PiListDashesDuotone, PiNoteDuotone, PiProjectorScreenDuotone, PiRadio, PiUserCheckDuotone, PiUsersDuotone } from "react-icons/pi";
 import { AiTwotoneEdit, AiTwotoneQuestionCircle, AiTwotoneMessage, AiTwotoneHome, AiTwotoneInteraction, } from "react-icons/ai";
 
 export const navLinks = [
@@ -40,7 +40,7 @@ export const navLinks = [
     },
     {
         title: "Notes",
-        icon: PiCalendarMinusDuotone,
+        icon: PiNoteDuotone,
         link: "/notes",
     },
 ]
