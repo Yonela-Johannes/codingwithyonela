@@ -9,7 +9,7 @@ const initialState = {
   created: false,
   updated: false,
   deleted: false,
-  pinned: true,
+  pinned: false,
 };
 
 export const getAllNotes = createAsyncThunk("notes/fetch all", async () => {
