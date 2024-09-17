@@ -681,7 +681,7 @@ const Recommendations = () => {
         open={openSuggestion}
         onOk={() => setOpenSuggestion(false)}
         onCancel={() => setOpenSuggestion(false)}
-        width={800}
+        width={600}
         footer={false}
       >
         <Recommendation />

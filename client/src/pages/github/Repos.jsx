@@ -73,12 +73,14 @@ const Repos = ({ reposUrl, theme }) =>
 								<Badge fontSize={"0.8em"} colorScheme='orange' flex={1} textAlign={"center"}>
 									Stars: {repo.stargazers_count}
 								</Badge>
-								<Badge fontSize={"0.8em"} colorScheme='pink' flex={1} textAlign={"center"}>
-									Forks: {repo.forks_count}
-								</Badge>
-								<Badge fontSize={"0.8em"} colorScheme='cyan' flex={1} textAlign={"center"}>
-									Watchers: {repo.watchers_count}
-								</Badge>
+								<div className="hidden lg:block">
+									<Badge fontSize={"0.8em"} colorScheme='pink' flex={1} textAlign={"center"}>
+										Forks: {repo.forks_count}
+									</Badge>
+									<Badge fontSize={"0.8em"} colorScheme='cyan' flex={1} textAlign={"center"}>
+										Watchers: {repo.watchers_count}
+									</Badge>
+								</div>
 							</Flex>
 						</div>
 					);

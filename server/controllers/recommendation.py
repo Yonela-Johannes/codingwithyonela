@@ -52,7 +52,7 @@ def fetch_recommendation(id):
     
 # fetch all recommendations
 def fetch_recommendations():
-    query = """SELECT *, recommendation.id AS re_id, recommendation.name AS username, recommendation.lastname AS re_lastname, countries.name AS country_name, countries.code as country_code, countries.emoji AS country_flag, countries.unicode AS country_unicode FROM recommendation JOIN countries ON country_id = countries.id JOIN account ON account_id = account.id JOIN user_title ON title_id = user_title.id;"""
+    query = """SELECT *, recommendation.id AS re_id, recommendation.name AS username, recommendation.lastname AS re_lastname, countries.name AS country_name, countries.code as country_code, countries.emoji AS country_flag, countries.unicode AS country_unicode FROM recommendation JOIN countries ON country_id = countries.id JOIN user_title ON title_id = user_title.id;"""
     
     try:
         with  connection as conn:
