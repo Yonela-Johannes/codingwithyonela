@@ -73,9 +73,6 @@ def user(id):
             
             response = fetch_user(id)
             
-            ic(data)
-            return {}, 200
-        
             is_admin: bool = False
             is_staff: bool = False
             username = None
@@ -197,16 +194,16 @@ def create_user_profile(mail):
                             token=token,
                             mail=mail
                             )
-                    return jsonify(res), 200
-        except Exception as e:
-            return jsonify(e), 400
+                    return jsonify(token), 200 if not isinstance(token, dict) else token
+        except Exception as error:
+            return jsonify({"error": str(error)}), 500
         
 def users():
     REQUEST = request.method 
     if REQUEST == 'GET':
         try:
             response = fetch_users()
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
 
         except Exception as error:
             # Generic exception handling

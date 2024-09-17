@@ -11,7 +11,6 @@ function RecommendationCard({ item, theme })
   const { setOpenSuggestion, setSelectedSuggestion } = useContext(ModalContext)
   const { loading } = useSelector((state) => state.recommendation);
 
-  console.log(item)
   return (
     loading ? (
       <Loader />

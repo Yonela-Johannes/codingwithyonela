@@ -21,8 +21,6 @@ import {
   PiUserCircleDuotone,
   PiEyeDuotone,
 } from "react-icons/pi";
-import Wrapper from "../shared/Wrapper";
-import Navbar from "../components/Navbar";
 
 export default function SignUp() {
   const [selectedFile, setSelectedFile] = useState();
@@ -34,7 +32,6 @@ export default function SignUp() {
   const dispatch = useDispatch();
   const [profile, setProfile] = useState(null);
   const [formData, setFormData] = useState({
-    username: "",
     firstname: "",
     lastname: "",
     email: "",
@@ -51,7 +48,6 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
-      !formData.username ||
       !formData.email ||
       !formData.password ||
       !formData.firstname ||
@@ -60,7 +56,6 @@ export default function SignUp() {
     )
       return toast("Missing information");
     const newFormData = new FormData();
-    newFormData.append("username", formData.username);
     newFormData.append("firstname", formData.firstname);
     newFormData.append("lastname", formData.lastname);
     newFormData.append("email", formData.email);
@@ -103,17 +98,6 @@ export default function SignUp() {
         theme == "light" ? "bg-bg_lightest" : "border-none bg-bg_core"
       } flex flex-col items-center justify-center lg:items-center absolute h-screen lg:h-sceen w-full lg:z-50 overflow-hidden top-0 left-0 right-0 bottom-0`}
     >
-      <div
-        className={`${
-          theme == "light"
-            ? "bg-white border-bg_light"
-            : "bg-slate-800 border-gray-900"
-        } border-y-[1px] fixed top-0 left-0 right-0 z-50 overflow-hidden`}
-      >
-        <Wrapper>
-          <Navbar auth={true} />
-        </Wrapper>
-      </div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -141,7 +125,9 @@ export default function SignUp() {
               >
                 <MdClose />
               </div>
-              <p className="text-lg lg:text-xl text-center">
+              <p className={`${
+                  theme == "light" ? "bg-white" : "text-white"}
+                text-lg lg:text-xl text-center`}>
                 Register new account
               </p>
               <div>
@@ -198,38 +184,6 @@ export default function SignUp() {
                       />
                     </div>
                   )}
-                </div>
-              </div>
-              <div className="bg-transparent">
-                <label
-                  value="Username"
-                  className={`${
-                    theme == "light" ? "text-black" : " text-bg_lightest"
-                  }`}
-                >
-                  Username
-                </label>
-                <div
-                  className={`flex items-center w-full border ${
-                    theme == "light"
-                      ? "text-black bg-gray-200"
-                      : "bg-bg_lightest text-bg_core"
-                  }`}
-                >
-                  <PiUserCircleDashedDuotone size={24} />
-                  <input
-                    className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_lightest text-bg_core"
-                    }`}
-                    type="text"
-                    value={formData.username}
-                    placeholder="your username"
-                    name="username"
-                    id="username"
-                    onChange={handleChange}
-                  />
                 </div>
               </div>
               <div className="bg-transparent">
@@ -374,11 +328,11 @@ export default function SignUp() {
                 onClick={() => (
                   dispatch(disableAuthModals()), dispatch(activeSignin())
                 )}
-                className="my-1 lg:my-2 text-[#646464] text-sm"
+                className="my-1 text-[#646464] text-sm cursor-pointer"
               >
                 Already have an account? <b>Login</b>
               </div>
-              <p className="my-1 lg:my-2 text-[#646464] text-sm">
+              <p className="mb-1 text-[#646464] text-sm">
                 By clicking “Sign up with CodingWithYonela” you agree <br /> to
                 the CodingWithYonela <b>TOS</b> and <b>Privacy Policy</b>.
               </p>

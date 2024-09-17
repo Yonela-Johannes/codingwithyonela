@@ -33,7 +33,7 @@ def blog():
             blog_image = data['blog_image']
             
             response = edit_blog(id, post, category_id, blog_image)
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
         
         except Exception as error:
             # Generic exception handling
@@ -48,7 +48,7 @@ def blog():
             data = request.get_json()
             id = data['id']
             response = delete_blog(id)
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
 
         except Exception as error:
             # Generic exception handling
@@ -98,7 +98,7 @@ def blogs():
     elif REQUEST == 'GET':
         try:
             response = fetch_blogs()
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
         except Exception as error:
             # Generic exception handling
             return jsonify({"error": str(error)}), 500
@@ -178,7 +178,7 @@ def blog_enum():
     elif REQUEST == 'GET':
         try:
             response = fetch_blog_enum()
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
         except Exception as error:
             # Generic exception handling
             return jsonify({"error": str(error)}), 500
