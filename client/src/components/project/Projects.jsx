@@ -18,6 +18,7 @@ export default function ProjectList({ projects }) {
     }
   };
 
+  console.log(projects)
   return (
     <div className="flex flex-col gap-1">
       {projects?.map((project) => (
@@ -61,16 +62,28 @@ export default function ProjectList({ projects }) {
                 <strong>Priority:</strong> {project?.priority}
               </p>
               <p>
-                <strong>Tags:</strong> {project?.tag_name || "No tags"}
+                <strong>Tags:</strong> {project?.tags?.replaceAll(',', " | ") || "No tags"}
               </p>
               <p>
                 <strong>Start Date:</strong>{" "}
                 {project?.created
-                  ? moment(project?.startDate).format("DD-MMM-YYYY")
+                  ? moment(project?.created).format("DD-MMM-YYYY")
+                  : "Not set"}
+              </p>
+              <p>
+                <strong>Due Date:</strong>{" "}
+                {project?.due_date
+                  ? moment(project?.due_date).format("DD-MMM-YYYY")
                   : "Not set"}
               </p>
               <p>
                 <strong>Author:</strong> {project?.firstname} {project.lastname}
+              </p>
+              <p>
+                <strong>Manager:</strong> {project?.manager}
+              </p>
+              <p>
+                <strong>Team:</strong> {project?.team.replaceAll(',', " | ") || 'No members'}
               </p>
             </div>
           </div>

@@ -24,16 +24,16 @@ def add_users(users_id):
         ic(f"Database error: {error}")
         return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
     
-def create_project( account_id, project_name, image, description, github, link, topic_id):
+def create_project( account_id, project_name, image, description, github, link, tags, team, manager, due_date):
     response = None
     try:
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 """ Create new project into  the acount table """
-                cur.execute("""INSERT INTO project (account_id, project_name, image, description, github, link, topic_id)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                cur.execute("""INSERT INTO project (account_id, project_name, image, description, github, link, tags, team, manager, due_date)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 
-                RETURNING id""",(account_id, project_name, image, description, github, link, topic_id))
+                RETURNING id""",(account_id, project_name, image, description, github, link, tags, team, manager, due_date))
                 
                 rows = cur.fetchone()
                 return rows if rows else {}
@@ -47,7 +47,7 @@ def create_project( account_id, project_name, image, description, github, link, 
 # fetch all projects
 def fetch_projects():
     # query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id A FROM project JOIN account on account_id = account.id JOIN status O = status.id ORDER BY project_time;"""
-    query = """SELECT project.*, project.id as project_id, topics.name as tag_name, account.* FROM project JOIN topics on topic_id = topics.id JOIN account on account_id = account.id ORDER BY project.id ASC """
+    query = """SELECT project.*, project.id as project_id, account.* FROM project JOIN account on account_id = account.id ORDER BY project.id ASC """
 
     try:
         with  connection as conn:

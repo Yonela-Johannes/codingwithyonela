@@ -12,7 +12,6 @@ import Todopage from "./pages/Todopage";
 import ProjectsTask from "./pages/ProjectsTask";
 import Verify from "./pages/Verify";
 import NotFoundPage from './pages/404'
-import EditAccount from "./pages/EditAccount";
 import Chill from "./components/chill/Chill";
 import PrivateRoute from "./utils/PrivateRoute";
 import AdminPrivateRoute from "./utils/AdminRoute";
@@ -64,8 +63,6 @@ function App()
             <Route path="/contact" element={<Contact/>} />
             <Route path="/bus" element={<BusinessList/>} />
             <Route path="/notes" element={<Notes />} />
-            {/* user routes */}
-            <Route path="/profile" element={<PrivateRoute><EditAccount /></PrivateRoute>} />
             {/* admin routes */}
             <Route path="/admin">
               <Route path="/admin" element={<AdminPrivateRoute><Users /></AdminPrivateRoute>} />

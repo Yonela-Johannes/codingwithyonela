@@ -104,7 +104,14 @@ def projects():
             description = request.form['description']
             github = request.form['github']
             link = request.form['link']               
-            topic_id = request.form['topic_id']      
+            tags = request.form['tags']
+            team = request.form['team']
+            manager = request.form['manager']
+            due_date = request.form['due_date']
+            
+            ic(manager)
+            ic(team)
+            ic(tags)
             
             res = uploadImage(image=image)
             
@@ -117,7 +124,10 @@ def projects():
                         description=description,
                         github=github, 
                         link=link, 
-                        topic_id=topic_id
+                        tags=tags,
+                        team=team,
+                        manager=manager,
+                        due_date=due_date
                         )
                     return jsonify(response), 200 if not isinstance(response, dict) else response
 

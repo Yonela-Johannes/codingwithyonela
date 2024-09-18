@@ -290,12 +290,13 @@ def create_tables():
             project_status progress NOT NULL DEFAULT 'todo',
             priority progress_enum NOT NULL DEFAULT 'low',
             created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            due_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             github TEXT NOT NULL,
             link TEXT NOT NULL,
-            topic_id INTEGER,
-            FOREIGN KEY (account_id) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (topic_id) REFERENCES topics (id) 
-            ON UPDATE CASCADE ON DELETE CASCADE
+            tags TEXT,
+            team TEXT,
+            manager TEXT,
+            FOREIGN KEY (account_id) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE
         );
         """,
         # TASK TABLE/SCHEMA

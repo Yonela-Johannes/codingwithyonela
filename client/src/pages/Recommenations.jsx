@@ -362,7 +362,7 @@ const Recommendations = () => {
                   >
                     <PiUserCircleDuotone size={24} />
                     <input
-                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
                           : "bg-bg_card text-bg_grey"
@@ -382,7 +382,7 @@ const Recommendations = () => {
                   >
                     <PiUserCircleDuotone size={24} />
                     <input
-                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
                           : "bg-bg_card text-bg_grey"
@@ -402,7 +402,7 @@ const Recommendations = () => {
                   >
                     <AiTwotoneMail size={24} />
                     <input
-                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
                           : "bg-bg_card text-bg_grey"
@@ -422,7 +422,7 @@ const Recommendations = () => {
                   >
                     <PiGithubLogoDuotone size={24} />
                     <input
-                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
                           : "bg-bg_card text-bg_grey"
@@ -442,7 +442,7 @@ const Recommendations = () => {
                   >
                     <PiLinkedinLogoDuotone size={24} />
                     <input
-                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
                           : "bg-bg_card text-bg_grey"
@@ -462,7 +462,7 @@ const Recommendations = () => {
                   >
                     <PiShareDuotone size={24} />
                     <input
-                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
                           : "bg-bg_card text-bg_grey"
@@ -483,7 +483,7 @@ const Recommendations = () => {
                   >
                     <PiBuildingApartmentDuotone size={24} />
                     <select
-                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
                           : "bg-bg_card text-bg_grey"
@@ -522,7 +522,7 @@ const Recommendations = () => {
                     <PiFlagDuotone size={24} />
                     <select
                       id="country"
-                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
                         theme == "light"
                           ? "text-black bg-gray-200"
                           : "bg-bg_card text-bg_grey"
@@ -597,7 +597,7 @@ const Recommendations = () => {
                         >
                           <PiUserCircleDashedDuotone size={24} />
                           <input
-                            className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                            className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
                               theme == "light"
                                 ? "text-black bg-gray-200"
                                 : "bg-bg_card text-bg_grey"
@@ -617,7 +617,7 @@ const Recommendations = () => {
                         >
                           <PiUserCircleDuotone size={24} />
                           <input
-                            className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                            className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
                               theme == "light"
                                 ? "text-black bg-gray-200"
                                 : "bg-bg_card text-bg_grey"
@@ -637,7 +637,7 @@ const Recommendations = () => {
                         >
                           <AiTwotoneMail size={24} />
                           <input
-                            className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
+                            className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
                               theme == "light"
                                 ? "text-black bg-gray-200"
                                 : "bg-bg_card text-bg_grey"

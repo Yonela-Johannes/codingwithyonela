@@ -14,6 +14,7 @@ import { PiEyeDuotone } from "react-icons/pi";
 import { motion } from "framer-motion";
 import { IoIosUnlock } from "react-icons/io";
 import { AiTwotoneMail } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const { theme } = useContext(ThemeContext);
@@ -27,6 +28,7 @@ const Signin = () => {
     (state) => state?.user
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -42,6 +44,7 @@ const Signin = () => {
     };
 
     dispatch(login(data));
+    navigate('/recommendation')
   };
 
   useEffect(() => {

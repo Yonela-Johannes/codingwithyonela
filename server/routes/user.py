@@ -152,7 +152,6 @@ def create_user_profile(mail):
             email_validate_pattern = r"^\S+@\S+\.\S+$"
             email = request.form['email']
             password = request.form['password']
-            username = request.form['username']
             firstname = request.form['firstname']
             lastname = request.form['lastname']
             profile = request.files['profile']
@@ -175,27 +174,26 @@ def create_user_profile(mail):
                 if res:
                     user_data = {
                         "email": valid_email_format,
-                        "username": username,
                         "firstname": firstname,
                         "lastname": lastname,
                         "password": password,
                         "profile": res['url'],
                         "profile_id": res['asset_id']
                     }
-                    token = {}
                     
                     token = create_access_token(data=user_data)
                     if token:
                         # Send email
                         verification_email(
-                            username=username,
+                            firstname=firstname,
                             lastname=lastname,
                             email=email,
                             token=token,
                             mail=mail
                             )
-                    return jsonify(token), 200 if not isinstance(token, dict) else token
+                        return jsonify(token), 200 if not isinstance(token, dict) else token
         except Exception as error:
+            ic(error)
             return jsonify({"error": str(error)}), 500
         
 def users():

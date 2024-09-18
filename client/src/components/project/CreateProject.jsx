@@ -9,12 +9,17 @@ import { Spinner } from 'flowbite-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { BsCardImage } from "react-icons/bs";
+import StackInput from '../notes/Input/StackInput';
+import TeamInput from '../notes/Input/TeamInput';
 
 const CreateProject = () =>
 {
   const { loading } = useSelector((state) => state.project);
   const { topics } = useSelector((state) => state.topic);
   const { currentUser } = useSelector((state) => state.user)
+  const [team, setTeam] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [tag, setTag] = useState();
   const [image, setImage] = useState(null)
   const { theme } = useContext(ThemeContext)
   const [selectedFile, setSelectedFile] = useState();
@@ -29,13 +34,24 @@ const CreateProject = () =>
     description: '',
     github: '',
     link: '',
-    topic_id: '',
+    manager: '',
+    due_date: '',
+    tags: [],
+    team: []
   })
 
   const handleSubmit = async (e) =>
   {
     e.preventDefault()
-    if (!currentUser?.id || !inputData.project_name || !image || !inputData.description || !inputData.github || !inputData.link || !inputData.topic_id) return toast("Missing information")
+    if(!image) return toast('Select project image')
+    if(!inputData?.project_name) return toast('Enter project name')
+    if(!inputData?.description) return toast('Enter project description')
+    if(!inputData?.github) return toast('Enter Github repository')
+    if(!inputData?.link) return toast('Enter project live link')
+    if(!inputData?.manager) return toast('Enter project manager')
+    if(!inputData?.due_date) return toast('Enter project due date')
+    if(!inputData?.tags.length < 1) return toast('Select atleast 1 tag')
+
     const formData = new FormData();
     formData.append('image', image);
     formData.append('account_id', inputData.account_id);
@@ -43,7 +59,10 @@ const CreateProject = () =>
     formData.append('description', inputData.description);
     formData.append('github', inputData.github);
     formData.append('link', inputData.link);
-    formData.append('topic_id', inputData.topic_id);
+    formData.append('tags', tags);
+    formData.append('team', team);
+    formData.append('manager', inputData.manager);
+    formData.append('due_date', inputData.due_date);
 
     dispatch(createProject(formData));
     setInputData({
@@ -56,7 +75,6 @@ const CreateProject = () =>
       link: '',
       progress: '',
       priority: '',
-      topic_ids: '',
       project_status: ''
     })
     navigate('/project-status')
@@ -106,7 +124,7 @@ const CreateProject = () =>
             {selectedFile ? (
               <>
                 <img
-                  className="w-full max-h-[400px] object-cover"
+                  className="w-[80px] h-[80px] object-covermb-2"
                   src={selectedFile}
                 />
                 <div className="absolute flex gap-3 top-1 right-1 bg-clr_alt rounded-full border-bg_grey">
@@ -140,6 +158,20 @@ const CreateProject = () =>
               </div>
             )
             }
+          </div>
+          <div
+            className="flex justify-between items-center"
+          >
+            <input
+              className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+              type="text"
+              id="manager"
+              value={inputData?.manager}
+              name="name"
+              placeholder="Manager"
+              onChange={handleChange}
+              required
+            />
           </div>
           <div
             className="flex justify-between items-center"
@@ -182,6 +214,20 @@ const CreateProject = () =>
               required
             />
           </div>
+          <div
+            className="flex justify-between items-center"
+          >
+            <input
+              className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
+              type="date"
+              id="due_date"
+              value={inputData.due_date}
+              name="Repo"
+              placeholder="Github repo"
+              onChange={handleChange}
+              required
+            />
+          </div>
 
           <div
             className="flex justify-between items-center"
@@ -197,7 +243,8 @@ const CreateProject = () =>
               required
             ></textarea>
           </div>
-          <select id="topic_id" onChange={handleChange}
+          <TeamInput team={team} setTeam={setTeam} />
+          <select id="tag" onChange={(e) => setTag(e.target.value)}
             className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-bg_light" : "bg-bg_grey text-white"} rounded-none`}
           >
             {topics?.length ? topics?.map((element) => (
@@ -205,7 +252,7 @@ const CreateProject = () =>
                 <option value="" disabled selected hidden>Select stack</option>
                 <option
                   key={element?.id}
-                  value={element?.id}
+                  value={element?.name}
 
                 >
                   {element?.name}
@@ -213,7 +260,7 @@ const CreateProject = () =>
               </>
             )) : ""}
           </select>
-
+            <StackInput tags={tags} setTags={setTags} stack={tag} />
           <button
             type="submit"
             disabled={loading}

@@ -131,36 +131,6 @@ export default function ({ currentUser, auth }) {
               </>
             )}
           </div>
-          {currentUser && currentUser?.id ? (
-            <Link to="/profile">
-              <HoverUnderLine>
-                <div className="flex w-full items-center md:w-max h-full  space-y-2">
-                  <div
-                    className={` ${
-                      theme == "light"
-                        ? "text-black bg-bg_light"
-                        : "bg-bg_grey text-bg_lightest"
-                    } flex p-0 items-center justify-center text-base rounded-full md:justify-between gap-2`}
-                  >
-                    <div className="space-y-1py-1 pl-3">
-                      <p className="text-sm lg:text-base">
-                        {currentUser?.firstname} {currentUser?.lastname}
-                      </p>
-                    </div>
-                    <div>
-                      <img
-                        src={currentUser?.profile}
-                        alt="cover"
-                        className="rounded-full object-cover object-center h-[40px] w-[40px]"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </HoverUnderLine>
-            </Link>
-          ) : (
-            ""
-          )}
           <Link to="/contact">
             <HoverUnderLine>
               <div
@@ -176,6 +146,32 @@ export default function ({ currentUser, auth }) {
           </Link>
           <ThemeToggle />
           <LayoutToggle />
+          {currentUser && currentUser?.id ? (
+            <div className="flex w-full items-center md:w-max h-full  space-y-2">
+              <div
+                className={` ${
+                  theme == "light"
+                    ? "text-black bg-bg_light"
+                    : "bg-bg_grey text-bg_lightest"
+                } flex p-0 items-center justify-center text-base rounded-full md:justify-between gap-2`}
+              >
+                <div className="space-y-1py-1 pl-3">
+                  <p className="text-sm lg:text-base">
+                    {currentUser?.firstname} {currentUser?.lastname}
+                  </p>
+                </div>
+                <div>
+                  <img
+                    src={currentUser?.profile}
+                    alt="cover"
+                    className="rounded-full object-cover object-center h-[40px] w-[40px]"
+                  />
+                </div>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </motion.div>
     </nav>

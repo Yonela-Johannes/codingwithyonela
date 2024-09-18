@@ -23,7 +23,7 @@ const Verify = () =>
 
   useEffect(() =>
   {
-    if (message)
+    if (token && message)
     {
       if(message == 'Error: User already exists. Try logging in.'){
         toast('You acount was verified. Login')
@@ -31,9 +31,10 @@ const Verify = () =>
       else {
         toast(message)
       }
+      navigate('/')
       dispatch(activeSignin())
     }
-  }, [message])
+  }, [token, message])
 
 
   return (
