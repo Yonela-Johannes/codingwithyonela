@@ -48,23 +48,23 @@ export default function Project() {
 
   return (
     <div className="flex flex-col gap-1">
-      <div>
+      <div className="">
         <div
           className={`${
             theme == "light"
               ? "bg-white text-bg_primary"
               : "bg-bg_core border-bg_core text-slate-300"
-          } text-sm lg:text-base shadow flex flex-col gap-2 border p-2 lg:p-4 mb-3`}
+          } text-sm lg:text-base shadow flex flex-col gap-2  border p-2 lg:p-4 mb-3`}
         >
           <div className="flex items-start justify-between">
             <div
-              className={`flex items-start mb-1 space-x-2 ${
+              className={`flex items-start mb-1 w-full space-x-2 ${
                 theme == "light"
                   ? "bg-white text-bg_primary border-b-2"
                   : "bg-bg_core  border-b-2 border-bg_grey"
               } py-2 `}
             >
-              <div className="bg-purple-500 h-20 w-20 flex items-center justify-center rounded-full relative">
+              <div className="bg-clr_alt h-20 w-20 flex items-center justify-center rounded-full relative">
                 <div className="aspect-square w-full h-full">
                   <img
                     className="w-full h-full object-cover"
@@ -133,7 +133,7 @@ export default function Project() {
             </h3>
             <div className="flex gap-4">
               <div>
-                <div className="bg-purple-500 h-10 w-10 flex items-center justify-center rounded-full relative">
+                <div className="bg-clr_alt h-10 w-10 flex items-center justify-center rounded-full relative">
                   <img
                     src={project?.profile}
                     alt="profile"

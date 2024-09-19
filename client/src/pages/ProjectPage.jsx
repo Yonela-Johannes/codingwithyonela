@@ -46,10 +46,10 @@ export default function ProjectPage() {
               theme == "light"
                 ? "bg-white text-bg_primary border-b-2"
                 : "bg-bg_core  border-b-2 border-bg_grey"
-            } `}
+            }`}
           >
             <div className={`flex items-start mb-1 space-x-2 py-2 `}>
-              <div className="bg-purple-500 h-20 w-20 flex items-center justify-center rounded-full relative">
+              <div className="bg-clr_alt h-20 w-20 flex items-center justify-center rounded-full relative">
                 <div className="aspect-square w-full h-full">
                   <img
                     className="w-full h-full object-cover"

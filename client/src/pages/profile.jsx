@@ -69,11 +69,6 @@ function Profile() {
     <>
       {isLoaded && (
         <div className="flex flex-col  justify-start max-w-2xl gap-3">
-          {errorMessage && (
-            <div className="w-full pt-3">
-              <span className="text-red-600 font-bold">{errorMessage}</span>
-            </div>
-          )}
           <Head title='You profile' desc='Update and edit your profile' theme={theme} />
           <div className="flex flex-col items-center w-full gap-5">
             <div
@@ -84,7 +79,7 @@ function Profile() {
               <label className={labelClassName(theme)} htmlFor="">
                 Select a profile Picture
               </label>
-              <div className="bg-purple-500 h-36 w-36 flex items-center justify-center rounded-full cursor-pointer relative">
+              <div className="bg-clr_alt h-36 w-36 flex items-center justify-center rounded-full cursor-pointer relative">
                 {currentUser?.profile ? (
                   <img
                     src={currentUser?.profile}

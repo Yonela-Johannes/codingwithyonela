@@ -4,7 +4,7 @@ function Comment({ comment }) {
       <div className="flex flex-col gap-6">
         <div className="flex gap-3 border-t pt-6" key={comment?.id}>
           <div>
-            <div className="bg-purple-500 h-10 w-10 flex items-center justify-center rounded-full relative">
+            <div className="bg-clr_alt h-10 w-10 flex items-center justify-center rounded-full relative">
             <img
               src={comment?.profile}
               alt="Profile"

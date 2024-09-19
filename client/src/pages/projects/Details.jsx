@@ -43,7 +43,7 @@ function Details() {
                   className="rounded-full"
                 />
               ) : (
-                <div className="bg-purple-500 h-10 w-10 flex items-center justify-center rounded-full relative">
+                <div className="bg-clr_alt h-10 w-10 flex items-center justify-center rounded-full relative">
                   <span className="text-xl text-white">
                     {gigData.createdBy.email[0].toUpperCase()}
                   </span>
@@ -124,7 +124,7 @@ function Details() {
                     className="rounded-full"
                   />
                 ) : (
-                  <div className="bg-purple-500 h-10 w-10 flex items-center justify-center rounded-full relative">
+                  <div className="bg-clr_alt h-10 w-10 flex items-center justify-center rounded-full relative">
                     <span className="text-xl text-white">
                       {gigData.createdBy.email[0].toUpperCase()}
                     </span>
