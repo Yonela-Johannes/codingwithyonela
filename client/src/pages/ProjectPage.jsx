@@ -49,7 +49,7 @@ export default function ProjectPage() {
             }`}
           >
             <div className={`flex items-start mb-1 space-x-2 py-2 `}>
-              <div className="bg-clr_alt h-20 w-20 flex items-center justify-center rounded-full relative">
+              <div className="bg-clr_alt h-16 w-16 md:h-20 md:w-20 flex items-center justify-center rounded-full relative">
                 <div className="aspect-square w-full h-full">
                   <img
                     className="w-full h-full object-cover"
@@ -59,7 +59,7 @@ export default function ProjectPage() {
                 </div>
               </div>
               <div className="">
-                <h2 className="text-2xl mb-1">{project?.project_name}</h2>
+                <h2 className="text-base font-semibold md:font-normal md:text-lg lg:text-2xl mb-1">{project?.project_name}</h2>
                 <p>{project?.description || "No description provided"}</p>
               </div>
             </div>
