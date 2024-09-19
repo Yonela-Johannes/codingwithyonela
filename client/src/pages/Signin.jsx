@@ -72,12 +72,12 @@ const Signin = () => {
         transition={{ duration: 0.5, delay: 0.2 }}
         className={`${
           theme == "light" ? "" : "border-none"
-        } flex flex-col items-center justify-center lg:items-center backdrop-blur-lg absolute h-full w-full`}
+        } flex flex-col items-center justify-center lg:items-center backdrop-blur-lg absolute h-full w-full px-4`}
       >
         <div
           className={` ${
-            theme == "light" ? "bg-white" : "bg-bg_primary border-none"
-          } w-full lg:relative flex py-8 lg:px-16 mx-auto flex-col md:items-center gap-5 lg:border lg:w-[600px]`}
+            theme == "light" ? "bg-white" : "bg-bg_core border-none"
+          } w-full lg:relative flex py-8 lg:px-16 mx-auto flex-col md:items-center gap-5 lg:border lg:w-[600px] px-4 rounded-md`}
         >
           <div
             className={`${

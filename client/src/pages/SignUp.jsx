@@ -104,12 +104,12 @@ export default function SignUp() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className={`${
           theme == "light" ? "bg-bg_lightest" : "border-none bg-bg_core"
-        } flex flex-col items-center justify-center lg:items-center absolute h-full w-full mt-20`}
+        } flex flex-col items-center justify-center lg:items-center absolute h-full w-full lg:mt-20 px-4`}
       >
         <div
           className={`${
-            theme == "light" ? "bg-white" : "bg-bg_primary border-none"
-          } w-full lg:relative flex lg:px-16 mx-auto flex-col md:flex-row md:items-center gap-5 lg:border lg:h-[80%] overflow-auto py-10 lg:w-[600px]`}
+            theme == "light" ? "bg-white" : "bg-bg_core border-none"
+          } w-full lg:relative flex lg:px-16 mx-auto flex-col md:flex-row md:items-center gap-5 lg:border lg:h-[80%] overflow-auto py-10 lg:w-[600px] px-4 rounded-md`}
         >
           <div className="flex-1">
             <form
