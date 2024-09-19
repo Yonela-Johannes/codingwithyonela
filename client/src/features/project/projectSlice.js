@@ -1,242 +1,273 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios';
-import { apiUrl, formHeaders, headers } from '../../constants/base_urls';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { apiUrl, formHeaders, headers } from "../../constants/base_urls";
 
 const initialState = {
   projects: [],
   project: {},
   messages: [],
+  feedback: [],
   loading: false,
   success: false,
   failed: false,
   deleted: false,
   updated: false,
-  create_project_message: false
-}
+  create_project_message: false,
+  create_project_feedback: false,
+};
 
-export const getAllprojects = createAsyncThunk('projects/fetch all', async () =>
-{
-  const response = await axios.get(`${apiUrl}project`);
-  return response.data;
-});
+export const getAllprojects = createAsyncThunk(
+  "projects/fetch all",
+  async () => {
+    const response = await axios.get(`${apiUrl}project`);
+    return response.data;
+  }
+);
 
-export const getProject = createAsyncThunk('projects/fetch One', async (id) =>
-{
+export const getProject = createAsyncThunk("projects/fetch One", async (id) => {
   const response = await axios.get(`${apiUrl}project/${id}`);
   return response.data;
 });
 
-export const createProject = createAsyncThunk('projects/create', async (data) =>
-{
-  await axios.post(`${apiUrl}project`, data,
-    {
-      headers: formHeaders
-    }
-  )
-    .then((response) => response.data)
-    .catch(({ response }) =>
-    {
-      if (response.status == 401)
+export const createProject = createAsyncThunk(
+  "projects/create",
+  async (data) => {
+    await axios
+      .post(`${apiUrl}project`, data, {
+        headers: formHeaders,
+      })
+      .then((response) => response.data)
+      .catch(({ response }) => {
+        if (response.status == 401) {
+          localStorage.removeItem("persist:user");
+          window.location.reload();
+        }
+      });
+  }
+);
+
+export const deleteProject = createAsyncThunk(
+  "projects/delete",
+  async (data) => {
+    const response = await axios.delete(
+      `${apiUrl}project/${data?.account_id}`,
       {
-        localStorage.removeItem("persist:user")
-        window.location.reload()
+        headers: headers,
+        data: JSON.stringify(data),
       }
-    })
-});
+    );
+    return response.data;
+  }
+);
 
-export const deleteProject = createAsyncThunk('projects/delete', async (data) =>
-{
-  const response = await axios.delete(`${apiUrl}project/${data?.account_id}`, {
-    headers: headers,
-    data: JSON.stringify(data)
-  });
-  return response.data;
-});
+export const getProjectMessages = createAsyncThunk(
+  "project comments/fetch One",
+  async (id) => {
+    const response = await axios.get(`${apiUrl}project-chat/${id}`);
+    return response.data;
+  }
+);
 
-export const getProjectMessages = createAsyncThunk('project comments/fetch One', async (id) =>
-{
-  const response = await axios.get(`${apiUrl}project-chat/${id}`);
-  return response.data;
-});
+export const createProjectMessage = createAsyncThunk(
+  "projects/chat",
+  async (data) => {
+    await axios
+      .post(`${apiUrl}project-chat/${data?.project_id}`, data, {
+        headers: headers,
+      })
+      .then((response) => response.data)
+      .catch(({ response }) => {
+        if (response.status == 401) {
+          localStorage.removeItem("persist:user");
+          window.location.reload();
+        }
+      });
+  }
+);
 
-export const createProjectMessage = createAsyncThunk('projects/chat', async (data) =>
-{
-  await axios.post(`${apiUrl}project-chat/${data?.project_id}`, data,{
-    headers: headers
-  })
+export const likeProject = createAsyncThunk("projects/like", async (id) => {
+  await axios
+    .post(`${apiUrl}project-like/${id}`)
     .then((response) => response.data)
-    .catch(({ response }) =>
-    {
-      if (response.status == 401)
-      {
-        localStorage.removeItem("persist:user")
-        window.location.reload()
+    .catch(({ response }) => {
+      if (response.status == 401) {
+        localStorage.removeItem("persist:user");
+        window.location.reload();
       }
-    })
-});
-
-export const likeProject = createAsyncThunk('projects/like', async (id) =>
-{
-  await axios.post(`${apiUrl}project-like/${id}`)
-    .then((response) => response.data)
-    .catch(({ response }) =>
-    {
-      if (response.status == 401)
-      {
-        localStorage.removeItem("persist:user")
-        window.location.reload()
-      }
-    })
-});
-
-export const updateProject = createAsyncThunk('project/edit', async (data) =>
-{
-  const response = await axios.put(`${apiUrl}project/${data?.project_id}`, { ...data },
-    {
-      headers: headers
     });
+});
+
+export const updateProject = createAsyncThunk("project/edit", async (data) => {
+  const response = await axios.put(
+    `${apiUrl}project/${data?.project_id}`,
+    { ...data },
+    {
+      headers: headers,
+    }
+  );
   return response.data;
 });
 
+export const getProjectFeedback = createAsyncThunk(
+  "project feedback/fetch",
+  async (id) => {
+    const response = await axios.get(`${apiUrl}project-feedback/${id}`);
+    return response.data;
+  }
+);
+
+export const createProjectFeedback = createAsyncThunk(
+  "projects/feedback",
+  async (data) => {
+    await axios
+      .post(`${apiUrl}project-feedback/${data?.project_id}`, data, {
+        headers: headers,
+      })
+      .then((response) => response.data)
+      .catch(({ response }) => {
+        if (response.status == 401) {
+          localStorage.removeItem("persist:user");
+          window.location.reload();
+        }
+      });
+  }
+);
 export const projectSlice = createSlice({
-  name: 'project',
+  name: "project",
   initialState,
   reducers: {
-    disableMessageUpdate(state)
-    {
-      state.loading = false
-      state.success = false
-      state.failed = false
-      state.deleted = false
-      state.updated = false
-      state.create_project_message = false
+    disableMessageUpdate(state) {
+      state.loading = false;
+      state.success = false;
+      state.failed = false;
+      state.deleted = false;
+      state.updated = false;
+      state.create_project_message = false;
+      state.create_project_feedback = false;
     },
-    setSelectProject: (state, action) =>
-    {
-      state.project = action.payload
+    setSelectProject: (state, action) => {
+      state.project = action.payload;
     },
-    getSelectProject: (state) =>
-    {
-      state.project
-    }
+    getSelectProject: (state) => {
+      state.project;
+    },
   },
-  extraReducers: (builder) =>
-  {
+  extraReducers: (builder) => {
     builder
-      .addCase(getAllprojects.pending, (state) =>
-      {
+      .addCase(getAllprojects.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getAllprojects.fulfilled, (state, action) =>
-      {
+      .addCase(getAllprojects.fulfilled, (state, action) => {
         state.loading = false;
         state.projects = action.payload;
       })
-      .addCase(getAllprojects.rejected, (state, action) =>
-      {
+      .addCase(getAllprojects.rejected, (state, action) => {
         state.loading = false;
         state.error = action.message;
       })
-      .addCase(createProject.pending, (state) =>
-      {
-        state.success = false
+      .addCase(createProject.pending, (state) => {
+        state.success = false;
       })
-      .addCase(createProject.fulfilled, (state) =>
-      {
-        state.success = true
+      .addCase(createProject.fulfilled, (state) => {
+        state.success = true;
       })
-      .addCase(createProject.rejected, (state, action) =>
-      {
+      .addCase(createProject.rejected, (state, action) => {
         state.loading = false;
         state.error = action.message;
-        state.failed = true
-        state.success = false
+        state.failed = true;
+        state.success = false;
       })
-      .addCase(deleteProject.pending, (state) =>
-      {
-        state.deleted = false
+      .addCase(deleteProject.pending, (state) => {
+        state.deleted = false;
       })
-      .addCase(deleteProject.fulfilled, (state) =>
-      {
-        state.deleted = true
+      .addCase(deleteProject.fulfilled, (state) => {
+        state.deleted = true;
       })
-      .addCase(deleteProject.rejected, (state, action) =>
-      {
+      .addCase(deleteProject.rejected, (state, action) => {
         state.error = action.message;
-        state.deleted = false
+        state.deleted = false;
       })
-      .addCase(createProjectMessage.pending, (state) =>
-      {
-        state.success = false
-        state.create_project_message = false
+      .addCase(createProjectMessage.pending, (state) => {
+        state.success = false;
+        state.create_project_message = false;
       })
-      .addCase(createProjectMessage.fulfilled, (state) =>
-      {
-        state.success = true
-        state.create_project_message = true
+      .addCase(createProjectMessage.fulfilled, (state) => {
+        state.success = true;
+        state.create_project_message = true;
       })
-      .addCase(createProjectMessage.rejected, (state, action) =>
-      {
-        state.create_project_message = false
+      .addCase(createProjectMessage.rejected, (state, action) => {
+        state.create_project_message = false;
         state.error = action.message;
-        state.success = false
+        state.success = false;
       })
-      .addCase(getProject.pending, (state) =>
-      {
+      .addCase(getProject.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getProject.fulfilled, (state, action) =>
-      {
+      .addCase(getProject.fulfilled, (state, action) => {
         state.project = action.payload.data;
       })
-      .addCase(getProject.rejected, (state, action) =>
-      {
+      .addCase(getProject.rejected, (state, action) => {
         state.error = action.message;
       })
-      .addCase(getProjectMessages.pending, (state) =>
-      {
+      .addCase(getProjectMessages.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getProjectMessages.fulfilled, (state, action) =>
-      {
+      .addCase(getProjectMessages.fulfilled, (state, action) => {
         state.messages = action.payload;
         state.loading = false;
       })
-      .addCase(getProjectMessages.rejected, (state, action) =>
-      {
+      .addCase(getProjectMessages.rejected, (state, action) => {
         state.loading = false;
       })
-      .addCase(likeProject.pending, (state) =>
-      {
-        state.success = false
+      .addCase(likeProject.pending, (state) => {
+        state.success = false;
       })
-      .addCase(likeProject.fulfilled, (state) =>
-      {
-        state.success = true
+      .addCase(likeProject.fulfilled, (state) => {
+        state.success = true;
       })
-      .addCase(likeProject.rejected, (state, action) =>
-      {
+      .addCase(likeProject.rejected, (state, action) => {
         state.error = action.message;
-        state.success = false
+        state.success = false;
       })
-      .addCase(updateProject.pending, (state) =>
-      {
-        state.success = false
-        state.updated = false
+      .addCase(updateProject.pending, (state) => {
+        state.success = false;
+        state.updated = false;
       })
-      .addCase(updateProject.fulfilled, (state) =>
-      {
-        state.success = true
-        state.updated = true
+      .addCase(updateProject.fulfilled, (state) => {
+        state.success = true;
+        state.updated = true;
       })
-      .addCase(updateProject.rejected, (state, action) =>
-      {
+      .addCase(updateProject.rejected, (state, action) => {
         state.error = action.message;
-        state.success = false
-        state.updated = false
+        state.success = false;
+        state.updated = false;
       })
+      .addCase(getProjectFeedback.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getProjectFeedback.fulfilled, (state, action) => {
+        state.feedback = action.payload;
+        state.loading = false;
+      })
+      .addCase(getProjectFeedback.rejected, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(createProjectFeedback.pending, (state) => {
+        state.success = false;
+        state.create_project_feedback = false;
+      })
+      .addCase(createProjectFeedback.fulfilled, (state) => {
+        state.success = true;
+        state.create_project_feedback = true;
+      })
+      .addCase(createProjectFeedback.rejected, (state, action) => {
+        state.create_project_feedback = false;
+        state.error = action.message;
+        state.success = false;
+      });
   },
-})
+});
 
-export const { setSelectProject, getSelectProject, disableMessageUpdate } = projectSlice.actions
-export default projectSlice.reducer
+export const { setSelectProject, getSelectProject, disableMessageUpdate } =
+  projectSlice.actions;
+export default projectSlice.reducer;

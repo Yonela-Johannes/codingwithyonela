@@ -295,6 +295,7 @@ def create_tables():
             link TEXT NOT NULL,
             tags TEXT,
             team TEXT,
+            features TEXT,
             manager TEXT,
             FOREIGN KEY (account_id) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE
         );
@@ -333,6 +334,20 @@ def create_tables():
         """,
         """
         CREATE TABLE IF NOT EXISTS project_chat (
+            id SERIAL PRIMARY KEY,
+            message Text NOT NULL,
+            project_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (project_id)
+            REFERENCES project (id)
+            ON UPDATE CASCADE ON DELETE CASCADE
+        );
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS project_feedback (
             id SERIAL PRIMARY KEY,
             message Text NOT NULL,
             project_id INTEGER NOT NULL,

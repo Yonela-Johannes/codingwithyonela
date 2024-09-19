@@ -31,6 +31,7 @@ import { AiTwotoneMail } from "react-icons/ai";
 import { Head } from "../shared/Head";
 import { LayoutContext } from "../context/LayoutContext";
 import ListCard from "../components/recommendation/ListCard";
+import { inputClassName, labelClassName } from "../utils/utils";
 
 const Recommendations = () => {
   const { openSuggestion, setOpenSuggestion, selectedSuggestion } =
@@ -273,11 +274,20 @@ const Recommendations = () => {
           {filterValue && filterValue !== "all"
             ? recommendations
                 ?.filter((element) => element.user_title == filterValue)
-                ?.map((item) => (
-                  item?.status !== "pending" ? (<ListCard key={item?.id} item={item} />) : ""))
-            : recommendations?.map((item) => (
-              item?.status !== "pending" ? (<ListCard key={item?.id} item={item} />) : ""
-              ))}
+                ?.map((item) =>
+                  item?.status !== "pending" ? (
+                    <ListCard key={item?.id} item={item} />
+                  ) : (
+                    ""
+                  )
+                )
+            : recommendations?.map((item) =>
+                item?.status !== "pending" ? (
+                  <ListCard key={item?.id} item={item} />
+                ) : (
+                  ""
+                )
+              )}
         </div>
       )}
 
@@ -294,254 +304,349 @@ const Recommendations = () => {
           <Loader />
         ) : (
           <div className="p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full">
-            <div className=" pb-2 p-2 grid lg:grid-cols-2 items-start gap-2 md:gap-4 justify-center w-full">
+            <div className="pb-2 p-2 items-start gap-2 md:gap-4 justify-center w-full">
               <div>
-                <div className="flex flex-col gap-2">
-                  <div className="relative flex flex-col justify-between items-center  h-[100px]">
-                    {selectedFile ? (
-                      <>
-                        <img
-                          className="w-full  max-h-[100px] max-w-[100px] object-cover object-center"
-                          src={selectedFile}
-                        />
-                        <div
-                          className={`${
-                            theme == "light" ? "" : "text-white border-bg_grey"
-                          } absolute flex gap-3 top-1 right-1 `}
+                <div className="relative flex flex-col justify-between items-center  h-[100px]">
+                  {selectedFile ? (
+                    <>
+                      <img
+                        className="w-full  max-h-[100px] max-w-[100px] object-cover object-center"
+                        src={selectedFile}
+                      />
+                      <div
+                        className={`${
+                          theme == "light" ? "" : "text-white border-bg_grey"
+                        } absolute flex gap-3 top-1 right-1 `}
+                      >
+                        <button
+                          className="p-2  text-lg lg:text-xl"
+                          onClick={() => setSelectedFile("")}
                         >
-                          <button
-                            className="p-2  text-lg lg:text-xl"
-                            onClick={() => setSelectedFile("")}
-                          >
-                            <RiDeleteBin2Line size={24} />
-                          </button>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="flex flex-col w-full  justify-center items-center cursor-pointer my-4">
-                        <div
-                          className={`text-xl lg:text-4xl  ${
-                            theme == "light" ? "text-black" : "bg-bg_card"
-                          }`}
-                          onClick={() => selectFileRef.current?.click()}
-                        >
-                          <p
-                            value="email"
-                            className={`text-base ${
-                              theme == "light"
-                                ? "text-black"
-                                : "bg-bg_card text-bg_grey"
-                            }`}
-                          >
-                            Avatar
-                          </p>
-                          <PiUserCircleDuotone />
-                        </div>
-                        <input
-                          id="file-upload"
-                          type="file"
-                          accept="image/x-png,image/jpeg"
-                          hidden
-                          ref={selectFileRef}
-                          onChange={onSelectImage}
-                          className={`w-full px-3 border ${
+                          <RiDeleteBin2Line size={24} />
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex flex-col w-full  justify-center items-center cursor-pointer my-4">
+                      <div
+                        className={`text-xl lg:text-4xl  ${
+                          theme == "light" ? "text-black" : "bg-bg_card"
+                        }`}
+                        onClick={() => selectFileRef.current?.click()}
+                      >
+                        <p
+                          value="email"
+                          className={`text-base ${
                             theme == "light"
-                              ? "text-black bg-gray-200"
+                              ? "text-black"
                               : "bg-bg_card text-bg_grey"
                           }`}
-                        />
+                        >
+                          Avatar
+                        </p>
+                        <PiUserCircleDuotone />
                       </div>
-                    )}
-                  </div>
-                  <div
-                    className={`flex items-center w-full border ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_card text-bg_grey"
-                    }`}
-                  >
-                    <PiUserCircleDuotone size={24} />
-                    <input
-                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
+                      <input
+                        id="file-upload"
+                        type="file"
+                        accept="image/x-png,image/jpeg"
+                        hidden
+                        ref={selectFileRef}
+                        onChange={onSelectImage}
+                        className={`w-full px-3 border ${
+                          theme == "light"
+                            ? "text-black bg-gray-200"
+                            : "bg-bg_card text-bg_grey"
+                        }`}
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        First name
+                      </label>
+                    </div>
+
+                    <div
+                      className={`flex items-center w-full border ${
                         theme == "light"
                           ? "text-black bg-gray-200"
                           : "bg-bg_card text-bg_grey"
                       }`}
-                      id="name"
-                      value={inputData.name}
-                      onChange={handleChange}
-                      placeholder="First name"
-                    />
-                  </div>
-                  <div
-                    className={`flex items-center w-full border ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_card text-bg_grey"
-                    }`}
-                  >
-                    <PiUserCircleDuotone size={24} />
-                    <input
-                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                        theme == "light"
-                          ? "text-black bg-gray-200"
-                          : "bg-bg_card text-bg_grey"
-                      }`}
-                      id="last_name"
-                      value={inputData.last_name}
-                      onChange={handleChange}
-                      placeholder="last name"
-                    />
-                  </div>
-                  <div
-                    className={`flex items-center w-full border ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_card text-bg_grey"
-                    }`}
-                  >
-                    <AiTwotoneMail size={24} />
-                    <input
-                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                        theme == "light"
-                          ? "text-black bg-gray-200"
-                          : "bg-bg_card text-bg_grey"
-                      }`}
-                      id="email"
-                      value={inputData.email}
-                      onChange={handleChange}
-                      placeholder="Email"
-                    />
-                  </div>
-                  <div
-                    className={`flex items-center w-full border ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_card text-bg_grey"
-                    }`}
-                  >
-                    <PiGithubLogoDuotone size={24} />
-                    <input
-                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                        theme == "light"
-                          ? "text-black bg-gray-200"
-                          : "bg-bg_card text-bg_grey"
-                      }`}
-                      id="github"
-                      value={inputData.github}
-                      onChange={handleChange}
-                      placeholder="Github username"
-                    />
-                  </div>
-                  <div
-                    className={`flex items-center w-full border ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_card text-bg_grey"
-                    }`}
-                  >
-                    <PiLinkedinLogoDuotone size={24} />
-                    <input
-                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                        theme == "light"
-                          ? "text-black bg-gray-200"
-                          : "bg-bg_card text-bg_grey"
-                      }`}
-                      id="linkedin"
-                      value={inputData.linkedin}
-                      onChange={handleChange}
-                      placeholder="LinkedIn username"
-                    />
-                  </div>
-                  <div
-                    className={`flex items-center w-full border ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_card text-bg_grey"
-                    }`}
-                  >
-                    <PiShareDuotone size={24} />
-                    <input
-                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                        theme == "light"
-                          ? "text-black bg-gray-200"
-                          : "bg-bg_card text-bg_grey"
-                      }`}
-                      name="link"
-                      id="website"
-                      value={inputData.website}
-                      onChange={handleChange}
-                      placeholder="Website/Blog"
-                    />
-                  </div>
-                  <div
-                    className={`flex items-center w-full border ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_card text-bg_grey"
-                    }`}
-                  >
-                    <PiBuildingApartmentDuotone size={24} />
-                    <select
-                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                        theme == "light"
-                          ? "text-black bg-gray-200"
-                          : "bg-bg_card text-bg_grey"
-                      }`}
-                      id="profession"
-                      onChange={(e) =>
-                        setInputData({
-                          ...inputData,
-                          profession: e.target.value,
-                        })
-                      }
                     >
-                      {titles?.map((elem) => (
-                        <>
-                          <option
-                            key={elem?.id}
-                            value=""
-                            disabled
-                            selected
-                            hidden
-                          >
-                            Select profession
-                          </option>
-                          <option value={elem.id}>{elem?.user_title}</option>
-                        </>
-                      ))}
-                    </select>
+                      <PiUserCircleDuotone size={24} />
+                      <input
+                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
+                          theme == "light"
+                            ? "text-black bg-gray-200"
+                            : "bg-bg_card text-bg_grey"
+                        }`}
+                        id="name"
+                        value={inputData.name}
+                        onChange={handleChange}
+                        placeholder="First name"
+                      />
+                    </div>
                   </div>
-                  <div
-                    className={`flex items-center w-full border ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_card text-bg_grey"
-                    }`}
-                  >
-                    <PiFlagDuotone size={24} />
-                    <select
-                      id="country"
-                      className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
+
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        Last name
+                      </label>
+                    </div>
+
+                    <div
+                      className={`flex items-center w-full border ${
                         theme == "light"
                           ? "text-black bg-gray-200"
                           : "bg-bg_card text-bg_grey"
                       }`}
-                      onChange={(e) =>
-                        setInputData({ ...inputData, country: e.target.value })
-                      }
                     >
-                      {countries?.map((elem) => (
-                        <>
-                          <option value="" disabled selected hidden>
-                            Select country
-                          </option>
-                          <option value={elem.id} key={elem?.id}>
-                            {elem?.emoji} {elem?.name}{" "}
-                          </option>
-                        </>
-                      ))}
-                    </select>
+                      <PiUserCircleDuotone size={24} />
+                      <input
+                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
+                          theme == "light"
+                            ? "text-black bg-gray-200"
+                            : "bg-bg_card text-bg_grey"
+                        }`}
+                        id="last_name"
+                        value={inputData.last_name}
+                        onChange={handleChange}
+                        placeholder="last name"
+                      />
+                    </div>
+                  </div>
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        Email
+                      </label>
+                    </div>
+
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
+                    >
+                      <AiTwotoneMail size={24} />
+                      <input
+                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
+                          theme == "light"
+                            ? "text-black bg-gray-200"
+                            : "bg-bg_card text-bg_grey"
+                        }`}
+                        id="email"
+                        value={inputData.email}
+                        onChange={handleChange}
+                        placeholder="Email"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        Github
+                      </label>
+                    </div>
+
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
+                    >
+                      <PiGithubLogoDuotone size={24} />
+                      <input
+                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
+                          theme == "light"
+                            ? "text-black bg-gray-200"
+                            : "bg-bg_card text-bg_grey"
+                        }`}
+                        id="github"
+                        value={inputData.github}
+                        onChange={handleChange}
+                        placeholder="Github username"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        LinkedIn
+                      </label>
+                    </div>
+
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
+                    >
+                      <PiLinkedinLogoDuotone size={24} />
+                      <input
+                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
+                          theme == "light"
+                            ? "text-black bg-gray-200"
+                            : "bg-bg_card text-bg_grey"
+                        }`}
+                        id="linkedin"
+                        value={inputData.linkedin}
+                        onChange={handleChange}
+                        placeholder="LinkedIn username"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        Website/Blog
+                      </label>
+                    </div>
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
+                    >
+                      <PiShareDuotone size={24} />
+                      <input
+                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
+                          theme == "light"
+                            ? "text-black bg-gray-200"
+                            : "bg-bg_card text-bg_grey"
+                        }`}
+                        name="link"
+                        id="website"
+                        value={inputData.website}
+                        onChange={handleChange}
+                        placeholder="Website/Blog"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        Select profession
+                      </label>
+                    </div>
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
+                    >
+                      <PiBuildingApartmentDuotone size={24} />
+                      <select
+                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
+                          theme == "light"
+                            ? "text-black bg-gray-200"
+                            : "bg-bg_card text-bg_grey"
+                        }`}
+                        id="profession"
+                        onChange={(e) =>
+                          setInputData({
+                            ...inputData,
+                            profession: e.target.value,
+                          })
+                        }
+                      >
+                        {titles?.map((elem) => (
+                          <>
+                            <option
+                              key={elem?.id}
+                              value=""
+                              disabled
+                              selected
+                              hidden
+                            >
+                              Select profession
+                            </option>
+                            <option value={elem.id}>{elem?.user_title}</option>
+                          </>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        Select country
+                      </label>
+                    </div>
+
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
+                    >
+                      <PiFlagDuotone size={24} />
+                      <select
+                        id="country"
+                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
+                          theme == "light"
+                            ? "text-black bg-gray-200"
+                            : "bg-bg_card text-bg_grey"
+                        }`}
+                        onChange={(e) =>
+                          setInputData({
+                            ...inputData,
+                            country: e.target.value,
+                          })
+                        }
+                      >
+                        {countries?.map((elem) => (
+                          <>
+                            <option value="" disabled selected hidden>
+                              Select country
+                            </option>
+                            <option value={elem.id} key={elem?.id}>
+                              {elem?.emoji} {elem?.name}{" "}
+                            </option>
+                          </>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -597,11 +702,7 @@ const Recommendations = () => {
                         >
                           <PiUserCircleDashedDuotone size={24} />
                           <input
-                            className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                              theme == "light"
-                                ? "text-black bg-gray-200"
-                                : "bg-bg_card text-bg_grey"
-                            }`}
+                            className={inputClassName(theme)}
                             id="sender_name"
                             value={inputData.sender_name}
                             onChange={handleChange}
@@ -617,11 +718,7 @@ const Recommendations = () => {
                         >
                           <PiUserCircleDuotone size={24} />
                           <input
-                            className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                              theme == "light"
-                                ? "text-black bg-gray-200"
-                                : "bg-bg_card text-bg_grey"
-                            }`}
+                            className={inputClassName(theme)}
                             id="sender_lastname"
                             value={inputData.sender_lastname}
                             onChange={handleChange}
@@ -637,11 +734,7 @@ const Recommendations = () => {
                         >
                           <AiTwotoneMail size={24} />
                           <input
-                            className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                              theme == "light"
-                                ? "text-black bg-gray-200"
-                                : "bg-bg_card text-bg_grey"
-                            }`}
+                            className={inputClassName(theme)}
                             id="sender_email"
                             value={inputData.sender_email}
                             onChange={handleChange}

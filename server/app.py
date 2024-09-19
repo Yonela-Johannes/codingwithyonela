@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from models.tables import create_tables
 from routes.countries import countries
-from routes.project import add_project_like, project, project_chat, projects
+from routes.project import add_project_like, project, project_chat, projects, project_feedback
 from routes.quotes import quotes
 from routes.recommendation import all_recommendations, recommendation
 from routes.feedback import all_feedback, feedback
@@ -173,6 +173,10 @@ def projects_route(id):
 @app.route('/api/v1/project-chat/<int:id>', methods=['GET', 'POST'])
 def project_chat_route(id):
     return project_chat(id)
+
+@app.route('/api/v1/project-feedback/<int:id>', methods=['GET', 'POST'])
+def project_feedback_route(id):
+    return project_feedback(id)
 
 # comment project route
 @app.route('/api/v1/project-like/<int:id>', methods=['POST'])

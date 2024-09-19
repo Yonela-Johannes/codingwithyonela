@@ -28,30 +28,19 @@
     @apply text-sm p-1 h-full md:p-2 cursor-pointer border flex items-center hover:shadow-none hover:border hover:border-bg_light;
   }
 
-  textarea {
-    @apply border-transparent focus:border-transparent focus:ring-0 w-full py-2 px-5 flex items-center border-none outline-none;
-  }
-
   select {
     @apply focus:border-transparent focus:ring-0 py-2 px-5 flex items-center border-none outline-none;
   }
 
-  form input[type="text"],
-  form input[type="email"],
-  form input[type="number"],
-  form select,
-  form textarea {
-    @apply flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0;
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="link"],
+  select,
+  textarea {
+    @apply flex w-full px-3 outline-none focus:ring-0;
   }
 
-  form input[type="text"],
-  form input[type="email"],
-  form input[type="number"],
-  form select,
-  form textarea {
-    @apply placeholder:text-bg_lighter placeholder:text-sm md:placeholder:text-base border-transparent focus:border-transparent focus:ring-0 w-full md:py-2 border-none outline-none md:px-4 flex items-center hover:shadow-none;
-    @apply px-3 p-2;
-  }
 }
 
 html {

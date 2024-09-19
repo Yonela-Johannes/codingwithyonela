@@ -24,16 +24,15 @@ def add_users(users_id):
         ic(f"Database error: {error}")
         return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
     
-def create_project( account_id, project_name, image, description, github, link, tags, team, manager, due_date):
-    response = None
+def create_project( account_id, project_name, image, description, github, link, tags, team, manager, due_date, features):
     try:
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 """ Create new project into  the acount table """
-                cur.execute("""INSERT INTO project (account_id, project_name, image, description, github, link, tags, team, manager, due_date)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                cur.execute("""INSERT INTO project (account_id, project_name, image, description, github, link, tags, team, manager, due_date, features)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 
-                RETURNING id""",(account_id, project_name, image, description, github, link, tags, team, manager, due_date))
+                RETURNING id""",(account_id, project_name, image, description, github, link, tags, team, manager, due_date, features))
                 
                 rows = cur.fetchone()
                 return rows if rows else {}
@@ -196,3 +195,42 @@ def project_like(account_id, project_id):
         ic(f"Database error: {error}")
         return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
     
+# create project feedback
+def create_project_feedback(account_id, message, project_id):
+    """ Create new account_id into  the acount table """
+    sql = """INSERT INTO project_feedback (account_id, message, project_id)
+             VALUES(%s, %s, %s) RETURNING id;"""
+
+    try:
+        with  connection as conn:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
+                # execute the INSERT statement
+                cur.execute(sql, (account_id, message, project_id))
+            
+                rows = cur.fetchone()
+                return rows if rows else {}
+                conn.commit()
+                
+    except (Exception, psycopg2.DatabaseError) as error:
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+    
+# fetch project feedback
+def fetch_project_feedback(id):
+    query = """SELECT project_feedback.*, project_feedback.id AS feedback_id, account.email, account.firstname, account.username, account.lastname, account.is_admin, account.is_staff, account.profile FROM project_feedback JOIN account ON account_id = account.id  WHERE project_id=%s ;"""
+
+    try:
+        with  connection as conn:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
+
+                cur.execute(query, (int(id), ))
+            
+                rows = cur.fetchall()
+                return rows if rows else []
+                conn.commit()
+                
+    except (Exception, psycopg2.DatabaseError) as error:
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500

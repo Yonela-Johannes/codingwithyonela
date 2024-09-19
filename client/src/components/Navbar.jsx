@@ -39,15 +39,17 @@ export default function ({ currentUser, auth }) {
         <div
           className={`${
             theme !== "light" ? "text-clr_alt" : "text-cl_primary"
-          } font-semibold py-2 px-4 
+          } font-semibold py-2
 									 flex items-center text-center transition duration-300 ease-in-out`}
         >
           <HoverUnderLine>
             <Link className="flex text-center items-center gap-2" to="/">
-              <img
-                src={logo}
-                className="w-9 h-9 object-center object-contain"
-              />
+              <div className="md:hidden">
+                <img
+                  src={logo}
+                  className="w-9 h-9 object-center object-contain"
+                />
+              </div>
               <p className="hidden lg:block">CodingWithYonela</p>
             </Link>
           </HoverUnderLine>
@@ -72,7 +74,9 @@ export default function ({ currentUser, auth }) {
                       }   py-2 px-4 
 									 flex items-center transition duration-300 ease-in-out`}
                     >
-                      <LucideLogOut className="mr-2" size={18} />
+                      <div className="md:hidden">
+                        <LucideLogOut className="mr-2" size={18} />
+                      </div>
                       Logout
                     </div>
                   </HoverUnderLine>
@@ -90,7 +94,9 @@ export default function ({ currentUser, auth }) {
                           } underline font-semibold py-2 px-4 
 									 flex items-center transition duration-300 ease-in-out`}
                         >
-                          <AiTwotoneDashboard size={24} />
+                          <div className="md:hidden">
+                            <AiTwotoneDashboard size={24} />
+                          </div>
                           Admin
                         </div>
                       </HoverUnderLine>
@@ -112,7 +118,9 @@ export default function ({ currentUser, auth }) {
                     } underline font-semibold py-2 px-4 
 									 flex items-center transition duration-300 ease-in-out primary-btn`}
                   >
-                    <LucideLogIn className="mr-2" size={18} />
+                    <div className="md:hidden">
+                      <LucideLogIn className="mr-2" size={18} />
+                    </div>
                     Login
                   </div>
                 </HoverUnderLine>
@@ -124,7 +132,9 @@ export default function ({ currentUser, auth }) {
                     }   py-2 px-4 
 									 flex items-center transition duration-300 ease-in-out`}
                   >
-                    <LucideUser className="mr-2" size={18} />
+                    <div className="md:hidden">
+                      <LucideUser className="mr-2" size={18} />
+                    </div>
                     Signup
                   </div>
                 </HoverUnderLine>
@@ -139,7 +149,9 @@ export default function ({ currentUser, auth }) {
                 }   py-2 px-4 
 									 flex items-center transition duration-300 ease-in-out`}
               >
-                <RiContactsLine className="mr-2" size={16} />
+                <div className="md:hidden">
+                  <RiContactsLine className="mr-2" size={16} />
+                </div>
                 Contact
               </div>
             </HoverUnderLine>
@@ -147,7 +159,7 @@ export default function ({ currentUser, auth }) {
           <ThemeToggle />
           <LayoutToggle />
           {currentUser && currentUser?.id ? (
-            <div className="flex w-full items-center md:w-max h-full  space-y-2">
+            <Link to='/profile' className="flex w-full items-center md:w-max h-full  space-y-2">
               <div
                 className={` ${
                   theme == "light"
@@ -168,7 +180,7 @@ export default function ({ currentUser, auth }) {
                   />
                 </div>
               </div>
-            </div>
+            </Link>
           ) : (
             ""
           )}

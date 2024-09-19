@@ -3,7 +3,7 @@ import { MdAdd, MdClose } from "react-icons/md";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { inputClassName } from "../../../utils/utils";
 
-const TeamInput = ({ team, setTeam }) => {
+const FeatureInput = ({ features, setFeatures }) => {
   const [inputValue, setInputValue] = useState("");
   const { theme } = useContext(ThemeContext);
 
@@ -13,7 +13,7 @@ const TeamInput = ({ team, setTeam }) => {
 
   const addNewTag = () => {
     if (inputValue.trim() !== "") {
-      setTeam([...team, inputValue.trim()]);
+      setFeatures([...features, inputValue.trim()]);
       setInputValue("");
     }
   };
@@ -25,13 +25,13 @@ const TeamInput = ({ team, setTeam }) => {
   };
 
   const handleRemoveTag = (tagToRemove) => {
-    setTeam(team.filter((tag) => tag !== tagToRemove));
+    setFeatures(features.filter((tag) => tag !== tagToRemove));
   };
   return (
     <div>
-      {team?.length > 0 && (
+      {features?.length > 0 && (
         <div className="flex items-center gap-2 flex-wrap mt-2">
-          {team.map((tag, index) => (
+          {features.map((tag, index) => (
             <span
               key={index}
               className="flex items-center gap-2 text-sm text-slate-900 bg-slate-100 px-3 py-1 rounded"
@@ -55,7 +55,7 @@ const TeamInput = ({ team, setTeam }) => {
           type="text"
           value={inputValue}
           className={inputClassName(theme)}
-          placeholder="Add team member"
+          placeholder="Add feature"
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
         />
@@ -77,4 +77,4 @@ const TeamInput = ({ team, setTeam }) => {
   );
 };
 
-export default TeamInput;
+export default FeatureInput;

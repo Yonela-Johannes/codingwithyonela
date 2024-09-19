@@ -18,7 +18,6 @@ export default function ProjectList({ projects }) {
     }
   };
 
-  console.log(projects)
   return (
     <div className="flex flex-col gap-1">
       {projects?.map((project) => (
@@ -83,7 +82,7 @@ export default function ProjectList({ projects }) {
                 <strong>Manager:</strong> {project?.manager}
               </p>
               <p>
-                <strong>Team:</strong> {project?.team.replaceAll(',', " | ") || 'No members'}
+                <strong>Team:</strong> {project?.team?.replaceAll(',', " | ") || 'No members'}
               </p>
             </div>
           </div>

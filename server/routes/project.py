@@ -1,7 +1,7 @@
 import json
 from flask import request, jsonify
 from sqlalchemy import JSON
-from controllers.project import create_project, create_project_chat, delete_project, edit_project, fetch_projects, fetch_projects_chats, project_like, fetch_project
+from controllers.project import create_project, create_project_chat, delete_project, edit_project, fetch_projects, fetch_projects_chats, project_like, fetch_project, create_project_feedback, fetch_project_feedback
 from icecream import ic
 from routes.image_upload import uploadImage
 from utils.token_handler import valid_token
@@ -99,13 +99,14 @@ def projects():
             return jsonify({'message': 'You are not authorized'}), 401
         try:
             image = request.files['image']
-            account_id = request.form['account_id']
+            account_id = user.get('id')
             project_name = request.form['project_name']
             description = request.form['description']
             github = request.form['github']
             link = request.form['link']               
             tags = request.form['tags']
             team = request.form['team']
+            features = request.form['features']
             manager = request.form['manager']
             due_date = request.form['due_date']
             
@@ -118,7 +119,7 @@ def projects():
             if 'url' in res:
                 if account_id and project_name and description and github and link:
                     response = create_project(
-                        account_id=account_id, 
+                        account_id=user.get('id'), 
                         image=res['url'], 
                         project_name=project_name, 
                         description=description,
@@ -127,11 +128,13 @@ def projects():
                         tags=tags,
                         team=team,
                         manager=manager,
-                        due_date=due_date
+                        due_date=due_date,
+                        features=features
                         )
                     return jsonify(response), 200 if not isinstance(response, dict) else response
 
         except json.decoder.JSONDecodeError as error:
+            ic(error)
             return jsonify(error), 400
 
 
@@ -144,12 +147,11 @@ def project_chat(id):
      
         try:            
             data = request.get_json()
-            account_id = data['account_id']
             message = data['message']
             project_id = data['project_id']
             
-            if account_id and message and project_id:
-                response = create_project_chat(account_id, message, project_id)
+            if user.get('id') and message and project_id:
+                response = create_project_chat(account_id=user.get('id'), message=message, project_id=project_id)
                 return jsonify(response), 200 if not isinstance(response, dict) else response
                 
         except json.decoder.JSONDecodeError as error:
@@ -164,6 +166,7 @@ def project_chat(id):
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
 
+
 def add_project_like(id):
     REQUEST = request.method 
     if REQUEST == 'POST':
@@ -175,9 +178,40 @@ def add_project_like(id):
             data = request.get_json()
             account_id = data['account_id']
             
-            if account_id and res and id:
+            if account_id and id:
                 response = project_like(account_id, id)
                 return jsonify(response), 200 if not isinstance(response, dict) else response
  
         except json.decoder.JSONDecodeError as error:
             return jsonify(error), 400
+        
+
+
+def project_feedback(id):
+    REQUEST = request.method 
+    if REQUEST == 'POST':
+        user =  valid_token() 
+        if user == False: 
+            return jsonify({'message': 'You are not authorized'}), 401 
+     
+        try:            
+            data = request.get_json()
+            message = data['comment']
+            project_id = data['project_id']
+            
+            if user.get('id') and message and project_id:
+                response = create_project_feedback(account_id=user.get('id'), message=message, project_id=project_id)
+                return jsonify(response), 200 if not isinstance(response, dict) else response
+                
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400
+    
+    REQUEST = request.method 
+    if REQUEST == 'GET':
+        try:
+            response = fetch_project_feedback(id)
+            return jsonify(response), 200 if not isinstance(response, dict) else response
+    
+        except json.decoder.JSONDecodeError as error:
+            return jsonify(error), 400
+

@@ -31,6 +31,7 @@ const StackInput = ({ tags, setTags, stack }) => {
             >
               # {tag}
               <button
+              type="button"
                 onClick={() => {
                   handleRemoveTag(tag);
                 }}

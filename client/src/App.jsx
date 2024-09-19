@@ -28,8 +28,10 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { disableAuthModals } from "./features/user/authSlice";
 import Contact from "./pages/Contact";
-import BusinessList from "./components/BusinessList";
 import Notes from "./pages/notes/Notes";
+import ProjectPage from "./pages/ProjectPage";
+import Project from "./pages/Project";
+import Profile from "./pages/profile";
 
 function App()
 {
@@ -61,8 +63,11 @@ function App()
             <Route path="/project/:id/todo" element={<Todopage />} />
             <Route path="/events" element={<BigCalendar />} />
             <Route path="/contact" element={<Contact/>} />
-            <Route path="/bus" element={<BusinessList/>} />
             <Route path="/notes" element={<Notes />} />
+            <Route path="/projects" element={<ProjectPage />} />
+            <Route path="/projects/:id" element={<Project />} />
+            {/* admin routes */}
+            <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             {/* admin routes */}
             <Route path="/admin">
               <Route path="/admin" element={<AdminPrivateRoute><Users /></AdminPrivateRoute>} />
