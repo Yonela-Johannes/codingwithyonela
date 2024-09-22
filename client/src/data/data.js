@@ -1,9 +1,3 @@
-import { FaHome, FaLayerGroup } from "react-icons/fa";
-import { GrStatusUnknownSmall } from "react-icons/gr";
-import { BsCalendar3EventFill, BsQuestionDiamondFill } from "react-icons/bs";
-import { HiUsers } from "react-icons/hi2";
-import { FaUsers } from "react-icons/fa";
-import { ImBlogger } from "react-icons/im";
 import { PiCalendarMinusDuotone, PiChatDuotone, PiInfoDuotone, PiListBulletsDuotone, PiListDashesDuotone, PiNoteDuotone, PiProjectorScreenDuotone, PiRadio, PiUserCheckDuotone, PiUsersDuotone } from "react-icons/pi";
 import { AiTwotoneEdit, AiTwotoneQuestionCircle, AiTwotoneMessage, AiTwotoneHome, AiTwotoneInteraction, } from "react-icons/ai";
 
@@ -129,3 +123,10 @@ export const platformLinks = [
     { href: "#", text: "Downloads" },
     { href: "#", text: "Release Notes" },
 ];
+
+export const contacts = [
+    { id: 1, title: "Address", text: "Cape Town, South Africa" },
+    { id: 2, title: "Phone", text: "+27 81 782 2141" },
+    { id: 3, title: "Email", text: "johannesyonela@gmail.com" },
+  ];
+  

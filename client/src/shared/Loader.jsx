@@ -14,13 +14,6 @@ const Loader = ({ disable }) =>
           {!disable ? (
           <Skeleton mt="4" height="200px" />) : ""}
         </Box>
-        {!disable ? (
-          <Box padding="10px 10px" boxShadow="lg" bg={theme == 'light' ? "white" : "dark"} borderRadius={4}>
-            <SkeletonText mt="4" noOfLines={1} width="40%" spacing="4" />
-            <SkeletonText mt="4" noOfLines={4} spacing="4" />
-            <Skeleton mt="4" height="200px" />
-          </Box>
-        ) : ""}
       </Stack>
     </div>
   );

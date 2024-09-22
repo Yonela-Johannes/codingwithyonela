@@ -16,7 +16,7 @@ function RecommendationCard({ item, theme })
       <Loader />
     ) : (
 
-      <div className={`relative ${theme == "light" ? "text-cl_alt bg-bg_lightest" : "text-white bg-bg_core"} relative`}>
+      <div className={`relative ${theme == "light" ? "text-cl_alt bg-bg_lightest" : "text-white bg-bg_core"} relative  border border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c]`}>
         <div onClick={() => (setSelectedSuggestion(item), setOpenSuggestion(true))}>
           <div className="flex gap-1 items-center px-2 font-bold justify-end">
             <p className={`${theme == "light" ? "text-bg_primary" : "text-bg_lightest"} md:block text-xs px-2 py-1`}>{item?.country_name?.slice(0, 15)} - {item?.country_code}</p>
@@ -35,7 +35,7 @@ function RecommendationCard({ item, theme })
               <img
                 src={item?.portfolio}
                 alt={item?.username}
-                className="h-[150px] w-[150px] rounded-full lg:w-[200px] lg:h-[200px]
+                className="h-[150px] w-full lg:h-[200px]
                     object-cover mt-3 m-auto"
               />
               <div

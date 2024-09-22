@@ -54,7 +54,7 @@ export default function Project() {
             theme == "light"
               ? "bg-white text-bg_primary"
               : "bg-bg_core border-bg_core text-slate-300"
-          } text-sm lg:text-base shadow flex flex-col gap-2  border p-2 lg:p-4 mb-3`}
+          } text-sm lg:text-base shadow flex flex-col gap-2 border p-2 lg:p-4 mb-3`}
         >
           <div className="flex items-start justify-between">
             <div

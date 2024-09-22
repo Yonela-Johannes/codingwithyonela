@@ -14,6 +14,7 @@ import ProjectList from "../components/project/Projects";
 import { LayoutContext } from "../context/LayoutContext";
 
 const ProjectsTask = () => {
+  const { currentUser } = useSelector((state) => state?.user);
   const { theme } = useContext(ThemeContext);
   const { layout } = useContext(LayoutContext);
   const { projects, success, updated, deleted } = useSelector(
@@ -54,9 +55,13 @@ const ProjectsTask = () => {
             />
           </div>
           {layout == "grid" ? (
-            <div className="hidden lg:block">
-              <Board project={true} data={projects} />
-            </div>
+            currentUser && currentUser?.id ? (
+              <div className="hidden lg:block">
+                <Board project={true} data={projects} />
+              </div>
+            ) : (
+              <ProjectList projects={projects} />
+            )
           ) : (
             <ProjectList projects={projects} />
           )}

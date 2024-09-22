@@ -13,7 +13,7 @@ const Workflow = () =>
       <div className="space-y-4 max-w-[550px] mb-8">
         <Head title='Project Tracking' desc='Easily monitor the status of your projects with real-time tracking and detailed updates' theme={theme} />
       </div>
-      <div className="mt-3 lg:mt-6 grid lg:grid-cols-2 justify-center items-center">
+      <div className="mt-3 lg:mt-6 grid lg:grid-cols-2 gap-8 justify-center items-center">
         <div className="p-2 w-full h-[300px] ">
           <video
             muted

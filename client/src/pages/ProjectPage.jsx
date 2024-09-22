@@ -13,7 +13,7 @@ import { cn } from "../lib/utils";
 
 export default function ProjectPage() {
   const { theme } = useContext(ThemeContext);
-  const { projects, success, updated, deleted } = useSelector(
+  const { projects } = useSelector(
     (state) => state.project
   );
   const navigate = useNavigate();
@@ -28,9 +28,8 @@ export default function ProjectPage() {
     getProjects();
   }, []);
 
-  const isLiked = "";
   return (
-    <div className="grid lg:grid-cols-3 gap-2 lg:gap-4 lg:w-xl ">
+    <div className="grid lg:grid-cols-3 gap-2 lg:gap-4 lg:w-xl">
       {projects?.map((project) => (
         <div
           key={project?.id}
@@ -39,7 +38,7 @@ export default function ProjectPage() {
             theme == "light"
               ? "bg-bg_lightest text-bg_primary hover:bg-white"
               : "bg-bg_core border-bg_core text-bg_lightest hover:bg-bg_gray"
-          } text-sm lg:text-base shadow flex flex-col gap-2 border p-2 lg:p-4 mb-3 cursor-pointer hover:shadow-lg duration-300`}
+          } text-sm lg:text-base flex flex-col gap-2 border p-2 lg:p-4 mb-3 cursor-pointer hover:shadow-lg duration-300 border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c]`}
         >
           <div
             className={`flex flex-1 items-start justify-between${

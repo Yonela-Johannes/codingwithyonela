@@ -25,10 +25,10 @@ const NoteCard = ({
     <Loader />
   ) : (
     <div
-      className={`flex items-center w-full justify-between mb-1 space-x-2 ${
+      className={`flex items-center w-full justify-between mb-1 space-x-2  border border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c] ${
         theme == "light"
           ? "bg-white text-bg_primary"
-          : "bg-bg_core text-bg_lightest border border-bg_grey"
+          : "bg-bg_core text-bg_lightest"
       } ${
         isPinned ? "border-cl_primary " : "text-slate-300"
       } py-2 border lg:p-4 hover:shadow-xl transition-all ease-in-out`}

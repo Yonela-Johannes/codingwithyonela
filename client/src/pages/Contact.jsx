@@ -14,6 +14,9 @@ import { apiUrl, formHeaders } from "../constants/base_urls";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "../shared/Loader";
+import { inputClassName, labelClassName } from "../utils/utils";
+import { contacts } from "../data/data";
+import { Head } from "../shared/Head";
 
 export default function Contact() {
   const { theme } = useContext(ThemeContext);
@@ -100,7 +103,7 @@ export default function Contact() {
     <div
       className={`${
         theme == "light" ? "bg-bg_lightest" : "border-none bg-bg_core"
-      } flex flex-col justify-center lg:items-center w-full`}
+      } flex flex-col justify-center border lg:items-center w-full`}
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -110,11 +113,27 @@ export default function Contact() {
           theme == "light" ? "bg-bg_lightest" : "border-none bg-bg_core"
         } grid lg:grid-cols-2 justify-start lg:items-start lg:mt-20`}
       >
+        <div className="md:px-6 py-6">
+        <Head
+          title="Contact"
+          desc="We're here to collaborate, answer your questions, and explore new
+            ideas together. Whether you want to discuss projects, ask for
+            support, or just say hello, feel free to reach out—we’d love to hear
+            from you!"
+          theme={theme}
+        />
+          <div className="grid grid-cols-3">
+            {contacts?.map((contact) => (
+              <div className="mt-6 text-start" key={contact.id}>
+                <div className="text-xl font-medium mb-2">{contact.title}</div>
+                <div className="text-sm">{contact.text}</div>
+              </div>
+            ))}
+          </div>
+        </div>
         <div
           className={`${
-            theme == "light"
-              ? "lg:border bg-white border-bg_core"
-              : "bg-bg_primary border-none"
+            theme == "light" ? "bg-white" : "bg-bg_primary"
           } w-full flex lg:px-16 flex-col md:items-center gap-5 py-10 lg:w-[600px]`}
         >
           <p
@@ -125,12 +144,6 @@ export default function Contact() {
             } w-full text-lg lg:text-xl text-start`}
           >
             Let's Connect
-          </p>
-          <p className="text-gray-500">
-            We're here to collaborate, answer your questions, and explore new
-            ideas together. Whether you want to discuss projects, ask for
-            support, or just say hello, feel free to reach out—we’d love to hear
-            from you!
           </p>
           {loading ? (
             <Loader disable={true} />
@@ -173,7 +186,7 @@ export default function Contact() {
                           onClick={() => selectFileRef.current?.click()}
                         >
                           <p
-                            value="email"
+                            value="avatar"
                             className={`text-base ${
                               theme == "light" ? "text-black" : "text-white"
                             }`}
@@ -198,45 +211,37 @@ export default function Contact() {
                       </div>
                     )}
                   </div>
-                  <div
-                    className={`flex items-center w-full border ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-white text-bg_grey"
-                    }`}
-                  >
-                    <PiUserCircleDuotone size={24} />
-                    <input
-                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
-                        theme == "light"
-                          ? "text-black bg-gray-200"
-                          : "bg-white text-bg_grey"
-                      }`}
-                      id="name"
-                      value={inputData.name}
-                      onChange={!currentUser?.id ? handleChange : ""}
-                      placeholder="First name"
-                    />
+                  <div className="md:flex flex-col gap-4 w-full">
+                    <div className="w-full pt-3">
+                      <label className={labelClassName(theme)} htmlFor="name">
+                        First name
+                      </label>
+                    </div>
+                    <div>
+                      <input
+                        className={inputClassName(theme)}
+                        id="name"
+                        value={inputData.name}
+                        onChange={!currentUser?.id ? handleChange : ""}
+                        placeholder="First name"
+                      />
+                    </div>
                   </div>
-                  <div
-                    className={`flex items-center w-full border mb-2 ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-white text-bg_grey"
-                    }`}
-                  >
-                    <AiTwotoneMail size={24} />
-                    <input
-                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
-                        theme == "light"
-                          ? "text-black bg-gray-200"
-                          : "bg-white text-bg_grey"
-                      }`}
-                      id="email"
-                      value={inputData.email}
-                      onChange={!currentUser?.id ? handleChange : ""}
-                      placeholder="Email"
-                    />
+                  <div className="md:flex flex-col gap-4 w-full">
+                    <div className="w-full pt-3">
+                      <label className={labelClassName(theme)} htmlFor="email">
+                        Email
+                      </label>
+                    </div>
+                    <div>
+                      <input
+                        className={inputClassName(theme)}
+                        id="email"
+                        value={inputData.email}
+                        onChange={!currentUser?.id ? handleChange : ""}
+                        placeholder="Email"
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -264,62 +269,54 @@ export default function Contact() {
                       </>
                     )}
                   </div>
-                  <div
-                    className={`flex items-center w-full border mb-2 ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-white text-bg_grey"
-                    }`}
-                  >
-                    <PiUserCircleDuotone size={24} />
-                    <input
-                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
-                        theme == "light"
-                          ? "text-black bg-gray-200"
-                          : "bg-white text-bg_grey"
-                      }`}
-                      id="last_name"
-                      value={inputData.last_name}
-                      onChange={!currentUser?.id ? handleChange : ""}
-                      placeholder="last name"
-                    />
+                  <div className="md:flex flex-col gap-4 w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        Last name
+                      </label>
+                    </div>
+                    <div>
+                      <input
+                        className={inputClassName(theme)}
+                        id="last_name"
+                        value={inputData.last_name}
+                        onChange={!currentUser?.id ? handleChange : ""}
+                        placeholder="last name"
+                      />
+                    </div>
                   </div>
-                  <div
-                    className={`flex items-center w-full border ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-white text-bg_grey"
-                    }`}
-                  >
-                    <PiBuildingDuotone size={20} />
-                    <input
-                      className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
-                        theme == "light"
-                          ? "text-black bg-gray-200"
-                          : "bg-white text-bg_grey"
-                      }`}
-                      id="company"
-                      value={inputData.company}
-                      onChange={handleChange}
-                      placeholder="Company"
-                    />
+                  <div className="md:flex flex-col gap-4 w-full pt-2">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="company"
+                      >
+                        Company
+                      </label>
+                    </div>
+                    <div>
+                      <input
+                        className={inputClassName(theme)}
+                        id="company"
+                        value={inputData.company}
+                        onChange={handleChange}
+                        placeholder="Company"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-              <div
-                className={`flex w-full border ${
-                  theme == "light"
-                    ? "text-black bg-gray-200"
-                    : "bg-white text-bg_grey"
-                }`}
-              >
-                <PiChatDuotone size={24} />
+              <div className="md:flex flex-col gap-4 w-full">
+                <div className="w-full pt-3">
+                  <label className={labelClassName(theme)} htmlFor="userName">
+                    Message
+                  </label>
+                </div>
                 <textarea
-                  className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
-                    theme == "light"
-                      ? "text-black bg-gray-200"
-                      : "bg-white text-bg_grey"
-                  }`}
+                  className={inputClassName(theme)}
                   id="message"
                   value={inputData.message}
                   onChange={handleChange}

@@ -11,7 +11,7 @@ const EventCalendar = ({ events }) =>
       <div className="flex flex-col gap-4">
         {events?.length ? events?.map((event) => (
           <div
-            className={`p-2 lg:p-4 ${theme == 'light' ? 'bg-bg_lightest' : 'bg-bg_primary'}`}
+            className={`p-2 lg:p-4 ${theme == 'light' ? 'bg-bg_lightest' : 'bg-bg_core'}  border border-cl_primary shadow-cl_primary shadow-md space-y-4 text-center w-full mx-auto mb-8 px-5 cursor-pointer hover:bg-bg_lighter`}
             key={event.id}
           >
             <div className="block lg:flex items-center justify-between">

@@ -109,8 +109,8 @@ const CreateProject = () => {
   }, []);
 
   useEffect(() => {
-    if(success){
-      toast('Project created')
+    if (success) {
+      toast("Project created");
     }
   }, [success]);
 
@@ -308,7 +308,7 @@ const CreateProject = () => {
               </label>
               <select
                 id="tag"
-                name='tag'
+                name="tag"
                 onChange={(e) => setTag(e.target.value)}
                 className={inputClassName(theme)}
               >
@@ -336,7 +336,6 @@ const CreateProject = () => {
                 Features
               </label>
             </div>
-
             <FeatureInput features={features} setFeatures={setFeatures} />
           </div>
           <button

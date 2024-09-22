@@ -17,7 +17,6 @@ import {
 import { AiTwotoneDashboard } from "react-icons/ai";
 import { SlideLeft } from "../animation/animate";
 import LayoutToggle from "./layoutToggle/LayoutToggle";
-import MobileNav from "./MobileNav";
 
 export default function ({ currentUser, auth }) {
   const { theme } = useContext(ThemeContext);

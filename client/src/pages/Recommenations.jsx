@@ -344,7 +344,7 @@ const Recommendations = () => {
                         >
                           Avatar
                         </p>
-                        <PiUserCircleDuotone />
+                        <PiUserCircleDuotone size={40} />
                       </div>
                       <input
                         id="file-upload"
@@ -380,13 +380,8 @@ const Recommendations = () => {
                           : "bg-bg_card text-bg_grey"
                       }`}
                     >
-                      <PiUserCircleDuotone size={24} />
                       <input
-                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                          theme == "light"
-                            ? "text-black bg-gray-200"
-                            : "bg-bg_card text-bg_grey"
-                        }`}
+                        className={inputClassName(theme)}
                         id="name"
                         value={inputData.name}
                         onChange={handleChange}
@@ -412,13 +407,8 @@ const Recommendations = () => {
                           : "bg-bg_card text-bg_grey"
                       }`}
                     >
-                      <PiUserCircleDuotone size={24} />
                       <input
-                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                          theme == "light"
-                            ? "text-black bg-gray-200"
-                            : "bg-bg_card text-bg_grey"
-                        }`}
+                        className={inputClassName(theme)}
                         id="last_name"
                         value={inputData.last_name}
                         onChange={handleChange}
@@ -443,13 +433,8 @@ const Recommendations = () => {
                           : "bg-bg_card text-bg_grey"
                       }`}
                     >
-                      <AiTwotoneMail size={24} />
                       <input
-                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                          theme == "light"
-                            ? "text-black bg-gray-200"
-                            : "bg-bg_card text-bg_grey"
-                        }`}
+                        className={inputClassName(theme)}
                         id="email"
                         value={inputData.email}
                         onChange={handleChange}
@@ -475,13 +460,8 @@ const Recommendations = () => {
                           : "bg-bg_card text-bg_grey"
                       }`}
                     >
-                      <PiGithubLogoDuotone size={24} />
                       <input
-                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                          theme == "light"
-                            ? "text-black bg-gray-200"
-                            : "bg-bg_card text-bg_grey"
-                        }`}
+                        className={inputClassName(theme)}
                         id="github"
                         value={inputData.github}
                         onChange={handleChange}
@@ -507,13 +487,8 @@ const Recommendations = () => {
                           : "bg-bg_card text-bg_grey"
                       }`}
                     >
-                      <PiLinkedinLogoDuotone size={24} />
                       <input
-                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                          theme == "light"
-                            ? "text-black bg-gray-200"
-                            : "bg-bg_card text-bg_grey"
-                        }`}
+                        className={inputClassName(theme)}
                         id="linkedin"
                         value={inputData.linkedin}
                         onChange={handleChange}
@@ -538,13 +513,8 @@ const Recommendations = () => {
                           : "bg-bg_card text-bg_grey"
                       }`}
                     >
-                      <PiShareDuotone size={24} />
                       <input
-                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                          theme == "light"
-                            ? "text-black bg-gray-200"
-                            : "bg-bg_card text-bg_grey"
-                        }`}
+                        className={inputClassName(theme)}
                         name="link"
                         id="website"
                         value={inputData.website}
@@ -570,13 +540,8 @@ const Recommendations = () => {
                           : "bg-bg_card text-bg_grey"
                       }`}
                     >
-                      <PiBuildingApartmentDuotone size={24} />
                       <select
-                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                          theme == "light"
-                            ? "text-black bg-gray-200"
-                            : "bg-bg_card text-bg_grey"
-                        }`}
+                        className={inputClassName(theme)}
                         id="profession"
                         onChange={(e) =>
                           setInputData({
@@ -620,14 +585,9 @@ const Recommendations = () => {
                           : "bg-bg_card text-bg_grey"
                       }`}
                     >
-                      <PiFlagDuotone size={24} />
                       <select
                         id="country"
-                        className={`flex w-full px-3 outline-none py-2 border-transparent focus:border-transparent focus:ring-0 ${
-                          theme == "light"
-                            ? "text-black bg-gray-200"
-                            : "bg-bg_card text-bg_grey"
-                        }`}
+                        className={inputClassName(theme)}
                         onChange={(e) =>
                           setInputData({
                             ...inputData,
@@ -700,7 +660,6 @@ const Recommendations = () => {
                               : "bg-bg_card text-bg_grey"
                           }`}
                         >
-                          <PiUserCircleDashedDuotone size={24} />
                           <input
                             className={inputClassName(theme)}
                             id="sender_name"
@@ -716,7 +675,6 @@ const Recommendations = () => {
                               : "bg-bg_card text-bg_grey"
                           }`}
                         >
-                          <PiUserCircleDuotone size={24} />
                           <input
                             className={inputClassName(theme)}
                             id="sender_lastname"
@@ -732,7 +690,6 @@ const Recommendations = () => {
                               : "bg-bg_card text-bg_grey"
                           }`}
                         >
-                          <AiTwotoneMail size={24} />
                           <input
                             className={inputClassName(theme)}
                             id="sender_email"

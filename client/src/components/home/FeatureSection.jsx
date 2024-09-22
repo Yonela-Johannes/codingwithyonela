@@ -16,7 +16,7 @@ const FeatureSection = () =>
         {
           const Icon = feature?.icon
           return (
-            <div key={index} className={`flex items-start justify-center ${theme == 'light' ? 'bg-bg_lightest' : 'bg-bg_primary'} border border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c] w-full p-2`}>
+            <div key={index} className={`flex items-start justify-center ${theme == 'light' ? 'bg-bg_lightest' : 'bg-bg_core'} border border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c] w-full p-2`}>
               <div className="lg:flex flex-col">
                 <div className="flex text-xl lg:mx-6 h-10 w-10 p-1 lg:p-2 bg-bg_grey text-cl_primary justify-center items-center rounded-full">
                   <Icon size={20} />

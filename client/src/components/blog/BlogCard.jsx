@@ -10,7 +10,7 @@ const BlogCard = ({ blog }) =>
   const { loading } = useSelector((state) => state.blogs);
 
   return (
-    <div className={`${theme == "light" ? 'bg-bg_lightest border border-bg_light' : 'border-bg_primary bg-bg_primary'} group relative overflow-hidden h-full duration-200 cursor-pointer`}>
+    <div className={`${theme == "light" ? 'bg-bg_lightest border border-bg_light' : 'border-bg_primary bg-bg_core text-bg_lightest'} group relative overflow-hidden h-full duration-200 cursor-pointer   border border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c]`}>
       {loading ? (
         <Loader />
       ) : (
@@ -28,7 +28,7 @@ const BlogCard = ({ blog }) =>
                   <img
                     src={blog?.profile}
                     alt="cover"
-                    className="object-cover object-center h-[40px] w-[40px]"
+                    className="object-cover rounded-full object-center h-[40px] w-[40px]"
                   />
                 </div>
               </div>
@@ -36,7 +36,7 @@ const BlogCard = ({ blog }) =>
                 <img
                   src={blog?.blog_image}
                   alt="cover"
-                  className="object-cover object-center h-full"
+                  className="object-cover round object-center h-full"
                 />
               </div>
               <h4 className="text-lg">{blog?.blog_title?.slice(0, 28)}...</h4>

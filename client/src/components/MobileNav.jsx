@@ -38,15 +38,19 @@ export default function MobileNav({ currentUser }) {
         } md:px-0`}
       >
         <div className={`flex justify-end gap-4 w-full px-2`}>
-          <div className="flex items-center">
-            <Link to="/profile">
-              <img
-                src={currentUser?.profile}
-                alt="cover"
-                className="rounded-full object-cover h-[28px] w-[28px]"
-              />
-            </Link>
-          </div>
+          {currentUser?.profile ? (
+            <div className="flex items-center">
+              <Link to="/profile">
+                <img
+                  src={currentUser?.profile}
+                  alt="cover"
+                  className="rounded-full object-cover h-[28px] w-[28px]"
+                />
+              </Link>
+            </div>
+          ) : (
+            ""
+          )}
           <ThemeToggle />
           <button
             className="nav-open-btn bg-l p-1 md:p-2 rounded-md border-none"
