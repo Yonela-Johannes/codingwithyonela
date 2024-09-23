@@ -13,7 +13,6 @@ import ListCard from './ListCard'
 
 const List = ({ project, data }) =>
 {
-    const { layout } = useContext(LayoutContext);
     const { currentUser } = useSelector((state) => state.user);
     const { theme } = useContext(ThemeContext)
     const [grouped, setGrouped] = useState()

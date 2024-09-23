@@ -39,11 +39,7 @@ const ListCard = ({ elem, project }) => {
       dispatch(updateTask(data));
     }
     if (e.target.value === "done") {
-      toast({
-        title: "✅ Task completed",
-        description: "You're a rockstar",
-        duration: 3000,
-      });
+      toast("You're a rockstar");
     }
   };
 
@@ -99,7 +95,7 @@ const ListCard = ({ elem, project }) => {
         theme == "light"
           ? "bg-white text-bg_primary"
           : "bg-bg_core border-bg_core text-slate-300"
-      } flex flex-col gap-2 shadow border p-2 lg:p-4 mb-3`}
+      } flex flex-col gap-2 p-2 lg:p-4 mb-3 border border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c] mr-10`}
     >
       <div className="flex flex-col items-start justify-between">
         {elem?.project_name ? (
@@ -114,14 +110,9 @@ const ListCard = ({ elem, project }) => {
             <p className="text-[13px] lg:text-xl cursor-pointer">
               {elem?.task}
             </p>
-            <div className="flex">
+            <div className="hidden lg:flex">
               <div className="flex items-center gap-2 justify-end">
                 <img className="w-7 h-7 rounded-full" src={elem?.profile} />
-                <div>
-                  <p className="text-end text-xs font-semibold">
-                    {elem?.username}
-                  </p>
-                </div>
               </div>
             </div>
           </div>

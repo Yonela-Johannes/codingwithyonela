@@ -157,7 +157,7 @@ def create_project_chat(account_id, message, project_id):
     
 # fetch suggestion responses
 def fetch_projects_chats(id):
-    query = """SELECT project_chat.*, project_chat.id AS chat_id, account.email, account.username, account.lastname, account.is_admin, account.is_staff, account.profile FROM project_chat JOIN account ON account_id = account.id  WHERE project_id=%s ;"""
+    query = """SELECT project_chat.*, project_chat.id AS chat_id, account.email, account.username, account.lastname, account.is_admin, account.is_staff, account.profile FROM project_chat JOIN account ON account_id = account.id  WHERE project_id=%s ORDER BY project_chat.id ASC;"""
 
     try:
         with  connection as conn:
@@ -218,7 +218,7 @@ def create_project_feedback(account_id, message, project_id):
     
 # fetch project feedback
 def fetch_project_feedback(id):
-    query = """SELECT project_feedback.*, project_feedback.id AS feedback_id, account.email, account.firstname, account.username, account.lastname, account.is_admin, account.is_staff, account.profile FROM project_feedback JOIN account ON account_id = account.id  WHERE project_id=%s ;"""
+    query = """SELECT project_feedback.*, project_feedback.id AS feedback_id, account.email, account.firstname, account.username, account.lastname, account.is_admin, account.is_staff, account.profile FROM project_feedback JOIN account ON account_id = account.id  WHERE project_id=%s ORDER BY project_feedback.id DESC ;"""
 
     try:
         with  connection as conn:

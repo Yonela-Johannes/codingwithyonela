@@ -55,9 +55,9 @@ const Todopage = () => {
       <div
         className={`${
           theme == "light" ? "text-bg_primary" : "text-white"
-        } w-full h-full flex flex-col  gap-8`}
+        } w-full h-full flex flex-col gap-8`}
       >
-        <div className="flex flex-col md:flex-row gap-2 lg:gap-4">
+        <div className="flex md:flex-row gap-2 lg:gap-4">
           <div>
             <Head
               title={project?.project_name}
@@ -76,7 +76,7 @@ const Todopage = () => {
               initial="initial"
               whileInView="animate"
               src={project?.image}
-              className="w-[100px] h-[100px] object-center object-contain"
+              className="w-10 h-10 lg:w-[100px] lg:h-[100px] object-center object-contain"
             />
           </motion.div>
         </div>

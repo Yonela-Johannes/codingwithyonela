@@ -20,7 +20,9 @@ import {
   PiUserCircleDashedDuotone,
   PiUserCircleDuotone,
   PiEyeDuotone,
+  PiEyeSlashDuotone,
 } from "react-icons/pi";
+import { inputClassName, labelClassName } from "../utils/utils";
 
 export default function SignUp() {
   const [selectedFile, setSelectedFile] = useState();
@@ -125,9 +127,10 @@ export default function SignUp() {
               >
                 <MdClose />
               </div>
-              <p className={`${
-                  theme == "light" ? "bg-white" : "text-white"}
-                text-lg lg:text-xl text-center`}>
+              <p
+                className={`${theme == "light" ? "bg-white" : "text-white"}
+                text-lg lg:text-xl text-center`}
+              >
                 Register new account
               </p>
               <div>
@@ -187,12 +190,7 @@ export default function SignUp() {
                 </div>
               </div>
               <div className="bg-transparent">
-                <label
-                  value="firstname"
-                  className={`${
-                    theme == "light" ? "text-black" : " text-bg_lightest"
-                  }`}
-                >
+                <label value="firstname" className={labelClassName(theme)}>
                   First name
                 </label>
                 <div
@@ -202,13 +200,8 @@ export default function SignUp() {
                       : "bg-bg_lightest text-bg_core"
                   }`}
                 >
-                  <PiUserCircleDuotone size={24} />
                   <input
-                    className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_lightest text-bg_core"
-                    }`}
+                    className={inputClassName(theme)}
                     type="text"
                     value={formData.firstname}
                     placeholder="your firstname"
@@ -219,12 +212,7 @@ export default function SignUp() {
                 </div>
               </div>
               <div className="bg-transparent">
-                <label
-                  value="lastname"
-                  className={`${
-                    theme == "light" ? "text-black" : " text-bg_lightest"
-                  }`}
-                >
+                <label value="lastname" className={labelClassName(theme)}>
                   Last name
                 </label>
                 <div
@@ -234,13 +222,8 @@ export default function SignUp() {
                       : "bg-bg_lightest text-bg_core"
                   }`}
                 >
-                  <PiUserCircleDuotone size={24} />
                   <input
-                    className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_lightest text-bg_core"
-                    }`}
+                    className={inputClassName(theme)}
                     value={formData.lastname}
                     placeholder="your username"
                     name="lastname"
@@ -250,12 +233,7 @@ export default function SignUp() {
                 </div>
               </div>
               <div className="bg-transparent">
-                <label
-                  value="email"
-                  className={`${
-                    theme == "light" ? "text-black" : " text-bg_lightest"
-                  }`}
-                >
+                <label value="email" className={labelClassName(theme)}>
                   Email
                 </label>
 
@@ -266,13 +244,8 @@ export default function SignUp() {
                       : "bg-bg_lightest text-bg_core"
                   }`}
                 >
-                  <AiTwotoneMail size={24} />
                   <input
-                    className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_lightest text-bg_core"
-                    }`}
+                    className={inputClassName(theme)}
                     value={formData?.email}
                     type="email"
                     name="email"
@@ -283,28 +256,18 @@ export default function SignUp() {
                 </div>
               </div>
               <div className="bg-transparent">
-                <label
-                  value="Your password"
-                  className={`${
-                    theme == "light" ? "text-black" : " text-bg_lightest"
-                  }`}
-                >
+                <label value="Your password" className={labelClassName(theme)}>
                   Password
                 </label>
                 <div
-                  className={`flex items-center w-full border ${
+                  className={`relative flex items-center w-full border ${
                     theme == "light"
                       ? "text-black bg-gray-200"
                       : "bg-bg_lightest text-bg_core"
                   }`}
                 >
-                  <IoIosUnlock size={24} />
                   <input
-                    className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_lightest text-bg_core"
-                    }`}
+                    className={inputClassName(theme)}
                     value={formData.password}
                     type={passwordType}
                     placeholder="Password"
@@ -318,9 +281,13 @@ export default function SignUp() {
                         currenState == "password" ? "text" : "password"
                       )
                     }
-                    className="px-1 lg:px-2 cursor-pointer h-full"
+                    className="absolute right-2 px-1 cursor-pointer"
                   >
-                    <PiEyeDuotone size={22} />
+                    {passwordType == "password" ? (
+                      <PiEyeDuotone size={22} />
+                    ) : (
+                      <PiEyeSlashDuotone size={22} />
+                    )}
                   </div>
                 </div>
               </div>

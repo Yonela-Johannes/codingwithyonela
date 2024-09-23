@@ -10,11 +10,12 @@ import { useEffect } from "react";
 import { MdClose } from "react-icons/md";
 import { ThemeContext } from "../context/ThemeContext";
 import toast from "react-hot-toast";
-import { PiEyeDuotone } from "react-icons/pi";
+import { PiEyeDuotone, PiEyeSlashDuotone } from "react-icons/pi";
 import { motion } from "framer-motion";
 import { IoIosUnlock } from "react-icons/io";
 import { AiTwotoneMail } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { inputClassName, labelClassName } from "../utils/utils";
 
 const Signin = () => {
   const { theme } = useContext(ThemeContext);
@@ -28,7 +29,7 @@ const Signin = () => {
     (state) => state?.user
   );
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -44,7 +45,7 @@ const Signin = () => {
     };
 
     dispatch(login(data));
-    navigate('/recommendation')
+    navigate("/recommendation");
   };
 
   useEffect(() => {
@@ -100,28 +101,16 @@ const Signin = () => {
               encType="multipart/form-data"
             >
               <div>
-                <label
-                  value="Your email"
-                  className={`${
-                    theme == "light" ? "text-black" : "bg-bg_card text-white"
-                  }`}
-                >
+                <label value="Your email" className={labelClassName(theme)}>
                   Email
                 </label>
                 <div
                   className={`flex items-center w-full border ${
-                    theme == "light"
-                      ? "text-black bg-gray-200"
-                      : "bg-bg_card text-white"
+                    theme == "light" ? "text-black" : "text-white"
                   }`}
                 >
-                  <AiTwotoneMail size={24} />
                   <input
-                    className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_card text-white"
-                    }`}
+                    className={inputClassName(theme)}
                     value={formData?.email}
                     type="email"
                     name="email"
@@ -132,29 +121,17 @@ const Signin = () => {
                 </div>
               </div>
 
-              <div>
-                <label
-                  value="Your password"
-                  className={`${
-                    theme == "light" ? "text-black" : "bg-bg_card text-white"
-                  }`}
-                >
+              <div className="relative">
+                <label value="Your password" className={labelClassName(theme)}>
                   Password
                 </label>
                 <div
-                  className={`flex items-center w-full border ${
-                    theme == "light"
-                      ? "text-black bg-gray-200"
-                      : "bg-bg_card text-white"
+                  className={`flex items-center w-full ${
+                    theme == "light" ? "text-black" : "text-white"
                   }`}
                 >
-                  <IoIosUnlock size={24} />
                   <input
-                    className={`flex w-full px-3 outline-none border-transparent focus:border-transparent focus:ring-0 ${
-                      theme == "light"
-                        ? "text-black bg-gray-200"
-                        : "bg-bg_card text-white"
-                    }`}
+                    className={inputClassName(theme)}
                     value={formData.password}
                     type={passwordType}
                     placeholder="Password"
@@ -168,9 +145,13 @@ const Signin = () => {
                         currenState == "password" ? "text" : "password"
                       )
                     }
-                    className="px-1 lg:px-2 cursor-pointer h-full"
+                    className="absolute right-2 px-1 cursor-pointer"
                   >
-                    <PiEyeDuotone size={22} />
+                    {passwordType == "password" ? (
+                      <PiEyeDuotone size={22} />
+                    ) : (
+                      <PiEyeSlashDuotone size={22} />
+                    )}
                   </div>
                 </div>
               </div>

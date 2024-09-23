@@ -99,7 +99,7 @@ const TaskCard = ({ elem, project }) => {
         theme == "light"
           ? "bg-white text-bg_primary"
           : "bg-bg_core border-bg_core text-slate-300"
-      } flex flex-col gap-2 border p-2 lg:p-4 mb-3`}
+      } flex flex-col gap-2 p-2 lg:p-4 mb-3 border border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c]`}
     >
       <div className="flex flex-col items-start justify-between">
         {elem?.project_name ? (
@@ -123,21 +123,6 @@ const TaskCard = ({ elem, project }) => {
         ...
       </p>
       <div className="flex justify-between items-center">
-        <div className="flex items-center gap-1">
-          <div
-            className={`${
-              theme == "light" ? "bg-slate-200" : "bg-bg_card text-slate-400"
-            } text-xs lg:text-sm rounded-md px-[3px]`}
-          >
-            {elem?.name}
-          </div>
-          <div className="flex items-center gap-2 justify-end">
-            <img className="w-7 h-7 rounded-full" src={elem?.profile} />
-            <div>
-              <p className="text-end text-xs font-semibold">{elem?.username}</p>
-            </div>
-          </div>
-        </div>
         {currentUser && currentUser?.account_id == elem?.account_id ? (
           project ? (
             ""
