@@ -84,14 +84,14 @@ const Blog = () =>
 
   return (
     <>
-    <Helmet>
-      <title>{blog?.title}</title>
-      <meta name="description" content={blog?.post} />
-      <meta property="og:image" content={blog?.blog_image} />
-      <meta name="author" content={blog?.username} />
-      <meta name="creator" content={blog?.firstname + " " + blog?.lastname} />
-      <meta property="og:image:alt" content="blog image" />
-      <meta property="og:url" content={"https://codingwithyonela.vercel.app/" + slug} />
+      <Helmet>
+        <title>{blog?.title}</title>
+        <meta name="description" content={blog?.post} />
+        <meta property="og:image" content={blog?.blog_image} />
+        <meta name="author" content={blog?.username} />
+        <meta name="creator" content={blog?.firstname + " " + blog?.lastname} />
+        <meta property="og:image:alt" content="blog image" />
+        <meta property="og:url" content={"https://codingwithyonela.vercel.app/" + slug} />
       </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -106,7 +106,7 @@ const Blog = () =>
                   <img
                     src={blog?.blog_image}
                     alt="cover"
-                    className="object-cover object-center w-full h-[300px] lg:h-[420px]"
+                    className="object-contain object-center w-full h-[320px] lg:h-[800px]"
                   />
                   <div className="flex justify-between lg:justify-start">
                     <div className="flex flex-col items-center justify-center">
@@ -191,7 +191,7 @@ const Blog = () =>
         </div>
       </motion.div>
     </>
-    
+
   );
 };
 
