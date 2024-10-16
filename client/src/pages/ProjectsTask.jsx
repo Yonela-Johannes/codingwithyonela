@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import Board from "../components/task/Board";
 import { useDispatch, useSelector } from "react-redux";
-import {
+import
+{
   disableMessageUpdate,
   getAllprojects,
 } from "../features/project/projectSlice";
@@ -12,8 +13,10 @@ import { SlideLeft, SlideUp } from "../animation/animate";
 import { Head } from "../shared/Head";
 import ProjectList from "../components/project/Projects";
 import { LayoutContext } from "../context/LayoutContext";
+import ProjectGrid from "../components/project/ProjectGrid";
 
-const ProjectsTask = () => {
+const ProjectsTask = () =>
+{
   const { currentUser } = useSelector((state) => state?.user);
   const { theme } = useContext(ThemeContext);
   const { layout } = useContext(LayoutContext);
@@ -23,17 +26,21 @@ const ProjectsTask = () => {
 
   const dispatch = useDispatch();
 
-  const getProjects = () => {
+  const getProjects = () =>
+  {
     dispatch(getAllprojects());
     dispatch(disableMessageUpdate());
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     getProjects();
   }, []);
 
-  useEffect(() => {
-    if (updated || success || deleted) {
+  useEffect(() =>
+  {
+    if (updated || success || deleted)
+    {
       getProjects();
     }
   }, [updated, success, deleted]);
@@ -60,7 +67,11 @@ const ProjectsTask = () => {
                 <Board project={true} data={projects} />
               </div>
             ) : (
-              <ProjectList projects={projects} />
+              layout == "grid" ? (
+                <ProjectGrid projects={projects} />
+              ) : (
+                <ProjectList projects={projects} />
+              )
             )
           ) : (
             <ProjectList projects={projects} />

@@ -12,7 +12,8 @@ import { SlideLeft } from "../animation/animate";
 import { LayoutContext } from "../context/LayoutContext";
 import List from "../components/task/List";
 
-const Todopage = () => {
+const Todopage = () =>
+{
   const { id } = useParams();
   const { layout } = useContext(LayoutContext);
   const { project } = useSelector((state) => state.project);
@@ -22,26 +23,33 @@ const Todopage = () => {
   const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
 
-  const getTasks = (id) => {
+  const getTasks = (id) =>
+  {
     dispatch(getAllTasks(id));
     dispatch(disableTaskUpdates());
   };
 
-  useEffect(() => {
-    if (id) {
+  useEffect(() =>
+  {
+    if (id)
+    {
       getTasks(id);
     }
   }, [id]);
 
-  useEffect(() => {
-    if (created && id) {
+  useEffect(() =>
+  {
+    if (created && id)
+    {
       getTasks(id);
       toast("New task created");
     }
   }, [created]);
 
-  useEffect(() => {
-    if (success || updated || deleted) {
+  useEffect(() =>
+  {
+    if (success || updated || deleted)
+    {
       getTasks(id);
     }
   }, [success, deleted, updated]);
@@ -53,9 +61,8 @@ const Todopage = () => {
       transition={{ duration: 0.5, delay: 0.2 }}
     >
       <div
-        className={`${
-          theme == "light" ? "text-bg_primary" : "text-white"
-        } w-full h-full flex flex-col gap-8`}
+        className={`${theme == "light" ? "text-bg_primary" : "text-white"
+          } w-full h-full flex flex-col gap-8`}
       >
         <div className="flex md:flex-row gap-2 lg:gap-4">
           <div>

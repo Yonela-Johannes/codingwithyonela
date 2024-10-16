@@ -2,16 +2,18 @@ import { useContext, useEffect } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  disableFeedbackUpdates,
-  getAllFeedback,
-} from "../../features/feedback/feedbackSlice";
+import
+  {
+    disableFeedbackUpdates,
+    getAllFeedback,
+  } from "../../features/feedback/feedbackSlice";
 import Loader from "../../shared/Loader";
 import Card from "./testimonial/Card";
 import { SlideUp } from "../../animation/animate";
 import { Head } from "../../shared/Head";
 
-const Testimonials = () => {
+const Testimonials = () =>
+{
   const { theme } = useContext(ThemeContext);
   const { feedback, created, loading, updated } = useSelector(
     (state) => state.feedback
@@ -21,23 +23,29 @@ const Testimonials = () => {
     (state) => state.user
   );
 
-  const fetchFeedback = () => {
+  const fetchFeedback = () =>
+  {
     dispatch(getAllFeedback());
     dispatch(disableFeedbackUpdates());
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     fetchFeedback();
   }, []);
 
-  useEffect(() => {
-    if (signin_success || signup_success) {
+  useEffect(() =>
+  {
+    if (signin_success || signup_success)
+    {
       fetchFeedback();
     }
   }, [signin_success, signup_success]);
 
-  useEffect(() => {
-    if (created || updated) {
+  useEffect(() =>
+  {
+    if (created || updated)
+    {
       fetchFeedback();
     }
   }, [created, updated]);
@@ -53,15 +61,15 @@ const Testimonials = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {currentUser?.is_staff || currentUser?.is_admin
             ? feedback?.map((element) => (
-                <Card element={element} theme={theme} />
-              ))
+              <Card element={element} theme={theme} />
+            ))
             : feedback?.map((element) =>
-                element.status == "accepted" ? (
-                  <Card element={element} theme={theme} />
-                ) : (
-                  ""
-                )
-              )}
+              element.status == "accepted" ? (
+                <Card element={element} theme={theme} />
+              ) : (
+                ""
+              )
+            )}
         </div>
       </div>
     ) : (
@@ -92,15 +100,15 @@ const Testimonials = () => {
       <div className="container grid grid-cols-1 md:grid-cols-3 gap-6">
         {currentUser?.is_staff || currentUser?.is_admin
           ? feedback?.map((element) => (
-              <Card key={element?.id} element={element} theme={theme} />
-            ))
+            <Card key={element?.id} element={element} theme={theme} />
+          ))
           : feedback?.map((element) =>
-              element.status == "accepted" ? (
-                <Card key={element?.id} element={element} theme={theme} />
-              ) : (
-                ""
-              )
-            )}
+            element.status == "accepted" ? (
+              <Card key={element?.id} element={element} theme={theme} />
+            ) : (
+              ""
+            )
+          )}
       </div>
     </div>
   ) : (

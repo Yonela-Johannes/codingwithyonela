@@ -35,7 +35,7 @@ function RecommendationCard({ item, theme })
               <img
                 src={item?.portfolio}
                 alt={item?.username}
-                className="h-[150px] w-full lg:h-[200px]
+                className="h-[150px] w-full lg:h-[400px]
                     object-cover mt-3 m-auto"
               />
               <div
