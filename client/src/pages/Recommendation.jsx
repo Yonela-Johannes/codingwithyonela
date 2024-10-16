@@ -5,7 +5,7 @@ import { ThemeContext } from "../context/ThemeContext";
 import { ModalContext } from "../context/ModalContext";
 import UserProfile from "./github/UserProfile";
 import toast from "react-hot-toast";
-import { PiShareFatDuotone, PiLinkedinLogoDuotone, PiGithubLogoDuotone } from "react-icons/pi";
+import { PiShareFatDuotone, PiLinkedinLogoDuotone, PiGithubLogoDuotone, PiGlobeHemisphereEastDuotone } from "react-icons/pi";
 
 const Recommendation = () =>
 {
@@ -128,7 +128,7 @@ const Recommendation = () =>
                                     <div className="flex items-center text-primary gap-4 my-2 text-bg_opp text-lg">
                                         {selectedSuggestion?.website ? (
                                             <a href={selectedSuggestion.website} className="" target="_blank">
-                                                <PiShareFatDuotone size={22} />
+                                                <PiGlobeHemisphereEastDuotone size={22} />
                                             </a>
                                         ) : (
                                             ""

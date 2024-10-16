@@ -1,4 +1,4 @@
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 import { ThemeContext } from '../context/ThemeContext';
 import { useContext } from 'react';
 

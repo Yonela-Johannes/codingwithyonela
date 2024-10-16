@@ -62,9 +62,6 @@ const PollCard = ({
                 {post.pao_id ? (<button disabled className={`${theme == 'light' ? '' : 'border-bg_dark bg-bg_lighter text-bg_primary'} font-semibold text-base md:text-md px-1 disabled:hover-none`}>{post?.pao_text}</button>) : ""}
                 {post.pat_id ? (<button disabled className={`${theme == 'light' ? '' : 'border-bg_dark bg-bg_lighter text-bg_primary'} font-semibold text-base md:text-md px-1 disabled:hover-none`}>{post?.pat_text}</button>) : ""}
                 {post.path_id ? (<button disabled className={`${theme == 'light' ? '' : 'border-bg_dark bg-bg_lighter text-bg_primary'} font-semibold text-base md:text-md px-1 disabled:hover-none`}>{post?.path_text}</button>) : ""}
-
-
-
             </div>
             <div className="flex justify-end p-2">
                 <div className="flex">

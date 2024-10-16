@@ -9,6 +9,7 @@ import TaskCard from '../../components/task/TaskCard'
 import postponed from '../../assets/task/postponed.png'
 import TaskForm from '../../components/task/TaskForm'
 import { useSelector } from 'react-redux'
+import { LayoutContext } from '../../context/LayoutContext'
 
 const Board = ({ project, data }) =>
 {
@@ -50,18 +51,18 @@ const Board = ({ project, data }) =>
                 <TaskForm project={project} filterGrouped={filterGrouped} />
             ) : ""}
             {data?.length ? (
-                <div className={`${theme == "light" ? "bg-slate-100 text-white" : "bg-bg_card text-slate-400"} flex flex-col lg:flex-row gap-4 lg:gap-0 lg:flex justify-evenly py-2 lg:py-5 rounded-md  ${data?.length ? "min-h-[600px]" : 'h-min'}`}>
+                <div className={`${theme == "light" ? "" : ""} flex flex-col lg:flex-row gap-4 lg:gap-0 lg:flex justify-evenly py-2 lg:py-5 ${data?.length ? "min-h-[600px]" : 'h-min'}`}>
                     {/* task column */}
                     <section className="w-full lg:w-[35%] lg:m-5">
                         <TaskColumn title="To do" image={todo} />
                         {grouped?.todo?.map((elem) => (
-                            <TaskCard elem={elem} project={project} />
+                            <TaskCard key={elem?.id} elem={elem} project={project} />
                         ))}
                     </section>
                     <section className="w-full lg:w-[35%] lg:m-5">
                         <TaskColumn title="In progress" image={doing} />
                         {grouped?.progress?.map((elem) => (
-                            <TaskCard project={project} elem={elem} />
+                            <TaskCard key={elem?.id} project={project} elem={elem} />
                         ))}
                     </section>
                     {project ? (
@@ -69,13 +70,13 @@ const Board = ({ project, data }) =>
                             <section className="w-full lg:w-[35%] lg:m-5">
                                 <TaskColumn title="On hold" image={postponed} />
                                 {grouped?.on_hold?.map((elem) => (
-                                    <TaskCard project={project} elem={elem} />
+                                    <TaskCard key={elem?.id} project={project} elem={elem} />
                                 ))}
                             </section>
                             <section className="w-full lg:w-[35%] lg:m-5">
                                 <TaskColumn title="Testing" image={testing} />
                                 {grouped?.testing?.map((elem) => (
-                                    <TaskCard project={project} elem={elem} />
+                                    <TaskCard key={elem?.id} project={project} elem={elem} />
                                 ))}
                             </section>
                         </>
@@ -83,7 +84,7 @@ const Board = ({ project, data }) =>
                         <section className="w-full lg:w-[35%] lg:m-5">
                             <TaskColumn title="Testing" image={testing} />
                             {grouped?.testing?.map((elem) => (
-                                <TaskCard project={project} elem={elem} />
+                                <TaskCard key={elem?.id} project={project} elem={elem} />
                             ))}
                         </section>
 
@@ -91,7 +92,7 @@ const Board = ({ project, data }) =>
                     <section className="w-full lg:w-[35%] lg:m-5">
                         <TaskColumn title="Done" image={done} />
                         {grouped?.done?.map((elem) => (
-                            <TaskCard project={project} elem={elem} />
+                            <TaskCard key={elem?.id} project={project} elem={elem} />
                         ))}
                     </section>
                 </div>

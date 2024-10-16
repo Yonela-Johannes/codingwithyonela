@@ -12,11 +12,9 @@ import Todopage from "./pages/Todopage";
 import ProjectsTask from "./pages/ProjectsTask";
 import Verify from "./pages/Verify";
 import NotFoundPage from './pages/404'
-import EditAccount from "./pages/EditAccount";
 import Chill from "./components/chill/Chill";
 import PrivateRoute from "./utils/PrivateRoute";
 import AdminPrivateRoute from "./utils/AdminRoute";
-import Profile from "./pages/Profile";
 import { Theme } from '@radix-ui/themes';
 import BigCalendar from "./components/dashboard/BigCalender";
 import Users from "./components/dashboard/list/Users";
@@ -29,6 +27,11 @@ import AdminFeedback from "./components/dashboard/list/Feedback";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { disableAuthModals } from "./features/user/authSlice";
+import Contact from "./pages/Contact";
+import Notes from "./pages/notes/Notes";
+import ProjectPage from "./pages/ProjectPage";
+import Project from "./pages/Project";
+import Profile from "./pages/profile";
 
 function App()
 {
@@ -58,10 +61,13 @@ function App()
             <Route path="/about" element={<About />} />
             <Route path="/project-status" element={<ProjectsTask />} />
             <Route path="/project/:id/todo" element={<Todopage />} />
-            <Route path="events" element={<BigCalendar />} />
-            {/* user routes */}
+            <Route path="/events" element={<BigCalendar />} />
+            <Route path="/contact" element={<Contact/>} />
+            <Route path="/notes" element={<Notes />} />
+            <Route path="/projects" element={<ProjectPage />} />
+            <Route path="/projects/:id" element={<Project />} />
+            {/* admin routes */}
             <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-            <Route path="/edit-account" element={<PrivateRoute><EditAccount /></PrivateRoute>} />
             {/* admin routes */}
             <Route path="/admin">
               <Route path="/admin" element={<AdminPrivateRoute><Users /></AdminPrivateRoute>} />

@@ -36,10 +36,10 @@ const Right = () =>
           ))}
         </div>
         <div className="flex items-end  justify-end absolute top-1 w-full px-10 z-40">
-          {active && project?.id && currentUser?.id == project?.account_id
+          {active && project && (currentUser?.is_admin || currentUser?.id == project?.account_id) 
             ? (
               <MessageInput setActive={setActive} />
-            ) : project && currentUser && currentUser?.is_admin || currentUser?.id == project?.account_id ? (
+            ) : project && (currentUser?.is_admin || currentUser?.id == project?.account_id) ? (
               <div
                 onClick={() => setActive(!active)}
                 className="cursor-pointer text-white  bg-clr_alt items-end p-2 rounded-full"

@@ -73,8 +73,6 @@ def user(id):
             
             response = fetch_user(id)
             
-            return {}, 200
-        
             is_admin: bool = False
             is_staff: bool = False
             username = None
@@ -154,13 +152,12 @@ def create_user_profile(mail):
             email_validate_pattern = r"^\S+@\S+\.\S+$"
             email = request.form['email']
             password = request.form['password']
-            username = request.form['username']
             firstname = request.form['firstname']
             lastname = request.form['lastname']
             profile = request.files['profile']
             
             valid_email_format: str = ''
-        
+
             if email:
                 if re.match(email_validate_pattern, email):
                     valid_email_format = email
@@ -177,35 +174,34 @@ def create_user_profile(mail):
                 if res:
                     user_data = {
                         "email": valid_email_format,
-                        "username": username,
                         "firstname": firstname,
                         "lastname": lastname,
                         "password": password,
                         "profile": res['url'],
                         "profile_id": res['asset_id']
                     }
-                    token = {}
                     
                     token = create_access_token(data=user_data)
                     if token:
                         # Send email
                         verification_email(
-                            username=username,
+                            firstname=firstname,
                             lastname=lastname,
                             email=email,
                             token=token,
                             mail=mail
                             )
-                    return jsonify(res), 200
-        except Exception as e:
-            return jsonify(e), 400
+                        return jsonify(token), 200 if not isinstance(token, dict) else token
+        except Exception as error:
+            ic(error)
+            return jsonify({"error": str(error)}), 500
         
 def users():
     REQUEST = request.method 
     if REQUEST == 'GET':
         try:
             response = fetch_users()
-            return jsonify(response), 200 if not isinstance(response, dict) else response[1]
+            return jsonify(response), 200 if not isinstance(response, dict) else response
 
         except Exception as error:
             # Generic exception handling

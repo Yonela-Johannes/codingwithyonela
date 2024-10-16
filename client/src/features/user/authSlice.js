@@ -44,10 +44,10 @@ export const verifyRegistration = createAsyncThunk('user/verify/email', async (t
 
 export const updateUser = createAsyncThunk('user/edit', async (data) =>
 {
-
+    console.log(false)
     const response = await axios.put(`${apiUrl}user/${data?.id}`, data,
         {
-            headers: formHeaders,
+            headers: headers,
         });
     return response.data;
 });

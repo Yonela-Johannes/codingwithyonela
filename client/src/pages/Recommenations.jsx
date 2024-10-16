@@ -2,26 +2,48 @@ import { useDispatch, useSelector } from "react-redux";
 import RecommendationCard from "../components/recommendation/RecommendationCard";
 import { useContext, useEffect, useRef, useState } from "react";
 import { getAllTitles } from "../features/title/titleSlice";
-import { MdClose, MdOutlineAdd } from "react-icons/md";
+import { MdOutlineAdd } from "react-icons/md";
 import { Modal } from "antd";
-import { createRecommendation, disableRecommendationUpdates, getAllRecommendations } from "../features/recommenation/recommendationSlice";
+import { Spinner } from "flowbite-react";
+import {
+  createRecommendation,
+  disableRecommendationUpdates,
+  getAllRecommendations,
+} from "../features/recommenation/recommendationSlice";
 import { getAllCountries } from "../features/countries/countrySlice";
 import toast from "react-hot-toast";
 import { ThemeContext } from "../context/ThemeContext";
 import Recommendation from "./Recommendation";
 import { ModalContext } from "../context/ModalContext";
-import { AiTwotoneFileImage } from "react-icons/ai";
+import { RiDeleteBin2Line } from "react-icons/ri";
 import Loader from "../shared/Loader";
 import { motion } from "framer-motion";
+import {
+  PiBuildingApartmentDuotone,
+  PiFlagDuotone,
+  PiGithubLogoDuotone,
+  PiLinkedinLogoDuotone,
+  PiShareDuotone,
+  PiUserCircleDashedDuotone,
+  PiUserCircleDuotone,
+} from "react-icons/pi";
+import { AiTwotoneMail } from "react-icons/ai";
+import { Head } from "../shared/Head";
+import { LayoutContext } from "../context/LayoutContext";
+import ListCard from "../components/recommendation/ListCard";
+import { inputClassName, labelClassName } from "../utils/utils";
 
-const Recommendations = () =>
-{
-  const { openSuggestion, setOpenSuggestion, selectedSuggestion } = useContext(ModalContext)
-  const { theme } = useContext(ThemeContext)
-  const { currentUser, } = useSelector((state) => state?.user);
+const Recommendations = () => {
+  const { openSuggestion, setOpenSuggestion, selectedSuggestion } =
+    useContext(ModalContext);
+  const { layout } = useContext(LayoutContext);
+  const { theme } = useContext(ThemeContext);
+  const { currentUser } = useSelector((state) => state?.user);
   const { countries } = useSelector((state) => state.countries);
-  const [filterValue, setFilterValue] = useState("")
-  const { recommendations, created, fetched, loading } = useSelector((state) => state.recommendation);
+  const [filterValue, setFilterValue] = useState("");
+  const { recommendations, created, fetched, loading } = useSelector(
+    (state) => state.recommendation
+  );
   const [selectedFile, setSelectedFile] = useState();
   const selectFileRef = useRef(null);
   const [open, setOpen] = useState(false);
@@ -44,72 +66,73 @@ const Recommendations = () =>
     sender_lastname: "",
   });
 
-  useEffect(() =>
-  {
-    if (fetched)
-    {
+  useEffect(() => {
+    if (fetched) {
       dispatch(getAllTitles());
-      dispatch(disableRecommendationUpdates())
+      dispatch(disableRecommendationUpdates());
     }
   }, [fetched]);
 
-  useEffect(() =>
-  {
-    if (open)
-    {
+  useEffect(() => {
+    if (open) {
       dispatch(getAllCountries());
     }
   }, [open]);
 
-  const fetchRecommendations = () =>
-  {
+  const fetchRecommendations = () => {
     dispatch(getAllRecommendations());
-    dispatch(disableRecommendationUpdates())
-  }
+    dispatch(disableRecommendationUpdates());
+  };
 
-  useEffect(() =>
-  {
-    fetchRecommendations()
+  useEffect(() => {
+    fetchRecommendations();
   }, []);
 
-  useEffect(() =>
-  {
-    if (created)
-    {
-      setOpen(false)
-      fetchRecommendations()
-      toast('Thank you for your recommendation. Check your email')
+  useEffect(() => {
+    if (created) {
+      setOpen(false);
+      fetchRecommendations();
+      toast("Thank you for your recommendation. Check your email");
     }
   }, [created]);
 
-
-  const handleChange = (e) =>
-  {
+  const handleChange = (e) => {
     setInputData({ ...inputData, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = () =>
-  {
-    if (currentUser || inputData.sender_email !== '' && inputData.sender_name !== '' && inputData.sender_lastname !== '')
-    {
-      if (inputData?.name && inputData?.last_name && inputData?.email && inputData?.portfolio && inputData?.github && inputData?.linkedin && inputData?.profession && inputData?.country)
-      {
+  const handleSubmit = () => {
+    if (
+      currentUser ||
+      (inputData.sender_email !== "" &&
+        inputData.sender_name !== "" &&
+        inputData.sender_lastname !== "")
+    ) {
+      if (
+        inputData?.name &&
+        inputData?.last_name &&
+        inputData?.email &&
+        inputData?.portfolio &&
+        inputData?.github &&
+        inputData?.linkedin &&
+        inputData?.profession &&
+        inputData?.country
+      ) {
         const formData = new FormData();
-        formData.append('account_id', currentUser?.id);
-        formData.append('name', inputData.name);
-        formData.append('lastname', inputData.last_name);
-        formData.append('github', inputData.github);
-        formData.append('linkedin', inputData.linkedin);
-        formData.append('email', inputData.email);
-        formData.append('portfolio', inputData.portfolio);
-        formData.append('website', inputData.website);
-        formData.append('profession', inputData.profession);
-        formData.append('country_id', inputData.country);
-        formData.append('sender_email', inputData.sender_email);
-        formData.append('sender_name', inputData.sender_name);
-        formData.append('sender_lastname', inputData.sender_lastname);
+        formData.append("account_id", currentUser?.id);
+        formData.append("name", inputData.name);
+        formData.append("lastname", inputData.last_name);
+        formData.append("github", inputData.github);
+        formData.append("linkedin", inputData.linkedin);
+        formData.append("email", inputData.email);
+        formData.append("portfolio", inputData.portfolio);
+        formData.append("website", inputData.website);
+        formData.append("profession", inputData.profession);
+        formData.append("country_id", inputData.country);
+        formData.append("sender_email", inputData.sender_email);
+        formData.append("sender_name", inputData.sender_name);
+        formData.append("sender_lastname", inputData.sender_lastname);
 
-        dispatch(createRecommendation(formData))
+        dispatch(createRecommendation(formData));
         setInputData({
           account_id: "",
           name: "",
@@ -125,74 +148,75 @@ const Recommendations = () =>
           sender_email: "",
           sender_name: "",
           sender_lastname: "",
-        })
-        setSelectedFile('')
-      } else
-      {
-        toast("Missing data. Provide all information")
+        });
+        setSelectedFile("");
+      } else {
+        toast("Missing data. Provide all information");
       }
-    } else
-    {
-      toast("Signin or enter you details")
+    } else {
+      toast("Signin or enter you details");
     }
-  }
+  };
 
-  useEffect(() =>
-  {
-    if (created)
-    {
-      setOpen(false)
-      dispatch(disableRecommendationUpdates())
+  useEffect(() => {
+    if (created) {
+      setOpen(false);
+      dispatch(disableRecommendationUpdates());
     }
-  }, [created])
+  }, [created]);
 
-  const onSelectImage = (event) =>
-  {
+  const onSelectImage = (event) => {
     setInputData({ ...inputData, portfolio: event.target.files[0] });
     const reader = new FileReader();
-    if (event.target.files?.[0])
-    {
+    if (event.target.files?.[0]) {
       reader.readAsDataURL(event.target.files[0]);
     }
 
-    reader.onload = (readerEvent) =>
-    {
-      if (readerEvent.target?.result)
-      {
+    reader.onload = (readerEvent) => {
+      if (readerEvent.target?.result) {
         setSelectedFile(readerEvent.target?.result);
       }
     };
   };
 
-  const handleFilter = (e) =>
-  {
-    setFilterValue(e.target.value)
-  }
+  const handleFilter = (e) => {
+    setFilterValue(e.target.value);
+  };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="h-full my-5">
+      className="h-full my-5"
+    >
+      <div className="space-y-4 max-w-[550px] mb-8">
+        <Head
+          title="Recommendations"
+          desc="Check out valuable recommendations from the community, offering tools, insights, and advice to enhance your work."
+          theme={theme}
+        />
+      </div>
       <div className="hidden lg:flex gap-2 items-start w-full mb-8 justify-between">
         {titles && titles?.length > 0 ? (
           <div className="grid grid-cols-1 w-max gap-2">
-            <select onChange={handleFilter}
-              className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-bg_light" : "bg-bg_grey text-white"} rounded-md`}
+            <select
+              onChange={handleFilter}
+              className={`w-full px-3 py-2 mt-1 border ${
+                theme == "light"
+                  ? "text-black bg-bg_light"
+                  : "bg-bg_grey text-bg_lightest"
+              } `}
             >
               <>
-                <option value="" disabled defaultValue hidden>Select profession</option>
+                <option value="" disabled defaultValue hidden>
+                  Select profession
+                </option>
                 <option value="all">All professions</option>
                 {titles?.map((element) => (
-                  <>
-                    <option
-                      key={element?.id}
-                      value={element?.user_title}
-                    >
-                      {element?.user_title}
-                    </option>
-                  </>
+                  <option key={element?.id} value={element?.user_title}>
+                    {element?.user_title}
+                  </option>
                 ))}
               </>
             </select>
@@ -203,159 +227,476 @@ const Recommendations = () =>
         <button
           onClick={() => setOpen(true)}
           title="Add recommendation"
-          className="flex p-0 items-center justify-center text-lg bg-clr_alt text-white rounded-full w-11 h-11"
+          className={` ${
+            theme == "light"
+              ? "text-black bg-bg_light"
+              : "bg-bg_grey text-bg_lightest"
+          } flex p-0 items-center justify-center text-base  border-none`}
         >
-          <MdOutlineAdd size={20} />
+          <p className="pl-2">Recommend</p>
+          <div
+            className={` ${
+              theme == "light"
+                ? "text-black bg-bg_light"
+                : "bg-bg_grey text-bg_lightest"
+            } flex p-0 items-center justify-center text-lg  w-10 h-10`}
+          >
+            <MdOutlineAdd size={20} />
+          </div>
         </button>
       </div>
-      <div className="grid grid-cols-1 w-full lg:grid-cols-2 xl:grid-cols-4  gap-2 lg:grid-gap-4 xl:gap-6 h-full">
-        {filterValue && filterValue !== 'all' ? recommendations?.filter((element) => element.user_title == filterValue)?.map((item) => (
-          item?.status !== 'pending' ? (
-            <RecommendationCard theme={theme} item={item} key={item._id} />
-          ) : ''
-        )) : (currentUser?.is_admin || currentUser?.is_staff) ? (recommendations?.map((item) => (
-          <RecommendationCard theme={theme} item={item} key={item?._id} />
-        ))) : (recommendations?.map((item) => (
-          item?.status !== 'pending' ?
-            (<RecommendationCard theme={theme} item={item} key={item?._id} />) : ""
-        )))}
-      </div>
+      {layout == "grid" ? (
+        <div className="grid grid-cols-1 w-full lg:grid-cols-2 xl:grid-cols-4 gap-2 lg:grid-gap-4 xl:gap-6 h-full">
+          {filterValue && filterValue !== "all"
+            ? recommendations
+                ?.filter((element) => element.user_title == filterValue)
+                ?.map((item, x) =>
+                  item?.status !== "pending" ? (
+                    <RecommendationCard key={x} theme={theme} item={item} />
+                  ) : (
+                    ""
+                  )
+                )
+            : currentUser?.is_admin || currentUser?.is_staff
+            ? recommendations?.map((item) => (
+                <RecommendationCard theme={theme} item={item} key={item?._id} />
+              ))
+            : recommendations?.map((item, x) =>
+                item?.status !== "pending" ? (
+                  <RecommendationCard theme={theme} item={item} key={x} />
+                ) : (
+                  ""
+                )
+              )}
+        </div>
+      ) : (
+        <div className="flex flex-col gap-1">
+          {filterValue && filterValue !== "all"
+            ? recommendations
+                ?.filter((element) => element.user_title == filterValue)
+                ?.map((item) =>
+                  item?.status !== "pending" ? (
+                    <ListCard key={item?.id} item={item} />
+                  ) : (
+                    ""
+                  )
+                )
+            : recommendations?.map((item) =>
+                item?.status !== "pending" ? (
+                  <ListCard key={item?.id} item={item} />
+                ) : (
+                  ""
+                )
+              )}
+        </div>
+      )}
+
       <Modal
-        title="Recommend person"
+        title="Recommended developer details"
         centered
         open={open}
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
-        width={1000}
+        width={800}
         footer={false}
       >
-        {loading ? (<Loader />) : (
-          <div className="rounded-md p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full">
-            <div className="rounded-md pb-2 p-2 grid lg:grid-cols-2 items-start gap-2 md:gap-4 justify-center w-full">
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="p-2 flex-col flex items-start gap-2 md:gap-4 justify-between w-full">
+            <div className="pb-2 p-2 items-start gap-2 md:gap-4 justify-center w-full">
               <div>
-                <p className="lg:text-lg text-bg_primary font-semibold">Developer</p>
-                <div className="flex flex-col gap-2">
-                  <div
-                    className="relative flex flex-col justify-between items-center"
-                  >
-                    {selectedFile ? (
-                      <>
-                        <img
-                          className="w-full rounded-full max-h-[100px] max-w-[100px] object-cover object-center"
-                          src={selectedFile}
-                        />
-                        <div className="absolute flex gap-3 top-1 right-1 bg-clr_alt rounded-full border-bg_grey">
-                          <button
-                            className="p-2 rounded-full text-lg lg:text-xl"
-                            onClick={() => setSelectedFile("")}
-                          >
-                            <MdClose />
-                          </button>
-                        </div>
-                      </>
-                    ) : (
+                <div className="relative flex flex-col justify-between items-center  h-[100px]">
+                  {selectedFile ? (
+                    <>
+                      <img
+                        className="w-full  max-h-[100px] max-w-[100px] object-cover object-center"
+                        src={selectedFile}
+                      />
                       <div
-                        className="flex flex-col w-full rounded-md justify-center items-center cursor-pointer my-4"
+                        className={`${
+                          theme == "light" ? "" : "text-white border-bg_grey"
+                        } absolute flex gap-3 top-1 right-1 `}
                       >
-                        <div
-                          className={`text-xl lg:text-4xl px-3 py-2 mt-1 ${theme == "light" ? "text-black" : "bg-bg_card"} p-2 lg:px-4 lg:py-2`}
-                          onClick={() => selectFileRef.current?.click()}
+                        <button
+                          className="p-2  text-lg lg:text-xl"
+                          onClick={() => setSelectedFile("")}
                         >
-                          <AiTwotoneFileImage />
-                        </div>
-                        <input
-                          id="file-upload"
-                          type="file"
-                          accept="image/x-png,image/gif,image/jpeg"
-                          hidden
-                          ref={selectFileRef}
-                          onChange={onSelectImage}
-                          className={`w-full px-3 py-2 mt-1 border ${theme == "light" ? "text-black bg-gray-200" : "bg-bg_card text-white"}`}
-                        />
+                          <RiDeleteBin2Line size={24} />
+                        </button>
                       </div>
-                    )
-                    }
-                  </div>
-                  <div>
-                    <input className="rounded-none bg-bg_lightest" id='name' value={inputData.name} onChange={handleChange} placeholder="name" />
-                  </div>
-                  <div>
-                    <input className="rounded-none bg-bg_lightest" id='last_name' value={inputData.last_name} onChange={handleChange} placeholder="last name" />
-                  </div>
-                  <div>
-                    <input className="rounded-none bg-bg_lightest" id='email' value={inputData.email} onChange={handleChange} placeholder="email" />
-                  </div>
-                  <div className="flex items-center p-0 m-0 text-base">
-                    <input className="rounded-none bg-bg_lightest" id='github' value={inputData.github} onChange={handleChange} placeholder="github username" />
-                  </div>
-                  <div className="flex items-center p-0 m-0 text-base">
-                    <input className="rounded-none bg-bg_lightest" id="linkedin" value={inputData.linkedin} onChange={handleChange} placeholder="linkedin username" />
-                  </div>
-                  <div className="flex items-center p-0 m-0 text-base">
-                    <input className="rounded-none bg-bg_lightest" name="link" id='website' value={inputData.website} onChange={handleChange} placeholder="website" />
-                  </div>
-                  <div>
-                    <select
-                      className="w-full rounded-none bg-bg_lightest"
-                      id='profession'
-                      onChange={(e) => setInputData({ ...inputData, profession: e.target.value })}
+                    </>
+                  ) : (
+                    <div className="flex flex-col w-full  justify-center items-center cursor-pointer my-4">
+                      <div
+                        className={`text-xl lg:text-4xl  ${
+                          theme == "light" ? "text-black" : "bg-bg_card"
+                        }`}
+                        onClick={() => selectFileRef.current?.click()}
+                      >
+                        <p
+                          value="email"
+                          className={`text-base ${
+                            theme == "light"
+                              ? "text-black"
+                              : "bg-bg_card text-bg_grey"
+                          }`}
+                        >
+                          Avatar
+                        </p>
+                        <PiUserCircleDuotone size={40} />
+                      </div>
+                      <input
+                        id="file-upload"
+                        type="file"
+                        accept="image/x-png,image/jpeg"
+                        hidden
+                        ref={selectFileRef}
+                        onChange={onSelectImage}
+                        className={`w-full px-3 border ${
+                          theme == "light"
+                            ? "text-black bg-gray-200"
+                            : "bg-bg_card text-bg_grey"
+                        }`}
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        First name
+                      </label>
+                    </div>
+
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
                     >
-                      {titles?.map((elem) => (
-                        <>
-                          <option value="" disabled selected hidden>Select profession</option>
-                          <option value={elem.id} key={elem?.id}>{elem?.user_title}</option>
-                        </>
-                      ))}
-                    </select>
+                      <input
+                        className={inputClassName(theme)}
+                        id="name"
+                        value={inputData.name}
+                        onChange={handleChange}
+                        placeholder="First name"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <select
-                      id='country'
-                      className="w-full rounded-none bg-bg_lightest"
-                      onChange={(e) => setInputData({ ...inputData, country: e.target.value })}
+
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        Last name
+                      </label>
+                    </div>
+
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
                     >
-                      {countries?.map((elem) => (
-                        <>
-                          <option value="" disabled selected hidden>Select country</option>
-                          <option value={elem.id} key={elem?.id}>
-                            {elem?.emoji} {elem?.name}{" "}
-                          </option>
-                        </>
-                      ))}
-                    </select>
+                      <input
+                        className={inputClassName(theme)}
+                        id="last_name"
+                        value={inputData.last_name}
+                        onChange={handleChange}
+                        placeholder="last name"
+                      />
+                    </div>
+                  </div>
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        Email
+                      </label>
+                    </div>
+
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
+                    >
+                      <input
+                        className={inputClassName(theme)}
+                        id="email"
+                        value={inputData.email}
+                        onChange={handleChange}
+                        placeholder="Email"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        Github
+                      </label>
+                    </div>
+
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
+                    >
+                      <input
+                        className={inputClassName(theme)}
+                        id="github"
+                        value={inputData.github}
+                        onChange={handleChange}
+                        placeholder="Github username"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        LinkedIn
+                      </label>
+                    </div>
+
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
+                    >
+                      <input
+                        className={inputClassName(theme)}
+                        id="linkedin"
+                        value={inputData.linkedin}
+                        onChange={handleChange}
+                        placeholder="LinkedIn username"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        Website/Blog
+                      </label>
+                    </div>
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
+                    >
+                      <input
+                        className={inputClassName(theme)}
+                        name="link"
+                        id="website"
+                        value={inputData.website}
+                        onChange={handleChange}
+                        placeholder="Website/Blog"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        Select profession
+                      </label>
+                    </div>
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
+                    >
+                      <select
+                        className={inputClassName(theme)}
+                        id="profession"
+                        onChange={(e) =>
+                          setInputData({
+                            ...inputData,
+                            profession: e.target.value,
+                          })
+                        }
+                      >
+                        {titles?.map((elem) => (
+                          <>
+                            <option
+                              key={elem?.id}
+                              value=""
+                              disabled
+                              selected
+                              hidden
+                            >
+                              Select profession
+                            </option>
+                            <option value={elem.id}>{elem?.user_title}</option>
+                          </>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="md:flex flex-col w-full">
+                    <div className="w-full pt-3">
+                      <label
+                        className={labelClassName(theme)}
+                        htmlFor="userName"
+                      >
+                        Select country
+                      </label>
+                    </div>
+
+                    <div
+                      className={`flex items-center w-full border ${
+                        theme == "light"
+                          ? "text-black bg-gray-200"
+                          : "bg-bg_card text-bg_grey"
+                      }`}
+                    >
+                      <select
+                        id="country"
+                        className={inputClassName(theme)}
+                        onChange={(e) =>
+                          setInputData({
+                            ...inputData,
+                            country: e.target.value,
+                          })
+                        }
+                      >
+                        {countries?.map((elem) => (
+                          <>
+                            <option value="" disabled selected hidden>
+                              Select country
+                            </option>
+                            <option value={elem.id} key={elem?.id}>
+                              {elem?.emoji} {elem?.name}{" "}
+                            </option>
+                          </>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
-
-              <div className="w-full">
-                <p className="lg:text-lg text-bg_primary font-semibold">Your details</p>
-                <div className="flex w-full h-full flex-col space-y-2 pb-4">
+              <div className="flex flex-col justify-start w-full">
+                <div className="lg:h-[100px] mb-2">
                   {currentUser && currentUser?.id ? (
-                    <div className="flex items-center self-end bg-clr_alt w-max text-white rounded-full gap-2">
-                      <div className="space-y-1 py-1 pl-3">
-                        <p className="text-xs">
-                          {currentUser?.username}
-                        </p>
-                      </div>
-                      <div>
-                        <img
-                          src={currentUser?.profile}
-                          alt="cover"
-                          className="rounded-full object-cover object-center h-[35px] w-[35px]"
-                        />
+                    ""
+                  ) : (
+                    <>
+                      <p className="text-base text-bg_primary font-semibold">
+                        Your details
+                      </p>
+                      <p className="my-1 lg:my-2 text-[#646464] text-sm">
+                        If you are a developer and you are recommending
+                        yourself. We suggest that you sign up.
+                      </p>
+                    </>
+                  )}
+                </div>
+                <div className="flex w-full flex-col space-y-2 items-end">
+                  {currentUser && currentUser?.id ? (
+                    <div className="flex w-full items-center md:w-max h-full space-y-2">
+                      <div
+                        className={` ${
+                          theme == "light"
+                            ? "text-black bg-bg_light"
+                            : "bg-bg_grey text-bg_lightest"
+                        } flex p-0 items-center justify-center text-base  md:justify-between gap-2`}
+                      >
+                        <div className="space-y-1py-1 pl-3">
+                          <p className="text-sm lg:text-base">
+                            {currentUser?.firstname} {currentUser?.lastname}
+                          </p>
+                        </div>
+                        <div>
+                          <img
+                            src={currentUser?.profile}
+                            alt="cover"
+                            className=" object-cover object-center h-[40px] w-[40px]"
+                          />
+                        </div>
                       </div>
                     </div>
                   ) : (
                     <div className="w-full">
                       <div className="flex flex-col gap-2 w-full">
-                        <div className="w-full">
-                          <input className="rounded-none bg-bg_lightest w-full" id='sender_name' value={inputData.sender_name} onChange={handleChange} placeholder="name" />
+                        <div
+                          className={`flex items-center w-full border ${
+                            theme == "light"
+                              ? "text-black bg-gray-200"
+                              : "bg-bg_card text-bg_grey"
+                          }`}
+                        >
+                          <input
+                            className={inputClassName(theme)}
+                            id="sender_name"
+                            value={inputData.sender_name}
+                            onChange={handleChange}
+                            placeholder="First name"
+                          />
                         </div>
-                        <div className="w-full">
-                          <input className="rounded-none bg-bg_lightest w-full" id='sender_lastname' value={inputData.sender_lastname} onChange={handleChange} placeholder="last name" />
+                        <div
+                          className={`flex items-center w-full border ${
+                            theme == "light"
+                              ? "text-black bg-gray-200"
+                              : "bg-bg_card text-bg_grey"
+                          }`}
+                        >
+                          <input
+                            className={inputClassName(theme)}
+                            id="sender_lastname"
+                            value={inputData.sender_lastname}
+                            onChange={handleChange}
+                            placeholder="Last name"
+                          />
                         </div>
-                        <div className="w-full">
-                          <input className="rounded-none bg-bg_lightest w-full" id='sender_email' value={inputData.sender_email} onChange={handleChange} placeholder="email" />
+                        <div
+                          className={`flex items-center w-full border ${
+                            theme == "light"
+                              ? "text-black bg-gray-200"
+                              : "bg-bg_card text-bg_grey"
+                          }`}
+                        >
+                          <input
+                            className={inputClassName(theme)}
+                            id="sender_email"
+                            value={inputData.sender_email}
+                            onChange={handleChange}
+                            placeholder="Email"
+                          />
                         </div>
                       </div>
                     </div>
@@ -363,7 +704,24 @@ const Recommendations = () =>
                 </div>
               </div>
             </div>
-            <button onClick={handleSubmit} className="py-1 px-2 lg:py-2 lg:px-4">Save</button>
+            <button
+              className={`flex items-center justify-center rounded-none w-full py-2 text-center border-none font-bold ${
+                theme == "light"
+                  ? "bg-cl_primary text-bg_core"
+                  : "bg-clr_alt text-bg_lightest"
+              }`}
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Spinner size="sm" />
+                  <span className="pl-3">Loading...</span>
+                </>
+              ) : (
+                "Send"
+              )}
+            </button>
           </div>
         )}
       </Modal>
@@ -373,13 +731,13 @@ const Recommendations = () =>
         open={openSuggestion}
         onOk={() => setOpenSuggestion(false)}
         onCancel={() => setOpenSuggestion(false)}
-        width={1000}
+        width={600}
         footer={false}
       >
         <Recommendation />
       </Modal>
     </motion.div>
-  )
+  );
 };
 
 export default Recommendations;

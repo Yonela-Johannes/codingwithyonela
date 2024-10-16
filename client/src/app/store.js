@@ -16,6 +16,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import tasksReducer from '../features/tasks/tasksSlice';
 import feedbackReducer from '../features/feedback/feedbackSlice';
+import noteReducer from '../features/notes/notesSlice';
 
 // Create a persist configuration for suggestion reducer only
 const userPersistConfig = {
@@ -43,6 +44,7 @@ const rootReducerWithPersistedSuggestion = combineReducers({
   task: tasksReducer,
   feedback: feedbackReducer,
   event: eventReducer,
+  note: noteReducer,
 });
 
 // Configure the store to use the combined reducer

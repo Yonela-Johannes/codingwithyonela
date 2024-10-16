@@ -1,35 +1,28 @@
 import { useContext } from "react";
 import { features } from "../../data/data";
 import { ThemeContext } from "../../context/ThemeContext";
+import { Head } from "../../shared/Head";
 
 const FeatureSection = () =>
 {
   const { theme } = useContext(ThemeContext)
   return (
-    <div className="relative mt-20 border-b border-neutral-800 min-h-[800px]">
-      <div className="text-start">
-        <span className="bg-bg_grey text-cl_primary rounded-full h-6 text-sm font-medium px-2 py-1">
-          Feature
-        </span>
-        <h2 className="text-xl sm:text-3xl lg:text-4xl mt-10 lg:mt-20 tracking-wide">
-          Easily track{" "}
-          <span className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"} bg-clip-text`}>
-            project progress
-          </span>
-        </h2>
+    <div className="relative mt-10 lg:mt-20">
+      <div className="space-y-4 max-w-[550px] mb-8">
+        <Head title='Project Progress' desc='Stay updated on the latest advancements and milestones in our ongoing projects.' theme={theme} />
       </div>
-      <div className="flex flex-wrap mt-10 lg:mt-20">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {features.map((feature, index) =>
         {
           const Icon = feature?.icon
           return (
-            <div key={index} className="w-full sm:w-1/2 lg:w-1/3">
-              <div className="lg:flex mb-10">
+            <div key={index} className={`flex items-start justify-center ${theme == 'light' ? 'bg-bg_lightest' : 'bg-bg_core'} border border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c] w-full p-2`}>
+              <div className="lg:flex flex-col">
                 <div className="flex text-xl lg:mx-6 h-10 w-10 p-1 lg:p-2 bg-bg_grey text-cl_primary justify-center items-center rounded-full">
                   <Icon size={20} />
                 </div>
                 <div>
-                  <h5 className={`${theme !== "light" ? "text-clr_alt" : "text-cl_primary"} mt-1 mb-2 lg:mb-6 lg-text-xl font-normal`}>{feature.text}</h5>
+                  <h5 className={`${theme !== "light" ? "text-clr_alt" : "text-clr_alt"} mt-1 mb-2 lg:mb-6 lg-text-xl font-normal`}>{feature.text}</h5>
                   <p className={`text-sm lg:text-base ${theme == "light" ? "text-bg_primary" : "text-bg_lightest"} max-w-2xl`}>
                     {feature.description}
                   </p>

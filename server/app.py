@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from models.tables import create_tables
 from routes.countries import countries
-from routes.project import add_project_like, project, project_chat, projects
+from routes.project import add_project_like, project, project_chat, projects, project_feedback
 from routes.quotes import quotes
 from routes.recommendation import all_recommendations, recommendation
 from routes.feedback import all_feedback, feedback
@@ -11,7 +11,9 @@ from routes.event import all_events, event
 from routes.topics import topics
 from routes.user import create_user_profile, user, login_user, verify_user, users
 from routes.title import title
+from routes.contact import contact, contact_us, newsletter
 from routes.blog import blog, blogs, blogs_comment_create, blogs_comments
+from routes.note import note, notes
 from routes.post_router import post, posts, post_comment_create, post_comment, post_vote_create, post_response_create, post_response
 from routes.task import task, project_task
 from utils.token_handler import valid_token
@@ -41,6 +43,15 @@ mail = Mail(app)
 @app.route('/' , methods=['GET'])
 def test_route():
     return quotes()
+
+# notes route
+@app.route('/api/v1/note', methods=['GET', 'PUT', 'DELETE'])
+def note_route():
+    return note()
+
+@app.route('/api/v1/notes', methods=['GET', 'POST'])
+def all_notes_route():
+    return notes()
 
 # task route
 @app.route('/api/v1/task/<int:project_id>' , methods=['GET', 'PUT', 'DELETE', 'POST'])
@@ -130,22 +141,22 @@ def recommendation_route(id):
 
 # feedback route
 @app.route('/api/v1/event', methods=['GET', 'POST', 'DELETE'])
-def feedbacks_route():
+def eventss_route():
     return all_events()
 
 @app.route('/api/v1/event/<int:id>', methods=['GET', 'PUT'])
-def feedback_route(id):
+def event_route(id):
     return event(id)
 
 # ---------------------
 
 # events route
 @app.route('/api/v1/feedback', methods=['GET', 'POST', 'DELETE'])
-def event_route():
+def feedback_route():
     return all_feedback(mail=mail)
 
 @app.route('/api/v1/feedback/<int:id>', methods=['GET', 'PUT'])
-def events_route(id):
+def feedbacks_route(id):
     return feedback(id, mail)
 
 # ---------------------
@@ -162,6 +173,10 @@ def projects_route(id):
 @app.route('/api/v1/project-chat/<int:id>', methods=['GET', 'POST'])
 def project_chat_route(id):
     return project_chat(id)
+
+@app.route('/api/v1/project-feedback/<int:id>', methods=['GET', 'POST'])
+def project_feedback_route(id):
+    return project_feedback(id)
 
 # comment project route
 @app.route('/api/v1/project-like/<int:id>', methods=['POST'])
@@ -201,6 +216,16 @@ def response_route():
 @app.route('/api/v1/posts-vote/<int:id>', methods=['GET', 'POST'])
 def vote_route(id):
     return post_vote_create(id)
+
+# email us route
+@app.route('/api/v1/contact-us', methods=['POST'])
+def contact_route():
+    return contact_us(mail=mail)
+
+# newsleteter route
+@app.route('/api/v1/newsletter', methods=['GET', 'POST', 'DELETE'])
+def newsletter_route():
+    return newsletter(mail=mail)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

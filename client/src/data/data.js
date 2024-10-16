@@ -1,10 +1,4 @@
-import { FaHome, FaLayerGroup } from "react-icons/fa";
-import { GrStatusUnknownSmall } from "react-icons/gr";
-import { BsCalendar3EventFill, BsQuestionDiamondFill } from "react-icons/bs";
-import { HiUsers } from "react-icons/hi2";
-import { FaUsers } from "react-icons/fa";
-import { ImBlogger } from "react-icons/im";
-import { PiCalendarMinusDuotone, PiChatDuotone, PiListDashesDuotone, PiProjectorScreenDuotone, PiUserCheckDuotone, PiUsersDuotone } from "react-icons/pi";
+import { PiCalendarMinusDuotone, PiChatDuotone, PiInfoDuotone, PiListBulletsDuotone, PiListDashesDuotone, PiNoteDuotone, PiProjectorScreenDuotone, PiRadio, PiUserCheckDuotone, PiUsersDuotone } from "react-icons/pi";
 import { AiTwotoneEdit, AiTwotoneQuestionCircle, AiTwotoneMessage, AiTwotoneHome, AiTwotoneInteraction, } from "react-icons/ai";
 
 export const navLinks = [
@@ -28,15 +22,25 @@ export const navLinks = [
         icon: PiUsersDuotone,
         link: "/recommendation",
     },
-    {
-        title: "Chill",
-        icon: AiTwotoneInteraction,
-        link: "/chill",
-    },
+    // {
+    //     title: "Chill",
+    //     icon: AiTwotoneInteraction,
+    //     link: "/chill",
+    // },
     {
         title: "Events",
         icon: PiCalendarMinusDuotone,
         link: "/events",
+    },
+    {
+        title: "Notes",
+        icon: PiNoteDuotone,
+        link: "/notes",
+    },
+    {
+        title: "Projects",
+        icon: PiInfoDuotone,
+        link: "/projects",
     },
 ]
 
@@ -46,12 +50,6 @@ export const features = [
         text: "Board and Task Management",
         description:
             "Create, read, update, and delete project and project tasks, with form validations and the ability to mark project and tasks as complete and move tasks between columns",
-    },
-    {
-        icon: AiTwotoneQuestionCircle,
-        text: "Suggestions and Questions Management",
-        description:
-            "Create, read, update, and delete suggestions and questions, allowing for organized feedback and inquiry handling",
     },
     {
         icon: AiTwotoneMessage,
@@ -72,11 +70,17 @@ export const features = [
             "Facilitate project-specific communication by creating, reading, updating, and deleting chats for each project.",
     },
     {
+        text: "Q&A",
         icon: PiChatDuotone,
-        text: "Comments Management",
         description:
-            "Engage with content through the ability to create, read, update, and delete comments on suggestions, questions, blogs, and posts.",
-    },
+          "Allow your audience to ask questions during your presentations and let them upvote the most requested ones.",
+      },
+      {
+        text: "Real-time Polls",
+        icon: PiRadio,
+        description:
+          "Get instant feedback from your audience with real-time polls.",
+      },
 ];
 
 export const checklistItems = [
@@ -119,3 +123,10 @@ export const platformLinks = [
     { href: "#", text: "Downloads" },
     { href: "#", text: "Release Notes" },
 ];
+
+export const contacts = [
+    { id: 1, title: "Address", text: "Cape Town, South Africa" },
+    { id: 2, title: "Phone", text: "+27 81 782 2141" },
+    { id: 3, title: "Email", text: "johannesyonela@gmail.com" },
+  ];
+  

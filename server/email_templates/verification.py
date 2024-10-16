@@ -1,6 +1,6 @@
 from utils.email_reponse import send_mail
 
-def verification_email(username, lastname, email, token, mail):
+def verification_email(firstname, lastname, email, token, mail):
     send_mail(
         subject="Welcome to CodingWithYonela Here’s Your Verification Key",
         body=f"""
@@ -52,9 +52,9 @@ def verification_email(username, lastname, email, token, mail):
                     <h2>Welcome to CodingWithYonela</h2>
                 </div>
                 <div class="content">
-                    <p>Dear {username} {lastname},</p>
+                    <p>Dear {firstname} {lastname},</p>
                     <p>Welcome to CodingWithYonela! We're thrilled to have you join our community.To get started, please verify your email address using the verification link below:</p>
-                     <p><a href="http://localhost:3000/verify_account/{token}" target="_blank">Follow this link</a>
+                     <p><a href="https://codingwithyonela.vercel.app/verify_account/{token}" target="_blank">Follow this link</a>
                     </p>
                     <p>If there are any updates or corrections you'd like to make, please don’t hesitate to reach out to us.</p>
                     <p>Thank you for being part of our growing community. We look forward to showcasing your incredible work and helping you connect with others in the industry.</p>
@@ -67,8 +67,5 @@ def verification_email(username, lastname, email, token, mail):
         </html>
         """,
         valid_email_format=email,
-        name=username,
-        lastname=lastname,
-        confirmation_message="Feedback sent successfully!",
         mail=mail
     )

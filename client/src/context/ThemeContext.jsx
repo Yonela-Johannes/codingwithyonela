@@ -7,7 +7,7 @@ const getFromLocalStorage = () =>
   if (typeof window !== "undefined")
   {
     const value = localStorage.getItem("theme");
-    return value || "light";
+    return value || "dark";
   }
 };
 

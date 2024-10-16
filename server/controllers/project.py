@@ -24,16 +24,15 @@ def add_users(users_id):
         ic(f"Database error: {error}")
         return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
     
-def create_project( account_id, project_name, image, description, github, link, topic_id):
-    response = None
+def create_project( account_id, project_name, image, description, github, link, tags, team, manager, due_date, features):
     try:
         with  connection as conn:
             with  conn.cursor(cursor_factory=RealDictCursor) as cur:
                 """ Create new project into  the acount table """
-                cur.execute("""INSERT INTO project (account_id, project_name, image, description, github, link, topic_id)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                cur.execute("""INSERT INTO project (account_id, project_name, image, description, github, link, tags, team, manager, due_date, features)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 
-                RETURNING id""",(account_id, project_name, image, description, github, link, topic_id))
+                RETURNING id""",(account_id, project_name, image, description, github, link, tags, team, manager, due_date, features))
                 
                 rows = cur.fetchone()
                 return rows if rows else {}
@@ -47,7 +46,7 @@ def create_project( account_id, project_name, image, description, github, link, 
 # fetch all projects
 def fetch_projects():
     # query = """SELECT project.*, project.id AS project_id, account.*, account.id AS account_id, status.id A FROM project JOIN account on account_id = account.id JOIN status O = status.id ORDER BY project_time;"""
-    query = """SELECT project.*, project.id as project_id, topics.name as tag_name, account.* FROM project JOIN topics on topic_id = topics.id JOIN account on account_id = account.id ORDER BY project.id ASC """
+    query = """SELECT project.*, project.id as project_id, account.* FROM project JOIN account on account_id = account.id ORDER BY project.id ASC """
 
     try:
         with  connection as conn:
@@ -158,7 +157,7 @@ def create_project_chat(account_id, message, project_id):
     
 # fetch suggestion responses
 def fetch_projects_chats(id):
-    query = """SELECT project_chat.*, project_chat.id AS chat_id, account.email, account.username, account.lastname, account.is_admin, account.is_staff, account.profile FROM project_chat JOIN account ON account_id = account.id  WHERE project_id=%s ;"""
+    query = """SELECT project_chat.*, project_chat.id AS chat_id, account.email, account.username, account.lastname, account.is_admin, account.is_staff, account.profile FROM project_chat JOIN account ON account_id = account.id  WHERE project_id=%s ORDER BY project_chat.id ASC;"""
 
     try:
         with  connection as conn:
@@ -196,3 +195,42 @@ def project_like(account_id, project_id):
         ic(f"Database error: {error}")
         return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
     
+# create project feedback
+def create_project_feedback(account_id, message, project_id):
+    """ Create new account_id into  the acount table """
+    sql = """INSERT INTO project_feedback (account_id, message, project_id)
+             VALUES(%s, %s, %s) RETURNING id;"""
+
+    try:
+        with  connection as conn:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
+                # execute the INSERT statement
+                cur.execute(sql, (account_id, message, project_id))
+            
+                rows = cur.fetchone()
+                return rows if rows else {}
+                conn.commit()
+                
+    except (Exception, psycopg2.DatabaseError) as error:
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
+    
+# fetch project feedback
+def fetch_project_feedback(id):
+    query = """SELECT project_feedback.*, project_feedback.id AS feedback_id, account.email, account.firstname, account.username, account.lastname, account.is_admin, account.is_staff, account.profile FROM project_feedback JOIN account ON account_id = account.id  WHERE project_id=%s ORDER BY project_feedback.id DESC ;"""
+
+    try:
+        with  connection as conn:
+            with  conn.cursor(cursor_factory=RealDictCursor) as cur:
+
+                cur.execute(query, (int(id), ))
+            
+                rows = cur.fetchall()
+                return rows if rows else []
+                conn.commit()
+                
+    except (Exception, psycopg2.DatabaseError) as error:
+        # Log the error for debugging purposes (you may implement logging)
+        ic(f"Database error: {error}")
+        return {"error": "An error occurred while fetching blogs. Please try again later."}, 500

@@ -78,7 +78,7 @@ const TaskForm = ({ project, filterGrouped }) =>
                 <div className="w-full flex cursor-pointer justify-end self-end">
                     <div className='flex gap-2'>
                         {project ? (
-                            <select onChange={e => filterGrouped(e.target.value)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"}`}>
+                            <select onChange={e => filterGrouped(e.target.value)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core"}`}>
                                 <option value="" disabled selected hidden>Select status</option>
                                 <option value="todo">To do</option>
                                 <option value="progress">Progress</option>
@@ -89,7 +89,7 @@ const TaskForm = ({ project, filterGrouped }) =>
                             </select>
 
                         ) : (
-                            <select onChange={e => filterGrouped(e.target.value)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core rounded-md"}`}>
+                            <select onChange={e => filterGrouped(e.target.value)} className={`${theme == "light" ? "text-bg_opp bg-white" : "bg-bg_core"}`}>
                                 <option value="" disabled selected hidden>Select status</option>
                                 <option value="todo">To Do</option>
                                 <option value="doing">Doing</option>

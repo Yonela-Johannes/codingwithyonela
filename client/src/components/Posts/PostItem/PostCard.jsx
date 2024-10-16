@@ -19,14 +19,14 @@ const PostCard = ({
 
     return (
         <div
-            className={`${theme == "light" ? 'bg-bg_light' : 'bg-bg_grey'} p-2 flex flex-col w-full rounded-md`}
+            className={`${theme == "light" ? 'bg-bg_light' : 'bg-bg_grey'} p-2 flex flex-col w-full`}
         >
             {post?.image ? (
                 <div>
                     <img
                         src={post?.image}
                         alt="cover"
-                        className="rounded-lg object-cover object-center h-[300px] w-full"
+                        className="object-cover object-center h-[300px] w-full"
                     />
                 </div>
             ) : (
@@ -45,7 +45,7 @@ const PostCard = ({
                                 <img
                                     src={post?.profile}
                                     alt="cover"
-                                    className="rounded-full object-cover object-center h-[35px] w-[35px]"
+                                    className="object-cover object-center h-[35px] w-[35px]"
                                 />
                             </div>
                             <div className="space-y-1">

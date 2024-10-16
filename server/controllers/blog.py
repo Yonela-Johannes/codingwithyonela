@@ -30,7 +30,7 @@ def create_blog(account, post, blog_image, blog_title, slug, category):
     
 # fetch user
 def fetch_blog(slug):
-    query = """SELECT blog.*, blog.id AS blog_id, account.*, account.id AS account_id FROM blog JOIN account on account = account.id WHERE slug=%s ORDER BY blog.blog_time"""
+    query = """SELECT blog.*, blog.id AS blog_id, account.*, account.id AS account_id FROM blog JOIN account on account = account.id WHERE slug=%s"""
 
     try:
         with  connection as conn:
@@ -52,7 +52,7 @@ def fetch_blog(slug):
 
 # fetch all users
 def fetch_blogs():
-    query = """SELECT blog.*, blog.id AS blog_id, account.*, account.id AS account_id FROM blog JOIN account on account = account.id ORDER BY blog_time;"""
+    query = """SELECT blog.*, blog.id AS blog_id, account.*, account.id AS account_id FROM blog JOIN account on account = account.id ORDER BY blog_time DESC;"""
     
     try:
         with  connection as conn:
@@ -115,7 +115,7 @@ def delete_blog(id):
 
 # fetch all users
 def fetch_blog_comments(id):
-    query = """SELECT blog_comment.*, blog_comment.id AS blog_comment_id, account.*, account.id AS account_id FROM blog_comment JOIN account on account_id = account.id WHERE blog_id = %s;"""
+    query = """SELECT blog_comment.*, blog_comment.id AS blog_comment_id, account.*, account.id AS account_id FROM blog_comment JOIN account on account_id = account.id WHERE blog_id = %s ORDER BY comment_time DESC;"""
 
     try:
         with  connection as conn:

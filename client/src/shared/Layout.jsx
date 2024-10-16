@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
 import Footer from "./Footer";
-import Header from "./Header";
 import NavMenu from "./NavMenu";
 import Wrapper from "./Wrapper";
 import { Toaster } from "react-hot-toast";
@@ -10,10 +9,12 @@ import { ThemeContext } from "../context/ThemeContext";
 import SignUp from "../pages/SignUp";
 import Signin from "../pages/Signin";
 import { Widget } from "./Widget";
-const Layout = ({ children }) =>
-{
-  const { currentUser, active_signup_modal, active_signin_modal } = useSelector((state) => state.user)
-  const { theme } = useContext(ThemeContext)
+import MobileNav from "../components/MobileNav";
+const Layout = ({ children }) => {
+  const { currentUser, active_signup_modal, active_signin_modal } = useSelector(
+    (state) => state.user
+  );
+  const { theme } = useContext(ThemeContext);
 
   return (
     <div className="relative min-h-screen w-screen flex justify-center items-center flex-col overflow-x-hidden">
@@ -39,18 +40,30 @@ const Layout = ({ children }) =>
           },
         }}
       />
-      <div className={`${theme == "light" ? "bg-white" : "bg-slate-800"} mx-auto overflow-x-hidden h-full flex-1 w-screen flex flex-col left-0 right-0`}>
-        <div className={`${theme == "light" ? "bg-white border-bg_light" : "bg-slate-800 border-gray-900"} border-y-[1px] fixed top-0 left-0 right-0 z-50 overflow-hidden`}>
+      <div
+        className={`${
+          theme == "light" ? "bg-white" : "bg-slate-800"
+        } mx-auto overflow-x-hidden h-full flex-1 w-screen flex flex-col left-0 right-0`}
+      >
+        <div
+          className={`${
+            theme == "light"
+              ? "bg-white border-bg_light"
+              : "bg-slate-800 border-gray-900"
+          } border-y-[1px] fixed top-0 left-0 right-0 z-50`}
+        >
           <Wrapper>
+            <MobileNav currentUser={currentUser} />
             <Navbar currentUser={currentUser} />
-            <Header />
             <NavMenu />
           </Wrapper>
         </div>
-        {(!active_signin_modal) && (!active_signup_modal) ? (
+        {!active_signin_modal && !active_signup_modal ? (
           <>
             <div
-              className={`${theme == "light" ? "border-bg_light" : "border-gray-900"} my-5 lg:py-12 border-b-[1px] h-[calc(100vh-160px)] pt-[150px] lg:pt-[270px] overflow-hidden flex-1 flex-grow w-[80%] mx-auto md:flex flex-col`}
+              className={`${
+                theme == "light" ? "border-bg_light" : "border-gray-900"
+              } my-5 lg:py-12 border-b-[1px] h-[calc(100vh-160px)] pt-[50px] lg:pt-[150px] overflow-hidden flex-1 flex-grow w-[80%] mx-auto md:flex flex-col`}
             >
               {children}
             </div>
@@ -59,10 +72,12 @@ const Layout = ({ children }) =>
               <Footer />
             </Wrapper>
           </>
-        ) : ''}
+        ) : (
+          ""
+        )}
       </div>
-      {active_signup_modal ? (<SignUp />) : ""}
-      {active_signin_modal ? (<Signin />) : ""}
+      {active_signup_modal ? <SignUp /> : ""}
+      {active_signin_modal ? <Signin /> : ""}
     </div>
   );
 };

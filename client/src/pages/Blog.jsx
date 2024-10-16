@@ -83,6 +83,7 @@ const Blog = () =>
 
 
   return (
+    <>
     <Helmet>
       <title>{blog?.title}</title>
       <meta name="description" content={blog?.post} />
@@ -91,12 +92,12 @@ const Blog = () =>
       <meta name="creator" content={blog?.firstname + " " + blog?.lastname} />
       <meta property="og:image:alt" content="blog image" />
       <meta property="og:url" content={"https://codingwithyonela.vercel.app/" + slug} />
-
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="rounded-md w-full min-h-full">
+        className="w-full min-h-full">
         <div className="flex w-full h-full flex-col space-y-4 lg:space-y-8 px-2 py-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-20 lg:flex-row px-2 lg:px-8">
             {loading ? <Loader /> :
@@ -105,7 +106,7 @@ const Blog = () =>
                   <img
                     src={blog?.blog_image}
                     alt="cover"
-                    className="rounded-md object-cover object-center w-full h-[300px] lg:h-[420px]"
+                    className="object-cover object-center w-full h-[300px] lg:h-[420px]"
                   />
                   <div className="flex justify-between lg:justify-start">
                     <div className="flex flex-col items-center justify-center">
@@ -115,7 +116,7 @@ const Blog = () =>
                             <img
                               src={blog?.profile}
                               alt="cover"
-                              className="rounded-full object-cover object-center h-[35px] w-[35px]"
+                              className="object-cover object-center h-[35px] w-[35px]"
                             />
                           </div>
                           <div className="space-y-1">
@@ -158,13 +159,13 @@ const Blog = () =>
                         className={`${theme == "light" ? "border-bg_light" : "border-bg_primary"} p-2 flex-col flex md:flex-row items-start gap-2 md:gap-4 justify-between w-full border-b  h-full duration-200 cursor-pointer`}
                       >
 
-                        <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500  bg-bg_core"} rounded-full w-max flex space-y-2 my-2 items-start justify-start`}>
+                        <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500  bg-bg_core"} w-max flex space-y-2 my-2 items-start justify-start`}>
                           <div className={`${theme == "light" ? "text-gray-700" : "text-gray-500"} flex w-full items-start md:justify-start gap-2 max-w-[220px]`}>
                             <div>
                               <img
                                 src={res?.profile}
                                 alt="cover"
-                                className="rounded-full object-cover object-center h-[30px] w-[30px]"
+                                className="object-cover object-center h-[30px] w-[30px]"
                               />
                             </div>
                             <div className="space-y-1">
@@ -189,7 +190,8 @@ const Blog = () =>
           </div>
         </div>
       </motion.div>
-    </Helmet>
+    </>
+    
   );
 };
 

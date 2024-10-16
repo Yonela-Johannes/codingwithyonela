@@ -1,54 +1,30 @@
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
-import HeroSection from '../components/home/HeroSection'
-import FeatureSection from '../components/home/FeatureSection'
+import HeroSection from "../components/home/HeroSection";
+import FeatureSection from "../components/home/FeatureSection";
 import Workflow from "../components/home/Workflow";
 import Testimonials from "../components/home/Testimonials";
 import About from "./About";
 import BookingOverview from "./overview";
-import { motion } from "framer-motion";
+import Testimonial from "../components/Testimonial/Testimonial";
+import Newsletter from "../components/Newsletter/Newsletter";
 
-const Home = () =>
-{
-  const { theme } = useContext(ThemeContext)
+const Home = () => {
+  const { theme } = useContext(ThemeContext);
   return (
-    <div className={`${theme == "light" ? "text-black" : "text-white"} flex flex-col w-full h-full gap-1 lg:gap-8`}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}>
-        <HeroSection />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}>
-        <About />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}>
-        <FeatureSection />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}>
-        <Workflow />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}>
-        <Testimonials />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}>
-        <BookingOverview />
-      </motion.div>
+    <div
+      className={`${
+        theme == "light" ? "text-black" : "text-white"
+      } flex flex-col w-full h-full gap-1 lg:gap-8`}
+    >
+      <HeroSection />
+      <About />
+      <FeatureSection />
+      <Workflow />
+      <Testimonial />
+      <Testimonials />
+      <BookingOverview />
+      <Newsletter />
     </div>
   );
 };

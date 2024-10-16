@@ -290,12 +290,14 @@ def create_tables():
             project_status progress NOT NULL DEFAULT 'todo',
             priority progress_enum NOT NULL DEFAULT 'low',
             created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            due_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             github TEXT NOT NULL,
             link TEXT NOT NULL,
-            topic_id INTEGER,
-            FOREIGN KEY (account_id) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (topic_id) REFERENCES topics (id) 
-            ON UPDATE CASCADE ON DELETE CASCADE
+            tags TEXT,
+            team TEXT,
+            features TEXT,
+            manager TEXT,
+            FOREIGN KEY (account_id) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE
         );
         """,
         # TASK TABLE/SCHEMA
@@ -345,6 +347,20 @@ def create_tables():
         );
         """,
         """
+        CREATE TABLE IF NOT EXISTS project_feedback (
+            id SERIAL PRIMARY KEY,
+            message Text NOT NULL,
+            project_id INTEGER NOT NULL,
+            account_id INTEGER NOT NULL,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (project_id)
+            REFERENCES project (id)
+            ON UPDATE CASCADE ON DELETE CASCADE
+        );
+        """,
+        """
         DROP TYPE IF EXISTS feedback_request CASCADE;
         """,
         """
@@ -370,6 +386,39 @@ def create_tables():
             description Text NOT NULL,
             start_time TIMESTAMP NOT NULL,
             end_time TIMESTAMP NOT NULL
+        );
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS contact (
+            id SERIAL PRIMARY KEY,
+            email VARCHAR(200) NOT NULL,
+            name VARCHAR(200) NOT NULL,
+            lastname VARCHAR(200) NOT NULL,
+            message TEXT NOT NULL,
+            time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            image VARCHAR(200) NOT NULL
+        );
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS newsletter (
+            id SERIAL PRIMARY KEY,
+            email VARCHAR(200) NOT NULL,
+            time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS note (
+            id SERIAL PRIMARY KEY,
+            title VARCHAR(200) NOT NULL,
+            account_id INTEGER NOT NULL,
+            slug TEXT NOT NULL,
+            content TEXT NOT NULL,
+            tags TEXT NOT NULL,
+            is_pinned BOOLEAN NOT NULL DEFAULT false,
+            date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (account_id)
+            REFERENCES account (id)
+            ON UPDATE CASCADE ON DELETE CASCADE
         );
         """,
     )
