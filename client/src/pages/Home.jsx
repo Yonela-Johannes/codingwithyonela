@@ -6,8 +6,8 @@ import Workflow from "../components/home/Workflow";
 import Testimonials from "../components/home/Testimonials";
 import About from "./About";
 import BookingOverview from "./overview";
-import Testimonial from "../components/testimonial/Testimonial";
 import Newsletter from "../components/Newsletter/Newsletter";
+import Team from "../components/team/Team";
 
 const Home = () =>
 {
@@ -21,7 +21,7 @@ const Home = () =>
       <About />
       <FeatureSection />
       <Workflow />
-      <Testimonial />
+      <Team />
       <Testimonials />
       <BookingOverview />
       <Newsletter />

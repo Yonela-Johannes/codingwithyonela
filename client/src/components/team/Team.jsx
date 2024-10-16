@@ -6,29 +6,29 @@ import yonela from "../../assets/yonela.png";
 import { ThemeContext } from "../../context/ThemeContext";
 import { Head } from "../../shared/Head";
 
-const TestimonialData = [
-  {
-    id: 1,
-    name: "Okuhle Tapuko",
-    designation: "Quality Assurance Engineer",
-    img: okuhle,
-    text: "You should never feel afraid to become a piece of art. It's exhilarating.",
-    author: "Nicki Minaj",
-    delay: 0.2,
-  },
-  {
-    id: 2,
-    name: "Yonela Johannes",
-    designation: "Full Stack Engineer",
-    img: yonela,
-    text: "It's up to brave hearts, sir, to be patient when things are going badly, as well as being happy when they're going well.",
-    author: "Miguel de Cervantes",
-    delay: 0.4,
-  },
-];
 
-function Testimonial()
+function Team()
 {
+  const TestimonialData = [
+    {
+      id: 1,
+      name: "Okuhle Tapuko",
+      designation: "Quality Assurance Engineer",
+      img: okuhle,
+      text: "You should never feel afraid to become a piece of art. It's exhilarating.",
+      author: "Nicki Minaj",
+      delay: 0.2,
+    },
+    {
+      id: 2,
+      name: "Yonela Johannes",
+      designation: "Full Stack Engineer",
+      img: yonela,
+      text: "It's up to brave hearts, sir, to be patient when things are going badly, as well as being happy when they're going well.",
+      author: "Miguel de Cervantes",
+      delay: 0.4,
+    },
+  ];
   const { theme } = useContext(ThemeContext);
   return (
     <div className="mt-10 lg:mt-20">
@@ -92,4 +92,4 @@ function Testimonial()
   );
 };
 
-export default Testimonial;
+export default Team;
