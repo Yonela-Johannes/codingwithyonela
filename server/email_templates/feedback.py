@@ -72,9 +72,6 @@ def feedback_email(name, lastname, email, company, image, message, rating, statu
         </html>
         """,
         valid_email_format=email,
-        name=name,
-        lastname=lastname,
-        confirmation_message="Feedback sent successfully!",
         mail=mail
     )
 
@@ -151,9 +148,6 @@ def site_feedback_email(name, lastname, email, company, image, message, rating, 
         </html>
         """,
         valid_email_format='johannesyonela@gmail.com',
-        name="Yonela",
-        lastname="Johannes",
-        confirmation_message="Feedback request sent successfully!",
         mail=mail
     )
 
@@ -229,8 +223,5 @@ def update_user_feedback_email(email, name, lastname, mail):
         </html>
         """,
         valid_email_format=email,
-        name=name,
-        lastname=lastname,
-        confirmation_message="Portfolio added successfully, email sent!",
         mail=mail
     )
