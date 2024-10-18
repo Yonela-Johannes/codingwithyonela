@@ -47,7 +47,7 @@ const NoteCard = ({
             {moment(date).format("Do MMM YYYY")}
           </span>
         </div>
-        <p className="text-xs mt-2">{content?.slice(0, 60)}</p>
+        <p className="text-xs mt-2">{content}</p>
         <div className="text-xs mt-2">
           {tags ? tags?.map((item) => `#${item} `) : ""}
         </div>

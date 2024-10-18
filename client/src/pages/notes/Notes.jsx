@@ -174,7 +174,7 @@ const Notes = () =>
           ""
         )}
       </div>
-      <div className="bg-red-500">
+      <div className="">
         {newNotes?.length ? (
           layout == "grid" ? (
             filterNotes.length > 0 ? (
