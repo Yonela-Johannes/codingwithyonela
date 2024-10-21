@@ -52,8 +52,8 @@ const Layout = ({ children }) => {
               : "bg-slate-800 border-gray-900"
           } border-y-[1px] fixed top-0 left-0 right-0 z-50`}
         >
-          <Wrapper>
             <MobileNav currentUser={currentUser} />
+          <Wrapper>
             <Navbar currentUser={currentUser} />
             <NavMenu />
           </Wrapper>
@@ -63,7 +63,7 @@ const Layout = ({ children }) => {
             <div
               className={`${
                 theme == "light" ? "border-bg_light" : "border-gray-900"
-              } my-5 lg:py-12 border-b-[1px] h-[calc(100vh-160px)] pt-[50px] lg:pt-[150px] overflow-hidden flex-1 flex-grow w-[80%] mx-auto md:flex flex-col`}
+              } my-5 lg:py-12 border-b-[1px] h-[calc(100vh-160px)] pt-[50px] lg:pt-[150px] overflow-hidden flex-1 flex-grow px-2 lg:px-0 lg:w-[80%] mx-auto md:flex flex-col`}
             >
               {children}
             </div>

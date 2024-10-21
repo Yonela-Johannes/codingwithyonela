@@ -7,7 +7,6 @@ import { ThemeContext } from "../context/ThemeContext";
 import toast from "react-hot-toast";
 import Empty from "./Empty";
 import { motion } from "framer-motion";
-import { SlideLeft, SlideUp } from "../animation/animate";
 import { Head } from "../shared/Head";
 import { LayoutContext } from "../context/LayoutContext";
 

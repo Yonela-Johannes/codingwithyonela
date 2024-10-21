@@ -268,11 +268,13 @@ const Recommendations = () => {
                 ?.map((item) =>
                   item?.status !== "pending" ? (
                     <ListCard key={item?.id} item={item} />
-                  ) : (""
-                  )
+                  ) : ("")
                 )
             : recommendations?.map((item) =>
-              currentUser?.is_admin || currentUser?.is_staff? (
+              (currentUser?.is_admin) || (currentUser?.is_staff) ? (
+                  <ListCard key={item?.id} item={item} />
+                ) :
+                item?.status !== "pending"  ? (
                   <ListCard key={item?.id} item={item} />
                 ) : ("")
               )}
