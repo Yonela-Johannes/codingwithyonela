@@ -75,12 +75,8 @@ def recommendation_email_temp(email, name, lastname, portfolio, github, linkedin
         </html>
         """,
         valid_email_format=email,
-        name=name,
-        lastname=lastname,
-        confirmation_message="Portfolio added successfully, email sent!",
         mail=mail
     )
-
 
 def send_to_me(email, name, lastname, portfolio, github, linkedin, mail, status, time):
     send_mail(
@@ -152,9 +148,6 @@ def send_to_me(email, name, lastname, portfolio, github, linkedin, mail, status,
         </html>
         """,
         valid_email_format='johannesyonela@gmail.com',
-        name="Yonela",
-        lastname="Johannes",
-        confirmation_message="Portfolio added successfully, email sent!",
         mail=mail
     )
 
@@ -208,7 +201,7 @@ def recommendation_email_temp_user(email, name, lastname, portfolio, github, lin
         <body>
             <div class="container">
                 <div class="header">
-                    <h2>Your Portfolio will be live on CodingWithYonela in the next 24 minutes!</h2>
+                    <h2>Your Portfolio will be live on CodingWithYonela in the next 24 hours!</h2>
                 </div>
                 <div class="content">
                     <img src="{portfolio}" alt="Profile Image" class="profile-image" />
@@ -234,9 +227,6 @@ def recommendation_email_temp_user(email, name, lastname, portfolio, github, lin
         </html>
         """,
         valid_email_format=email,
-        name=name,
-        lastname=lastname,
-        confirmation_message="Portfolio added successfully, email sent!",
         mail=mail
     )
 
@@ -313,9 +303,6 @@ def send_to_creator(email, name, lastname, portfolio, github, linkedin, mail, st
         </html>
         """,
         valid_email_format=[sender_email],
-        name=sender_name,
-        lastname=sender_lastname,
-        confirmation_message="Portfolio added successfully, email sent!",
         mail=mail
     )
 
@@ -383,9 +370,6 @@ def update_user_mail(email, name, lastname, mail):
         </html>
         """,
         valid_email_format=email,
-        name=name,
-        lastname=lastname,
-        confirmation_message="Portfolio added successfully, email sent!",
         mail=mail
     )
  

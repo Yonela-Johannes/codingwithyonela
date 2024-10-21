@@ -1,15 +1,18 @@
 import { ThemeContext } from "@emotion/react";
 import { navLinks } from "../data/data";
-import {
+import
+{
   AiOutlineClose,
   AiOutlineMenu,
   AiTwotoneContacts,
 } from "react-icons/ai";
+import logo from "../assets/logo.png";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import HoverUnderLine from "./HoverUnderLine";
 import ThemeToggle from "./themeToggle/ThemeToggle";
-import {
+import
+{
   activeSignin,
   activeSignup,
   disableAuthModals,
@@ -18,7 +21,8 @@ import {
 import { LucideLogIn, LucideLogOut, LucideUser } from "lucide-react";
 import { useDispatch } from "react-redux";
 
-export default function MobileNav({ currentUser }) {
+export default function MobileNav({ currentUser })
+{
   const [active, setActive] = useState(false);
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
@@ -26,16 +30,24 @@ export default function MobileNav({ currentUser }) {
 
   return (
     <div
-      className={`  lg:hidden ${
-        theme == "light"
-          ? "text-clr_alt bg-bg_lightest"
-          : "text-cl_primary bg-bg_core"
-      } z-50 md:px-0 rounded-b-lg p-1`}
+      className={`  lg:hidden ${theme == "light"
+        ? "text-clr_alt bg-bg_lightest"
+        : "text-cl_primary bg-bg_core"
+        } flex items-center justify-center z-50 md:px-0 rounded-b-lg p-1`}
     >
+      <HoverUnderLine>
+        <Link className="flex text-center items-center gap-2" to="/">
+          <div className="">
+            <img
+              src={logo}
+              className="w-10 h-10 object-center object-contain"
+            />
+          </div>
+        </Link>
+      </HoverUnderLine>
       <div
-        className={`flex w-full px-2${
-          theme == "light" ? "text-clr_alt" : "text-cl_primary"
-        } md:px-0`}
+        className={`flex w-full px-2${theme == "light" ? "text-clr_alt" : "text-cl_primary"
+          } md:px-0`}
       >
         <div className={`flex justify-end gap-4 w-full px-2`}>
           {currentUser?.profile ? (
@@ -62,9 +74,8 @@ export default function MobileNav({ currentUser }) {
         </div>
 
         <div
-          className={`navbar lg:hidden flex flex-col justify-start ${
-            active ? "active" : ""
-          } ${theme == "light" ? "bg-bg_lightest" : "bg-bg_core"}`}
+          className={`navbar lg:hidden flex flex-col justify-start ${active ? "active" : ""
+            } ${theme == "light" ? "bg-bg_lightest" : "bg-bg_core"}`}
         >
           <div className="navbar-top">
             <button
@@ -77,18 +88,18 @@ export default function MobileNav({ currentUser }) {
           </div>
 
           <ul className="p-4 w-full flex flex-col gap-4 md:gap-6">
-            {navLinks?.map((nav, x) => {
+            {navLinks?.map((nav, x) =>
+            {
               const Icon = nav?.icon;
               return (
                 <Link
                   key={`${nav?.title}***${x}`}
-                  className={`navbar-item  focus:outline-none ${
-                    active == nav?.link && theme == "light"
-                      ? "text-bg_opp border-b border-b-bg_opp"
-                      : active == nav?.link && theme == "dark"
+                  className={`navbar-item  focus:outline-none ${active == nav?.link && theme == "light"
+                    ? "text-bg_opp border-b border-b-bg_opp"
+                    : active == nav?.link && theme == "dark"
                       ? ""
                       : ""
-                  }`}
+                    }`}
                   to={nav?.link}
                   onClick={() => (
                     dispatch(disableAuthModals()), setActive(false)
@@ -108,9 +119,8 @@ export default function MobileNav({ currentUser }) {
           </ul>
           <div className="flex flex-col items-start justify-center gap-4">
             <div
-              className={`${
-                theme == "light" ? "text-black" : ""
-              } flex flex-col gap-6 text-base text-black`}
+              className={`${theme == "light" ? "text-black" : ""
+                } flex flex-col gap-6 text-base text-black`}
             >
               {currentUser && currentUser?.id ? (
                 <>
@@ -123,9 +133,8 @@ export default function MobileNav({ currentUser }) {
                   >
                     <HoverUnderLine>
                       <div
-                        className={`${
-                          theme == "light" ? "text-clr_alt" : "text-cl_primary"
-                        } underline py-2 px-4 
+                        className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"
+                          } underline py-2 px-4 
                                                          flex items-center transition duration-300 ease-in-out`}
                       >
                         <div className="md:hidden">
@@ -144,9 +153,8 @@ export default function MobileNav({ currentUser }) {
                         dispatch(disableAuthModals()),
                         dispatch(activeSignin(), setActive(false))
                       )}
-                      className={`${
-                        theme == "light" ? "text-clr_alt" : "text-cl_primary"
-                      } underline py-2 px-4 
+                      className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"
+                        } underline py-2 px-4 
 									 flex items-center transition duration-300 ease-in-out`}
                     >
                       <div className="md:hidden">
@@ -160,9 +168,8 @@ export default function MobileNav({ currentUser }) {
                       onClick={() => (
                         dispatch(activeSignup()), setActive(false)
                       )}
-                      className={`${
-                        theme == "light" ? "text-clr_alt" : "text-cl_primary"
-                      } px-4 
+                      className={`${theme == "light" ? "text-clr_alt" : "text-cl_primary"
+                        } px-4 
 									 flex items-center transition duration-300 ease-in-out`}
                     >
                       <div className="md:hidden">
@@ -196,11 +203,10 @@ export default function MobileNav({ currentUser }) {
                 className="flex flex-col w-full items-start md:w-max px-4  h-full space-y-2"
               >
                 <div
-                  className={` ${
-                    theme == "light"
-                      ? "text-black bg-bg_light"
-                      : "bg-bg_grey text-bg_lightest"
-                  } flex p-0 items-center justify-center text-base rounded-full md:justify-between gap-2`}
+                  className={` ${theme == "light"
+                    ? "text-black bg-bg_light"
+                    : "bg-bg_grey text-bg_lightest"
+                    } flex p-0 items-center justify-center text-base rounded-full md:justify-between gap-2`}
                 >
                   <div>
                     <img

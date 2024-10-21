@@ -18,16 +18,7 @@ import { ModalContext } from "../context/ModalContext";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import Loader from "../shared/Loader";
 import { motion } from "framer-motion";
-import {
-  PiBuildingApartmentDuotone,
-  PiFlagDuotone,
-  PiGithubLogoDuotone,
-  PiLinkedinLogoDuotone,
-  PiShareDuotone,
-  PiUserCircleDashedDuotone,
-  PiUserCircleDuotone,
-} from "react-icons/pi";
-import { AiTwotoneMail } from "react-icons/ai";
+import {PiUserCircleDuotone} from "react-icons/pi";
 import { Head } from "../shared/Head";
 import { LayoutContext } from "../context/LayoutContext";
 import ListCard from "../components/recommendation/ListCard";
@@ -277,16 +268,13 @@ const Recommendations = () => {
                 ?.map((item) =>
                   item?.status !== "pending" ? (
                     <ListCard key={item?.id} item={item} />
-                  ) : (
-                    ""
+                  ) : (""
                   )
                 )
             : recommendations?.map((item) =>
-                item?.status !== "pending" ? (
+              currentUser?.is_admin || currentUser?.is_staff? (
                   <ListCard key={item?.id} item={item} />
-                ) : (
-                  ""
-                )
+                ) : ("")
               )}
         </div>
       )}

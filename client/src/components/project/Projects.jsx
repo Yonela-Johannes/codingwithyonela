@@ -7,7 +7,8 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { useContext } from "react";
 import Loader from "../../shared/Loader";
 
-export default function ProjectList({ projects }) {
+export default function ProjectList({ projects })
+{
   const { loading } = useSelector(
     (state) => state.project
   );
@@ -15,8 +16,10 @@ export default function ProjectList({ projects }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const activeGroupHandler = (elem) => {
-    if (elem && elem?.project_id) {
+  const activeGroupHandler = (elem) =>
+  {
+    if (elem && elem?.project_id)
+    {
       dispatch(setSelectProject(elem));
       navigate(`/project/${elem?.project_id}/todo`);
     }
@@ -30,67 +33,67 @@ export default function ProjectList({ projects }) {
         {projects?.map((project) => (
           <div key={project._id} onClick={() => activeGroupHandler(project)}>
             <div
-              className={`${
-                theme == "light"
-                  ? "bg-white text-bg_primary"
-                  : "bg-bg_core border-bg_core text-slate-300"
-              } text-sm lg:text-base flex flex-col gap-2 p-2 lg:p-4 cursor-pointer  border border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c] space-y-4 mx-auto mb-8 px-5`}
+              className={`${theme == "light"
+                ? "bg-white text-bg_primary"
+                : "bg-bg_core border-bg_core text-slate-300"
+                } text-sm lg:text-base flex flex-col gap-2 p-2 lg:p-4 cursor-pointer  border border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c] space-y-4 mx-auto mb-8 px-5`}
             >
-              <div className={`hidden lg:flex items-center mb-1 space-x-2 ${
-                theme == "light"
-                  ? "bg-white text-bg_primary border-b-2"
-                  : "bg-bg_core  border-b-2 border-bg_grey"
-              } py-2 `}>
+              <div className={`hidden lg:flex items-center mb-1 space-x-2 ${theme == "light"
+                ? "bg-white text-bg_primary border-b-2"
+                : "bg-bg_core  border-b-2 border-bg_grey"
+                } py-2 `}>
                 <Hash className="text-primary w-5" />
                 <div className="grid grid-cols-2 justify-between items-center w-full">
                   <strong>{project?.project_name}</strong>
-                  <div>
-                    <img
-                      src={project?.image}
-                      alt={project?.project_name}
-                      className="rounded-md object-contain h-[25px] w-[25px]"
-                    />
-                  </div>
                 </div>
               </div>
-              <div className="space-y-1">
-                <p>
-                  <strong>Title:</strong> {project?.project_name}
-                </p>
-                <p>
-                  <strong>Description:</strong>{" "}
-                  {project?.description || "No description provided"}
-                </p>
-                <p>
-                  <strong>Status:</strong> {project?.project_status}
-                </p>
-                <p>
-                  <strong>Priority:</strong> {project?.priority}
-                </p>
-                <p>
-                  <strong>Tags:</strong> {project?.tags?.replaceAll(',', " | ") || "No tags"}
-                </p>
-                <p>
-                  <strong>Start Date:</strong>{" "}
-                  {project?.created
-                    ? moment(project?.created).format("DD-MMM-YYYY")
-                    : "Not set"}
-                </p>
-                <p>
-                  <strong>Due Date:</strong>{" "}
-                  {project?.due_date
-                    ? moment(project?.due_date).format("DD-MMM-YYYY")
-                    : "Not set"}
-                </p>
-                <p>
-                  <strong>Author:</strong> {project?.firstname} {project.lastname}
-                </p>
-                <p>
-                  <strong>Manager:</strong> {project?.manager}
-                </p>
-                <p>
-                  <strong>Team:</strong> {project?.team?.replaceAll(',', " | ") || 'No members'}
-                </p>
+              <div className="grid grid-cols-2  h-full w-full">
+                <div className="flex items-center justify-center w-full h-full">
+                  <img
+                    src={project?.image}
+                    alt={project?.project_name}
+                    className="rounded-md object-contain h-full"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <p>
+                    <strong>Title:</strong> {project?.project_name}
+                  </p>
+                  <p>
+                    <strong>Description:</strong>{" "}
+                    {project?.description || "No description provided"}
+                  </p>
+                  <p>
+                    <strong>Status:</strong> {project?.project_status}
+                  </p>
+                  <p>
+                    <strong>Priority:</strong> {project?.priority}
+                  </p>
+                  <p>
+                    <strong>Tags:</strong> {project?.tags?.replaceAll(',', " | ") || "No tags"}
+                  </p>
+                  <p>
+                    <strong>Start Date:</strong>{" "}
+                    {project?.created
+                      ? moment(project?.created).format("DD-MMM-YYYY")
+                      : "Not set"}
+                  </p>
+                  <p>
+                    <strong>Due Date:</strong>{" "}
+                    {project?.due_date
+                      ? moment(project?.due_date).format("DD-MMM-YYYY")
+                      : "Not set"}
+                  </p>
+                  <p>
+                    <strong>Author:</strong> {project?.firstname} {project.lastname}
+                  </p>
+                  <p>
+                    <strong>Manager:</strong> {project?.manager}
+                  </p>
+                  <p>
+                    <strong>Team:</strong> {project?.team?.replaceAll(',', " | ") || 'No members'}
+                  </p>
+                </div>
               </div>
             </div>
           </div>

@@ -32,7 +32,6 @@ def project(id):
             priority = None
             user_ids = None
             progress = None
-            topic_id = None
             progress = None
             
             if 'status' in data:
@@ -47,10 +46,7 @@ def project(id):
                 link = data['link']
             if 'priority' in data:
                 priority = data['priority']
-            if 'topic_id' in data:
-                topic_id = data['topic_id']
 
-            
             response = edit_project(user_id=user['id'], 
                                     project_id=project_id, 
                                     project_status=status, 
@@ -59,7 +55,6 @@ def project(id):
                                     github=github, 
                                     link=link, 
                                     priority=priority, 
-                                    topic_id=topic_id,
                                     )
             return jsonify(response), 200 if not isinstance(response, dict) else response
    

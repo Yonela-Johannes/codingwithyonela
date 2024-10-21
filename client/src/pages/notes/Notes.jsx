@@ -8,7 +8,8 @@ import NoteCard from "../../components/notes/Cards/NoteCard";
 import { Modal } from "antd";
 import toast from "react-hot-toast";
 import Empty from "../Empty";
-import {
+import
+{
   disableNotesUpdates,
   getAllNotes,
   pinNote,
@@ -19,7 +20,8 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { motion } from "framer-motion";
 import { LayoutContext } from "../../context/LayoutContext";
 
-const Notes = () => {
+const Notes = () =>
+{
   const { layout } = useContext(LayoutContext);
   const { theme } = useContext(ThemeContext);
   const { currentUser } = useSelector((state) => state.user);
@@ -30,7 +32,8 @@ const Notes = () => {
   const [filterNotes, setFilterNotes] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     const updatedNotes = notes.map((note) => ({
       ...note,
       tags: note.tags ? JSON.parse(note.tags) : [],
@@ -48,68 +51,83 @@ const Notes = () => {
     data: null,
   });
 
-  const fetchNotes = () => {
+  const fetchNotes = () =>
+  {
     dispatch(getAllNotes());
     dispatch(disableNotesUpdates());
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     fetchNotes();
   }, []);
 
-  useEffect(() => {
-    if (created) {
+  useEffect(() =>
+  {
+    if (created)
+    {
       toast("Note created succesful");
       fetchNotes();
       setOpenAddEditModal({ isShown: false, type: "add", data: null });
-    } else if (updated) {
+    } else if (updated)
+    {
       toast("Note updated succesful");
       fetchNotes();
       setOpenAddEditModal({ isShown: false, type: "edit", data: null });
-    } else if (deleted) {
+    } else if (deleted)
+    {
       toast("Note deleted");
       fetchNotes();
-    } else if (pinned) {
+    } else if (pinned)
+    {
       toast("Note pinned");
       fetchNotes();
     }
   }, [created, updated, deleted, pinned]);
 
-  const handleEdit = (noteDetails) => {
+  const handleEdit = (noteDetails) =>
+  {
     setOpenAddEditModal({ isShown: true, data: noteDetails, type: "edit" });
   };
 
   // Delete Note
-  const deleteNote = async (data) => {
+  const deleteNote = async (data) =>
+  {
     const id = data.note_id;
     dispatch(removeNote(id));
   };
 
-  const onSearchNote = async (query) => {
-    try {
+  const onSearchNote = async (query) =>
+  {
+    try
+    {
       const res = await axios.get("http://localhost:3000/api/note/search", {
         params: { query },
         withCredentials: true,
       });
 
-      if (res.data.success === false) {
+      if (res.data.success === false)
+      {
         toast.error(res.data.message);
         return;
       }
 
       setIsSearch(true);
       setFilterNotes(res.data.notes);
-    } catch (error) {
+    } catch (error)
+    {
       toast.error(error.message);
     }
   };
 
-  const handleClearSearch = () => {
+  const handleClearSearch = () =>
+  {
     setIsSearch(false);
     getAllNotes();
   };
 
-  const updateIsPinned = async (noteData) => {
+  const updateIsPinned = async (noteData) =>
+  {
     const id = noteData.note_id;
     const pin = noteData.is_pinned;
     dispatch(pinNote({ id, pin }));
@@ -132,23 +150,22 @@ const Notes = () => {
         </div>
         {currentUser?.is_admin || currentUser?.is_staff ? (
           <button
-            onClick={() => {
+            onClick={() =>
+            {
               setOpenAddEditModal({ isShown: true, type: "add", data: null });
             }}
             title="Add/Edit Note"
-            className={` ${
-              theme == "light"
-                ? "text-black bg-bg_light"
-                : "bg-bg_grey text-bg_lightest"
-            } flex p-0 items-center justify-center text-base border-none`}
+            className={` ${theme == "light"
+              ? "text-black bg-bg_light"
+              : "bg-bg_grey text-bg_lightest"
+              } flex p-0 items-center justify-center text-base border-none`}
           >
             <p className="pl-2">Note</p>
             <div
-              className={` ${
-                theme == "light"
-                  ? "text-black bg-bg_light"
-                  : "bg-bg_grey text-bg_lightest"
-              } flex p-0 items-center justify-center text-lg  w-10 h-10`}
+              className={` ${theme == "light"
+                ? "text-black bg-bg_light"
+                : "bg-bg_grey text-bg_lightest"
+                } flex p-0 items-center justify-center text-lg  w-10 h-10`}
             >
               <MdOutlineAdd size={20} />
             </div>
@@ -157,11 +174,11 @@ const Notes = () => {
           ""
         )}
       </div>
-      <div className="container mx-auto">
+      <div className="">
         {newNotes?.length ? (
           layout == "grid" ? (
             filterNotes.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-8 max-md:m-5">
+              <div className="lg:grid lg:grid-cols-4 gap-4 mt-8 lg:max-md:m-5 w-full">
                 {newNotes?.map((note) => (
                   <NoteCard
                     key={note.note_id}
@@ -173,20 +190,23 @@ const Notes = () => {
                     username={note.username}
                     image={note.profile}
                     theme={theme}
-                    onEdit={() => {
+                    onEdit={() =>
+                    {
                       handleEdit(note);
                     }}
-                    onDelete={() => {
+                    onDelete={() =>
+                    {
                       deleteNote(note);
                     }}
-                    onPinNote={() => {
+                    onPinNote={() =>
+                    {
                       updateIsPinned(note);
                     }}
                   />
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-8 max-md:m-5">
+              <div className="lg:grid lg:grid-cols-4 gap-4 mt-8 lg:max-md:m-5 w-full">
                 {newNotes?.map((note, index) => (
                   <NoteCard
                     key={note.note_id}
@@ -198,13 +218,16 @@ const Notes = () => {
                     username={note.username}
                     image={note.profile}
                     theme={theme}
-                    onEdit={() => {
+                    onEdit={() =>
+                    {
                       handleEdit(note);
                     }}
-                    onDelete={() => {
+                    onDelete={() =>
+                    {
                       deleteNote(note);
                     }}
-                    onPinNote={() => {
+                    onPinNote={() =>
+                    {
                       updateIsPinned(note);
                     }}
                   />
@@ -213,7 +236,7 @@ const Notes = () => {
             )
           ) : layout == "grid" ? (
             filterNotes.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-8 max-md:m-5">
+              <div className="lg:grid lg:grid-cols-4 gap-4 mt-8 lg:max-md:m-5 w-full">
                 {newNotes?.map((note, index) => (
                   <NoteCard
                     key={note.note_id}
@@ -225,20 +248,23 @@ const Notes = () => {
                     username={note.username}
                     image={note.profile}
                     theme={theme}
-                    onEdit={() => {
+                    onEdit={() =>
+                    {
                       handleEdit(note);
                     }}
-                    onDelete={() => {
+                    onDelete={() =>
+                    {
                       deleteNote(note);
                     }}
-                    onPinNote={() => {
+                    onPinNote={() =>
+                    {
                       updateIsPinned(note);
                     }}
                   />
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-8 max-md:m-5">
+              <div className="lg:grid lg:grid-cols-4 gap-4 mt-8 lg:max-md:m-5 w-full">
                 {newNotes?.map((note, index) => (
                   <NoteCard
                     key={note.note_id}
@@ -250,13 +276,16 @@ const Notes = () => {
                     username={note.username}
                     image={note.profile}
                     theme={theme}
-                    onEdit={() => {
+                    onEdit={() =>
+                    {
                       handleEdit(note);
                     }}
-                    onDelete={() => {
+                    onDelete={() =>
+                    {
                       deleteNote(note);
                     }}
-                    onPinNote={() => {
+                    onPinNote={() =>
+                    {
                       updateIsPinned(note);
                     }}
                   />
@@ -264,7 +293,7 @@ const Notes = () => {
               </div>
             )
           ) : filterNotes.length > 0 ? (
-            <div className="flex flex-col gap-4 mt-8 max-md:m-5">
+            <div className="flex flex-col gap-4 mt-8 lg:max-md:m-5">
               {newNotes?.map((note, index) => (
                 <NoteCard
                   key={note.note_id}
@@ -276,20 +305,23 @@ const Notes = () => {
                   username={note.username}
                   image={note.profile}
                   theme={theme}
-                  onEdit={() => {
+                  onEdit={() =>
+                  {
                     handleEdit(note);
                   }}
-                  onDelete={() => {
+                  onDelete={() =>
+                  {
                     deleteNote(note);
                   }}
-                  onPinNote={() => {
+                  onPinNote={() =>
+                  {
                     updateIsPinned(note);
                   }}
                 />
               ))}
             </div>
           ) : (
-            <div className="flex flex-col gap-4 mt-8 max-md:m-5">
+            <div className="flex flex-col gap-4 mt-8 lg:max-md:m-5">
               {newNotes?.map((note, index) => (
                 <NoteCard
                   key={note.note_id}
@@ -301,13 +333,16 @@ const Notes = () => {
                   username={note.username}
                   image={note.profile}
                   theme={theme}
-                  onEdit={() => {
+                  onEdit={() =>
+                  {
                     handleEdit(note);
                   }}
-                  onDelete={() => {
+                  onDelete={() =>
+                  {
                     deleteNote(note);
                   }}
-                  onPinNote={() => {
+                  onPinNote={() =>
+                  {
                     updateIsPinned(note);
                   }}
                 />

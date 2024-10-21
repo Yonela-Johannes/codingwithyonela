@@ -6,13 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { PiHeartDuotone } from "react-icons/pi";
 import { cn } from "../lib/utils";
 import AddComment from "./projects/AddComment";
-import {
+import
+{
   disableMessageUpdate,
   getProjectFeedback,
 } from "../features/project/projectSlice";
 import Comment from "./projects/Comment";
 
-export default function Project() {
+export default function Project()
+{
   const { theme } = useContext(ThemeContext);
   const { currentUser } = useSelector((state) => state.user)
   const { projects, feedback, create_project_feedback } = useSelector(
@@ -22,26 +24,33 @@ export default function Project() {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  useEffect(() => {
-    if (id && projects?.length) {
+  useEffect(() =>
+  {
+    if (id && projects?.length)
+    {
       const findProject = projects?.find((element) => element.project_id == id);
       setProject(findProject);
     }
   }, [id, projects]);
 
-  const fetchProjectFeedback = () => {
+  const fetchProjectFeedback = () =>
+  {
     dispatch(getProjectFeedback(id));
     dispatch(disableMessageUpdate());
   };
 
-  useEffect(() => {
-    if (projects.length && id) {
+  useEffect(() =>
+  {
+    if (projects.length && id)
+    {
       fetchProjectFeedback();
     }
   }, [id, projects]);
 
-  useEffect(() => {
-    if (create_project_feedback && id) {
+  useEffect(() =>
+  {
+    if (create_project_feedback && id)
+    {
       fetchProjectFeedback();
     }
   }, [create_project_feedback]);
@@ -50,21 +59,19 @@ export default function Project() {
     <div className="flex flex-col gap-1">
       <div className="">
         <div
-          className={`${
-            theme == "light"
-              ? "bg-white text-bg_primary"
-              : "bg-bg_core border-bg_core text-slate-300"
-          } text-sm lg:text-base flex flex-col gap-2 border p-2 lg:p-4 mb-3 border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c]`}
+          className={`${theme == "light"
+            ? "bg-white text-bg_primary"
+            : "bg-bg_core border-bg_core text-slate-300"
+            } text-sm lg:text-base flex flex-col gap-2 border p-2 lg:p-4 mb-3 border-cl_primary shadow-cl_primary shadow-[5px_5px_0px_0px_#6c6c6c]`}
         >
-          <div className="flex items-start justify-between">
+          <div className="flex flex-col lg:flex-row items-start justify-between">
             <div
-              className={`flex items-start mb-1 w-full space-x-2 ${
-                theme == "light"
-                  ? "bg-white text-bg_primary border-b-2"
-                  : "bg-bg_core  border-b-2 border-bg_grey"
-              } py-2 `}
+              className={`flex flex-col lg:flex-row items-start mb-1 w-full space-x-2 ${theme == "light"
+                ? "bg-white text-bg_primary border-b-2"
+                : "bg-bg_core  border-b-2 border-bg_grey"
+                } py-2 `}
             >
-              <div className="bg-clr_alt h-20 w-20 flex items-center justify-center rounded-full relative">
+              <div className="bg-clr_alt h-20 w-20 flex flex-col lg:flex-row items-center justify-center rounded-full relative">
                 <div className="aspect-square w-full h-full">
                   <img
                     className="w-full h-full object-cover"
@@ -155,12 +162,12 @@ export default function Project() {
           </div>
         </div>
       </div>
-      {currentUser?. id ? (<AddComment project={project} theme={theme} />): <p className={`{${theme == 'light' ? '' : ''} lg:text-md my-2`}>Login in to comment</p>}
-      
+      {currentUser?.id ? (<AddComment project={project} theme={theme} />) : <p className={`{${theme == 'light' ? '' : ''} lg:text-md my-2`}>Login in to comment</p>}
+
       <h3 className={`{${theme == 'light' ? '' : ''} lg:text-md my-2 font-semibold`}>Comments</h3>
       {feedback?.length
         ? feedback?.map((comment) => <Comment comment={comment} />)
-        :  <p className={`{${theme == 'light' ? '' : ''} lg:text-md my-2`}>Be the first to share your views</p>}
+        : <p className={`{${theme == 'light' ? '' : ''} lg:text-md my-2`}>Be the first to share your views</p>}
     </div>
   );
 }

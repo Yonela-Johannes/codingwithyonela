@@ -77,9 +77,8 @@ def fetch_project(id):
         ic(f"Database error: {error}")
         return {"error": "An error occurred while fetching blogs. Please try again later."}, 500
 
-def edit_project(user_id, project_id, project_status, project_name, description, github, link, priority, topic_id):
-
-    query = """UPDATE project SET account_id = %s, project_status = %s, project_name = %s, description = %s, github = %s, link = %s, priority = %s, topic_id = %s WHERE id = %s RETURNING project.*;"""
+def edit_project(user_id, project_id, project_status, project_name, description, github, link, priority):
+    query = """UPDATE project SET account_id = %s, project_status = %s, project_name = %s, description = %s, github = %s, link = %s, priority = %s WHERE id = %s RETURNING project.*;"""
     
     try:
         with  connection as conn:
@@ -88,7 +87,6 @@ def edit_project(user_id, project_id, project_status, project_name, description,
                 cur.execute("""SELECT * FROM project WHERE id = %s and account_id = %s;""", (project_id, user_id))
                 
                 row =  cur.fetchone()
-                
                 if row:
                     if project_status == None:
                         project_status = row['project_status']
@@ -102,10 +100,8 @@ def edit_project(user_id, project_id, project_status, project_name, description,
                         link = row['link']
                     if priority == None:
                         priority = row['priority']
-                    if topic_id == None:
-                        topic_id = row['topic_id']
                 
-                cur.execute(query, (user_id, project_status, project_name, description, github, link, priority, topic_id, project_id))            
+                cur.execute(query, (user_id, project_status, project_name, description, github, link, priority, project_id))            
                 rows = cur.fetchone()
                 return rows if rows else {}
                 conn.commit()
