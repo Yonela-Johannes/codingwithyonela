@@ -7,8 +7,6 @@ from icecream import ic
 def add_users(users_id):
     """ Insert users in to project table """
     sql = """UPDATE project SET users_id = (SELECT array_agg(users_id ORDER BY username) FROM account GROUP BY username) WHERE id = %s"""
-    
-    response = None
 
     try:
         with  connection as conn:

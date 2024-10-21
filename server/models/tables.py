@@ -429,7 +429,7 @@ def create_tables():
             with conn.cursor() as cur:
                 print(cur)
                 # execute the CREATE TABLE statement
-                for command in commands:
+                for command in commands: 
                     cur.execute(command)
     except (psycopg2.DatabaseError, Exception) as error:
         print(error) 
