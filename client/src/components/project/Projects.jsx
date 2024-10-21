@@ -47,7 +47,7 @@ export default function ProjectList({ projects })
                   <strong>{project?.project_name}</strong>
                 </div>
               </div>
-              <div className="grid grid-cols-2  h-full w-full">
+              <div className="grid lg:grid-cols-2  h-full w-full">
                 <div className="flex items-center justify-center w-full h-full">
                   <img
                     src={project?.image}
