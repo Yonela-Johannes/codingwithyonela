@@ -103,7 +103,7 @@ const Blog = () =>
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={blog.title} />
         <meta name="twitter:description" content={blog.description} />
-        <meta name="twitter:image" content={blog.image} />
+        <meta name="twitter:image" content={blog.blog_image} />
       </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
