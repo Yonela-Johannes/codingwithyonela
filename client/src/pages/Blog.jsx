@@ -10,7 +10,6 @@ import
   createBlogComment,
   disableBlogUpdates,
   fetchBlogComment,
-  getAllBlogs,
   getBlog,
 } from "../features/blogs/blogSlice";
 import GlobalComment from "../shared/BlogComment.jsx";
@@ -86,12 +85,25 @@ const Blog = () =>
     <>
       <Helmet>
         <title>{blog?.title}</title>
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={blog.title} />
+        <meta property="og:description" content={blog.description} />
+        <meta property="og:image" content={blog.image} />
+        <meta property="og:site_name" content="CodingWithYonela" />
+
+
         <meta name="description" content={blog?.post} />
         <meta property="og:image" content={blog?.blog_image} />
         <meta name="author" content={blog?.username} />
         <meta name="creator" content={blog?.firstname + " " + blog?.lastname} />
         <meta property="og:image:alt" content="blog image" />
-        <meta property="og:url" content={"https://codingwithyonela.vercel.app/" + slug} />
+        <meta property="og:url" content={"https://codingwithyonela.vercel.app/blog/" + slug} />
+
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={blog.title} />
+        <meta name="twitter:description" content={blog.description} />
+        <meta name="twitter:image" content={blog.image} />
       </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
